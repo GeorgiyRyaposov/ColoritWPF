@@ -190,10 +190,10 @@ namespace ColoritWPF
         //Достает сумму лак комплект (цена литр * кол-во + тара)
         public decimal AddToSumPackagePolish()
         {
-            PaintName polish;
             if (!String.IsNullOrEmpty(txtbxPolishAmount.Text))
             {
                 decimal amount = Decimal.Parse(txtbxPolishAmount.Text);
+                PaintName polish;
                 using (ColorITEntities colorItEntities = new ColorITEntities())
                 {
                     var getPolish = (from _paint in colorItEntities.PaintName
@@ -252,7 +252,6 @@ namespace ColoritWPF
             return 1;
         }
         
-
         //Добыть перепыл
         public decimal GetCensus(PaintName _paint)
         {
