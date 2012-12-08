@@ -72,13 +72,12 @@ namespace ColoritWPF
 
         private void PrePayHandlerMethod()
         {
-            throw new NotImplementedException();
+            PaintMathInstance.Prepay = decimal.Parse(txtbx_Prepayment.Text);
         }
 
         private void ServiceHandlerMethod()
         {
 
-            _valueChanged();
         }
 
         private void PolisHandlerMethod()
@@ -514,12 +513,14 @@ namespace ColoritWPF
         private void paintsDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var currentRow = ((Paints) paintsDataGrid.SelectedItem);
-            _paint.Amount = (decimal) ((Paints) paintsDataGrid.SelectedItem).Amount;
+            //_paint.Amount = (decimal) ((Paints) paintsDataGrid.SelectedItem).Amount;
             cmbxCarModel.SelectedValue = currentRow.CarModels.ID;
-            _paint.Client = currentRow.Client;
-            cbClient.SelectedValue = currentRow.Client.ID;
+            //_paint.Client = currentRow.Client;
             _paint.ColorCode = currentRow.PaintCode;
-            _paint.PhoneNumber = currentRow.PhoneNumber;
+            //_paint.PhoneNumber = currentRow.PhoneNumber;
+            
+            cbClient.SelectedValue = currentRow.Client.ID;
+            
             txtbxPaintAmount.Text = currentRow.Amount.ToString();
             switch (currentRow.ServiceTypes.ID)
             {
@@ -707,19 +708,19 @@ namespace ColoritWPF
         //Новая запись в красках
         private void btn_New_Click(object sender, RoutedEventArgs e)
         {
-            _paint = new Paint();
-            //txtbxPaintCode.Text = String.Empty;
-            //cbClient.SelectedValue = 7; //Частный клиент
-            //cmbxCarModel.SelectedValue = 3; //Выберите авто
-            //txtbxPaintAmount.Text = String.Empty;
-            //txtbx_PaintCostSum.Text = String.Empty;
-            //txtbx_Prepayment.Text = String.Empty;
-            //rbLSB.IsChecked = true;
-            //cbThreeLayers.IsChecked = false;
-            //cbPackage.IsChecked = false;
-            //rbCode.IsChecked = true;
-            //cbColorist.IsChecked = false;
-            //txtbxPolishAmount.Text = String.Empty;
+            //_paint = new Paint();
+            txtbxPaintCode.Text = String.Empty;
+            cbClient.SelectedValue = 7; //Частный клиент
+            cmbxCarModel.SelectedValue = 3; //Выберите авто
+            txtbxPaintAmount.Text = String.Empty;
+            txtbx_PaintCostSum.Text = String.Empty;
+            txtbx_Prepayment.Text = String.Empty;
+            rbLSB.IsChecked = true;
+            cbThreeLayers.IsChecked = false;
+            cbPackage.IsChecked = false;
+            rbCode.IsChecked = true;
+            cbColorist.IsChecked = false;
+            txtbxPolishAmount.Text = String.Empty;
         }
 
         private void button3_Click(object sender, RoutedEventArgs e)
