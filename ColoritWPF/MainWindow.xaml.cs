@@ -24,14 +24,104 @@ namespace ColoritWPF
         ProductByNameFilter filter;
         ListCollectionView view;
         private Paint _paint;
+
+        public delegate void ValueChanged();
+        public event ValueChanged PaintChangedEvent;
+        public event ValueChanged ClientChangedEvent;
+        public event ValueChanged OtherPaintSelectedEvent;
+        public event ValueChanged PolishSelectedSelectedEvent;
+        public event ValueChanged ServiceChangedEvent;
+        public event ValueChanged PrePayChangedEvent;
         
+
+        private PaintMath _paintMathInstance;
+
         private ColoritWPF.ColorITEntities colorITEntities;
         public MainWindow()
         {
             InitializeComponent();
             _paint = new Paint();
             BindControls();
-            _paint.PropertyChanged += new PropertyChangedEventHandler(recalculateSum);
+            //_paint.PropertyChanged += new PropertyChangedEventHandler(recalculateSum);
+
+            AddHandlers();
+
+        }
+
+        private void AddHandlers()
+        {
+            ValueChanged handler = PaintChangedHandlerMethod;
+            PaintChangedEvent += handler;
+
+            ValueChanged clientHandler = ClientChangedHandlerMethod;
+            ClientChangedEvent += clientHandler;
+
+            ValueChanged otherPaintsHandler = OtherPaintsHandlerMethod;
+            OtherPaintSelectedEvent += otherPaintsHandler;
+
+            ValueChanged PolisHandler = PolisHandlerMethod;
+            PolishSelectedSelectedEvent += PolisHandler;
+
+            ValueChanged ServiceHandler = ServiceHandlerMethod;
+            ServiceChangedEvent += ServiceHandler;
+
+            ValueChanged PrePayHandler = PrePayHandlerMethod;
+            PrePayChangedEvent += PrePayHandler;
+
+        }
+
+        private void PrePayHandlerMethod()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void ServiceHandlerMethod()
+        {
+
+            _valueChanged();
+        }
+
+        private void PolisHandlerMethod()
+        {
+            PaintName _selectedPaint = GetPolish();
+            if (_selectedPaint != null)
+                PaintMathInstance.SelectedPaint = _selectedPaint; 
+        }
+
+        private void OtherPaintsHandlerMethod()
+        {
+            PaintName _selectedPaint = GetOther();
+            if (_selectedPaint != null)
+                PaintMathInstance.SelectedPaint = _selectedPaint;
+        }
+
+        private void ClientChangedHandlerMethod()
+        {
+            Client _selectedClient = (Client) cbClient.SelectedItem;
+            
+            if (_selectedClient.Balance != null)
+                PaintMathInstance.ClientBalance = _selectedClient.Balance;
+
+            PaintMathInstance.Discount = GetDiscount();
+        }
+
+        private void PaintChangedHandlerMethod()
+        {
+            PaintName _selectedPaint = GetSelectedPaintName();
+            if (_selectedPaint != null)
+                PaintMathInstance.SelectedPaint = _selectedPaint;
+
+            PaintMathInstance.PolishSum = AddToSumPackagePolish();
+        }
+
+        public PaintMath PaintMathInstance
+        {
+            get
+            {
+                if(_paintMathInstance == null)
+                    return new PaintMath(txtbx_PaintCostSum, txtbxTotal);
+                return _paintMathInstance;
+            }
         }
 
         private System.Data.Objects.ObjectQuery<Product> GetProductQuery(ColorITEntities colorITEntities)
@@ -282,7 +372,7 @@ namespace ColoritWPF
                 lblPaint.Content = "LSB";
             if (cbPackage != null)
                 cbPackage.IsChecked = false;
-            
+            PaintChangedEvent();
         }
     
 
@@ -301,7 +391,7 @@ namespace ColoritWPF
                 cbThreeLayers.IsChecked = false;
                 cbThreeLayers.IsEnabled = false;
             }
-            
+            PaintChangedEvent();
         }
 
         private void rbL2K_Unchecked(object sender, RoutedEventArgs e)
@@ -320,14 +410,14 @@ namespace ColoritWPF
         private void rbABP_Checked(object sender, RoutedEventArgs e)
         {
             lblPaint.Content = "ABP";
-            
+            PaintChangedEvent();
         }
 
         private void rbPolish_Checked(object sender, RoutedEventArgs e)
         {
             txtbxPaintAmount.IsEnabled = false;
             cbPackage.IsChecked = true;
-            
+            PolishSelectedSelectedEvent();
         }
 
         private System.Data.Objects.ObjectQuery<PaintName> GetPaintNameQuery(ColorITEntities colorITEntities)
@@ -357,7 +447,7 @@ namespace ColoritWPF
             cmbxPaintName.IsEnabled = true;
             txtbxPolishAmount.IsEnabled = false;
             lblPaint.Content = "Кол-во:";
-            //
+            OtherPaintSelectedEvent();
         }
 
         private void rbOther_Uncheked(object sender, RoutedEventArgs e)
@@ -418,6 +508,7 @@ namespace ColoritWPF
                     //txtbx_PhonNum.IsEnabled = false;
                 }
             }
+            ClientChangedEvent();
         }
 
         private void paintsDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -517,6 +608,7 @@ namespace ColoritWPF
 
         private void txtbxPaintAmount_LostFocus(object sender, RoutedEventArgs e)
         {
+            PaintMathInstance.Amount = decimal.Parse(txtbxPaintAmount.Text);
             /*
             TextBox myTextBox = (TextBox)sender;
             string value = myTextBox.Text;
@@ -609,7 +701,7 @@ namespace ColoritWPF
         private void cbPackage_Checked(object sender, RoutedEventArgs e)
         {
             txtbxPolishAmount.IsEnabled = true;
-            
+            PolishSelectedSelectedEvent();
         }
 
         //Новая запись в красках
@@ -637,9 +729,32 @@ namespace ColoritWPF
 
         private void cmbxPaintName_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            
+            OtherPaintSelectedEvent();
         }
 
+        private void cbThreeLayers_Checked(object sender, RoutedEventArgs e)
+        {
+            PaintChangedEvent();
+        }
 
+        private void rbCode_Checked_1(object sender, RoutedEventArgs e)
+        {
+            ServiceChangedEvent();
+        }
+
+        private void rbSelection_Checked_1(object sender, RoutedEventArgs e)
+        {
+            ServiceChangedEvent();
+        }
+
+        private void cbColorist_Checked(object sender, RoutedEventArgs e)
+        {
+            ServiceChangedEvent();
+        }
+
+        private void txtbx_Prepayment_LostFocus(object sender, RoutedEventArgs e)
+        {
+            PrePayChangedEvent();
+        }
     }
 }

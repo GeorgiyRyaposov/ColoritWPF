@@ -204,6 +204,7 @@
       <DependentUpon>EditProducts.xaml</DependentUpon>
     </Compile>
     <Compile Include="PaintCalc.cs" />
+    <Compile Include="PaintMath.cs" />
     <Compile Include="ServiceTypeConverter.cs" />
     <EntityDeploy Include="ColorITModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
