@@ -1,0 +1,6 @@
+﻿<Application x:Class="ColoritWPF.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:System="clr-namespace:System;assembly=mscorlib" xmlns:ColoritWPF="clr-namespace:ColoritWPF"
+             StartupUri="MainWindow.xaml">
+</Application>

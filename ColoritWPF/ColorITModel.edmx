@@ -1,0 +1,1080 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ColorITModel.Store" Alias="Self" Provider="System.Data.SqlServerCe.4.0" ProviderManifestToken="4.0" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="ColorITModelStoreContainer">
+          <EntitySet Name="CarModels" EntityType="ColorITModel.Store.CarModels" store:Type="Tables" />
+          <EntitySet Name="Client" EntityType="ColorITModel.Store.Client" store:Type="Tables" />
+          <EntitySet Name="ClientGroups" EntityType="ColorITModel.Store.ClientGroups" store:Type="Tables" />
+          <EntitySet Name="Deposit" EntityType="ColorITModel.Store.Deposit" store:Type="Tables" />
+          <EntitySet Name="Group" EntityType="ColorITModel.Store.Group" store:Type="Tables" />
+          <EntitySet Name="Loan" EntityType="ColorITModel.Store.Loan" store:Type="Tables" />
+          <EntitySet Name="MoveProduct" EntityType="ColorITModel.Store.MoveProduct" store:Type="Tables" />
+          <EntitySet Name="PaintName" EntityType="ColorITModel.Store.PaintName" store:Type="Tables" />
+          <EntitySet Name="Paints" EntityType="ColorITModel.Store.Paints" store:Type="Tables" />
+          <EntitySet Name="Product" EntityType="ColorITModel.Store.Product" store:Type="Tables" />
+          <EntitySet Name="Purchase" EntityType="ColorITModel.Store.Purchase" store:Type="Tables" />
+          <EntitySet Name="Return" EntityType="ColorITModel.Store.Return" store:Type="Tables" />
+          <EntitySet Name="Sale" EntityType="ColorITModel.Store.Sale" store:Type="Tables" />
+          <EntitySet Name="ServiceTypes" EntityType="ColorITModel.Store.ServiceTypes" store:Type="Tables" />
+          <EntitySet Name="States" EntityType="ColorITModel.Store.States" store:Type="Tables" />
+          <AssociationSet Name="FK_Client_ClientGroups" Association="ColorITModel.Store.FK_Client_ClientGroups">
+            <End Role="ClientGroups" EntitySet="ClientGroups" />
+            <End Role="Client" EntitySet="Client" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Client_Deposit" Association="ColorITModel.Store.FK_Client_Deposit">
+            <End Role="Client" EntitySet="Client" />
+            <End Role="Deposit" EntitySet="Deposit" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Client_Loan" Association="ColorITModel.Store.FK_Client_Loan">
+            <End Role="Client" EntitySet="Client" />
+            <End Role="Loan" EntitySet="Loan" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Group_Product" Association="ColorITModel.Store.FK_Group_Product">
+            <End Role="Group" EntitySet="Group" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MoveProduct_Product" Association="ColorITModel.Store.FK_MoveProduct_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="MoveProduct" EntitySet="MoveProduct" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Purchase_Product" Association="ColorITModel.Store.FK_Purchase_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="Purchase" EntitySet="Purchase" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Return_Product" Association="ColorITModel.Store.FK_Return_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="Return" EntitySet="Return" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sale_Client" Association="ColorITModel.Store.FK_Sale_Client">
+            <End Role="Client" EntitySet="Client" />
+            <End Role="Sale" EntitySet="Sale" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sale_Product" Association="ColorITModel.Store.FK_Sale_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="Sale" EntitySet="Sale" />
+          </AssociationSet>
+          <AssociationSet Name="PK_Paints_CarModels" Association="ColorITModel.Store.PK_Paints_CarModels">
+            <End Role="CarModels" EntitySet="CarModels" />
+            <End Role="Paints" EntitySet="Paints" />
+          </AssociationSet>
+          <AssociationSet Name="PK_Paints_Clients" Association="ColorITModel.Store.PK_Paints_Clients">
+            <End Role="Client" EntitySet="Client" />
+            <End Role="Paints" EntitySet="Paints" />
+          </AssociationSet>
+          <AssociationSet Name="PK_Paints_PaintName" Association="ColorITModel.Store.PK_Paints_PaintName">
+            <End Role="PaintName" EntitySet="PaintName" />
+            <End Role="Paints" EntitySet="Paints" />
+          </AssociationSet>
+          <AssociationSet Name="PK_Paints_ServiceTypes" Association="ColorITModel.Store.PK_Paints_ServiceTypes">
+            <End Role="ServiceTypes" EntitySet="ServiceTypes" />
+            <End Role="Paints" EntitySet="Paints" />
+          </AssociationSet>
+          <AssociationSet Name="PK_Sale_States" Association="ColorITModel.Store.PK_Sale_States">
+            <End Role="States" EntitySet="States" />
+            <End Role="Sale" EntitySet="Sale" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="CarModels">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ModelName" Type="nvarchar" Nullable="false" MaxLength="32" />
+        </EntityType>
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Balance" Type="money" Nullable="false" />
+          <Property Name="Info" Type="nvarchar" MaxLength="100" />
+          <Property Name="Discount" Type="float" />
+          <Property Name="GroupID" Type="int" />
+          <Property Name="PhoneNumber" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="ClientGroups">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Deposit">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ClientID" Type="int" Nullable="false" />
+          <Property Name="Amount" Type="money" Nullable="false" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Group">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Loan">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ClientID" Type="int" Nullable="false" />
+          <Property Name="Amount" Type="money" Nullable="false" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MoveProduct">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ProductID" Type="bigint" Nullable="false" />
+          <Property Name="Number" Type="float" Nullable="false" />
+          <Property Name="ToStorage" Type="bit" Nullable="false" />
+          <Property Name="ToWarehouse" Type="bit" Nullable="false" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PaintName">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="64" />
+          <Property Name="Cost" Type="money" Nullable="false" />
+          <Property Name="Container" Type="money" />
+          <Property Name="Work" Type="money" />
+          <Property Name="Census1" Type="float" />
+          <Property Name="Census2" Type="float" />
+        </EntityType>
+        <EntityType Name="Paints">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="CarModelID" Type="int" />
+          <Property Name="PaintCode" Type="nvarchar" MaxLength="32" />
+          <Property Name="ThreeLayers" Type="bit" />
+          <Property Name="NameID" Type="int" Nullable="false" />
+          <Property Name="TypeID" Type="int" Nullable="false" />
+          <Property Name="Amount" Type="float" Nullable="false" />
+          <Property Name="Sum" Type="money" Nullable="false" />
+          <Property Name="Salary" Type="money" />
+          <Property Name="ClientID" Type="int" Nullable="false" />
+          <Property Name="DocState" Type="bit" />
+          <Property Name="PhoneNumber" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="SelfCost" Type="money" Nullable="false" />
+          <Property Name="Cost" Type="money" Nullable="false" />
+          <Property Name="Warehouse" Type="float" Nullable="false" />
+          <Property Name="Storage" Type="float" Nullable="false" />
+          <Property Name="Bottled" Type="bit" Nullable="false" />
+          <Property Name="MaxDiscount" Type="float" Nullable="false" />
+          <Property Name="Group" Type="int" />
+          <Property Name="ParentGroup" Type="int" />
+        </EntityType>
+        <EntityType Name="Purchase">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ProductID" Type="bigint" Nullable="false" />
+          <Property Name="SelfCost" Type="money" Nullable="false" />
+          <Property Name="ToWarehouse" Type="float" Nullable="false" />
+          <Property Name="ToStorage" Type="float" Nullable="false" />
+          <Property Name="Date" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Return">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ProductID" Type="bigint" Nullable="false" />
+          <Property Name="Number" Type="float" Nullable="false" />
+          <Property Name="Date" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Sale">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ProductID" Type="bigint" Nullable="false" />
+          <Property Name="Amount" Type="money" Nullable="false" />
+          <Property Name="Discount" Type="float" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="ClientID" Type="int" Nullable="false" />
+          <Property Name="FromStorage" Type="float" />
+          <Property Name="SaleListID" Type="int" Nullable="false" />
+          <Property Name="StateID" Type="int" Nullable="false" />
+          <Property Name="Comments" Type="nvarchar" MaxLength="100" />
+          <Property Name="FromWareHouse" Type="float" />
+        </EntityType>
+        <EntityType Name="ServiceTypes">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ServiceName" Type="nvarchar" Nullable="false" MaxLength="16" />
+        </EntityType>
+        <EntityType Name="States">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="State" Type="nvarchar" Nullable="false" MaxLength="100" />
+        </EntityType>
+        <Association Name="FK_Client_ClientGroups">
+          <End Role="ClientGroups" Type="ColorITModel.Store.ClientGroups" Multiplicity="0..1" />
+          <End Role="Client" Type="ColorITModel.Store.Client" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ClientGroups">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Client">
+              <PropertyRef Name="GroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Client_Deposit">
+          <End Role="Client" Type="ColorITModel.Store.Client" Multiplicity="1" />
+          <End Role="Deposit" Type="ColorITModel.Store.Deposit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Deposit">
+              <PropertyRef Name="ClientID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Client_Loan">
+          <End Role="Client" Type="ColorITModel.Store.Client" Multiplicity="1" />
+          <End Role="Loan" Type="ColorITModel.Store.Loan" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Loan">
+              <PropertyRef Name="ClientID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Group_Product">
+          <End Role="Group" Type="ColorITModel.Store.Group" Multiplicity="0..1" />
+          <End Role="Product" Type="ColorITModel.Store.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Group">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="Group" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MoveProduct_Product">
+          <End Role="Product" Type="ColorITModel.Store.Product" Multiplicity="1" />
+          <End Role="MoveProduct" Type="ColorITModel.Store.MoveProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="MoveProduct">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Purchase_Product">
+          <End Role="Product" Type="ColorITModel.Store.Product" Multiplicity="1" />
+          <End Role="Purchase" Type="ColorITModel.Store.Purchase" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Purchase">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Return_Product">
+          <End Role="Product" Type="ColorITModel.Store.Product" Multiplicity="1" />
+          <End Role="Return" Type="ColorITModel.Store.Return" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Return">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sale_Client">
+          <End Role="Client" Type="ColorITModel.Store.Client" Multiplicity="1" />
+          <End Role="Sale" Type="ColorITModel.Store.Sale" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Sale">
+              <PropertyRef Name="ClientID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sale_Product">
+          <End Role="Product" Type="ColorITModel.Store.Product" Multiplicity="1" />
+          <End Role="Sale" Type="ColorITModel.Store.Sale" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Sale">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="PK_Paints_CarModels">
+          <End Role="CarModels" Type="ColorITModel.Store.CarModels" Multiplicity="0..1" />
+          <End Role="Paints" Type="ColorITModel.Store.Paints" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CarModels">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Paints">
+              <PropertyRef Name="CarModelID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="PK_Paints_Clients">
+          <End Role="Client" Type="ColorITModel.Store.Client" Multiplicity="1" />
+          <End Role="Paints" Type="ColorITModel.Store.Paints" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Paints">
+              <PropertyRef Name="ClientID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="PK_Paints_PaintName">
+          <End Role="PaintName" Type="ColorITModel.Store.PaintName" Multiplicity="1" />
+          <End Role="Paints" Type="ColorITModel.Store.Paints" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaintName">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Paints">
+              <PropertyRef Name="NameID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="PK_Paints_ServiceTypes">
+          <End Role="ServiceTypes" Type="ColorITModel.Store.ServiceTypes" Multiplicity="1" />
+          <End Role="Paints" Type="ColorITModel.Store.Paints" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ServiceTypes">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Paints">
+              <PropertyRef Name="TypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="PK_Sale_States">
+          <End Role="States" Type="ColorITModel.Store.States" Multiplicity="1" />
+          <End Role="Sale" Type="ColorITModel.Store.Sale" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="States">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Sale">
+              <PropertyRef Name="StateID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ColorITModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="ColorITEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Client" EntityType="ColorITModel.Client" />
+          <EntitySet Name="ClientGroups" EntityType="ColorITModel.ClientGroups" />
+          <EntitySet Name="Deposit" EntityType="ColorITModel.Deposit" />
+          <EntitySet Name="Group" EntityType="ColorITModel.Group" />
+          <EntitySet Name="Loan" EntityType="ColorITModel.Loan" />
+          <EntitySet Name="MoveProduct" EntityType="ColorITModel.MoveProduct" />
+          <EntitySet Name="Product" EntityType="ColorITModel.Product" />
+          <EntitySet Name="Purchase" EntityType="ColorITModel.Purchase" />
+          <EntitySet Name="Return" EntityType="ColorITModel.Return" />
+          <AssociationSet Name="FK_Client_ClientGroups" Association="ColorITModel.FK_Client_ClientGroups">
+            <End Role="ClientGroups" EntitySet="ClientGroups" />
+            <End Role="Client" EntitySet="Client" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Client_Deposit" Association="ColorITModel.FK_Client_Deposit">
+            <End Role="Client" EntitySet="Client" />
+            <End Role="Deposit" EntitySet="Deposit" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Client_Loan" Association="ColorITModel.FK_Client_Loan">
+            <End Role="Client" EntitySet="Client" />
+            <End Role="Loan" EntitySet="Loan" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Group_Product" Association="ColorITModel.FK_Group_Product">
+            <End Role="Group" EntitySet="Group" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MoveProduct_Product" Association="ColorITModel.FK_MoveProduct_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="MoveProduct" EntitySet="MoveProduct" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Purchase_Product" Association="ColorITModel.FK_Purchase_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="Purchase" EntitySet="Purchase" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Return_Product" Association="ColorITModel.FK_Return_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="Return" EntitySet="Return" />
+          </AssociationSet>
+          <EntitySet Name="Sale" EntityType="ColorITModel.Sale" />
+          <AssociationSet Name="FK_Sale_Client" Association="ColorITModel.FK_Sale_Client">
+            <End Role="Client" EntitySet="Client" />
+            <End Role="Sale" EntitySet="Sale" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sale_Product" Association="ColorITModel.FK_Sale_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="Sale" EntitySet="Sale" />
+          </AssociationSet>
+          <EntitySet Name="States" EntityType="ColorITModel.States" />
+          <AssociationSet Name="PK_Sale_States" Association="ColorITModel.PK_Sale_States">
+            <End Role="States" EntitySet="States" />
+            <End Role="Sale" EntitySet="Sale" />
+          </AssociationSet>
+          <EntitySet Name="CarModels" EntityType="ColorITModel.CarModels" />
+          <EntitySet Name="PaintName" EntityType="ColorITModel.PaintName" />
+          <EntitySet Name="Paints" EntityType="ColorITModel.Paints" />
+          <EntitySet Name="ServiceTypes" EntityType="ColorITModel.ServiceTypes" />
+          <AssociationSet Name="PK_Paints_CarModels" Association="ColorITModel.PK_Paints_CarModels">
+            <End Role="CarModels" EntitySet="CarModels" />
+            <End Role="Paints" EntitySet="Paints" />
+          </AssociationSet>
+          <AssociationSet Name="PK_Paints_Clients" Association="ColorITModel.PK_Paints_Clients">
+            <End Role="Client" EntitySet="Client" />
+            <End Role="Paints" EntitySet="Paints" />
+          </AssociationSet>
+          <AssociationSet Name="PK_Paints_PaintName" Association="ColorITModel.PK_Paints_PaintName">
+            <End Role="PaintName" EntitySet="PaintName" />
+            <End Role="Paints" EntitySet="Paints" />
+          </AssociationSet>
+          <AssociationSet Name="PK_Paints_" Association="ColorITModel.PK_Paints_">
+            <End Role="ServiceTypes" EntitySet="ServiceTypes" />
+            <End Role="Paints" EntitySet="Paints" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="Balance" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="Info" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+          <Property Name="Discount" Type="Double" />
+          <Property Name="GroupID" Type="Int32" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="ClientGroups" Relationship="ColorITModel.FK_Client_ClientGroups" FromRole="Client" ToRole="ClientGroups" />
+          <NavigationProperty Name="Deposit" Relationship="ColorITModel.FK_Client_Deposit" FromRole="Client" ToRole="Deposit" />
+          <NavigationProperty Name="Loan" Relationship="ColorITModel.FK_Client_Loan" FromRole="Client" ToRole="Loan" />
+          <NavigationProperty Name="Sale" Relationship="ColorITModel.FK_Sale_Client" FromRole="Client" ToRole="Sale" />
+          <NavigationProperty Name="Paints" Relationship="ColorITModel.PK_Paints_Clients" FromRole="Client" ToRole="Paints" />
+        </EntityType>
+        <EntityType Name="ClientGroups">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Client" Relationship="ColorITModel.FK_Client_ClientGroups" FromRole="ClientGroups" ToRole="Client" />
+        </EntityType>
+        <EntityType Name="Deposit">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ClientID" Type="Int32" Nullable="false" />
+          <Property Name="Amount" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="Date" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="Client" Relationship="ColorITModel.FK_Client_Deposit" FromRole="Deposit" ToRole="Client" />
+        </EntityType>
+        <EntityType Name="Group">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Product" Relationship="ColorITModel.FK_Group_Product" FromRole="Group" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="Loan">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ClientID" Type="Int32" Nullable="false" />
+          <Property Name="Amount" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="Date" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="Client" Relationship="ColorITModel.FK_Client_Loan" FromRole="Loan" ToRole="Client" />
+        </EntityType>
+        <EntityType Name="MoveProduct">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductID" Type="Int64" Nullable="false" />
+          <Property Name="Number" Type="Double" Nullable="false" />
+          <Property Name="ToStorage" Type="Boolean" Nullable="false" />
+          <Property Name="ToWarehouse" Type="Boolean" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="Product" Relationship="ColorITModel.FK_MoveProduct_Product" FromRole="MoveProduct" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="SelfCost" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="Cost" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="Warehouse" Type="Double" Nullable="false" />
+          <Property Name="Storage" Type="Double" Nullable="false" />
+          <Property Name="Bottled" Type="Boolean" Nullable="false" />
+          <Property Name="MaxDiscount" Type="Double" Nullable="false" />
+          <Property Name="Group" Type="Int32" />
+          <Property Name="ParentGroup" Type="Int32" />
+          <NavigationProperty Name="Group1" Relationship="ColorITModel.FK_Group_Product" FromRole="Product" ToRole="Group" />
+          <NavigationProperty Name="MoveProduct" Relationship="ColorITModel.FK_MoveProduct_Product" FromRole="Product" ToRole="MoveProduct" />
+          <NavigationProperty Name="Purchase" Relationship="ColorITModel.FK_Purchase_Product" FromRole="Product" ToRole="Purchase" />
+          <NavigationProperty Name="Return" Relationship="ColorITModel.FK_Return_Product" FromRole="Product" ToRole="Return" />
+          <NavigationProperty Name="Sale" Relationship="ColorITModel.FK_Sale_Product" FromRole="Product" ToRole="Sale" />
+        </EntityType>
+        <EntityType Name="Purchase">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductID" Type="Int64" Nullable="false" />
+          <Property Name="SelfCost" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="ToWarehouse" Type="Double" Nullable="false" />
+          <Property Name="ToStorage" Type="Double" Nullable="false" />
+          <Property Name="Date" Type="DateTime" />
+          <NavigationProperty Name="Product" Relationship="ColorITModel.FK_Purchase_Product" FromRole="Purchase" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="Return">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductID" Type="Int64" Nullable="false" />
+          <Property Name="Number" Type="Double" Nullable="false" />
+          <Property Name="Date" Type="DateTime" />
+          <NavigationProperty Name="Product" Relationship="ColorITModel.FK_Return_Product" FromRole="Return" ToRole="Product" />
+        </EntityType>
+        <Association Name="FK_Client_ClientGroups">
+          <End Role="ClientGroups" Type="ColorITModel.ClientGroups" Multiplicity="0..1" />
+          <End Role="Client" Type="ColorITModel.Client" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ClientGroups">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Client">
+              <PropertyRef Name="GroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Client_Deposit">
+          <End Role="Client" Type="ColorITModel.Client" Multiplicity="1" />
+          <End Role="Deposit" Type="ColorITModel.Deposit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Deposit">
+              <PropertyRef Name="ClientID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Client_Loan">
+          <End Role="Client" Type="ColorITModel.Client" Multiplicity="1" />
+          <End Role="Loan" Type="ColorITModel.Loan" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Loan">
+              <PropertyRef Name="ClientID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Group_Product">
+          <End Role="Group" Type="ColorITModel.Group" Multiplicity="0..1" />
+          <End Role="Product" Type="ColorITModel.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Group">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="Group" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MoveProduct_Product">
+          <End Role="Product" Type="ColorITModel.Product" Multiplicity="1" />
+          <End Role="MoveProduct" Type="ColorITModel.MoveProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="MoveProduct">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Purchase_Product">
+          <End Role="Product" Type="ColorITModel.Product" Multiplicity="1" />
+          <End Role="Purchase" Type="ColorITModel.Purchase" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Purchase">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Return_Product">
+          <End Role="Product" Type="ColorITModel.Product" Multiplicity="1" />
+          <End Role="Return" Type="ColorITModel.Return" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Return">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Sale">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int64" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int64" Name="ProductID" Nullable="false" />
+          <Property Type="Decimal" Name="Amount" Nullable="false" Precision="19" Scale="4" />
+          <Property Type="Double" Name="Discount" />
+          <Property Type="DateTime" Name="Date" Nullable="false" />
+          <Property Type="Int32" Name="ClientID" Nullable="false" />
+          <Property Type="Double" Name="FromStorage" />
+          <Property Type="Int32" Name="SaleListID" Nullable="false" />
+          <Property Type="Int32" Name="StateID" Nullable="false" />
+          <Property Type="String" Name="Comments" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="Double" Name="FromWareHouse" />
+          <NavigationProperty Name="Client" Relationship="ColorITModel.FK_Sale_Client" FromRole="Sale" ToRole="Client" />
+          <NavigationProperty Name="Product" Relationship="ColorITModel.FK_Sale_Product" FromRole="Sale" ToRole="Product" />
+          <NavigationProperty Name="States" Relationship="ColorITModel.PK_Sale_States" FromRole="Sale" ToRole="States" />
+        </EntityType>
+        <Association Name="FK_Sale_Client">
+          <End Type="ColorITModel.Client" Role="Client" Multiplicity="1" />
+          <End Type="ColorITModel.Sale" Role="Sale" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Sale">
+              <PropertyRef Name="ClientID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sale_Product">
+          <End Type="ColorITModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="ColorITModel.Sale" Role="Sale" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Sale">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="States">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="State" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Sale" Relationship="ColorITModel.PK_Sale_States" FromRole="States" ToRole="Sale" />
+        </EntityType>
+        <Association Name="PK_Sale_States">
+          <End Type="ColorITModel.States" Role="States" Multiplicity="1" />
+          <End Type="ColorITModel.Sale" Role="Sale" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="States">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Sale">
+              <PropertyRef Name="StateID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="CarModels">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="ModelName" Nullable="false" MaxLength="32" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Paints" Relationship="ColorITModel.PK_Paints_CarModels" FromRole="CarModels" ToRole="Paints" />
+        </EntityType>
+        <EntityType Name="PaintName">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="64" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Paints" Relationship="ColorITModel.PK_Paints_PaintName" FromRole="PaintName" ToRole="Paints" />
+          <Property Type="Decimal" Name="Cost" Nullable="false" Precision="19" Scale="4" />
+          <Property Type="Decimal" Name="Container" Precision="19" Scale="4" />
+          <Property Type="Decimal" Name="Work" Precision="19" Scale="4" />
+          <Property Type="Double" Name="Census1" />
+          <Property Type="Double" Name="Census2" />
+        </EntityType>
+        <EntityType Name="Paints">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int64" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="DateTime" Name="Date" Nullable="false" />
+          <Property Type="Int32" Name="CarModelID" />
+          <Property Type="String" Name="PaintCode" MaxLength="32" FixedLength="false" Unicode="true" />
+          <Property Type="Boolean" Name="ThreeLayers" />
+          <Property Type="Int32" Name="NameID" Nullable="false" />
+          <Property Type="Int32" Name="TypeID" Nullable="false" />
+          <Property Type="Double" Name="Amount" Nullable="false" />
+          <Property Type="Decimal" Name="Sum" Nullable="false" Precision="19" Scale="4" />
+          <Property Type="Decimal" Name="Salary" Precision="19" Scale="4" />
+          <Property Type="Int32" Name="ClientID" Nullable="false" />
+          <NavigationProperty Name="CarModels" Relationship="ColorITModel.PK_Paints_CarModels" FromRole="Paints" ToRole="CarModels" />
+          <NavigationProperty Name="Client" Relationship="ColorITModel.PK_Paints_Clients" FromRole="Paints" ToRole="Client" />
+          <NavigationProperty Name="PaintName" Relationship="ColorITModel.PK_Paints_PaintName" FromRole="Paints" ToRole="PaintName" />
+          <NavigationProperty Name="ServiceTypes" Relationship="ColorITModel.PK_Paints_" FromRole="Paints" ToRole="ServiceTypes" />
+          <Property Type="Boolean" Name="DocState" />
+          <Property Type="String" Name="PhoneNumber" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="ServiceTypes">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="ServiceName" Nullable="false" MaxLength="16" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Paints" Relationship="ColorITModel.PK_Paints_" FromRole="ServiceTypes" ToRole="Paints" />
+        </EntityType>
+        <Association Name="PK_Paints_CarModels">
+          <End Type="ColorITModel.CarModels" Role="CarModels" Multiplicity="0..1" />
+          <End Type="ColorITModel.Paints" Role="Paints" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CarModels">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Paints">
+              <PropertyRef Name="CarModelID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="PK_Paints_Clients">
+          <End Type="ColorITModel.Client" Role="Client" Multiplicity="1" />
+          <End Type="ColorITModel.Paints" Role="Paints" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Paints">
+              <PropertyRef Name="ClientID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="PK_Paints_PaintName">
+          <End Type="ColorITModel.PaintName" Role="PaintName" Multiplicity="1" />
+          <End Type="ColorITModel.Paints" Role="Paints" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaintName">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Paints">
+              <PropertyRef Name="NameID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="PK_Paints_">
+          <End Type="ColorITModel.ServiceTypes" Role="ServiceTypes" Multiplicity="1" />
+          <End Type="ColorITModel.Paints" Role="Paints" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ServiceTypes">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Paints">
+              <PropertyRef Name="TypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ColorITModelStoreContainer" CdmEntityContainer="ColorITEntities">
+          <EntitySetMapping Name="Client"><EntityTypeMapping TypeName="ColorITModel.Client"><MappingFragment StoreEntitySet="Client">
+            <ScalarProperty Name="ID" ColumnName="ID" />
+            <ScalarProperty Name="Name" ColumnName="Name" />
+            <ScalarProperty Name="Balance" ColumnName="Balance" />
+            <ScalarProperty Name="Info" ColumnName="Info" />
+            <ScalarProperty Name="Discount" ColumnName="Discount" />
+            <ScalarProperty Name="GroupID" ColumnName="GroupID" />
+            <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="ClientGroups"><EntityTypeMapping TypeName="ColorITModel.ClientGroups"><MappingFragment StoreEntitySet="ClientGroups">
+            <ScalarProperty Name="ID" ColumnName="ID" />
+            <ScalarProperty Name="Name" ColumnName="Name" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Deposit"><EntityTypeMapping TypeName="ColorITModel.Deposit"><MappingFragment StoreEntitySet="Deposit">
+            <ScalarProperty Name="ID" ColumnName="ID" />
+            <ScalarProperty Name="ClientID" ColumnName="ClientID" />
+            <ScalarProperty Name="Amount" ColumnName="Amount" />
+            <ScalarProperty Name="Date" ColumnName="Date" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Group"><EntityTypeMapping TypeName="ColorITModel.Group"><MappingFragment StoreEntitySet="Group">
+            <ScalarProperty Name="ID" ColumnName="ID" />
+            <ScalarProperty Name="Name" ColumnName="Name" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Loan"><EntityTypeMapping TypeName="ColorITModel.Loan"><MappingFragment StoreEntitySet="Loan">
+            <ScalarProperty Name="ID" ColumnName="ID" />
+            <ScalarProperty Name="ClientID" ColumnName="ClientID" />
+            <ScalarProperty Name="Amount" ColumnName="Amount" />
+            <ScalarProperty Name="Date" ColumnName="Date" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="MoveProduct"><EntityTypeMapping TypeName="ColorITModel.MoveProduct"><MappingFragment StoreEntitySet="MoveProduct">
+            <ScalarProperty Name="ID" ColumnName="ID" />
+            <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+            <ScalarProperty Name="Number" ColumnName="Number" />
+            <ScalarProperty Name="ToStorage" ColumnName="ToStorage" />
+            <ScalarProperty Name="ToWarehouse" ColumnName="ToWarehouse" />
+            <ScalarProperty Name="Date" ColumnName="Date" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Product"><EntityTypeMapping TypeName="ColorITModel.Product"><MappingFragment StoreEntitySet="Product">
+            <ScalarProperty Name="ID" ColumnName="ID" />
+            <ScalarProperty Name="Name" ColumnName="Name" />
+            <ScalarProperty Name="SelfCost" ColumnName="SelfCost" />
+            <ScalarProperty Name="Cost" ColumnName="Cost" />
+            <ScalarProperty Name="Warehouse" ColumnName="Warehouse" />
+            <ScalarProperty Name="Storage" ColumnName="Storage" />
+            <ScalarProperty Name="Bottled" ColumnName="Bottled" />
+            <ScalarProperty Name="MaxDiscount" ColumnName="MaxDiscount" />
+            <ScalarProperty Name="Group" ColumnName="Group" />
+            <ScalarProperty Name="ParentGroup" ColumnName="ParentGroup" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Purchase"><EntityTypeMapping TypeName="ColorITModel.Purchase"><MappingFragment StoreEntitySet="Purchase">
+            <ScalarProperty Name="ID" ColumnName="ID" />
+            <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+            <ScalarProperty Name="SelfCost" ColumnName="SelfCost" />
+            <ScalarProperty Name="ToWarehouse" ColumnName="ToWarehouse" />
+            <ScalarProperty Name="ToStorage" ColumnName="ToStorage" />
+            <ScalarProperty Name="Date" ColumnName="Date" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Return"><EntityTypeMapping TypeName="ColorITModel.Return"><MappingFragment StoreEntitySet="Return">
+            <ScalarProperty Name="ID" ColumnName="ID" />
+            <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+            <ScalarProperty Name="Number" ColumnName="Number" />
+            <ScalarProperty Name="Date" ColumnName="Date" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Sale">
+            <EntityTypeMapping TypeName="ColorITModel.Sale">
+              <MappingFragment StoreEntitySet="Sale">
+                <ScalarProperty Name="FromWareHouse" ColumnName="FromWareHouse" />
+                <ScalarProperty Name="Comments" ColumnName="Comments" />
+                <ScalarProperty Name="StateID" ColumnName="StateID" />
+                <ScalarProperty Name="SaleListID" ColumnName="SaleListID" />
+                <ScalarProperty Name="FromStorage" ColumnName="FromStorage" />
+                <ScalarProperty Name="ClientID" ColumnName="ClientID" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Discount" ColumnName="Discount" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="States">
+            <EntityTypeMapping TypeName="ColorITModel.States">
+              <MappingFragment StoreEntitySet="States">
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CarModels">
+            <EntityTypeMapping TypeName="ColorITModel.CarModels">
+              <MappingFragment StoreEntitySet="CarModels">
+                <ScalarProperty Name="ModelName" ColumnName="ModelName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PaintName">
+            <EntityTypeMapping TypeName="ColorITModel.PaintName">
+              <MappingFragment StoreEntitySet="PaintName">
+                <ScalarProperty Name="Census2" ColumnName="Census2" />
+                <ScalarProperty Name="Census1" ColumnName="Census1" />
+                <ScalarProperty Name="Work" ColumnName="Work" />
+                <ScalarProperty Name="Container" ColumnName="Container" />
+                <ScalarProperty Name="Cost" ColumnName="Cost" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Paints">
+            <EntityTypeMapping TypeName="ColorITModel.Paints">
+              <MappingFragment StoreEntitySet="Paints">
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="DocState" ColumnName="DocState" />
+                <ScalarProperty Name="ClientID" ColumnName="ClientID" />
+                <ScalarProperty Name="Salary" ColumnName="Salary" />
+                <ScalarProperty Name="Sum" ColumnName="Sum" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="TypeID" ColumnName="TypeID" />
+                <ScalarProperty Name="NameID" ColumnName="NameID" />
+                <ScalarProperty Name="ThreeLayers" ColumnName="ThreeLayers" />
+                <ScalarProperty Name="PaintCode" ColumnName="PaintCode" />
+                <ScalarProperty Name="CarModelID" ColumnName="CarModelID" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ServiceTypes">
+            <EntityTypeMapping TypeName="ColorITModel.ServiceTypes">
+              <MappingFragment StoreEntitySet="ServiceTypes">
+                <ScalarProperty Name="ServiceName" ColumnName="ServiceName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="ColorITModel">
+        <EntityTypeShape EntityType="ColorITModel.Client" Width="1.5" PointX="6" PointY="0.75" Height="2.7427376302083335" IsExpanded="true" />
+        <EntityTypeShape EntityType="ColorITModel.ClientGroups" Width="1.5" PointX="3.75" PointY="1.25" Height="1.4279589843749996" IsExpanded="true" />
+        <EntityTypeShape EntityType="ColorITModel.Deposit" Width="1.5" PointX="8.25" PointY="3.625" Height="1.7566536458333335" IsExpanded="true" />
+        <EntityTypeShape EntityType="ColorITModel.Group" Width="1.5" PointX="0.75" PointY="7.375" Height="1.4279589843749996" IsExpanded="true" />
+        <EntityTypeShape EntityType="ColorITModel.Loan" Width="1.5" PointX="8.25" PointY="11.125" Height="1.7566536458333317" IsExpanded="true" />
+        <EntityTypeShape EntityType="ColorITModel.MoveProduct" Width="1.5" PointX="5.25" PointY="4.375" Height="2.0853483072916674" IsExpanded="true" />
+        <EntityTypeShape EntityType="ColorITModel.Product" Width="1.5" PointX="3" PointY="6.375" Height="3.4001269531250014" IsExpanded="true" />
+        <EntityTypeShape EntityType="ColorITModel.Purchase" Width="1.5" PointX="5.25" PointY="7.25" Height="2.0853483072916674" IsExpanded="true" />
+        <EntityTypeShape EntityType="ColorITModel.Return" Width="1.5" PointX="5.25" PointY="10.125" Height="1.7566536458333317" IsExpanded="true" />
+        <AssociationConnector Association="ColorITModel.FK_Client_ClientGroups" ManuallyRouted="false">
+          <ConnectorPoint PointX="5.25" PointY="1.9639794921874998" />
+          <ConnectorPoint PointX="6" PointY="1.9639794921874998" />
+        </AssociationConnector>
+        <AssociationConnector Association="ColorITModel.FK_Client_Deposit" ManuallyRouted="false">
+          <ConnectorPoint PointX="7.5" PointY="2.1874995" />
+          <ConnectorPoint PointX="9" PointY="2.1874995" />
+          <ConnectorPoint PointX="9" PointY="3.625" />
+        </AssociationConnector>
+        <AssociationConnector Association="ColorITModel.FK_Client_Loan" ManuallyRouted="false">
+          <ConnectorPoint PointX="7.08593875" PointY="3.6570849609375" />
+          <ConnectorPoint PointX="7.08593875" PointY="12.412903645833332" />
+          <ConnectorPoint PointX="8.25" PointY="12.412903645833332" />
+        </AssociationConnector>
+        <AssociationConnector Association="ColorITModel.FK_Group_Product" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.25" PointY="8.0889794921875" />
+          <ConnectorPoint PointX="3" PointY="8.0889794921875" />
+        </AssociationConnector>
+        <AssociationConnector Association="ColorITModel.FK_MoveProduct_Product" ManuallyRouted="false">
+          <ConnectorPoint PointX="4.40625" PointY="6.375" />
+          <ConnectorPoint PointX="4.40625" PointY="5.72555532682292" />
+          <ConnectorPoint PointX="5.25" PointY="5.72555532682292" />
+        </AssociationConnector>
+        <AssociationConnector Association="ColorITModel.FK_Purchase_Product" ManuallyRouted="false">
+          <ConnectorPoint PointX="4.5" PointY="8.2926741536458337" />
+          <ConnectorPoint PointX="5.25" PointY="8.2926741536458337" />
+        </AssociationConnector>
+        <AssociationConnector Association="ColorITModel.FK_Return_Product" ManuallyRouted="false">
+          <ConnectorPoint PointX="3.75" PointY="9.775126953125" />
+          <ConnectorPoint PointX="3.75" PointY="11.003326822916666" />
+          <ConnectorPoint PointX="5.25" PointY="11.003326822916666" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="ColorITModel.Sale" Width="1.5" PointX="8.25" PointY="6.75" Height="3.0714322916666674" />
+        <AssociationConnector Association="ColorITModel.FK_Sale_Client" >
+          <ConnectorPoint PointX="7.324221875" PointY="3.6570849609375" />
+          <ConnectorPoint PointX="7.324221875" PointY="6.96875" />
+          <ConnectorPoint PointX="8.25" PointY="6.96875" />
+        </AssociationConnector>
+        <AssociationConnector Association="ColorITModel.FK_Sale_Product" >
+          <ConnectorPoint PointX="4.5" PointY="9.5864876302083353" />
+          <ConnectorPoint PointX="7.0026054166666674" PointY="9.5864876302083353" />
+          <ConnectorPoint PointX="7.1692720833333334" PointY="9.5864876302083353" />
+          <ConnectorPoint PointX="8.25" PointY="9.5864876302083353" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="ColorITModel.States" Width="1.5" PointX="11.125" PointY="7.875" Height="1.4279589843750029" />
+        <AssociationConnector Association="ColorITModel.PK_Sale_States" >
+          <ConnectorPoint PointX="11.125" PointY="8.7274902894007642" />
+          <ConnectorPoint PointX="9.75" PointY="8.7274902894007642" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="ColorITModel.CarModels" Width="1.5" PointX="10.25" PointY="1.5" Height="1.2636116536458388" />
+        <EntityTypeShape EntityType="ColorITModel.PaintName" Width="1.5" PointX="10.375" PointY="3.125" Height="1.2636116536458388" />
+        <EntityTypeShape EntityType="ColorITModel.Paints" Width="1.5" PointX="12.5" PointY="1" Height="2.7427376302083388" />
+        <EntityTypeShape EntityType="ColorITModel.ServiceTypes" Width="1.5" PointX="12.625" PointY="5.5" Height="1.4279589843749996" />
+        <AssociationConnector Association="ColorITModel.PK_Paints_CarModels" >
+          <ConnectorPoint PointX="11.75" PointY="2.2139794921875" />
+          <ConnectorPoint PointX="12.5" PointY="2.2139794921875" />
+        </AssociationConnector>
+        <AssociationConnector Association="ColorITModel.PK_Paints_Clients" >
+          <ConnectorPoint PointX="7.5" PointY="1.21875" />
+          <ConnectorPoint PointX="12.5" PointY="1.21875" />
+        </AssociationConnector>
+        <AssociationConnector Association="ColorITModel.PK_Paints_PaintName" >
+          <ConnectorPoint PointX="11.875" PointY="3.7625634765625" />
+          <ConnectorPoint PointX="12.5" PointY="3.7625634765625" />
+        </AssociationConnector>
+        <AssociationConnector Association="ColorITModel.PK_Paints_" >
+          <ConnectorPoint PointX="13.3125" PointY="5.5" />
+          <ConnectorPoint PointX="13.3125" PointY="4.400126953125" />
+        </AssociationConnector>
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>

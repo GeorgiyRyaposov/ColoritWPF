@@ -1,0 +1,49 @@
+﻿<Window x:Class="ColoritWPF.SaleProduct"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Продажа" Height="404" Width="664" mc:Ignorable="d" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:my="clr-namespace:ColoritWPF" Loaded="Window_Loaded">
+    <Window.Resources>
+        <CollectionViewSource x:Key="productViewSource" d:DesignSource="{d:DesignInstance my:Product, CreateList=True}" />
+        <CollectionViewSource x:Key="clientViewSource" d:DesignSource="{d:DesignInstance my:Client, CreateList=True}" />
+    </Window.Resources>
+    <Grid DataContext="{StaticResource productViewSource}">
+        <ComboBox DisplayMemberPath="Name" Height="23" HorizontalAlignment="Left" ItemsSource="{Binding Source={StaticResource clientViewSource}}" Margin="12,12,0,0" Name="clientComboBox" SelectedValuePath="ID" VerticalAlignment="Top" Width="267" SelectionChanged="clientComboBox_SelectionChanged" IsTextSearchEnabled="True" IsEditable="True">
+            <ComboBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <VirtualizingStackPanel />
+                </ItemsPanelTemplate>
+            </ComboBox.ItemsPanel>
+        </ComboBox>
+        
+        <DataGrid AutoGenerateColumns="False" EnableRowVirtualization="True" Height="200" Margin="12,44,0,0" Name="dgv_ForSale" VerticalAlignment="Top" HorizontalAlignment="Left" Width="Auto" ItemsSource="{Binding Path=forSale}" SelectionChanged="dgv_ForSale_SelectionChanged" CanUserAddRows="False">
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Command="ApplicationCommands.Delete" Header="Удалить" />
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+            <DataGrid.Columns>
+                <DataGridTextColumn x:Name="saleAmountColumn" Binding="{Binding Path=Amount}" Header="Кол-во" Width="55" />
+                <DataGridTextColumn x:Name="saleNameColumn" Binding="{Binding Path=Name}" Header="Наименование" IsReadOnly="True" />
+                <DataGridTextColumn x:Name="saleCostColumn" Binding="{Binding Path=Cost}" Header="Цена" Width="SizeToHeader" IsReadOnly="True" />
+                <DataGridTextColumn x:Name="saleStorageColumn" Binding="{Binding Path=Storage}" Header="Магазин" Width="SizeToHeader" IsReadOnly="True" />
+                <DataGridTextColumn x:Name="saleWarehouseColumn" Binding="{Binding Path=Warehouse}" Header="Склад" Width="SizeToHeader" IsReadOnly="True" />
+                <!--DataGridTextColumn x:Name="saleClientDiscountColumn" Binding="{Binding Path=ClientDiscount}" Header="Скидка клиента" Width="SizeToHeader" /-->
+                <DataGridTextColumn x:Name="saleCurrentDiscountColumn" Binding="{Binding Path=CurrentDiscount}" Header="Текущая скидка" Width="SizeToHeader" IsReadOnly="True" />
+                <!--DataGridTextColumn x:Name="saleMaxDiscountColumn" Binding="{Binding Path=MaxDiscount}" Header="Макс скидка" Width="SizeToHeader" /-->
+                <DataGridTextColumn x:Name="saleSumColumn" Binding="{Binding Path=ProductSum}" Header="Сумма без скидки" Width="SizeToHeader" IsReadOnly="True" />
+                <DataGridTextColumn x:Name="saleSumWithDiscountColumn" Binding="{Binding Path=ProductSumWithDiscount}" Header="Сумма со скидкой" Width="SizeToHeader" IsReadOnly="True" />
+            </DataGrid.Columns>
+        </DataGrid>
+        <Label Content="Сумма со скидкой" Height="28" HorizontalAlignment="Left" Margin="402,254,0,0" Name="label1" VerticalAlignment="Top" />
+        <Label Content="Сумма без скидки" Height="28" HorizontalAlignment="Left" Margin="402,288,0,0" Name="label2" VerticalAlignment="Top" />
+        <TextBox Height="23" HorizontalAlignment="Left" Margin="508,256,0,0" Name="txtbx_WIthoutDiscount" VerticalAlignment="Top" Width="120" IsReadOnly="True" />
+        <TextBox Height="23" HorizontalAlignment="Left" Margin="508,290,0,0" Name="txtbx_Sum" VerticalAlignment="Top" Width="120" IsReadOnly="True" />
+        <Button Content="Продать" Height="23" HorizontalAlignment="Left" Margin="553,330,0,0" Name="btn_Sale" VerticalAlignment="Top" Width="75" Click="btn_Sale_Click" />
+        <Button Content="Отмена" Height="23" HorizontalAlignment="Left" Margin="427,330,0,0" Name="btn_Cancel" VerticalAlignment="Top" Width="75" Click="btn_Cancel_Click" />
+        <Button Content="В Excel" Height="23" HorizontalAlignment="Left" Margin="12,255,0,0" Name="btn_ExportToExcel" VerticalAlignment="Top" Width="75" Click="btn_ExportToExcel_Click" />
+        <Button Content="Подбор" Height="23" HorizontalAlignment="Left" Margin="285,12,0,0" Name="btn_SelectProduct" VerticalAlignment="Top" Width="75" Click="btn_SelectProduct_Click" />
+    </Grid>
+    
+       
+    
+</Window>

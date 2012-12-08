@@ -1,0 +1,213 @@
+﻿<Window x:Class="ColoritWPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ColoritWPF="clr-namespace:ColoritWPF"
+        Title="MainWindow" Height="570" Width="1000" mc:Ignorable="d" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:my="clr-namespace:ColoritWPF"
+        xmlns:System="clr-namespace:System;assembly=mscorlib" Loaded="Window_Loaded">
+    <Window.Resources>
+        <CollectionViewSource x:Key="productViewSource" d:DesignSource="{d:DesignInstance my:Product, CreateList=True}" />
+        <CollectionViewSource x:Key="paintsViewSource" d:DesignSource="{d:DesignInstance my:Paints, CreateList=True}" />
+        <CollectionViewSource x:Key="carModelsViewSource" d:DesignSource="{d:DesignInstance my:CarModels, CreateList=True}" />
+        <my:CarModelConverter x:Key="carModelConverter" />
+        <my:ClientNameConverter x:Key="ClientNameConverter" />
+        <my:PaintNameConverter x:Key="PaintNameConverter" />
+        <my:ServiceTypeConverter x:Key="ServiceTypeConverter" />
+        <CollectionViewSource x:Key="paintNameViewSource" d:DesignSource="{d:DesignInstance my:PaintName, CreateList=True}" />
+        <CollectionViewSource x:Key="clientViewSource" d:DesignSource="{d:DesignInstance my:Client, CreateList=True}" />
+        <ColoritWPF:EnumToBooleanConverter x:Key="EnumToBooleanConverter" />
+    </Window.Resources>
+    <Grid DataContext="{StaticResource productViewSource}">
+        <Menu IsMainMenu="True" Height="23" HorizontalAlignment="Left" Name="menu1" VerticalAlignment="Top">
+            <MenuItem Header="Файл">
+                <MenuItem Header="Добавить из Excel" Click="MenuItemGetFromExcel_Click" />
+                <MenuItem Header="Выход" />
+            </MenuItem>
+            <MenuItem Header="Товар">
+                <MenuItem Header="Добавить..." Click="MenuItemAddProduct_Click" />
+                <MenuItem Header="Купить..." Click="MenuItemPurchaseProduct_Click" />
+                <MenuItem Header="Продать..." Click="MenuItemSaleProduct_Click" />
+                <Separator />
+                <MenuItem Header="Редактировать..." Click="MenuItemEditProduct_Click" />
+                <Separator />
+                <MenuItem Header="Добавить группу..." Click="MenuItemAddGroup_Click" />
+            </MenuItem>
+            <MenuItem Header="Клиент">
+                <MenuItem Header="Добавить..." Click="MenuItemClientAdd_Click" />
+                <MenuItem Header="Список" Click="MenuItemClientList_Click" />
+                <MenuItem Header="Добавить группу" Click="MenuItemClientGroupAdd_Click" />
+            </MenuItem>
+            <MenuItem Header="Статистика">
+                <MenuItem Header="Продажи..." Click="MenuItemSalesStats_Click" />
+            </MenuItem>
+        </Menu>
+        <TabControl Height="490" HorizontalAlignment="Left" Margin="0,29,0,0" Name="tabControl1" VerticalAlignment="Top" Width="978">
+            <TabItem Header="Краски" Name="PaintsTab">
+                <Grid>
+                    <Grid DataContext="{StaticResource carModelsViewSource}" HorizontalAlignment="Left" Margin="6,6,0,0" Name="grid1" VerticalAlignment="Top" Width="365" Height="35">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="60*" />
+                        </Grid.ColumnDefinitions>
+                        <Button Click="btnAddCarModel_Click" Content="+" FontSize="12" FontWeight="Bold" Foreground="#FF31BD00" Grid.Column="2" Height="23" HorizontalAlignment="Left" Margin="307,5,0,0" Name="btnAddCarModel" VerticalAlignment="Top" Width="23" />
+                        <Button Click="btnRemoveCarModel_Click" Content="X" Foreground="#FFD21E00" Grid.Column="2" Height="23" HorizontalAlignment="Left" Margin="336,5,0,0" Name="btnRemoveCarModel" VerticalAlignment="Top" Width="23" />
+                        <ComboBox DisplayMemberPath="ModelName" Height="23" HorizontalAlignment="Left" ItemsSource="{Binding}" Margin="86,3,0,0" Name="cmbxCarModel" SelectedValuePath="ID" VerticalAlignment="Top" Width="215" IsTextSearchEnabled="True" IsEditable="True" DataContext="{Binding}" Grid.Column="2" IsSynchronizedWithCurrentItem="True">
+                            <ComboBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <VirtualizingStackPanel />
+                                </ItemsPanelTemplate>
+                            </ComboBox.ItemsPanel>
+                        </ComboBox>
+                        <Label Content="Модель авто:" Grid.Column="2" Height="28" HorizontalAlignment="Left" Margin="6,3,0,0" Name="label2" VerticalAlignment="Top" />
+                    </Grid>
+                    <Grid DataContext="{StaticResource paintNameViewSource}" Height="68" HorizontalAlignment="Left" Margin="377,6,0,0" Name="grid2" VerticalAlignment="Top" Width="358">
+                        <RadioButton GroupName="PaintTypeGr" Checked="rbLSB_Checked" Content="LSB" Height="16" HorizontalAlignment="Left" Margin="6,5,0,0" Name="rbLSB" VerticalAlignment="Top" IsChecked="{Binding Path=PaintTypeProp, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static ColoritWPF:PaintType.LSB}}" />
+                        <RadioButton GroupName="PaintTypeGr" Checked="rbL2K_Checked" Content="L2K" Height="16" HorizontalAlignment="Left" Margin="45,5,0,0" Name="rbL2K" VerticalAlignment="Top" IsChecked="{Binding Path=PaintTypeProp, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static ColoritWPF:PaintType.L2K}}" Unchecked="rbL2K_Unchecked" />
+                        <RadioButton GroupName="PaintTypeGr" Checked="rbABP_Checked" Content="ABP" Height="16" HorizontalAlignment="Left" Margin="84,5,0,0" Name="rbABP" VerticalAlignment="Top" IsChecked="{Binding Path=PaintTypeProp, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static ColoritWPF:PaintType.ABP}}" />
+                        <RadioButton GroupName="PaintTypeGr" Checked="rbPolish_Checked" Content="Лак" Height="16" HorizontalAlignment="Left" Margin="124,5,0,0" Name="rbPolish" VerticalAlignment="Top" IsChecked="{Binding Path=PaintTypeProp, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static ColoritWPF:PaintType.Polish}}" Unchecked="rbPolish_Unchecked" />
+                        <RadioButton GroupName="PaintTypeGr" Content="Другое" Height="16" HorizontalAlignment="Left" Margin="164,5,0,0" Name="rbOther" VerticalAlignment="Top" Checked="rbOther_Checked" IsChecked="{Binding Path=PaintTypeProp, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static ColoritWPF:PaintType.Other}}" Unchecked="rbOther_Uncheked" />
+                        <Label Content="LSB" Height="28" HorizontalAlignment="Left" Margin="103,36,0,0" Name="lblPaint" VerticalAlignment="Top" />
+                        <CheckBox Content="Комплект" Height="16" HorizontalAlignment="Left" Margin="6,27,0,0" Name="cbPackage" VerticalAlignment="Top" IsChecked="{Binding IsPackage, UpdateSourceTrigger=PropertyChanged}" Unchecked="cbPackage_Unchecked" Checked="cbPackage_Checked" />
+                        <TextBox Text="{Binding Amount, UpdateSourceTrigger=PropertyChanged}" Height="23" HorizontalAlignment="Left" Margin="144,38,0,0" Name="txtbxPaintAmount" VerticalAlignment="Top" Width="60" LostFocus="txtbxPaintAmount_LostFocus" />
+                        <Label Content="Лак" Height="28" HorizontalAlignment="Left" Margin="203,36,0,0" Name="lblPolish" VerticalAlignment="Top" />
+                        <TextBox Height="23" HorizontalAlignment="Left" Margin="241,38,0,0" Name="txtbxPolishAmount" VerticalAlignment="Top" Width="60" LostFocus="txtbxPolishAmount_LostFocus" IsEnabled="False" />
+                        <Grid DataContext="{StaticResource paintNameViewSource}" HorizontalAlignment="Left" Margin="232,13,0,0" Name="grid5" VerticalAlignment="Top">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                        </Grid>
+                        <CheckBox Content="Три слоя" Height="16" HorizontalAlignment="Left" Margin="6,45,0,0" Name="cbThreeLayers" VerticalAlignment="Top" IsChecked="{Binding IsThreeLayers, UpdateSourceTrigger=PropertyChanged}" />
+                        <ComboBox Height="23" HorizontalAlignment="Left" Margin="226,3,0,0" Name="cmbxPaintName" VerticalAlignment="Top" Width="132" ItemsSource="{Binding}" SelectedValuePath="ID" DisplayMemberPath="Name" IsEnabled="False" SelectionChanged="cmbxPaintName_SelectionChanged" IsReadOnly="True" />
+                        <Grid Height="18" HorizontalAlignment="Center" Margin="204,41,-8,0" Name="grid_Colors" VerticalAlignment="Top" Width="162" Visibility="Hidden">
+                            <RadioButton GroupName="L2KType" Content="Бел" Height="16" Margin="22,0,104,0" Name="rb_White" VerticalAlignment="Top" IsChecked="{Binding Path=L2KTypeProp, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static ColoritWPF:L2KTypeEnum.White}}" />
+                            <RadioButton GroupName="L2KType" Content="Цв" Height="16" Margin="61,0,65,0" Name="rb_Color" VerticalAlignment="Top" IsChecked="{Binding Path=L2KTypeProp, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static ColoritWPF:L2KTypeEnum.Color}}" />
+                            <RadioButton GroupName="L2KType" Content="Кр" Height="16" Margin="101,0,25,0" Name="rb_Red" VerticalAlignment="Top" IsChecked="{Binding Path=L2KTypeProp, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static ColoritWPF:L2KTypeEnum.Red}}" />
+                        </Grid>
+                    </Grid>
+                    <Grid Height="68" HorizontalAlignment="Left" Margin="741,6,0,0" Name="grid3" VerticalAlignment="Top" Width="78">
+                        <RadioButton GroupName="ServiceType" Content="Код" Height="16" HorizontalAlignment="Left" Margin="6,5,0,0" Name="rbCode" VerticalAlignment="Top" IsChecked="{Binding Path=ServiceTypeProp, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static ColoritWPF:ServiceTypeEnum.Code}}" Checked="rbCode_Checked" />
+                        <RadioButton GroupName="ServiceType" Content="Подбор" Height="16" HorizontalAlignment="Left" Margin="6,27,0,0" Name="rbSelection" VerticalAlignment="Top" IsChecked="{Binding Path=ServiceTypeProp, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static ColoritWPF:ServiceTypeEnum.Selection}}" Checked="rbSelection_Checked" />
+                        <CheckBox Content="Колорист" Height="16" HorizontalAlignment="Left" Margin="6,49,0,0" Name="cbColorist" VerticalAlignment="Top" IsChecked="{Binding IsColorist}" />
+                    </Grid>
+                    <DataGrid AutoGenerateColumns="False" EnableRowVirtualization="True" Height="242" HorizontalAlignment="Left" ItemsSource="{Binding Source={StaticResource paintsViewSource}}" Margin="6,151,0,0" Name="paintsDataGrid" RowDetailsVisibilityMode="VisibleWhenSelected" VerticalAlignment="Top" Width="956" DataContext="{Binding}" SelectionChanged="paintsDataGrid_SelectionChanged" CanUserAddRows="False">
+                        <DataGrid.Columns>
+                            <!--DataGridTextColumn x:Name="iDColumn1" Binding="{Binding Path=ID}" Header="ID" Width="SizeToHeader" /-->
+                            <DataGridTextColumn x:Name="dateColumn" Binding="{Binding Path=Date}" Header="Дата" Width="SizeToHeader" />
+                            <DataGridTextColumn x:Name="carModelIDColumn" Binding="{Binding Path=CarModelID, Converter={StaticResource carModelConverter}}" Header="Модель авто" Width="SizeToHeader" />
+                            <DataGridTextColumn x:Name="paintCodeColumn" Binding="{Binding Path=PaintCode}" Header="Код краски" Width="SizeToHeader" />
+                            <DataGridCheckBoxColumn x:Name="threeLayersColumn" Binding="{Binding Path=ThreeLayers}" Header="Три слоя" Width="SizeToHeader" />
+                            <DataGridTextColumn x:Name="nameIDColumn" Binding="{Binding Path=NameID, Converter={StaticResource PaintNameConverter}}" Header="Наименование" Width="SizeToHeader" />
+                            <DataGridTextColumn x:Name="typeIDColumn" Binding="{Binding Path=TypeID, Converter={StaticResource ServiceTypeConverter}}" Header="Код\Подбор" Width="SizeToHeader" />
+                            <DataGridTextColumn x:Name="amountColumn" Binding="{Binding Path=Amount}" Header="Количество" Width="SizeToHeader" />
+                            <DataGridTextColumn x:Name="sumColumn" Binding="{Binding Path=Sum}" Header="Сумма" Width="SizeToHeader" />
+                            <DataGridTextColumn x:Name="salaryColumn" Binding="{Binding Path=Salary}" Header="Колорист" Width="SizeToHeader" />
+                            <DataGridTextColumn x:Name="clientIDColumn" Binding="{Binding Path=ClientID, Converter={StaticResource ClientNameConverter}}" Header="Клиент" Width="Auto" />
+                            <DataGridTextColumn x:Name="phoneNumberColumn" Binding="{Binding Path=PhoneNumber}" Header="Телефон" Width="SizeToHeader" />
+                            <DataGridCheckBoxColumn x:Name="docStateColumn" Binding="{Binding Path=DocState}" Header="Продано" Width="Auto" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Grid Height="29" HorizontalAlignment="Left" Margin="7,45,0,0" Name="grid4" VerticalAlignment="Top" Width="364">
+                        <TextBox Text="{Binding ColorCode, UpdateSourceTrigger=PropertyChanged}" Height="23" HorizontalAlignment="Left" Margin="85,3,0,0" VerticalAlignment="Top" Width="197" Name="txtbxPaintCode"  />
+                        <Label Content="Код краски:" Height="28" HorizontalAlignment="Left" Margin="6,1,0,0" Name="label3" VerticalAlignment="Top" />
+                    </Grid>
+                    <Grid DataContext="{StaticResource clientViewSource}" Height="65" HorizontalAlignment="Left" Margin="7,80,0,0" Name="grid6" VerticalAlignment="Top" Width="365">
+                        <ComboBox DisplayMemberPath="Name" Height="23" HorizontalAlignment="Left" ItemsSource="{Binding}" Margin="85,6,0,36" Name="cbClient" VerticalAlignment="Center" Width="215" SelectedValuePath="ID" IsEditable="True" SelectionChanged="cbClient_SelectionChanged" IsSynchronizedWithCurrentItem="False">
+                            <ComboBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <VirtualizingStackPanel />
+                                </ItemsPanelTemplate>
+                            </ComboBox.ItemsPanel>
+                        </ComboBox>
+                        <Label Content="Клент:" HorizontalAlignment="Left" Margin="19,6,0,0" Name="label4" Height="28" VerticalAlignment="Top" />
+                        <Button Content="X" Foreground="#FFD21E00" Height="23" HorizontalAlignment="Left" Margin="335,6,0,0" Name="button2" VerticalAlignment="Top" Width="23" />
+                        <Button Content="+" FontSize="12" FontWeight="Bold" Foreground="#FF31BD00" Height="23" HorizontalAlignment="Left" Margin="306,6,0,0" Name="button1" VerticalAlignment="Top" Width="23" Click="MenuItemClientAdd_Click" />
+                        <TextBox Text="{Binding PhoneNumber, UpdateSourceTrigger=PropertyChanged}" Height="23" HorizontalAlignment="Left" Margin="85,33,0,0" Name="txtbx_PhonNum" VerticalAlignment="Top" Width="197" />
+                        <Label Content="Телефон:" Height="28" HorizontalAlignment="Left" Margin="17,31,0,0" Name="label9" VerticalAlignment="Top" />
+                    </Grid>
+                    <Grid Height="64" HorizontalAlignment="Left" Margin="377,80,0,0" Name="grid7" VerticalAlignment="Top" Width="585">
+                        <Label Content="Сумма товара:" Height="28" HorizontalAlignment="Left" Margin="21,3,0,0" Name="label5" VerticalAlignment="Top" FontWeight="Bold" />
+                        <Label Content="Баланс клиента:" Height="28" HorizontalAlignment="Left" Margin="9,37,0,0" Name="label6" VerticalAlignment="Top" FontWeight="Bold" />
+                        <Label Content="Label" Height="28" HorizontalAlignment="Left" Margin="120,37,0,0" Name="lblDebt" VerticalAlignment="Top" />
+                        <Button Content="Провести" Height="23" HorizontalAlignment="Left" Margin="504,35,0,0" Name="btn_Add" VerticalAlignment="Top" Width="75" Click="btn_Add_Click_1" />
+                        <TextBox Height="23" HorizontalAlignment="Left" Margin="120,5,0,0" Name="txtbx_PaintCostSum" VerticalAlignment="Top" Width="120" />
+                        <Label Content="Предоплата:" FontWeight="Bold" Height="28" HorizontalAlignment="Left" Margin="274,4,0,0" Name="label7" VerticalAlignment="Top" />
+                        <TextBox Height="23" HorizontalAlignment="Left" Margin="364,6,0,0" Name="txtbx_Prepayment" VerticalAlignment="Top" Width="120" />
+                        <Label Content="Итого:" FontWeight="Bold" Height="28" HorizontalAlignment="Left" Margin="310,33,0,0" Name="label8" VerticalAlignment="Top" />
+                        <TextBox Height="23" HorizontalAlignment="Left" Margin="364,35,0,0" Name="txtbxTotal" VerticalAlignment="Top" Width="120" />
+                        <Button Content="Сохранить" Height="23" HorizontalAlignment="Left" Margin="504,6,0,0" Name="btn_Save" VerticalAlignment="Top" Width="75" Click="btn_Save_Click" />
+                    </Grid>
+                    <Grid Height="69" HorizontalAlignment="Left" Margin="826,5,0,0" Name="grid8" VerticalAlignment="Top" Width="136">
+                        <Button Content="Создать" Height="23" HorizontalAlignment="Left" Margin="55,43,0,0" Name="btn_New" VerticalAlignment="Top" Width="75" Click="btn_New_Click" />
+                        <Button Content="Button" Height="23" HorizontalAlignment="Left" Margin="55,9,0,0" Name="button3" VerticalAlignment="Top" Width="75" Click="button3_Click" />
+                    </Grid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Изменить краски" Name="tabItem2">
+                <Grid>
+                    <DataGrid AutoGenerateColumns="False" EnableRowVirtualization="True" Height="444" HorizontalAlignment="Left" ItemsSource="{Binding Source={StaticResource paintNameViewSource}}" Margin="6,6,0,0" Name="DataGrid_EditPaintName" RowDetailsVisibilityMode="VisibleWhenSelected" VerticalAlignment="Top" Width="Auto" SelectionUnit="Cell" FontSize="12" CellEditEnding="paintNameDataGrid_CellEditEnding">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn x:Name="iDColumn1" Binding="{Binding Path=ID}" Header="ID" Width="SizeToHeader" />
+                            <DataGridTextColumn x:Name="nameColumn1" Binding="{Binding Path=Name}" Header="Наименование" Width="Auto" />
+                            <DataGridTextColumn x:Name="costColumn1" Binding="{Binding Path=Cost}" Header="Цена за литр" Width="SizeToHeader" />
+                            <DataGridTextColumn x:Name="containerColumn" Binding="{Binding Path=Container}" Header="Тара" Width="SizeToHeader" />
+                            <DataGridTextColumn x:Name="workColumn" Binding="{Binding Path=Work}" Header="Работа (подбор)" Width="SizeToHeader" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Товары" Name="tabItem1">
+                <Grid>
+                    <DataGrid AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" EnableRowVirtualization="True" Height="311" HorizontalAlignment="Left" ItemsSource="{Binding}" Margin="10,42,0,0" Name="dgv_product" RowDetailsVisibilityMode="VisibleWhenSelected" VerticalAlignment="Top" Width="Auto">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn x:Name="iDColumn" Binding="{Binding Path=ID}" Header="ID" Width="SizeToHeader" />
+                            <DataGridTextColumn x:Name="nameColumn" Binding="{Binding Path=Name}" Header="Наименование" Width="250" />
+                            <DataGridTextColumn x:Name="selfCostColumn" Binding="{Binding Path=SelfCost}" Header="Себестоимость" Width="100" />
+                            <DataGridTextColumn x:Name="costColumn" Binding="{Binding Path=Cost}" Header="Цена" Width="70" />
+                            <DataGridTextColumn x:Name="warehouseColumn" Binding="{Binding Path=Warehouse}" Header="Склад" Width="SizeToHeader" />
+                            <DataGridTextColumn x:Name="storageColumn" Binding="{Binding Path=Storage}" Header="Магазин" Width="SizeToHeader" />
+                            <DataGridCheckBoxColumn x:Name="bottledColumn" Binding="{Binding Path=Bottled}" Header="Розлив" Width="SizeToHeader" />
+                            <DataGridTextColumn x:Name="maxDiscountColumn" Binding="{Binding Path=MaxDiscount}" Header="Макс скидка" Width="80" />
+                        </DataGrid.Columns>
+                        <DataGrid.GroupStyle>
+                            <GroupStyle>
+                                <GroupStyle.ContainerStyle>
+                                    <Style TargetType="{x:Type GroupItem}">
+                                        <Setter Property="Control.Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="{x:Type GroupItem}">
+                                                    <Expander>
+                                                        <Expander.Header>
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <TextBlock FontWeight="Bold" Text="{Binding Path=Name}" />
+                                                                <TextBlock Text=" Кол-во: " />
+                                                                <TextBlock Text="{Binding Path=ItemCount}" />
+                                                            </StackPanel>
+                                                        </Expander.Header>
+                                                        <ItemsPresenter />
+                                                    </Expander>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </GroupStyle.ContainerStyle>
+                                <GroupStyle.HeaderTemplate>
+                                    <DataTemplate>
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding Path=Group}" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </GroupStyle.HeaderTemplate>
+                            </GroupStyle>
+                        </DataGrid.GroupStyle>
+                    </DataGrid>
+                    <TextBox Height="23" HorizontalAlignment="Left" Margin="10,13,0,0" Name="txtbx_Search" Text="" VerticalAlignment="Top" Width="256" />
+                    <Label Content="Введите текст для поиска товара" Height="28" HorizontalAlignment="Left" Margin="272,10,0,0" Name="label1" VerticalAlignment="Top" />
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>

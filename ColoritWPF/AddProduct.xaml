@@ -1,0 +1,35 @@
+﻿<Window x:Class="ColoritWPF.AddProduct"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Добавить продукт" mc:Ignorable="d" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:my="clr-namespace:ColoritWPF" Loaded="Window_Loaded" Height="298" Width="237">
+    <Window.Resources>
+        <CollectionViewSource x:Key="productViewSource" d:DesignSource="{d:DesignInstance my:Product, CreateList=True}" />
+        <CollectionViewSource x:Key="groupViewSource" d:DesignSource="{d:DesignInstance my:Group, CreateList=True}" />
+    </Window.Resources>
+    <Grid Height="Auto" Width="Auto" DataContext="{StaticResource groupViewSource}">
+        <Label Content="Наименование:" HorizontalAlignment="Left" Margin="0,-2,0,0" VerticalAlignment="Top" />
+        <TextBox Height="23" HorizontalAlignment="Left" Margin="89,0,0,0" Name="txtbx_Name" VerticalAlignment="Top" Width="120" DataContext="{Binding}" />
+        <TextBox Height="23" HorizontalAlignment="Left" Margin="89,27,0,0" Name="txtbx_SelfCost" VerticalAlignment="Top" Width="120" />
+        <Label Content="Себестоимость:" HorizontalAlignment="Left" Margin="0,25,0,0" VerticalAlignment="Top" />
+        <Label Content="Цена:" HorizontalAlignment="Left" Margin="44,55,0,0" VerticalAlignment="Top" />
+        <TextBox Height="23" HorizontalAlignment="Left" Margin="89,57,0,0" Name="txtbx_Cost" VerticalAlignment="Top" Width="120" />
+        <Label Content="Склад:" HorizontalAlignment="Left" Margin="39,81,0,0" VerticalAlignment="Top" />
+        <TextBox Height="23" HorizontalAlignment="Left" Margin="89,83,0,0" Name="txtbx_Warehouse" VerticalAlignment="Top" Width="120" />
+        <Label Content="Магазин:" HorizontalAlignment="Left" Margin="27,111,0,0" VerticalAlignment="Top" />
+        <TextBox Height="23" HorizontalAlignment="Left" Margin="89,113,0,0" Name="txtbx_Storage" VerticalAlignment="Top" Width="120" />
+        <TextBox Height="23" HorizontalAlignment="Left" Margin="89,141,0,0" Name="txtbx_MaxDiscount" VerticalAlignment="Top" Width="120" />
+        <Label Content="Макс скидка:" HorizontalAlignment="Left" Margin="12,139,0,0" VerticalAlignment="Top" />
+        <Label Content="Розлив:" HorizontalAlignment="Left" Margin="33,204,0,0" VerticalAlignment="Top" />
+        <Button Content="Добавить" Height="23" HorizontalAlignment="Left" Margin="133,236,0,0" Name="btn_Add" VerticalAlignment="Top" Width="75" Click="btn_Add_Click" DataContext="{Binding}" />
+        <CheckBox Content="" Height="16" HorizontalAlignment="Left" Margin="88,211,0,0" Name="chbx_Bottled" VerticalAlignment="Top" />
+        <Button Content="Закрыть" Height="23" HorizontalAlignment="Left" Margin="0,236,0,0" Name="btn_Cancel" VerticalAlignment="Top" Width="75" Click="btn_Cancel_Click" />
+        <ComboBox DisplayMemberPath="Name" Height="23" HorizontalAlignment="Left" ItemsSource="{Binding}" Margin="88,170,0,0" Name="cmbx_Group" SelectedValuePath="ID" VerticalAlignment="Top" Width="120">
+            <ComboBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <VirtualizingStackPanel />
+                </ItemsPanelTemplate>
+            </ComboBox.ItemsPanel>
+        </ComboBox>
+        <Label Content="Группа:" HorizontalAlignment="Left" Margin="33,170,0,0" VerticalAlignment="Top" />
+    </Grid>
+</Window>
