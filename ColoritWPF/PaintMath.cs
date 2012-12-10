@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -7,8 +8,22 @@ using System.Windows.Controls;
 
 namespace ColoritWPF
 {
-    public class PaintMath
+    public class PaintMath : INotifyPropertyChanged
     {
+        #region INotifiedProperty Block
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged(string propertyName)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+        #endregion
+
         #region Fields
 
         private decimal _sum;
@@ -17,11 +32,9 @@ namespace ColoritWPF
         private decimal _prepay;
         private decimal _goodsSum;
         private decimal _discount;
+        private decimal _total;
         private decimal _clientBalance;
         private PaintName _paintName;        
-
-        private TextBox _goodsTotal;
-        private TextBox _total;
 
         #endregion
 
@@ -30,95 +43,118 @@ namespace ColoritWPF
         public decimal Sum
         {
             get { return _sum; }
-            set { _sum = value;
-                ValueChangedEvent();
+            set 
+            { 
+                _sum = value;
+                OnPropertyChanged("Sum");
             }
         }
 
         public decimal Amount
         {
-            get { return _amount; }
-            set { _amount = value;
-            ValueChangedEvent();
+            get
+            {
+                return _amount;
+            }
+            set 
+            { 
+                _amount = value;
+                OnPropertyChanged("Amount");
+                CountGoodsSum();
             }
         }
 
         public decimal PolishSum
         {
             get { return _polishSum; }
-            set { _polishSum = value;
-            ValueChangedEvent();
+            set 
+            { 
+                _polishSum = value;
+                OnPropertyChanged("PolishSum");
+                CountGoodsSum();
             }
         }
 
         public decimal Prepay
         {
             get { return _prepay; }
-            set { _prepay = value;
-            ValueChangedEvent();
+            set 
+            { 
+                _prepay = value;
+                OnPropertyChanged("Prepay");
+                CountGoodsSum();
             }
         }
 
         public decimal GoodsSum
         {
             get { return _goodsSum; }
-            set { _goodsSum = value;
-            ValueChangedEvent();
+            set 
+            { 
+                _goodsSum = value;
+                OnPropertyChanged("GoodsSum");
             }
         }
 
         public PaintName SelectedPaint
         {
             get { return _paintName; }
-            set { _paintName = value;
-                ValueChangedEvent();
+            set 
+            { 
+                _paintName = value;
+                OnPropertyChanged("SelectedPaint");
+                CountGoodsSum();
             }
         }
 
         public decimal Discount
         {
             get { return _discount; }
-            set { _discount = value;
-            ValueChangedEvent();
+            set 
+            { 
+                _discount = value;
+                OnPropertyChanged("Discount");
+                CountGoodsSum();
             }
         }
 
         public decimal ClientBalance
         {
             get { return _clientBalance; }
-            set { _clientBalance = value;
-            ValueChangedEvent();
+            set 
+            { 
+                _clientBalance = value;
+                OnPropertyChanged("ClientBalance");
+                CountGoodsSum();
+            }
+        }
+
+        public decimal Total
+        {
+            get { return _total; }
+            set
+            {
+                _total = value;
+                OnPropertyChanged("Total");
             }
         }
 
         #endregion
 
-        public delegate void ValueChanged();
-        public event ValueChanged ValueChangedEvent;
 
-        public PaintMath(TextBox GoodsTotal, TextBox Total)
+        public PaintMath()
         {
-            _goodsTotal = GoodsTotal;
-            _total = Total;
-
-            ValueChanged handler = ValueChangedHandlerMethod;
-            ValueChangedEvent += handler;
-        }
-
-        private void ValueChangedHandlerMethod()
-        {
-            CountGoodsSum();
         }
 
         //Вычисляет сумму за товар
-        private void CountGoodsSum()
+        public void CountGoodsSum()
         {
-            decimal census = GetCensus();
+            decimal census = 0;
             decimal work = 0;
             decimal container = 0;
             decimal cost = SelectedPaint.Cost;
-            decimal _totalValue = 0;
-
+            if(SelectedPaint != null)
+                census = GetCensus();
             if (SelectedPaint.Work != null)
             {
                 work = (decimal)SelectedPaint.Work;
@@ -129,10 +165,8 @@ namespace ColoritWPF
             }
 
             GoodsSum = ((cost * (Amount + census) + PolishSum) * Discount) + work + container;
-            _goodsTotal.Text = GoodsSum.ToString(CultureInfo.InvariantCulture);
             
-            _totalValue = GoodsSum + Prepay + ClientBalance;
-            _total.Text = _totalValue.ToString(CultureInfo.InvariantCulture);
+            Total = GoodsSum + Prepay + ClientBalance;
         }
 
         //Добыть перепыл

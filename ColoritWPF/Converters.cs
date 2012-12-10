@@ -70,4 +70,76 @@ namespace ColoritWPF
             throw new NotImplementedException();
         }
     }
+
+    class PaintNameConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            if (value != null)
+            {
+                using (ColorITEntities сolorItEntities = new ColorITEntities())
+                {
+                    var grId = (from paint in сolorItEntities.PaintName
+                                where paint.ID == (int)value
+                                select paint.Name).First();
+
+                    return grId.ToString(CultureInfo.InvariantCulture);
+                }
+            }
+            else
+                return "Наименование краски не найдено";
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class ProductGroupConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            using (ColorITEntities CIentity = new ColorITEntities())
+            {
+                if (value != null)
+                {
+                    var grList = CIentity.Group.FirstOrDefault(c => c.ID == (int)value);
+                    return ((Group)grList).Name.ToString();
+                }
+                else
+                    return "Без группы";
+            }
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotSupportedException("Этот конвертер только для группировки");
+        }
+    }
+
+    class ClientNameConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            if (value != null)
+            {
+                using (ColorITEntities сolorItEntities = new ColorITEntities())
+                {
+                    var grId = (from client in сolorItEntities.Client
+                                where client.ID == (int)value
+                                select client.Name).First();
+
+                    return grId.ToString(CultureInfo.InvariantCulture);
+                }
+            }
+            else
+                return "Клиент не найден";
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

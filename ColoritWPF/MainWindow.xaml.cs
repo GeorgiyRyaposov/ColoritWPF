@@ -23,106 +23,16 @@ namespace ColoritWPF
     {
         ProductByNameFilter filter;
         ListCollectionView view;
-        private Paint _paint;
+        private PaintMath _paintMath;
 
-        public delegate void ValueChanged();
-        public event ValueChanged PaintChangedEvent;
-        public event ValueChanged ClientChangedEvent;
-        public event ValueChanged OtherPaintSelectedEvent;
-        public event ValueChanged PolishSelectedSelectedEvent;
-        public event ValueChanged ServiceChangedEvent;
-        public event ValueChanged PrePayChangedEvent;
-        
 
-        private PaintMath _paintMathInstance;
 
         private ColoritWPF.ColorITEntities colorITEntities;
         public MainWindow()
         {
             InitializeComponent();
-            _paint = new Paint();
-            BindControls();
-            //_paint.PropertyChanged += new PropertyChangedEventHandler(recalculateSum);
-
-            AddHandlers();
-
         }
-
-        private void AddHandlers()
-        {
-            ValueChanged handler = PaintChangedHandlerMethod;
-            PaintChangedEvent += handler;
-
-            ValueChanged clientHandler = ClientChangedHandlerMethod;
-            ClientChangedEvent += clientHandler;
-
-            ValueChanged otherPaintsHandler = OtherPaintsHandlerMethod;
-            OtherPaintSelectedEvent += otherPaintsHandler;
-
-            ValueChanged PolisHandler = PolisHandlerMethod;
-            PolishSelectedSelectedEvent += PolisHandler;
-
-            ValueChanged ServiceHandler = ServiceHandlerMethod;
-            ServiceChangedEvent += ServiceHandler;
-
-            ValueChanged PrePayHandler = PrePayHandlerMethod;
-            PrePayChangedEvent += PrePayHandler;
-
-        }
-
-        private void PrePayHandlerMethod()
-        {
-            PaintMathInstance.Prepay = decimal.Parse(txtbx_Prepayment.Text);
-        }
-
-        private void ServiceHandlerMethod()
-        {
-
-        }
-
-        private void PolisHandlerMethod()
-        {
-            PaintName _selectedPaint = GetPolish();
-            if (_selectedPaint != null)
-                PaintMathInstance.SelectedPaint = _selectedPaint; 
-        }
-
-        private void OtherPaintsHandlerMethod()
-        {
-            PaintName _selectedPaint = GetOther();
-            if (_selectedPaint != null)
-                PaintMathInstance.SelectedPaint = _selectedPaint;
-        }
-
-        private void ClientChangedHandlerMethod()
-        {
-            Client _selectedClient = (Client) cbClient.SelectedItem;
-            
-            if (_selectedClient.Balance != null)
-                PaintMathInstance.ClientBalance = _selectedClient.Balance;
-
-            PaintMathInstance.Discount = GetDiscount();
-        }
-
-        private void PaintChangedHandlerMethod()
-        {
-            PaintName _selectedPaint = GetSelectedPaintName();
-            if (_selectedPaint != null)
-                PaintMathInstance.SelectedPaint = _selectedPaint;
-
-            PaintMathInstance.PolishSum = AddToSumPackagePolish();
-        }
-
-        public PaintMath PaintMathInstance
-        {
-            get
-            {
-                if(_paintMathInstance == null)
-                    return new PaintMath(txtbx_PaintCostSum, txtbxTotal);
-                return _paintMathInstance;
-            }
-        }
-
+        
         private System.Data.Objects.ObjectQuery<Product> GetProductQuery(ColorITEntities colorITEntities)
         {
             // Auto generated code
@@ -133,7 +43,7 @@ namespace ColoritWPF
 
         void recalculateSum(object sender, EventArgs e)
         {
-            txtbx_PaintCostSum.Text = CalculateTotalSumForPaints().ToString();
+            //txtbx_PaintCostSum.Text = CalculateTotalSumForPaints().ToString();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -213,30 +123,9 @@ namespace ColoritWPF
              */
         }
 
-        private void BindControls()
-        {
-            rbLSB.DataContext = _paint;
-            rbL2K.DataContext = _paint;
-            rbABP.DataContext = _paint;
-            rbPolish.DataContext = _paint;
-            rbOther.DataContext = _paint;
-            //cmbxPaintName.DataContext = _paint.Other;
-            cbPackage.DataContext = _paint;
-            cbThreeLayers.DataContext = _paint;
-            txtbxPaintCode.DataContext = _paint;
-            txtbx_PhonNum.DataContext = _paint;
-            rbCode.DataContext = _paint;
-            rbSelection.DataContext = _paint;
-            cbColorist.DataContext = _paint;
-            txtbx_PaintCostSum.DataContext = _paint.SumOfGoods;
-            txtbxPolishAmount.DataContext = _paint.PolishAmount;
-            rb_White.DataContext = _paint;
-            rb_Red.DataContext = _paint;
-            rb_Color.DataContext = _paint;
-            txtbxPaintAmount.DataContext = _paint;
-        }
 
 
+        #region Menu Items
         private void MenuItemAddProduct_Click(object sender, RoutedEventArgs e)
         {
             AddProduct addPr = new AddProduct();
@@ -296,6 +185,7 @@ namespace ColoritWPF
             AddClientGroup addClGr = new AddClientGroup();
             addClGr.ShowDialog();
         }
+        #endregion
 
         private System.Data.Objects.ObjectQuery<Paints> GetPaintsQuery(ColorITEntities colorITEntities)
         {
@@ -371,7 +261,6 @@ namespace ColoritWPF
                 lblPaint.Content = "LSB";
             if (cbPackage != null)
                 cbPackage.IsChecked = false;
-            PaintChangedEvent();
         }
     
 
@@ -390,7 +279,6 @@ namespace ColoritWPF
                 cbThreeLayers.IsChecked = false;
                 cbThreeLayers.IsEnabled = false;
             }
-            PaintChangedEvent();
         }
 
         private void rbL2K_Unchecked(object sender, RoutedEventArgs e)
@@ -409,14 +297,12 @@ namespace ColoritWPF
         private void rbABP_Checked(object sender, RoutedEventArgs e)
         {
             lblPaint.Content = "ABP";
-            PaintChangedEvent();
         }
 
         private void rbPolish_Checked(object sender, RoutedEventArgs e)
         {
             txtbxPaintAmount.IsEnabled = false;
             cbPackage.IsChecked = true;
-            PolishSelectedSelectedEvent();
         }
 
         private System.Data.Objects.ObjectQuery<PaintName> GetPaintNameQuery(ColorITEntities colorITEntities)
@@ -446,7 +332,6 @@ namespace ColoritWPF
             cmbxPaintName.IsEnabled = true;
             txtbxPolishAmount.IsEnabled = false;
             lblPaint.Content = "Кол-во:";
-            OtherPaintSelectedEvent();
         }
 
         private void rbOther_Uncheked(object sender, RoutedEventArgs e)
@@ -507,7 +392,6 @@ namespace ColoritWPF
                     //txtbx_PhonNum.IsEnabled = false;
                 }
             }
-            ClientChangedEvent();
         }
 
         private void paintsDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -516,7 +400,7 @@ namespace ColoritWPF
             //_paint.Amount = (decimal) ((Paints) paintsDataGrid.SelectedItem).Amount;
             cmbxCarModel.SelectedValue = currentRow.CarModels.ID;
             //_paint.Client = currentRow.Client;
-            _paint.ColorCode = currentRow.PaintCode;
+            //_paint.ColorCode = currentRow.PaintCode;
             //_paint.PhoneNumber = currentRow.PhoneNumber;
             
             cbClient.SelectedValue = currentRow.Client.ID;
@@ -526,90 +410,90 @@ namespace ColoritWPF
             {
                 case 1:
                     {
-                        _paint.IsRed = true;
+                        //_paint.IsRed = true;
                         rb_Red.IsChecked = true;
                         break;
                     }
                 case 2:
                     {
-                        _paint.IsSelection = true;
+                        //_paint.IsSelection = true;
                         rbSelection.IsChecked = true;
                         break;
                     }
             }
             if (currentRow.Salary > 0)
             {
-                _paint.IsColorist = true;
+                //_paint.IsColorist = true;
                 cbColorist.IsChecked = true;
             }
             else
             {
-                _paint.IsColorist = false;
+                //_paint.IsColorist = false;
                 cbColorist.IsChecked = false;
             }
-            if (currentRow.ThreeLayers != null) _paint.IsThreeLayers = (bool) currentRow.ThreeLayers;
-            switch (currentRow.PaintName.ID)
-            {
-                case 1:
-                    {
-                        _paint.IsL2K = true;
-                        rbL2K.IsChecked = true;
-                        _paint.IsWhite = true;
-                        rb_White.IsChecked = true;
-                        _paint.Amount = Convert.ToDecimal(currentRow.Amount.ToString());
-                        _paint.PolishAmount = 0;
-                        break;
-                    }
-                case 2:
-                    {
-                        _paint.IsL2K = true;
-                        rbL2K.IsChecked = true;
-                        _paint.IsRed = true;
-                        rb_Red.IsChecked = true;
-                        _paint.Amount = Convert.ToDecimal(currentRow.Amount.ToString());
-                        _paint.PolishAmount = 0;
-                        break;
-                    }
-                case 3:
-                    {
-                        _paint.IsL2K = true;
-                        rbL2K.IsChecked = true;
-                        _paint.IsRed = true;
-                        rb_Red.IsChecked = true;
-                        _paint.Amount = Convert.ToDecimal(currentRow.Amount.ToString());
-                        _paint.PolishAmount = 0;
-                        break;
-                    }
-                case 4:
-                    {
-                        rbLSB.IsChecked = true;
-                        _paint.IsLsb = true;
-                        //cbThreeLayers.IsChecked = false;
-                        txtbxPolishAmount.Text = currentRow.Amount.ToString();
-                        break;
-                    }
-                case 6:
-                    {
-                        _paint.IsLsb = true;
-                        rbLSB.IsChecked = true;
-                        //cbThreeLayers.IsChecked = true;
-                        _paint.PolishAmount = Convert.ToDecimal(currentRow.Amount.ToString());
-                        break;
-                    }
-                    default:
-                    {
-                        _paint.IsOther = true;
-                        rbOther.IsChecked = true;
-                        _paint.Other = currentRow.PaintName;
-                        break;
-                    }
-            }
-            _paint.SumOfGoods = Convert.ToDecimal(currentRow.Sum.ToString());
+            
+            //switch (currentRow.PaintName.ID)
+            //{
+            //    case 1:
+            //        {
+            //            //_paint.IsL2K = true;
+            //            rbL2K.IsChecked = true;
+            //            //_paint.IsWhite = true;
+            //            rb_White.IsChecked = true;
+            //            //_paint.Amount = Convert.ToDecimal(currentRow.Amount.ToString());
+            //            //_paint.PolishAmount = 0;
+            //            break;
+            //        }
+            //    case 2:
+            //        {
+            //            //_paint.IsL2K = true;
+            //            rbL2K.IsChecked = true;
+            //            //_paint.IsRed = true;
+            //            rb_Red.IsChecked = true;
+            //            //_paint.Amount = Convert.ToDecimal(currentRow.Amount.ToString());
+            //            //_paint.PolishAmount = 0;
+            //            break;
+            //        }
+            //    case 3:
+            //        {
+            //            //_paint.IsL2K = true;
+            //            rbL2K.IsChecked = true;
+            //            //_paint.IsRed = true;
+            //            rb_Red.IsChecked = true;
+            //            //_paint.Amount = Convert.ToDecimal(currentRow.Amount.ToString());
+            //            //_paint.PolishAmount = 0;
+            //            break;
+            //        }
+            //    case 4:
+            //        {
+            //            rbLSB.IsChecked = true;
+            //            //_paint.IsLsb = true;
+            //            //cbThreeLayers.IsChecked = false;
+            //            txtbxPolishAmount.Text = currentRow.Amount.ToString();
+            //            break;
+            //        }
+            //    case 6:
+            //        {
+            //            //_paint.IsLsb = true;
+            //            rbLSB.IsChecked = true;
+            //            //cbThreeLayers.IsChecked = true;
+            //            //_paint.PolishAmount = Convert.ToDecimal(currentRow.Amount.ToString());
+            //            break;
+            //        }
+            //        default:
+            //        {
+            //            //_paint.IsOther = true;
+            //            rbOther.IsChecked = true;
+            //            //_paint.Other = currentRow.PaintName;
+            //            break;
+            //        }
+            //}
+            //_paint.SumOfGoods = Convert.ToDecimal(currentRow.Sum.ToString());
         }
 
         private void txtbxPaintAmount_LostFocus(object sender, RoutedEventArgs e)
         {
-            PaintMathInstance.Amount = decimal.Parse(txtbxPaintAmount.Text);
+            _paintMath.Amount = decimal.Parse(txtbxPaintAmount.Text);
             /*
             TextBox myTextBox = (TextBox)sender;
             string value = myTextBox.Text;
@@ -696,13 +580,12 @@ namespace ColoritWPF
         //Нажатие по кнопке "сохранить"
         private void btn_Save_Click(object sender, RoutedEventArgs e)
         {
-
+            
         }
 
         private void cbPackage_Checked(object sender, RoutedEventArgs e)
         {
             txtbxPolishAmount.IsEnabled = true;
-            PolishSelectedSelectedEvent();
         }
 
         //Новая запись в красках
@@ -725,37 +608,44 @@ namespace ColoritWPF
 
         private void button3_Click(object sender, RoutedEventArgs e)
         {
-            txtbxTotal.Text = CalculateTotalSumForPaints().ToString();
+            
         }
 
         private void cmbxPaintName_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            OtherPaintSelectedEvent();
+            
         }
 
         private void cbThreeLayers_Checked(object sender, RoutedEventArgs e)
         {
-            PaintChangedEvent();
+            
         }
 
         private void rbCode_Checked_1(object sender, RoutedEventArgs e)
         {
-            ServiceChangedEvent();
+            
         }
 
         private void rbSelection_Checked_1(object sender, RoutedEventArgs e)
         {
-            ServiceChangedEvent();
+            
         }
 
         private void cbColorist_Checked(object sender, RoutedEventArgs e)
         {
-            ServiceChangedEvent();
+            
         }
 
         private void txtbx_Prepayment_LostFocus(object sender, RoutedEventArgs e)
         {
-            PrePayChangedEvent();
+            
+        }
+
+        private void grid_Total_Loaded(object sender, RoutedEventArgs e)
+        {
+            Grid gr = sender as Grid;
+            gr.DataContext = new PaintMath();
+            _paintMath = grid_Total.DataContext as PaintMath;
         }
     }
 }

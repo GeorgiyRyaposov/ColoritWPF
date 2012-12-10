@@ -61,13 +61,13 @@
                         <Label Content="Модель авто:" Grid.Column="2" Height="28" HorizontalAlignment="Left" Margin="6,3,0,0" Name="label2" VerticalAlignment="Top" />
                     </Grid>
                     <Grid DataContext="{StaticResource paintNameViewSource}" Height="68" HorizontalAlignment="Left" Margin="377,6,0,0" Name="grid2" VerticalAlignment="Top" Width="358">
-                        <RadioButton GroupName="PaintTypeGr" Checked="rbLSB_Checked" Content="LSB" Height="16" HorizontalAlignment="Left" Margin="6,5,0,0" Name="rbLSB" VerticalAlignment="Top" IsChecked="{Binding Path=PaintTypeProp, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static ColoritWPF:PaintType.LSB}}" />
-                        <RadioButton GroupName="PaintTypeGr" Checked="rbL2K_Checked" Content="L2K" Height="16" HorizontalAlignment="Left" Margin="45,5,0,0" Name="rbL2K" VerticalAlignment="Top" IsChecked="{Binding Path=PaintTypeProp, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static ColoritWPF:PaintType.L2K}}" Unchecked="rbL2K_Unchecked" />
-                        <RadioButton GroupName="PaintTypeGr" Checked="rbABP_Checked" Content="ABP" Height="16" HorizontalAlignment="Left" Margin="84,5,0,0" Name="rbABP" VerticalAlignment="Top" IsChecked="{Binding Path=PaintTypeProp, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static ColoritWPF:PaintType.ABP}}" />
-                        <RadioButton GroupName="PaintTypeGr" Checked="rbPolish_Checked" Content="Лак" Height="16" HorizontalAlignment="Left" Margin="124,5,0,0" Name="rbPolish" VerticalAlignment="Top" IsChecked="{Binding Path=PaintTypeProp, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static ColoritWPF:PaintType.Polish}}" Unchecked="rbPolish_Unchecked" />
-                        <RadioButton GroupName="PaintTypeGr" Content="Другое" Height="16" HorizontalAlignment="Left" Margin="164,5,0,0" Name="rbOther" VerticalAlignment="Top" Checked="rbOther_Checked" IsChecked="{Binding Path=PaintTypeProp, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static ColoritWPF:PaintType.Other}}" Unchecked="rbOther_Uncheked" />
+                        <RadioButton GroupName="PaintTypeGr" Checked="rbLSB_Checked" Content="LSB" Height="16" HorizontalAlignment="Left" Margin="6,5,0,0" Name="rbLSB" VerticalAlignment="Top" IsChecked="{Binding Path=LSB.Value, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=LSB}" />
+                        <RadioButton GroupName="PaintTypeGr" Checked="rbL2K_Checked" Content="L2K" Height="16" HorizontalAlignment="Left" Margin="45,5,0,0" Name="rbL2K" VerticalAlignment="Top" Unchecked="rbL2K_Unchecked" IsChecked="{Binding Path=L2K.Value, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=L2k}" />
+                        <RadioButton GroupName="PaintTypeGr" Checked="rbABP_Checked" Content="ABP" Height="16" HorizontalAlignment="Left" Margin="84,5,0,0" Name="rbABP" VerticalAlignment="Top" IsChecked="{Binding Path=ABP.Value, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=ABP}" />
+                        <RadioButton GroupName="PaintTypeGr" Checked="rbPolish_Checked" Content="Лак" Height="16" HorizontalAlignment="Left" Margin="124,5,0,0" Name="rbPolish" VerticalAlignment="Top" Unchecked="rbPolish_Unchecked" IsChecked="{Binding Path=Polish.Value, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Polish}" />
+                        <RadioButton GroupName="PaintTypeGr" Content="Другое" Height="16" HorizontalAlignment="Left" Margin="164,5,0,0" Name="rbOther" VerticalAlignment="Top" Checked="rbOther_Checked" Unchecked="rbOther_Uncheked" IsChecked="{Binding Path=Other.Value, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Other}" />
                         <Label Content="LSB" Height="28" HorizontalAlignment="Left" Margin="103,36,0,0" Name="lblPaint" VerticalAlignment="Top" />
-                        <CheckBox Content="Комплект" Height="16" HorizontalAlignment="Left" Margin="6,27,0,0" Name="cbPackage" VerticalAlignment="Top" IsChecked="{Binding IsPackage, UpdateSourceTrigger=PropertyChanged}" Unchecked="cbPackage_Unchecked" Checked="cbPackage_Checked" />
+                        <CheckBox Content="Комплект" HorizontalAlignment="Left" Margin="6,27,0,0" Name="cbPackage" Unchecked="cbPackage_Unchecked" Checked="cbPackage_Checked" DataContext="{Binding Path=Package.Value}" Height="16" VerticalAlignment="Top" />
                         <TextBox Text="{Binding Amount, UpdateSourceTrigger=PropertyChanged}" Height="23" HorizontalAlignment="Left" Margin="144,38,0,0" Name="txtbxPaintAmount" VerticalAlignment="Top" Width="60" LostFocus="txtbxPaintAmount_LostFocus" />
                         <Label Content="Лак" Height="28" HorizontalAlignment="Left" Margin="203,36,0,0" Name="lblPolish" VerticalAlignment="Top" />
                         <TextBox Height="23" HorizontalAlignment="Left" Margin="241,38,0,0" Name="txtbxPolishAmount" VerticalAlignment="Top" Width="60" LostFocus="txtbxPolishAmount_LostFocus" IsEnabled="False" />
@@ -80,7 +80,7 @@
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
                         </Grid>
-                        <CheckBox Content="Три слоя" Height="16" HorizontalAlignment="Left" Margin="6,45,0,0" Name="cbThreeLayers" VerticalAlignment="Top" IsChecked="{Binding IsThreeLayers, UpdateSourceTrigger=PropertyChanged}" Checked="cbThreeLayers_Checked" />
+                        <CheckBox Content="Три слоя" Height="16" HorizontalAlignment="Left" Margin="6,45,0,0" Name="cbThreeLayers" VerticalAlignment="Top" Checked="cbThreeLayers_Checked" DataContext="{Binding Path=ThreeLayers.Value}" />
                         <ComboBox Height="23" HorizontalAlignment="Left" Margin="226,3,0,0" Name="cmbxPaintName" VerticalAlignment="Top" Width="132" ItemsSource="{Binding}" SelectedValuePath="ID" DisplayMemberPath="Name" IsEnabled="False" SelectionChanged="cmbxPaintName_SelectionChanged" IsReadOnly="True" />
                         <Grid Height="18" HorizontalAlignment="Center" Margin="204,41,-8,0" Name="grid_Colors" VerticalAlignment="Top" Width="162" Visibility="Hidden">
                             <RadioButton GroupName="L2KType" Content="Бел" Height="16" Margin="22,0,104,0" Name="rb_White" VerticalAlignment="Top" IsChecked="{Binding Path=L2KTypeProp, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static ColoritWPF:L2KTypeEnum.White}}" />
@@ -89,9 +89,9 @@
                         </Grid>
                     </Grid>
                     <Grid Height="68" HorizontalAlignment="Left" Margin="741,6,0,0" Name="grid3" VerticalAlignment="Top" Width="78">
-                        <RadioButton GroupName="ServiceType" Content="Код" Height="16" HorizontalAlignment="Left" Margin="6,5,0,0" Name="rbCode" VerticalAlignment="Top" IsChecked="{Binding Path=ServiceTypeProp, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static ColoritWPF:ServiceTypeEnum.Code}}" Checked="rbCode_Checked_1" />
-                        <RadioButton GroupName="ServiceType" Content="Подбор" Height="16" HorizontalAlignment="Left" Margin="6,27,0,0" Name="rbSelection" VerticalAlignment="Top" IsChecked="{Binding Path=ServiceTypeProp, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static ColoritWPF:ServiceTypeEnum.Selection}}" Checked="rbSelection_Checked_1" />
-                        <CheckBox Content="Колорист" Height="16" HorizontalAlignment="Left" Margin="6,49,0,0" Name="cbColorist" VerticalAlignment="Top" IsChecked="{Binding IsColorist}" Checked="cbColorist_Checked" />
+                        <RadioButton GroupName="ServiceType" Content="Код" Height="16" HorizontalAlignment="Left" Margin="6,5,0,0" Name="rbCode" VerticalAlignment="Top" Checked="rbCode_Checked_1" />
+                        <RadioButton GroupName="ServiceType" Content="Подбор" Height="16" HorizontalAlignment="Left" Margin="6,27,0,0" Name="rbSelection" VerticalAlignment="Top" Checked="rbSelection_Checked_1" />
+                        <CheckBox Content="Колорист" Height="16" HorizontalAlignment="Left" Margin="6,49,0,0" Name="cbColorist" VerticalAlignment="Top" Checked="cbColorist_Checked" />
                     </Grid>
                     <DataGrid AutoGenerateColumns="False" EnableRowVirtualization="True" Height="242" HorizontalAlignment="Left" ItemsSource="{Binding Source={StaticResource paintsViewSource}}" Margin="6,151,0,0" Name="paintsDataGrid" RowDetailsVisibilityMode="VisibleWhenSelected" VerticalAlignment="Top" Width="956" DataContext="{Binding}" SelectionChanged="paintsDataGrid_SelectionChanged" CanUserAddRows="False">
                         <DataGrid.Columns>
@@ -128,16 +128,16 @@
                         <TextBox Text="{Binding PhoneNumber, UpdateSourceTrigger=PropertyChanged}" Height="23" HorizontalAlignment="Left" Margin="85,33,0,0" Name="txtbx_PhonNum" VerticalAlignment="Top" Width="197" />
                         <Label Content="Телефон:" Height="28" HorizontalAlignment="Left" Margin="17,31,0,0" Name="label9" VerticalAlignment="Top" />
                     </Grid>
-                    <Grid Height="64" HorizontalAlignment="Left" Margin="377,80,0,0" Name="grid7" VerticalAlignment="Top" Width="585">
+                    <Grid DataContext="{Binding}" Height="64" HorizontalAlignment="Left" Margin="377,80,0,0" Name="grid_Total" VerticalAlignment="Top" Width="585" Loaded="grid_Total_Loaded">
                         <Label Content="Сумма товара:" Height="28" HorizontalAlignment="Left" Margin="21,3,0,0" Name="label5" VerticalAlignment="Top" FontWeight="Bold" />
                         <Label Content="Баланс клиента:" Height="28" HorizontalAlignment="Left" Margin="9,37,0,0" Name="label6" VerticalAlignment="Top" FontWeight="Bold" />
                         <Label Content="Label" Height="28" HorizontalAlignment="Left" Margin="120,37,0,0" Name="lblDebt" VerticalAlignment="Top" />
                         <Button Content="Провести" Height="23" HorizontalAlignment="Left" Margin="504,35,0,0" Name="btn_Add" VerticalAlignment="Top" Width="75" Click="btn_Add_Click_1" />
-                        <TextBox Height="23" HorizontalAlignment="Left" Margin="120,5,0,0" Name="txtbx_PaintCostSum" VerticalAlignment="Top" Width="120" />
+                        <TextBox Text="{Binding GoodsSum}" Height="23" HorizontalAlignment="Left" Margin="121,5,0,0" Name="txtbx_PaintCostSum" VerticalAlignment="Top" Width="120" />
                         <Label Content="Предоплата:" FontWeight="Bold" Height="28" HorizontalAlignment="Left" Margin="274,4,0,0" Name="label7" VerticalAlignment="Top" />
-                        <TextBox Height="23" HorizontalAlignment="Left" Margin="364,6,0,0" Name="txtbx_Prepayment" VerticalAlignment="Top" Width="120" LostFocus="txtbx_Prepayment_LostFocus" />
+                        <TextBox Text="{Binding Prepay}" Height="23" HorizontalAlignment="Left" Margin="365,6,0,0" Name="txtbx_Prepayment" VerticalAlignment="Top" Width="120" LostFocus="txtbx_Prepayment_LostFocus" />
                         <Label Content="Итого:" FontWeight="Bold" Height="28" HorizontalAlignment="Left" Margin="310,33,0,0" Name="label8" VerticalAlignment="Top" />
-                        <TextBox Height="23" HorizontalAlignment="Left" Margin="364,35,0,0" Name="txtbxTotal" VerticalAlignment="Top" Width="120" />
+                        <TextBox Text="{Binding Total}"  Height="23" HorizontalAlignment="Left" Margin="364,35,0,0" Name="txtbxTotal" VerticalAlignment="Top" Width="120" />
                         <Button Content="Сохранить" Height="23" HorizontalAlignment="Left" Margin="504,6,0,0" Name="btn_Save" VerticalAlignment="Top" Width="75" Click="btn_Save_Click" />
                     </Grid>
                     <Grid Height="69" HorizontalAlignment="Left" Margin="826,5,0,0" Name="grid8" VerticalAlignment="Top" Width="136">

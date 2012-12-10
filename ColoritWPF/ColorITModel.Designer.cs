@@ -1876,6 +1876,246 @@ namespace ColoritWPF
         private Nullable<global::System.Double> _Census2;
         partial void OnCensus2Changing(Nullable<global::System.Double> value);
         partial void OnCensus2Changed();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Boolean> LSB
+        {
+            get
+            {
+                return _LSB;
+            }
+            set
+            {
+                OnLSBChanging(value);
+                ReportPropertyChanging("LSB");
+                _LSB = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("LSB");
+                OnLSBChanged();
+            }
+        }
+        private Nullable<global::System.Boolean> _LSB;
+        partial void OnLSBChanging(Nullable<global::System.Boolean> value);
+        partial void OnLSBChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Boolean> L2K
+        {
+            get
+            {
+                return _L2K;
+            }
+            set
+            {
+                OnL2KChanging(value);
+                ReportPropertyChanging("L2K");
+                _L2K = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("L2K");
+                OnL2KChanged();
+            }
+        }
+        private Nullable<global::System.Boolean> _L2K;
+        partial void OnL2KChanging(Nullable<global::System.Boolean> value);
+        partial void OnL2KChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Boolean> ABP
+        {
+            get
+            {
+                return _ABP;
+            }
+            set
+            {
+                OnABPChanging(value);
+                ReportPropertyChanging("ABP");
+                _ABP = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("ABP");
+                OnABPChanged();
+            }
+        }
+        private Nullable<global::System.Boolean> _ABP;
+        partial void OnABPChanging(Nullable<global::System.Boolean> value);
+        partial void OnABPChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Boolean> Polish
+        {
+            get
+            {
+                return _Polish;
+            }
+            set
+            {
+                OnPolishChanging(value);
+                ReportPropertyChanging("Polish");
+                _Polish = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Polish");
+                OnPolishChanged();
+            }
+        }
+        private Nullable<global::System.Boolean> _Polish;
+        partial void OnPolishChanging(Nullable<global::System.Boolean> value);
+        partial void OnPolishChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Boolean> ThreeLayers
+        {
+            get
+            {
+                return _ThreeLayers;
+            }
+            set
+            {
+                OnThreeLayersChanging(value);
+                ReportPropertyChanging("ThreeLayers");
+                _ThreeLayers = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("ThreeLayers");
+                OnThreeLayersChanged();
+            }
+        }
+        private Nullable<global::System.Boolean> _ThreeLayers;
+        partial void OnThreeLayersChanging(Nullable<global::System.Boolean> value);
+        partial void OnThreeLayersChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Boolean> Package
+        {
+            get
+            {
+                return _Package;
+            }
+            set
+            {
+                OnPackageChanging(value);
+                ReportPropertyChanging("Package");
+                _Package = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Package");
+                OnPackageChanged();
+            }
+        }
+        private Nullable<global::System.Boolean> _Package;
+        partial void OnPackageChanging(Nullable<global::System.Boolean> value);
+        partial void OnPackageChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Boolean> White
+        {
+            get
+            {
+                return _White;
+            }
+            set
+            {
+                OnWhiteChanging(value);
+                ReportPropertyChanging("White");
+                _White = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("White");
+                OnWhiteChanged();
+            }
+        }
+        private Nullable<global::System.Boolean> _White;
+        partial void OnWhiteChanging(Nullable<global::System.Boolean> value);
+        partial void OnWhiteChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Boolean> Red
+        {
+            get
+            {
+                return _Red;
+            }
+            set
+            {
+                OnRedChanging(value);
+                ReportPropertyChanging("Red");
+                _Red = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Red");
+                OnRedChanged();
+            }
+        }
+        private Nullable<global::System.Boolean> _Red;
+        partial void OnRedChanging(Nullable<global::System.Boolean> value);
+        partial void OnRedChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Boolean> Color
+        {
+            get
+            {
+                return _Color;
+            }
+            set
+            {
+                OnColorChanging(value);
+                ReportPropertyChanging("Color");
+                _Color = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Color");
+                OnColorChanged();
+            }
+        }
+        private Nullable<global::System.Boolean> _Color;
+        partial void OnColorChanging(Nullable<global::System.Boolean> value);
+        partial void OnColorChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Boolean> Other
+        {
+            get
+            {
+                return _Other;
+            }
+            set
+            {
+                OnOtherChanging(value);
+                ReportPropertyChanging("Other");
+                _Other = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Other");
+                OnOtherChanged();
+            }
+        }
+        private Nullable<global::System.Boolean> _Other;
+        partial void OnOtherChanging(Nullable<global::System.Boolean> value);
+        partial void OnOtherChanged();
 
         #endregion
     

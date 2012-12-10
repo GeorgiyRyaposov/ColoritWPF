@@ -151,6 +151,16 @@
           <Property Name="Work" Type="money" />
           <Property Name="Census1" Type="float" />
           <Property Name="Census2" Type="float" />
+          <Property Name="LSB" Type="bit" />
+          <Property Name="L2K" Type="bit" />
+          <Property Name="ABP" Type="bit" />
+          <Property Name="Polish" Type="bit" />
+          <Property Name="ThreeLayers" Type="bit" />
+          <Property Name="Package" Type="bit" />
+          <Property Name="White" Type="bit" />
+          <Property Name="Red" Type="bit" />
+          <Property Name="Color" Type="bit" />
+          <Property Name="Other" Type="bit" />
         </EntityType>
         <EntityType Name="Paints">
           <Key>
@@ -754,6 +764,16 @@
           <Property Type="Decimal" Name="Work" Precision="19" Scale="4" />
           <Property Type="Double" Name="Census1" />
           <Property Type="Double" Name="Census2" />
+          <Property Type="Boolean" Name="LSB" />
+          <Property Type="Boolean" Name="L2K" />
+          <Property Type="Boolean" Name="ABP" />
+          <Property Type="Boolean" Name="Polish" />
+          <Property Type="Boolean" Name="ThreeLayers" />
+          <Property Type="Boolean" Name="Package" />
+          <Property Type="Boolean" Name="White" />
+          <Property Type="Boolean" Name="Red" />
+          <Property Type="Boolean" Name="Color" />
+          <Property Type="Boolean" Name="Other" />
         </EntityType>
         <EntityType Name="Paints">
           <Key>
@@ -938,6 +958,16 @@
           <EntitySetMapping Name="PaintName">
             <EntityTypeMapping TypeName="ColorITModel.PaintName">
               <MappingFragment StoreEntitySet="PaintName">
+                <ScalarProperty Name="Other" ColumnName="Other" />
+                <ScalarProperty Name="Color" ColumnName="Color" />
+                <ScalarProperty Name="Red" ColumnName="Red" />
+                <ScalarProperty Name="White" ColumnName="White" />
+                <ScalarProperty Name="Package" ColumnName="Package" />
+                <ScalarProperty Name="ThreeLayers" ColumnName="ThreeLayers" />
+                <ScalarProperty Name="Polish" ColumnName="Polish" />
+                <ScalarProperty Name="ABP" ColumnName="ABP" />
+                <ScalarProperty Name="L2K" ColumnName="L2K" />
+                <ScalarProperty Name="LSB" ColumnName="LSB" />
                 <ScalarProperty Name="Census2" ColumnName="Census2" />
                 <ScalarProperty Name="Census1" ColumnName="Census1" />
                 <ScalarProperty Name="Work" ColumnName="Work" />
