@@ -25,12 +25,12 @@ namespace ColoritWPF
         ListCollectionView view;
         private PaintMath _paintMath;
 
-
-
         private ColoritWPF.ColorITEntities colorITEntities;
         public MainWindow()
         {
             InitializeComponent();
+            grid_Total.DataContext = new PaintMath();
+            _paintMath = grid_Total.DataContext as PaintMath;
         }
         
         private System.Data.Objects.ObjectQuery<Product> GetProductQuery(ColorITEntities colorITEntities)
@@ -392,11 +392,13 @@ namespace ColoritWPF
                     //txtbx_PhonNum.IsEnabled = false;
                 }
             }
+            _paintMath.SelectedClient = (Client) cbClient.SelectedItem;
         }
 
         private void paintsDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var currentRow = ((Paints) paintsDataGrid.SelectedItem);
+            _paintMath.SelectedPaint = GetSelectedPaintName();
             //_paint.Amount = (decimal) ((Paints) paintsDataGrid.SelectedItem).Amount;
             cmbxCarModel.SelectedValue = currentRow.CarModels.ID;
             //_paint.Client = currentRow.Client;
@@ -431,7 +433,7 @@ namespace ColoritWPF
                 //_paint.IsColorist = false;
                 cbColorist.IsChecked = false;
             }
-            
+
             //switch (currentRow.PaintName.ID)
             //{
             //    case 1:
@@ -480,7 +482,7 @@ namespace ColoritWPF
             //            //_paint.PolishAmount = Convert.ToDecimal(currentRow.Amount.ToString());
             //            break;
             //        }
-            //        default:
+            //    default:
             //        {
             //            //_paint.IsOther = true;
             //            rbOther.IsChecked = true;
@@ -641,11 +643,5 @@ namespace ColoritWPF
             
         }
 
-        private void grid_Total_Loaded(object sender, RoutedEventArgs e)
-        {
-            Grid gr = sender as Grid;
-            gr.DataContext = new PaintMath();
-            _paintMath = grid_Total.DataContext as PaintMath;
-        }
     }
 }

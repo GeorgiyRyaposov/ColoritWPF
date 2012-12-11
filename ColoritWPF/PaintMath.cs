@@ -27,14 +27,13 @@ namespace ColoritWPF
         #region Fields
 
         private decimal _sum;
-        private decimal _amount;
-        private decimal _polishSum;
-        private decimal _prepay;
-        private decimal _goodsSum;
-        private decimal _discount;
-        private decimal _total;
-        private decimal _clientBalance;
-        private PaintName _paintName;        
+        private decimal _amount =0;
+        private decimal _polishSum =0;
+        private decimal _prepay =0;
+        private decimal _goodsSum=0;
+        private decimal _total=0;
+        private PaintName _paintName;
+        private Client _selectedClient;
 
         #endregion
 
@@ -82,7 +81,7 @@ namespace ColoritWPF
             { 
                 _prepay = value;
                 OnPropertyChanged("Prepay");
-                CountGoodsSum();
+                CalcTotal();
             }
         }
 
@@ -93,6 +92,7 @@ namespace ColoritWPF
             { 
                 _goodsSum = value;
                 OnPropertyChanged("GoodsSum");
+                CalcTotal();
             }
         }
 
@@ -104,28 +104,7 @@ namespace ColoritWPF
                 _paintName = value;
                 OnPropertyChanged("SelectedPaint");
                 CountGoodsSum();
-            }
-        }
-
-        public decimal Discount
-        {
-            get { return _discount; }
-            set 
-            { 
-                _discount = value;
-                OnPropertyChanged("Discount");
-                CountGoodsSum();
-            }
-        }
-
-        public decimal ClientBalance
-        {
-            get { return _clientBalance; }
-            set 
-            { 
-                _clientBalance = value;
-                OnPropertyChanged("ClientBalance");
-                CountGoodsSum();
+                
             }
         }
 
@@ -139,11 +118,21 @@ namespace ColoritWPF
             }
         }
 
+        public Client SelectedClient
+        {
+            get { return _selectedClient; }
+            set { _selectedClient = value;
+            OnPropertyChanged("SelectedClient");
+            }
+        }
+
         #endregion
 
 
         public PaintMath()
         {
+            _paintName = new PaintName();
+            _selectedClient = new Client();
         }
 
         //Вычисляет сумму за товар
@@ -152,6 +141,7 @@ namespace ColoritWPF
             decimal census = 0;
             decimal work = 0;
             decimal container = 0;
+            decimal discount = 1;
             decimal cost = SelectedPaint.Cost;
             if(SelectedPaint != null)
                 census = GetCensus();
@@ -164,9 +154,15 @@ namespace ColoritWPF
                 container = (decimal)SelectedPaint.Container;
             }
 
-            GoodsSum = ((cost * (Amount + census) + PolishSum) * Discount) + work + container;
-            
-            Total = GoodsSum + Prepay + ClientBalance;
+            if (SelectedClient.Discount != null)
+                discount = (Decimal) SelectedClient.Discount;
+                GoodsSum = ((cost * (Amount + census) + PolishSum) * discount) + work + container;
+
+        }
+
+        public void CalcTotal()
+        {
+            Total = GoodsSum + Prepay + SelectedClient.Balance;
         }
 
         //Добыть перепыл

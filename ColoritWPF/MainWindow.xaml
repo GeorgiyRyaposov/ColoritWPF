@@ -128,14 +128,14 @@
                         <TextBox Text="{Binding PhoneNumber, UpdateSourceTrigger=PropertyChanged}" Height="23" HorizontalAlignment="Left" Margin="85,33,0,0" Name="txtbx_PhonNum" VerticalAlignment="Top" Width="197" />
                         <Label Content="Телефон:" Height="28" HorizontalAlignment="Left" Margin="17,31,0,0" Name="label9" VerticalAlignment="Top" />
                     </Grid>
-                    <Grid DataContext="{Binding}" Height="64" HorizontalAlignment="Left" Margin="377,80,0,0" Name="grid_Total" VerticalAlignment="Top" Width="585" Loaded="grid_Total_Loaded">
+                    <Grid DataContext="{Binding}" Height="64" HorizontalAlignment="Left" Margin="377,80,0,0" Name="grid_Total" VerticalAlignment="Top" Width="585">
                         <Label Content="Сумма товара:" Height="28" HorizontalAlignment="Left" Margin="21,3,0,0" Name="label5" VerticalAlignment="Top" FontWeight="Bold" />
                         <Label Content="Баланс клиента:" Height="28" HorizontalAlignment="Left" Margin="9,37,0,0" Name="label6" VerticalAlignment="Top" FontWeight="Bold" />
                         <Label Content="Label" Height="28" HorizontalAlignment="Left" Margin="120,37,0,0" Name="lblDebt" VerticalAlignment="Top" />
                         <Button Content="Провести" Height="23" HorizontalAlignment="Left" Margin="504,35,0,0" Name="btn_Add" VerticalAlignment="Top" Width="75" Click="btn_Add_Click_1" />
-                        <TextBox Text="{Binding GoodsSum}" Height="23" HorizontalAlignment="Left" Margin="121,5,0,0" Name="txtbx_PaintCostSum" VerticalAlignment="Top" Width="120" />
+                        <TextBox Text="{Binding GoodsSum, UpdateSourceTrigger=PropertyChanged}" Height="23" HorizontalAlignment="Left" Margin="121,5,0,0" Name="txtbx_PaintCostSum" VerticalAlignment="Top" Width="120" />
                         <Label Content="Предоплата:" FontWeight="Bold" Height="28" HorizontalAlignment="Left" Margin="274,4,0,0" Name="label7" VerticalAlignment="Top" />
-                        <TextBox Text="{Binding Prepay}" Height="23" HorizontalAlignment="Left" Margin="365,6,0,0" Name="txtbx_Prepayment" VerticalAlignment="Top" Width="120" LostFocus="txtbx_Prepayment_LostFocus" />
+                        <TextBox Text="{Binding Prepay, UpdateSourceTrigger=PropertyChanged}" Height="23" HorizontalAlignment="Left" Margin="365,6,0,0" Name="txtbx_Prepayment" VerticalAlignment="Top" Width="120" LostFocus="txtbx_Prepayment_LostFocus" />
                         <Label Content="Итого:" FontWeight="Bold" Height="28" HorizontalAlignment="Left" Margin="310,33,0,0" Name="label8" VerticalAlignment="Top" />
                         <TextBox Text="{Binding Total}"  Height="23" HorizontalAlignment="Left" Margin="364,35,0,0" Name="txtbxTotal" VerticalAlignment="Top" Width="120" />
                         <Button Content="Сохранить" Height="23" HorizontalAlignment="Left" Margin="504,6,0,0" Name="btn_Save" VerticalAlignment="Top" Width="75" Click="btn_Save_Click" />

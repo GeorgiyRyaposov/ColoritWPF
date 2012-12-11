@@ -189,11 +189,8 @@
     <Compile Include="AddNewGroup.xaml.cs">
       <DependentUpon>AddNewGroup.xaml</DependentUpon>
     </Compile>
-    <Compile Include="bindingPaint.cs" />
-    <Compile Include="CarModelConverter.cs" />
     <Compile Include="ClientByNameFilter.cs" />
     <Compile Include="ClientGroupConverter.cs" />
-    <Compile Include="ClientNameConverter.cs" />
     <Compile Include="ColorITModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -205,7 +202,6 @@
     </Compile>
     <Compile Include="PaintCalc.cs" />
     <Compile Include="PaintMath.cs" />
-    <Compile Include="ServiceTypeConverter.cs" />
     <EntityDeploy Include="ColorITModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>ColorITModel.Designer.cs</LastGenOutput>
@@ -215,12 +211,10 @@
     </Content>
     <None Include="ExportToExcel.cs" />
     <Compile Include="ListOfProductsForSale.cs" />
-    <Compile Include="PaintNameConverter.cs" />
     <Compile Include="ProductByNameFilter.cs" />
     <Compile Include="ImportFromExcel.xaml.cs">
       <DependentUpon>ImportFromExcel.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ProductGroupConverter.cs" />
     <Compile Include="ProductSelection.xaml.cs">
       <DependentUpon>ProductSelection.xaml</DependentUpon>
     </Compile>
