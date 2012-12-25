@@ -26,7 +26,6 @@ namespace ColoritWPF
 
         #region Fields
 
-        private decimal _sum;
         private decimal _amount =0;
         private decimal _polishSum =0;
         private decimal _prepay =0;
@@ -38,17 +37,7 @@ namespace ColoritWPF
         #endregion
 
         #region Properties
-        
-        public decimal Sum
-        {
-            get { return _sum; }
-            set 
-            { 
-                _sum = value;
-                OnPropertyChanged("Sum");
-            }
-        }
-
+       
         public decimal Amount
         {
             get

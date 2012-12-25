@@ -24,7 +24,7 @@ namespace ColoritWPF
     {
         ListOfProductsForSale forSale;
 
-        double clientDiscount;
+        double _clientDiscount;
 
         public double ClientDiscount
         {

@@ -338,6 +338,71 @@ namespace ColoritWPF
             }
         }
 
+        public void UpdateSelectedPaint(PaintMath _paintMath)
+        {
+            using (ColorITEntities colorItEntities = new ColorITEntities())
+            {
+                if (rbL2K.IsChecked != null && (bool)rbL2K.IsChecked)
+                {
+                    if (rb_White.IsChecked != null && (bool)rb_White.IsChecked)
+                    {
+                        var paint = (from _paint in colorItEntities.PaintName
+                                     where _paint.ID == 1
+                                     select _paint).FirstOrDefault();
+                        _paintMath.SelectedPaint = paint;
+                    }
+                    if (rb_Color.IsChecked != null && (bool)rb_Color.IsChecked)
+                    {
+                        var paint = (from _paint in colorItEntities.PaintName
+                                     where _paint.ID == 2
+                                     select _paint).FirstOrDefault();
+                        _paintMath.SelectedPaint = paint;
+                    }
+                    if (rb_Red.IsChecked != null && (bool)rb_Red.IsChecked)
+                    {
+                        var paint = (from _paint in colorItEntities.PaintName
+                                     where _paint.ID == 3
+                                     select _paint).FirstOrDefault();
+                        _paintMath.SelectedPaint = paint;
+                    }
+                }
+                if (rbLSB.IsChecked != null && (bool)rbLSB.IsChecked)
+                {
+                    if (cbThreeLayers.IsChecked != null && (bool)cbThreeLayers.IsChecked)
+                    {
+                        var paint = (from _paint in colorItEntities.PaintName
+                                     where _paint.ID == 6
+                                     select _paint).FirstOrDefault();
+                        _paintMath.SelectedPaint = paint;
+                    }
+                    if (cbThreeLayers.IsChecked != null && (bool)cbThreeLayers.IsChecked == false)
+                    {
+                        var paint = (from _paint in colorItEntities.PaintName
+                                     where _paint.ID == 4
+                                     select _paint).FirstOrDefault();
+                        _paintMath.SelectedPaint = paint;
+                    }
+                }
+                if (rbABP.IsChecked != null && (bool)rbABP.IsChecked)
+                {
+                    if (cbThreeLayers.IsChecked != null && (bool)cbThreeLayers.IsChecked)
+                    {
+                        var paint = (from _paint in colorItEntities.PaintName
+                                     where _paint.ID == 22
+                                     select _paint).FirstOrDefault();
+                        _paintMath.SelectedPaint = paint;
+                    }
+                    if (cbThreeLayers.IsChecked != null && (bool)cbThreeLayers.IsChecked == false)
+                    {
+                        var paint = (from _paint in colorItEntities.PaintName
+                                     where _paint.ID == 20
+                                     select _paint).FirstOrDefault();
+                        _paintMath.SelectedPaint = paint;
+                    }
+                }
+            }
+        }
+
         public PaintName GetOther()
         {
             if (rbOther.IsChecked != null && (bool)rbOther.IsChecked)

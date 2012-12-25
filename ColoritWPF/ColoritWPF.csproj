@@ -102,71 +102,15 @@
     <OutputPath>bin\x64\Release\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Castle.Core, Version=1.2.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Castle.Core.1.2.0\lib\Castle.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Castle.DynamicProxy2, Version=2.2.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
-      <HintPath>..\packages\Castle.DynamicProxy.2.2.0\lib\Castle.DynamicProxy2.dll</HintPath>
-    </Reference>
-    <Reference Include="Castle.Services.Logging.log4netIntegration">
-      <HintPath>..\packages\Castle.Core.1.2.0\lib\Castle.Services.Logging.log4netIntegration.dll</HintPath>
-    </Reference>
-    <Reference Include="Castle.Services.Logging.NLogIntegration">
-      <HintPath>..\packages\Castle.Core.1.2.0\lib\Castle.Services.Logging.NLogIntegration.dll</HintPath>
-    </Reference>
-    <Reference Include="EntityFramework, Version=4.3.1.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.4.3.1\lib\net40\EntityFramework.dll</HintPath>
-    </Reference>
-    <Reference Include="log4net">
-      <Private>True</Private>
-      <HintPath>..\packages\log4net.2.0.0\lib\net40-client\log4net.dll</HintPath>
-    </Reference>
-    <Reference Include="NLog">
-      <HintPath>..\packages\NLog.1.0.0.505\lib\NLog.dll</HintPath>
-    </Reference>
-    <Reference Include="PaintBook">
-      <HintPath>..\..\PaintBook\PaintBook\bin\Debug\PaintBook.exe</HintPath>
-    </Reference>
-    <Reference Include="Remotion">
-      <HintPath>..\packages\LinqToExcel.1.6.2\lib\Remotion.dll</HintPath>
-    </Reference>
     <Reference Include="Remotion.Data.Linq">
       <HintPath>..\packages\LinqToExcel.1.6.2\lib\Remotion.Data.Linq.dll</HintPath>
     </Reference>
-    <Reference Include="Remotion.Interfaces">
-      <HintPath>..\packages\LinqToExcel.1.6.2\lib\Remotion.Interfaces.dll</HintPath>
-    </Reference>
-    <Reference Include="Simple.Data, Version=0.17.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Simple.Data.Core.0.17.0.0\lib\net40\Simple.Data.dll</HintPath>
-    </Reference>
-    <Reference Include="Simple.Data.Ado, Version=0.17.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Simple.Data.Ado.0.17.0.0\lib\net40\Simple.Data.Ado.dll</HintPath>
-    </Reference>
-    <Reference Include="Simple.Data.SqlCe40, Version=0.17.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Simple.Data.SqlCompact40.0.17.0.0\lib\net40\Simple.Data.SqlCe40.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity" />
-    <Reference Include="System.Data.SqlServerCe, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\Microsoft.SqlServer.Compact.4.0.8854.2\lib\net40\System.Data.SqlServerCe.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Data.SqlServerCe.Entity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\EntityFramework.SqlServerCompact.4.3.3\lib\net40\System.Data.SqlServerCe.Entity.dll</HintPath>
-    </Reference>
     <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Security" />
     <Reference Include="System.Xml" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
@@ -196,12 +140,18 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ColorITModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Commands\ClientPhoneCommand.cs" />
     <Compile Include="Converters.cs" />
     <Compile Include="EditProducts.xaml.cs">
       <DependentUpon>EditProducts.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\ClientsListModel.cs" />
     <Compile Include="PaintCalc.cs" />
     <Compile Include="PaintMath.cs" />
+    <Compile Include="ViewModels\ColorsMainViewModel.cs" />
+    <Compile Include="Views\ColorsWindow.xaml.cs">
+      <DependentUpon>ColorsWindow.xaml</DependentUpon>
+    </Compile>
     <EntityDeploy Include="ColorITModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>ColorITModel.Designer.cs</LastGenOutput>
@@ -303,6 +253,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SalesStats.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ColorsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -420,6 +374,7 @@
       <FileType>File</FileType>
     </PublishFile>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

@@ -22,7 +22,7 @@ namespace ColoritWPF
         }
     }
 
-    class ServiceTypeConverter : IValueConverter
+    public class ServiceTypeConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
@@ -46,7 +46,7 @@ namespace ColoritWPF
         }
     }
 
-    class CarModelConverter : IValueConverter
+    public class CarModelConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
@@ -71,7 +71,7 @@ namespace ColoritWPF
         }
     }
 
-    class PaintNameConverter : IValueConverter
+    public class PaintNameConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
@@ -86,13 +86,47 @@ namespace ColoritWPF
                     return grId.ToString(CultureInfo.InvariantCulture);
                 }
             }
-            else
-                return "Наименование краски не найдено";
+            return "Наименование краски не найдено";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             throw new NotImplementedException();
+        }
+    }
+
+    public class IsL2KConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            if (value != null)
+            {
+                using (ColorITEntities сolorItEntities = new ColorITEntities())
+                {
+                    var grId = (from paint in сolorItEntities.PaintName
+                                where paint.ID == (int) value
+                                select paint.L2K).First();
+
+                    return bool.Parse(grId.ToString());
+                }
+            }
+            throw new Exception("Не вышло достать значение L2K для радио кнопки");
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            if (value != null)
+            {
+                using (ColorITEntities сolorItEntities = new ColorITEntities())
+                {
+                    var grId = (from paint in сolorItEntities.PaintName
+                                where paint.ID == (int) value
+                                select paint.L2K).First();
+
+                    return bool.Parse(grId.ToString());
+                }
+            }
+            throw new Exception("Не вышло достать значение L2K для радио кнопки");
         }
     }
 
@@ -118,7 +152,7 @@ namespace ColoritWPF
         }
     }
 
-    class ClientNameConverter : IValueConverter
+    public class ClientNameConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {

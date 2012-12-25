@@ -2496,6 +2496,78 @@ namespace ColoritWPF
         private global::System.String _PhoneNumber;
         partial void OnPhoneNumberChanging(global::System.String value);
         partial void OnPhoneNumberChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Boolean> ServiceByCode
+        {
+            get
+            {
+                return _ServiceByCode;
+            }
+            set
+            {
+                OnServiceByCodeChanging(value);
+                ReportPropertyChanging("ServiceByCode");
+                _ServiceByCode = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("ServiceByCode");
+                OnServiceByCodeChanged();
+            }
+        }
+        private Nullable<global::System.Boolean> _ServiceByCode;
+        partial void OnServiceByCodeChanging(Nullable<global::System.Boolean> value);
+        partial void OnServiceByCodeChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Boolean> ServiceSelection
+        {
+            get
+            {
+                return _ServiceSelection;
+            }
+            set
+            {
+                OnServiceSelectionChanging(value);
+                ReportPropertyChanging("ServiceSelection");
+                _ServiceSelection = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("ServiceSelection");
+                OnServiceSelectionChanged();
+            }
+        }
+        private Nullable<global::System.Boolean> _ServiceSelection;
+        partial void OnServiceSelectionChanging(Nullable<global::System.Boolean> value);
+        partial void OnServiceSelectionChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Boolean> ServiceColorist
+        {
+            get
+            {
+                return _ServiceColorist;
+            }
+            set
+            {
+                OnServiceColoristChanging(value);
+                ReportPropertyChanging("ServiceColorist");
+                _ServiceColorist = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("ServiceColorist");
+                OnServiceColoristChanged();
+            }
+        }
+        private Nullable<global::System.Boolean> _ServiceColorist;
+        partial void OnServiceColoristChanging(Nullable<global::System.Boolean> value);
+        partial void OnServiceColoristChanged();
 
         #endregion
     

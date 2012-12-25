@@ -1,0 +1,200 @@
+﻿<Window x:Class="AutoSelection.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="480" Width="1000" mc:Ignorable="d" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:my="clr-namespace:ColoritWPF;assembly=ColoritWPF" Loaded="Window_Loaded">
+    <Window.Resources>
+        <CollectionViewSource x:Key="colorITEntitiesViewSource" d:DesignSource="{d:DesignInstance my:ColorITEntities, CreateList=True}" />
+        <CollectionViewSource x:Key="colorITEntitiesPaintsViewSource" Source="{Binding Path=Paints, Source={StaticResource colorITEntitiesViewSource}}" />
+    </Window.Resources>
+    <Grid DataContext="{StaticResource colorITEntitiesPaintsViewSource}">
+        <DataGrid AutoGenerateColumns="False" EnableRowVirtualization="True" Height="258" HorizontalAlignment="Left" ItemsSource="{Binding}" Margin="12,171,0,0" Name="paintsDataGrid" RowDetailsVisibilityMode="VisibleWhenSelected" VerticalAlignment="Top" Width="954">
+            <DataGrid.Columns>
+                <DataGridTextColumn x:Name="amountColumn" Binding="{Binding Path=Amount}" Header="Amount" Width="SizeToHeader" />
+                <DataGridTextColumn x:Name="carModelIDColumn" Binding="{Binding Path=CarModelID}" Header="Car Model ID" Width="SizeToHeader" />
+                <DataGridTextColumn x:Name="clientIDColumn" Binding="{Binding Path=ClientID}" Header="Client ID" Width="SizeToHeader" />
+                <DataGridTemplateColumn x:Name="dateColumn" Header="Date" Width="SizeToHeader">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <DatePicker SelectedDate="{Binding Path=Date, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridCheckBoxColumn x:Name="docStateColumn" Binding="{Binding Path=DocState}" Header="Doc State" Width="SizeToHeader" />
+                <DataGridTextColumn x:Name="iDColumn" Binding="{Binding Path=ID}" Header="ID" Width="SizeToHeader" />
+                <DataGridTextColumn x:Name="nameIDColumn" Binding="{Binding Path=NameID}" Header="Name ID" Width="SizeToHeader" />
+                <DataGridTextColumn x:Name="paintCodeColumn" Binding="{Binding Path=PaintCode}" Header="Paint Code" Width="SizeToHeader" />
+                <DataGridTextColumn x:Name="phoneNumberColumn" Binding="{Binding Path=PhoneNumber}" Header="Phone Number" Width="SizeToHeader" />
+                <DataGridTextColumn x:Name="salaryColumn" Binding="{Binding Path=Salary}" Header="Salary" Width="SizeToHeader" />
+                <DataGridTextColumn x:Name="sumColumn" Binding="{Binding Path=Sum}" Header="Sum" Width="SizeToHeader" />
+                <DataGridCheckBoxColumn x:Name="threeLayersColumn" Binding="{Binding Path=ThreeLayers}" Header="Three Layers" Width="SizeToHeader" />
+                <DataGridTextColumn x:Name="typeIDColumn" Binding="{Binding Path=TypeID}" Header="Type ID" Width="SizeToHeader" />
+            </DataGrid.Columns>
+        </DataGrid>
+        <Grid HorizontalAlignment="Left" Margin="12,136,0,0" Name="grid1" VerticalAlignment="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Label Content="Client:" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" />
+            <ComboBox DisplayMemberPath="Client" Grid.Column="1" Grid.Row="0" Height="23" HorizontalAlignment="Left" ItemsSource="{Binding}" Margin="3" Name="clientComboBox" VerticalAlignment="Center" Width="120">
+                <ComboBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel />
+                    </ItemsPanelTemplate>
+                </ComboBox.ItemsPanel>
+            </ComboBox>
+        </Grid>
+        <Grid HorizontalAlignment="Left" Margin="12,101,0,0" Name="grid2" VerticalAlignment="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Label Content="Car Models:" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" />
+            <ComboBox DisplayMemberPath="CarModels" Grid.Column="1" Grid.Row="0" Height="23" HorizontalAlignment="Left" ItemsSource="{Binding}" Margin="3" Name="carModelsComboBox" VerticalAlignment="Center" Width="120">
+                <ComboBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel />
+                    </ItemsPanelTemplate>
+                </ComboBox.ItemsPanel>
+            </ComboBox>
+        </Grid>
+        <Grid HorizontalAlignment="Left" Margin="257,94,0,0" Name="grid3" VerticalAlignment="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Label Content="Amount:" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" />
+            <TextBox Grid.Column="1" Grid.Row="0" Height="23" HorizontalAlignment="Left" Margin="3" Name="amountTextBox" Text="{Binding Path=Amount, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}" VerticalAlignment="Center" Width="120" />
+        </Grid>
+        <Grid HorizontalAlignment="Left" Margin="259,12,0,0" Name="grid4" VerticalAlignment="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Label Content="ABP:" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" />
+            <RadioButton Content="RadioButton" Grid.Column="1" Grid.Row="0" Height="16" HorizontalAlignment="Left" IsChecked="{Binding Path=PaintName.ABP, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}" Margin="3" Name="aBPRadioButton" VerticalAlignment="Center" />
+        </Grid>
+        <Grid HorizontalAlignment="Left" Margin="384,11,0,0" Name="grid5" VerticalAlignment="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Label Content="L 2 K:" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" />
+            <RadioButton Content="RadioButton" Grid.Column="1" Grid.Row="0" Height="16" HorizontalAlignment="Left" IsChecked="{Binding Path=PaintName.L2K, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}" Margin="3" Name="l2KRadioButton" VerticalAlignment="Center" />
+        </Grid>
+        <Grid HorizontalAlignment="Left" Margin="515,11,0,0" Name="grid6" VerticalAlignment="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Label Content="LSB:" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" />
+            <RadioButton Content="RadioButton" Grid.Column="1" Grid.Row="0" Height="16" HorizontalAlignment="Left" IsChecked="{Binding Path=PaintName.LSB, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}" Margin="3" Name="lSBRadioButton" VerticalAlignment="Center" />
+        </Grid>
+        <Grid HorizontalAlignment="Left" Margin="773,9,0,0" Name="grid7" VerticalAlignment="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Label Content="Other:" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" />
+            <RadioButton Content="RadioButton" Grid.Column="1" Grid.Row="0" Height="16" HorizontalAlignment="Left" IsChecked="{Binding Path=PaintName.Other, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}" Margin="3" Name="otherRadioButton" VerticalAlignment="Center" />
+        </Grid>
+        <Grid HorizontalAlignment="Left" Margin="260,47,0,0" Name="grid8" VerticalAlignment="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Label Content="Package:" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" />
+            <CheckBox Content="" Grid.Column="1" Grid.Row="0" Height="16" HorizontalAlignment="Left" IsChecked="{Binding Path=PaintName.Package, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}" Margin="3" Name="packageCheckBox" VerticalAlignment="Center" />
+        </Grid>
+        <Grid HorizontalAlignment="Left" Margin="639,11,0,0" Name="grid9" VerticalAlignment="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Label Content="Polish:" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" />
+            <RadioButton Content="RadioButton" Grid.Column="1" Grid.Row="0" Height="16" HorizontalAlignment="Left" IsChecked="{Binding Path=PaintName.Polish, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}" Margin="3" Name="polishRadioButton" VerticalAlignment="Center" />
+        </Grid>
+        <Grid HorizontalAlignment="Left" Margin="349,47,0,0" Name="grid10" VerticalAlignment="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Label Content="Three Layers:" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" />
+            <CheckBox Content="" Grid.Column="1" Grid.Row="0" Height="16" HorizontalAlignment="Left" IsChecked="{Binding Path=PaintName.ThreeLayers, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}" Margin="3" Name="threeLayersCheckBox" VerticalAlignment="Center" />
+        </Grid>
+        <Grid HorizontalAlignment="Left" Margin="517,50,0,0" Name="grid11" VerticalAlignment="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Label Content="Color:" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" />
+            <RadioButton Content="RadioButton" Grid.Column="1" Grid.Row="0" Height="16" HorizontalAlignment="Left" IsChecked="{Binding Path=PaintName.Color, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}" Margin="3" Name="colorRadioButton" VerticalAlignment="Center" />
+        </Grid>
+        <Grid HorizontalAlignment="Left" Margin="515,87,0,0" Name="grid12" VerticalAlignment="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Label Content="Red:" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" />
+            <RadioButton Content="RadioButton" Grid.Column="1" Grid.Row="0" Height="16" HorizontalAlignment="Left" IsChecked="{Binding Path=PaintName.Red, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}" Margin="3" Name="redRadioButton" VerticalAlignment="Center" />
+        </Grid>
+        <Grid HorizontalAlignment="Left" Margin="514,119,0,0" Name="grid13" VerticalAlignment="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Label Content="White:" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" />
+            <RadioButton Content="RadioButton" Grid.Column="1" Grid.Row="0" Height="16" HorizontalAlignment="Left" IsChecked="{Binding Path=PaintName.White, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}" Margin="3" Name="whiteRadioButton" VerticalAlignment="Center" />
+        </Grid>
+        <Grid HorizontalAlignment="Left" Margin="256,126,0,0" Name="grid14" VerticalAlignment="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Label Content="Sum:" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" />
+            <TextBox Grid.Column="1" Grid.Row="0" Height="23" HorizontalAlignment="Left" Margin="3" Name="sumTextBox" Text="{Binding Path=Sum, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}" VerticalAlignment="Center" Width="120" />
+        </Grid>
+    </Grid>
+</Window>

@@ -179,6 +179,9 @@
           <Property Name="ClientID" Type="int" Nullable="false" />
           <Property Name="DocState" Type="bit" />
           <Property Name="PhoneNumber" Type="nvarchar" MaxLength="100" />
+          <Property Name="ServiceByCode" Type="bit" />
+          <Property Name="ServiceSelection" Type="bit" />
+          <Property Name="ServiceColorist" Type="bit" />
         </EntityType>
         <EntityType Name="Product">
           <Key>
@@ -796,6 +799,9 @@
           <NavigationProperty Name="ServiceTypes" Relationship="ColorITModel.PK_Paints_" FromRole="Paints" ToRole="ServiceTypes" />
           <Property Type="Boolean" Name="DocState" />
           <Property Type="String" Name="PhoneNumber" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="Boolean" Name="ServiceByCode" />
+          <Property Type="Boolean" Name="ServiceSelection" />
+          <Property Type="Boolean" Name="ServiceColorist" />
         </EntityType>
         <EntityType Name="ServiceTypes">
           <Key>
@@ -981,6 +987,9 @@
           <EntitySetMapping Name="Paints">
             <EntityTypeMapping TypeName="ColorITModel.Paints">
               <MappingFragment StoreEntitySet="Paints">
+                <ScalarProperty Name="ServiceColorist" ColumnName="ServiceColorist" />
+                <ScalarProperty Name="ServiceSelection" ColumnName="ServiceSelection" />
+                <ScalarProperty Name="ServiceByCode" ColumnName="ServiceByCode" />
                 <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
                 <ScalarProperty Name="DocState" ColumnName="DocState" />
                 <ScalarProperty Name="ClientID" ColumnName="ClientID" />
