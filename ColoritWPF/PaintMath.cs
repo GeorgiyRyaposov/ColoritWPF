@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Windows.Controls;
 
 namespace ColoritWPF
 {
@@ -33,7 +29,7 @@ namespace ColoritWPF
         private decimal _total=0;
         private PaintName _paintName;
         private Client _selectedClient;
-
+        private decimal _amountPolish;
         #endregion
 
         #region Properties
@@ -54,13 +50,7 @@ namespace ColoritWPF
 
         public decimal PolishSum
         {
-            get { return _polishSum; }
-            set 
-            { 
-                _polishSum = value;
-                OnPropertyChanged("PolishSum");
-                CountGoodsSum();
-            }
+            get { return AddToSumPackagePolish(); }
         }
 
         public decimal Prepay
@@ -93,7 +83,6 @@ namespace ColoritWPF
                 _paintName = value;
                 OnPropertyChanged("SelectedPaint");
                 CountGoodsSum();
-                
             }
         }
 
@@ -115,6 +104,25 @@ namespace ColoritWPF
             }
         }
 
+        public decimal AmountPolish
+        {
+            get { return _amountPolish; }
+            set { _amountPolish = value;
+            OnPropertyChanged("AmountPolish");
+            }
+        }
+
+        public decimal PaintCost
+        {
+            get { return SelectedPaint.Cost; }
+        }
+
+        public decimal PolishCost
+        {
+            get { return AddToSumPackagePolish(); }
+        }
+        
+
         #endregion
 
 
@@ -132,6 +140,7 @@ namespace ColoritWPF
             decimal container = 0;
             decimal discount = 1;
             decimal cost = SelectedPaint.Cost;
+
             if(SelectedPaint != null)
                 census = GetCensus();
             if (SelectedPaint.Work != null)
@@ -146,7 +155,6 @@ namespace ColoritWPF
             if (SelectedClient.Discount != null)
                 discount = (Decimal) SelectedClient.Discount;
                 GoodsSum = ((cost * (Amount + census) + PolishSum) * discount) + work + container;
-
         }
 
         public void CalcTotal()
@@ -169,6 +177,22 @@ namespace ColoritWPF
                     return (decimal)SelectedPaint.Census2;
             }
             return 0;
+        }
+
+        //Достает сумму лак комплект (цена литр * кол-во + тара)
+        public decimal AddToSumPackagePolish()
+        {
+            if (AmountPolish == 0)
+                return 0;
+            PaintName polish;
+            using (ColorITEntities colorItEntities = new ColorITEntities())
+            {
+                var getPolish = (from _paint in colorItEntities.PaintName
+                                    where _paint.ID == 7
+                                    select _paint).FirstOrDefault();
+                polish = getPolish;
+            }
+            return (polish.Cost * AmountPolish + (decimal)polish.Container);
         }
     }
 }

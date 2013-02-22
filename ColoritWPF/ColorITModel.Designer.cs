@@ -690,9 +690,9 @@ namespace ColoritWPF
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public Nullable<global::System.Double> Discount
+        public global::System.Double Discount
         {
             get
             {
@@ -707,8 +707,8 @@ namespace ColoritWPF
                 OnDiscountChanged();
             }
         }
-        private Nullable<global::System.Double> _Discount;
-        partial void OnDiscountChanging(Nullable<global::System.Double> value);
+        private global::System.Double _Discount = 1D;
+        partial void OnDiscountChanging(global::System.Double value);
         partial void OnDiscountChanged();
     
         /// <summary>
@@ -1693,13 +1693,11 @@ namespace ColoritWPF
         /// </summary>
         /// <param name="id">Initial value of the ID property.</param>
         /// <param name="name">Initial value of the Name property.</param>
-        /// <param name="cost">Initial value of the Cost property.</param>
-        public static PaintName CreatePaintName(global::System.Int32 id, global::System.String name, global::System.Decimal cost)
+        public static PaintName CreatePaintName(global::System.Int32 id, global::System.String name)
         {
             PaintName paintName = new PaintName();
             paintName.ID = id;
             paintName.Name = name;
-            paintName.Cost = cost;
             return paintName;
         }
 
@@ -1777,16 +1775,16 @@ namespace ColoritWPF
                 OnCostChanged();
             }
         }
-        private global::System.Decimal _Cost;
+        private global::System.Decimal _Cost = 0m;
         partial void OnCostChanging(global::System.Decimal value);
         partial void OnCostChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public Nullable<global::System.Decimal> Container
+        public global::System.Decimal Container
         {
             get
             {
@@ -1801,16 +1799,16 @@ namespace ColoritWPF
                 OnContainerChanged();
             }
         }
-        private Nullable<global::System.Decimal> _Container;
-        partial void OnContainerChanging(Nullable<global::System.Decimal> value);
+        private global::System.Decimal _Container = 0m;
+        partial void OnContainerChanging(global::System.Decimal value);
         partial void OnContainerChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public Nullable<global::System.Decimal> Work
+        public global::System.Decimal Work
         {
             get
             {
@@ -1825,16 +1823,16 @@ namespace ColoritWPF
                 OnWorkChanged();
             }
         }
-        private Nullable<global::System.Decimal> _Work;
-        partial void OnWorkChanging(Nullable<global::System.Decimal> value);
+        private global::System.Decimal _Work = 0m;
+        partial void OnWorkChanging(global::System.Decimal value);
         partial void OnWorkChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public Nullable<global::System.Double> Census1
+        public global::System.Double Census1
         {
             get
             {
@@ -1849,16 +1847,16 @@ namespace ColoritWPF
                 OnCensus1Changed();
             }
         }
-        private Nullable<global::System.Double> _Census1;
-        partial void OnCensus1Changing(Nullable<global::System.Double> value);
+        private global::System.Double _Census1 = 0D;
+        partial void OnCensus1Changing(global::System.Double value);
         partial void OnCensus1Changed();
     
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public Nullable<global::System.Double> Census2
+        public global::System.Double Census2
         {
             get
             {
@@ -1873,112 +1871,16 @@ namespace ColoritWPF
                 OnCensus2Changed();
             }
         }
-        private Nullable<global::System.Double> _Census2;
-        partial void OnCensus2Changing(Nullable<global::System.Double> value);
+        private global::System.Double _Census2 = 0D;
+        partial void OnCensus2Changing(global::System.Double value);
         partial void OnCensus2Changed();
     
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public Nullable<global::System.Boolean> LSB
-        {
-            get
-            {
-                return _LSB;
-            }
-            set
-            {
-                OnLSBChanging(value);
-                ReportPropertyChanging("LSB");
-                _LSB = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("LSB");
-                OnLSBChanged();
-            }
-        }
-        private Nullable<global::System.Boolean> _LSB;
-        partial void OnLSBChanging(Nullable<global::System.Boolean> value);
-        partial void OnLSBChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public Nullable<global::System.Boolean> L2K
-        {
-            get
-            {
-                return _L2K;
-            }
-            set
-            {
-                OnL2KChanging(value);
-                ReportPropertyChanging("L2K");
-                _L2K = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("L2K");
-                OnL2KChanged();
-            }
-        }
-        private Nullable<global::System.Boolean> _L2K;
-        partial void OnL2KChanging(Nullable<global::System.Boolean> value);
-        partial void OnL2KChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public Nullable<global::System.Boolean> ABP
-        {
-            get
-            {
-                return _ABP;
-            }
-            set
-            {
-                OnABPChanging(value);
-                ReportPropertyChanging("ABP");
-                _ABP = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("ABP");
-                OnABPChanged();
-            }
-        }
-        private Nullable<global::System.Boolean> _ABP;
-        partial void OnABPChanging(Nullable<global::System.Boolean> value);
-        partial void OnABPChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public Nullable<global::System.Boolean> Polish
-        {
-            get
-            {
-                return _Polish;
-            }
-            set
-            {
-                OnPolishChanging(value);
-                ReportPropertyChanging("Polish");
-                _Polish = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("Polish");
-                OnPolishChanged();
-            }
-        }
-        private Nullable<global::System.Boolean> _Polish;
-        partial void OnPolishChanging(Nullable<global::System.Boolean> value);
-        partial void OnPolishChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public Nullable<global::System.Boolean> ThreeLayers
+        public global::System.Boolean ThreeLayers
         {
             get
             {
@@ -1993,16 +1895,16 @@ namespace ColoritWPF
                 OnThreeLayersChanged();
             }
         }
-        private Nullable<global::System.Boolean> _ThreeLayers;
-        partial void OnThreeLayersChanging(Nullable<global::System.Boolean> value);
+        private global::System.Boolean _ThreeLayers = false;
+        partial void OnThreeLayersChanging(global::System.Boolean value);
         partial void OnThreeLayersChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public Nullable<global::System.Boolean> Package
+        public global::System.Boolean Package
         {
             get
             {
@@ -2017,8 +1919,8 @@ namespace ColoritWPF
                 OnPackageChanged();
             }
         }
-        private Nullable<global::System.Boolean> _Package;
-        partial void OnPackageChanging(Nullable<global::System.Boolean> value);
+        private global::System.Boolean _Package = false;
+        partial void OnPackageChanging(global::System.Boolean value);
         partial void OnPackageChanged();
     
         /// <summary>
@@ -2026,96 +1928,48 @@ namespace ColoritWPF
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public Nullable<global::System.Boolean> White
+        public global::System.String PaintType
         {
             get
             {
-                return _White;
+                return _PaintType;
             }
             set
             {
-                OnWhiteChanging(value);
-                ReportPropertyChanging("White");
-                _White = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("White");
-                OnWhiteChanged();
+                OnPaintTypeChanging(value);
+                ReportPropertyChanging("PaintType");
+                _PaintType = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("PaintType");
+                OnPaintTypeChanged();
             }
         }
-        private Nullable<global::System.Boolean> _White;
-        partial void OnWhiteChanging(Nullable<global::System.Boolean> value);
-        partial void OnWhiteChanged();
+        private global::System.String _PaintType;
+        partial void OnPaintTypeChanging(global::System.String value);
+        partial void OnPaintTypeChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public Nullable<global::System.Boolean> Red
+        public global::System.String L2KType
         {
             get
             {
-                return _Red;
+                return _L2KType;
             }
             set
             {
-                OnRedChanging(value);
-                ReportPropertyChanging("Red");
-                _Red = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("Red");
-                OnRedChanged();
+                OnL2KTypeChanging(value);
+                ReportPropertyChanging("L2KType");
+                _L2KType = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("L2KType");
+                OnL2KTypeChanged();
             }
         }
-        private Nullable<global::System.Boolean> _Red;
-        partial void OnRedChanging(Nullable<global::System.Boolean> value);
-        partial void OnRedChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public Nullable<global::System.Boolean> Color
-        {
-            get
-            {
-                return _Color;
-            }
-            set
-            {
-                OnColorChanging(value);
-                ReportPropertyChanging("Color");
-                _Color = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("Color");
-                OnColorChanged();
-            }
-        }
-        private Nullable<global::System.Boolean> _Color;
-        partial void OnColorChanging(Nullable<global::System.Boolean> value);
-        partial void OnColorChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public Nullable<global::System.Boolean> Other
-        {
-            get
-            {
-                return _Other;
-            }
-            set
-            {
-                OnOtherChanging(value);
-                ReportPropertyChanging("Other");
-                _Other = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("Other");
-                OnOtherChanged();
-            }
-        }
-        private Nullable<global::System.Boolean> _Other;
-        partial void OnOtherChanging(Nullable<global::System.Boolean> value);
-        partial void OnOtherChanged();
+        private global::System.String _L2KType;
+        partial void OnL2KTypeChanging(global::System.String value);
+        partial void OnL2KTypeChanged();
 
         #endregion
     
@@ -2163,19 +2017,19 @@ namespace ColoritWPF
         /// <param name="date">Initial value of the Date property.</param>
         /// <param name="nameID">Initial value of the NameID property.</param>
         /// <param name="typeID">Initial value of the TypeID property.</param>
-        /// <param name="amount">Initial value of the Amount property.</param>
-        /// <param name="sum">Initial value of the Sum property.</param>
         /// <param name="clientID">Initial value of the ClientID property.</param>
-        public static Paints CreatePaints(global::System.Int64 id, global::System.DateTime date, global::System.Int32 nameID, global::System.Int32 typeID, global::System.Double amount, global::System.Decimal sum, global::System.Int32 clientID)
+        /// <param name="serviceByCode">Initial value of the ServiceByCode property.</param>
+        /// <param name="serviceSelection">Initial value of the ServiceSelection property.</param>
+        public static Paints CreatePaints(global::System.Int64 id, global::System.DateTime date, global::System.Int32 nameID, global::System.Int32 typeID, global::System.Int32 clientID, global::System.Boolean serviceByCode, global::System.Boolean serviceSelection)
         {
             Paints paints = new Paints();
             paints.ID = id;
             paints.Date = date;
             paints.NameID = nameID;
             paints.TypeID = typeID;
-            paints.Amount = amount;
-            paints.Sum = sum;
             paints.ClientID = clientID;
+            paints.ServiceByCode = serviceByCode;
+            paints.ServiceSelection = serviceSelection;
             return paints;
         }
 
@@ -2373,7 +2227,7 @@ namespace ColoritWPF
                 OnAmountChanged();
             }
         }
-        private global::System.Double _Amount;
+        private global::System.Double _Amount = 0D;
         partial void OnAmountChanging(global::System.Double value);
         partial void OnAmountChanged();
     
@@ -2397,16 +2251,16 @@ namespace ColoritWPF
                 OnSumChanged();
             }
         }
-        private global::System.Decimal _Sum;
+        private global::System.Decimal _Sum = 0m;
         partial void OnSumChanging(global::System.Decimal value);
         partial void OnSumChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public Nullable<global::System.Decimal> Salary
+        public global::System.Decimal Salary
         {
             get
             {
@@ -2421,8 +2275,8 @@ namespace ColoritWPF
                 OnSalaryChanged();
             }
         }
-        private Nullable<global::System.Decimal> _Salary;
-        partial void OnSalaryChanging(Nullable<global::System.Decimal> value);
+        private global::System.Decimal _Salary = 0m;
+        partial void OnSalaryChanging(global::System.Decimal value);
         partial void OnSalaryChanged();
     
         /// <summary>
@@ -2500,9 +2354,9 @@ namespace ColoritWPF
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public Nullable<global::System.Boolean> ServiceByCode
+        public global::System.Boolean ServiceByCode
         {
             get
             {
@@ -2517,16 +2371,16 @@ namespace ColoritWPF
                 OnServiceByCodeChanged();
             }
         }
-        private Nullable<global::System.Boolean> _ServiceByCode;
-        partial void OnServiceByCodeChanging(Nullable<global::System.Boolean> value);
+        private global::System.Boolean _ServiceByCode;
+        partial void OnServiceByCodeChanging(global::System.Boolean value);
         partial void OnServiceByCodeChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public Nullable<global::System.Boolean> ServiceSelection
+        public global::System.Boolean ServiceSelection
         {
             get
             {
@@ -2541,16 +2395,16 @@ namespace ColoritWPF
                 OnServiceSelectionChanged();
             }
         }
-        private Nullable<global::System.Boolean> _ServiceSelection;
-        partial void OnServiceSelectionChanging(Nullable<global::System.Boolean> value);
+        private global::System.Boolean _ServiceSelection;
+        partial void OnServiceSelectionChanging(global::System.Boolean value);
         partial void OnServiceSelectionChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public Nullable<global::System.Boolean> ServiceColorist
+        public global::System.Boolean ServiceColorist
         {
             get
             {
@@ -2565,9 +2419,81 @@ namespace ColoritWPF
                 OnServiceColoristChanged();
             }
         }
-        private Nullable<global::System.Boolean> _ServiceColorist;
-        partial void OnServiceColoristChanging(Nullable<global::System.Boolean> value);
+        private global::System.Boolean _ServiceColorist = false;
+        partial void OnServiceColoristChanging(global::System.Boolean value);
         partial void OnServiceColoristChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Double AmountPolish
+        {
+            get
+            {
+                return _AmountPolish;
+            }
+            set
+            {
+                OnAmountPolishChanging(value);
+                ReportPropertyChanging("AmountPolish");
+                _AmountPolish = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("AmountPolish");
+                OnAmountPolishChanged();
+            }
+        }
+        private global::System.Double _AmountPolish = 0D;
+        partial void OnAmountPolishChanging(global::System.Double value);
+        partial void OnAmountPolishChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Decimal Prepay
+        {
+            get
+            {
+                return _Prepay;
+            }
+            set
+            {
+                OnPrepayChanging(value);
+                ReportPropertyChanging("Prepay");
+                _Prepay = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Prepay");
+                OnPrepayChanged();
+            }
+        }
+        private global::System.Decimal _Prepay = 0m;
+        partial void OnPrepayChanging(global::System.Decimal value);
+        partial void OnPrepayChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Decimal Total
+        {
+            get
+            {
+                return _Total;
+            }
+            set
+            {
+                OnTotalChanging(value);
+                ReportPropertyChanging("Total");
+                _Total = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Total");
+                OnTotalChanged();
+            }
+        }
+        private global::System.Decimal _Total = 0m;
+        partial void OnTotalChanging(global::System.Decimal value);
+        partial void OnTotalChanged();
 
         #endregion
     

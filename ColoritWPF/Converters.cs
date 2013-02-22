@@ -8,18 +8,37 @@ using System.Windows.Data;
 
 namespace ColoritWPF
 {
-    //Radio buttons converter   
-    public class EnumToBooleanConverter : IValueConverter
+    ////Radio buttons converter   
+    //public class EnumToBooleanConverter : IValueConverter
+    //{
+    //    public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+    //    {
+    //        return value.Equals(parameter);
+    //    }
+
+    //    public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+    //    {
+    //        return value.Equals(true) ? parameter : Binding.DoNothing;
+    //    }
+    //}
+
+    public class EnumToBoolConverter : IValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        #region IValueConverter Members
+
+        public object Convert(object value,
+            Type targetType, object parameter,
+            System.Globalization.CultureInfo culture)
         {
-            return value.Equals(parameter);
+            return parameter.Equals(value);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            return value.Equals(true) ? parameter : Binding.DoNothing;
+            return parameter;
         }
+        #endregion
+
     }
 
     public class ServiceTypeConverter : IValueConverter
@@ -95,41 +114,6 @@ namespace ColoritWPF
         }
     }
 
-    public class IsL2KConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            if (value != null)
-            {
-                using (ColorITEntities сolorItEntities = new ColorITEntities())
-                {
-                    var grId = (from paint in сolorItEntities.PaintName
-                                where paint.ID == (int) value
-                                select paint.L2K).First();
-
-                    return bool.Parse(grId.ToString());
-                }
-            }
-            throw new Exception("Не вышло достать значение L2K для радио кнопки");
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            if (value != null)
-            {
-                using (ColorITEntities сolorItEntities = new ColorITEntities())
-                {
-                    var grId = (from paint in сolorItEntities.PaintName
-                                where paint.ID == (int) value
-                                select paint.L2K).First();
-
-                    return bool.Parse(grId.ToString());
-                }
-            }
-            throw new Exception("Не вышло достать значение L2K для радио кнопки");
-        }
-    }
-
     public class ProductGroupConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
@@ -175,5 +159,21 @@ namespace ColoritWPF
         {
             throw new NotImplementedException();
         }
+    }
+
+    public enum PaintTypes
+    {
+        LSB,
+        L2K,
+        ABP,
+        Polish,
+        Other
+    }
+
+    public enum L2KTypes
+    {
+        White,
+        Red,
+        Color
     }
 }

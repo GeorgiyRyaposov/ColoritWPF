@@ -151,16 +151,10 @@
           <Property Name="Work" Type="money" />
           <Property Name="Census1" Type="float" />
           <Property Name="Census2" Type="float" />
-          <Property Name="LSB" Type="bit" />
-          <Property Name="L2K" Type="bit" />
-          <Property Name="ABP" Type="bit" />
-          <Property Name="Polish" Type="bit" />
-          <Property Name="ThreeLayers" Type="bit" />
-          <Property Name="Package" Type="bit" />
-          <Property Name="White" Type="bit" />
-          <Property Name="Red" Type="bit" />
-          <Property Name="Color" Type="bit" />
-          <Property Name="Other" Type="bit" />
+          <Property Name="ThreeLayers" Type="bit" Nullable="false" />
+          <Property Name="Package" Type="bit" Nullable="false" />
+          <Property Name="PaintType" Type="nvarchar" MaxLength="50" />
+          <Property Name="L2KType" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Paints">
           <Key>
@@ -179,9 +173,12 @@
           <Property Name="ClientID" Type="int" Nullable="false" />
           <Property Name="DocState" Type="bit" />
           <Property Name="PhoneNumber" Type="nvarchar" MaxLength="100" />
-          <Property Name="ServiceByCode" Type="bit" />
-          <Property Name="ServiceSelection" Type="bit" />
+          <Property Name="ServiceByCode" Type="bit" Nullable="false" />
+          <Property Name="ServiceSelection" Type="bit" Nullable="false" />
           <Property Name="ServiceColorist" Type="bit" />
+          <Property Name="AmountPolish" Type="float" />
+          <Property Name="Prepay" Type="money" />
+          <Property Name="Total" Type="money" />
         </EntityType>
         <EntityType Name="Product">
           <Key>
@@ -501,7 +498,7 @@
           <Property Name="Name" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
           <Property Name="Balance" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
           <Property Name="Info" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
-          <Property Name="Discount" Type="Double" />
+          <Property Name="Discount" Type="Double" Nullable="false" DefaultValue="1" />
           <Property Name="GroupID" Type="Int32" />
           <Property Name="PhoneNumber" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="ClientGroups" Relationship="ColorITModel.FK_Client_ClientGroups" FromRole="Client" ToRole="ClientGroups" />
@@ -762,21 +759,15 @@
           <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="String" Name="Name" Nullable="false" MaxLength="64" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Paints" Relationship="ColorITModel.PK_Paints_PaintName" FromRole="PaintName" ToRole="Paints" />
-          <Property Type="Decimal" Name="Cost" Nullable="false" Precision="19" Scale="4" />
-          <Property Type="Decimal" Name="Container" Precision="19" Scale="4" />
-          <Property Type="Decimal" Name="Work" Precision="19" Scale="4" />
-          <Property Type="Double" Name="Census1" />
-          <Property Type="Double" Name="Census2" />
-          <Property Type="Boolean" Name="LSB" />
-          <Property Type="Boolean" Name="L2K" />
-          <Property Type="Boolean" Name="ABP" />
-          <Property Type="Boolean" Name="Polish" />
-          <Property Type="Boolean" Name="ThreeLayers" />
-          <Property Type="Boolean" Name="Package" />
-          <Property Type="Boolean" Name="White" />
-          <Property Type="Boolean" Name="Red" />
-          <Property Type="Boolean" Name="Color" />
-          <Property Type="Boolean" Name="Other" />
+          <Property Type="Decimal" Name="Cost" Nullable="false" Precision="19" Scale="4" DefaultValue="0" />
+          <Property Type="Decimal" Name="Container" Precision="19" Scale="4" Nullable="false" DefaultValue="0" />
+          <Property Type="Decimal" Name="Work" Precision="19" Scale="4" Nullable="false" DefaultValue="0" />
+          <Property Type="Double" Name="Census1" Nullable="false" DefaultValue="0" />
+          <Property Type="Double" Name="Census2" DefaultValue="0" Nullable="false" />
+          <Property Type="Boolean" Name="ThreeLayers" Nullable="false" DefaultValue="False" />
+          <Property Type="Boolean" Name="Package" Nullable="false" DefaultValue="False" />
+          <Property Type="String" Name="PaintType" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="L2KType" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Paints">
           <Key>
@@ -789,9 +780,9 @@
           <Property Type="Boolean" Name="ThreeLayers" />
           <Property Type="Int32" Name="NameID" Nullable="false" />
           <Property Type="Int32" Name="TypeID" Nullable="false" />
-          <Property Type="Double" Name="Amount" Nullable="false" />
-          <Property Type="Decimal" Name="Sum" Nullable="false" Precision="19" Scale="4" />
-          <Property Type="Decimal" Name="Salary" Precision="19" Scale="4" />
+          <Property Type="Double" Name="Amount" Nullable="false" DefaultValue="0" />
+          <Property Type="Decimal" Name="Sum" Nullable="false" Precision="19" Scale="4" DefaultValue="0" />
+          <Property Type="Decimal" Name="Salary" Precision="19" Scale="4" Nullable="false" DefaultValue="0" />
           <Property Type="Int32" Name="ClientID" Nullable="false" />
           <NavigationProperty Name="CarModels" Relationship="ColorITModel.PK_Paints_CarModels" FromRole="Paints" ToRole="CarModels" />
           <NavigationProperty Name="Client" Relationship="ColorITModel.PK_Paints_Clients" FromRole="Paints" ToRole="Client" />
@@ -799,9 +790,12 @@
           <NavigationProperty Name="ServiceTypes" Relationship="ColorITModel.PK_Paints_" FromRole="Paints" ToRole="ServiceTypes" />
           <Property Type="Boolean" Name="DocState" />
           <Property Type="String" Name="PhoneNumber" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Type="Boolean" Name="ServiceByCode" />
-          <Property Type="Boolean" Name="ServiceSelection" />
-          <Property Type="Boolean" Name="ServiceColorist" />
+          <Property Type="Boolean" Name="ServiceByCode" Nullable="false" />
+          <Property Type="Boolean" Name="ServiceSelection" Nullable="false" />
+          <Property Type="Boolean" Name="ServiceColorist" DefaultValue="False" Nullable="false" />
+          <Property Type="Double" Name="AmountPolish" Nullable="false" DefaultValue="0" />
+          <Property Type="Decimal" Name="Prepay" Precision="19" Scale="4" Nullable="false" DefaultValue="0" />
+          <Property Type="Decimal" Name="Total" Precision="19" Scale="4" Nullable="false" DefaultValue="0" />
         </EntityType>
         <EntityType Name="ServiceTypes">
           <Key>
@@ -964,16 +958,10 @@
           <EntitySetMapping Name="PaintName">
             <EntityTypeMapping TypeName="ColorITModel.PaintName">
               <MappingFragment StoreEntitySet="PaintName">
-                <ScalarProperty Name="Other" ColumnName="Other" />
-                <ScalarProperty Name="Color" ColumnName="Color" />
-                <ScalarProperty Name="Red" ColumnName="Red" />
-                <ScalarProperty Name="White" ColumnName="White" />
+                <ScalarProperty Name="L2KType" ColumnName="L2KType" />
+                <ScalarProperty Name="PaintType" ColumnName="PaintType" />
                 <ScalarProperty Name="Package" ColumnName="Package" />
                 <ScalarProperty Name="ThreeLayers" ColumnName="ThreeLayers" />
-                <ScalarProperty Name="Polish" ColumnName="Polish" />
-                <ScalarProperty Name="ABP" ColumnName="ABP" />
-                <ScalarProperty Name="L2K" ColumnName="L2K" />
-                <ScalarProperty Name="LSB" ColumnName="LSB" />
                 <ScalarProperty Name="Census2" ColumnName="Census2" />
                 <ScalarProperty Name="Census1" ColumnName="Census1" />
                 <ScalarProperty Name="Work" ColumnName="Work" />
@@ -987,6 +975,9 @@
           <EntitySetMapping Name="Paints">
             <EntityTypeMapping TypeName="ColorITModel.Paints">
               <MappingFragment StoreEntitySet="Paints">
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="Prepay" ColumnName="Prepay" />
+                <ScalarProperty Name="AmountPolish" ColumnName="AmountPolish" />
                 <ScalarProperty Name="ServiceColorist" ColumnName="ServiceColorist" />
                 <ScalarProperty Name="ServiceSelection" ColumnName="ServiceSelection" />
                 <ScalarProperty Name="ServiceByCode" ColumnName="ServiceByCode" />
@@ -1094,9 +1085,9 @@
           <ConnectorPoint PointX="9.75" PointY="8.7274902894007642" />
         </AssociationConnector>
         <EntityTypeShape EntityType="ColorITModel.CarModels" Width="1.5" PointX="10.25" PointY="1.5" Height="1.2636116536458388" />
-        <EntityTypeShape EntityType="ColorITModel.PaintName" Width="1.5" PointX="10.375" PointY="3.125" Height="1.2636116536458388" />
+        <EntityTypeShape EntityType="ColorITModel.PaintName" Width="1.5" PointX="10.375" PointY="3.125" Height="2.9070849609374996" />
         <EntityTypeShape EntityType="ColorITModel.Paints" Width="1.5" PointX="12.5" PointY="1" Height="2.7427376302083388" />
-        <EntityTypeShape EntityType="ColorITModel.ServiceTypes" Width="1.5" PointX="12.625" PointY="5.5" Height="1.4279589843749996" />
+        <EntityTypeShape EntityType="ColorITModel.ServiceTypes" Width="1.5" PointX="13.25" PointY="6.375" Height="1.4279589843749996" />
         <AssociationConnector Association="ColorITModel.PK_Paints_CarModels" >
           <ConnectorPoint PointX="11.75" PointY="2.2139794921875" />
           <ConnectorPoint PointX="12.5" PointY="2.2139794921875" />
@@ -1106,12 +1097,12 @@
           <ConnectorPoint PointX="12.5" PointY="1.21875" />
         </AssociationConnector>
         <AssociationConnector Association="ColorITModel.PK_Paints_PaintName" >
-          <ConnectorPoint PointX="11.875" PointY="3.7625634765625" />
-          <ConnectorPoint PointX="12.5" PointY="3.7625634765625" />
+          <ConnectorPoint PointX="11.875" PointY="4.4199527994791659" />
+          <ConnectorPoint PointX="12.5" PointY="4.4199527994791659" />
         </AssociationConnector>
         <AssociationConnector Association="ColorITModel.PK_Paints_" >
-          <ConnectorPoint PointX="13.3125" PointY="5.5" />
-          <ConnectorPoint PointX="13.3125" PointY="4.400126953125" />
+          <ConnectorPoint PointX="13.625" PointY="6.375" />
+          <ConnectorPoint PointX="13.625" PointY="5.7149055989583317" />
         </AssociationConnector>
       </Diagram>
     </Diagrams>
