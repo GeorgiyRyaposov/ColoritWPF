@@ -39,7 +39,7 @@
 
             <StackPanel Orientation="Horizontal" Margin="2" HorizontalAlignment="Right">
                 <Label>Телефон: </Label>
-                <TextBox Text="{Binding SelectedItem.PhoneNumber, ElementName=ClientCombo}" Width="150" HorizontalAlignment="Right"></TextBox>
+                <TextBox Text="{Binding Path=SelectedItem.PhoneNumber, ElementName=ClientCombo, Mode=OneWay}" Width="150" HorizontalAlignment="Right"></TextBox>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="8,2,0,0" HorizontalAlignment="Left">
                 <Label>Баланс Клиента:</Label>
@@ -60,11 +60,11 @@
                     <DataGridCheckBoxColumn x:Name="ByCodeColumn" Binding="{Binding Path=ServiceByCode}" Header="Код" Width="Auto" />
                     <DataGridCheckBoxColumn x:Name="SelectionColumn" Binding="{Binding Path=ServiceSelection}" Header="Подбор" Width="Auto" />
                     <DataGridTextColumn x:Name="amountColumn" Binding="{Binding Path=Amount}" Header="Количество" Width="SizeToHeader" />
-                    <DataGridTextColumn x:Name="sumColumn" Binding="{Binding Path=Sum}" Header="Сумма" Width="SizeToHeader" />
-                    <DataGridTextColumn x:Name="salaryColumn" Binding="{Binding Path=Salary}" Header="Колорист" Width="SizeToHeader" />
+                    <DataGridTextColumn x:Name="sumColumn" Binding="{Binding Path=Total, StringFormat=\{0:c\}}" Header="Сумма" Width="SizeToHeader" />
+                    <DataGridCheckBoxColumn x:Name="salaryColumn" Binding="{Binding Path=ServiceColorist}" Header="Колорист" Width="SizeToHeader" />
                     <DataGridTextColumn x:Name="clientIDColumn" Binding="{Binding Path=ClientID, Converter={StaticResource ClientNameConverter}}" Header="Клиент" Width="Auto" />
                     <DataGridTextColumn x:Name="phoneNumberColumn" Binding="{Binding Path=PhoneNumber}" Header="Телефон" Width="SizeToHeader" />
-                    <DataGridCheckBoxColumn x:Name="docStateColumn" Binding="{Binding Path=DocState}" Header="Продано" Width="Auto" />
+                    <DataGridCheckBoxColumn x:Name="docStateColumn" Binding="{Binding Path=DocState}" Header="Проведено" Width="Auto" />
                 </DataGrid.Columns>
             </DataGrid>
         </DockPanel>
@@ -76,16 +76,22 @@
                     </Style>
                 </StackPanel.Resources>
                 <RadioButton GroupName="Paints" 
-                             IsChecked="{Binding LSB, Mode=TwoWay}">LSB</RadioButton>
+                             IsChecked="{Binding LSB, Mode=TwoWay}"
+                             Command="{Binding SetPaintCommand}">LSB</RadioButton>
                 <RadioButton GroupName="Paints" Name="L2KRadio"
-                             IsChecked="{Binding Path=L2K}">L2K</RadioButton>
+                             IsChecked="{Binding Path=L2K, Mode=TwoWay}"
+                             Command="{Binding SetPaintCommand}">L2K</RadioButton>
                 <RadioButton GroupName="Paints" 
-                             IsChecked="{Binding ABP}">ABP</RadioButton>
+                             IsChecked="{Binding ABP, Mode=TwoWay}"
+                             Command="{Binding SetPaintCommand}">ABP</RadioButton>
                 <RadioButton GroupName="Paints" 
-                             IsChecked="{Binding Polish}">Лак</RadioButton>
-                <RadioButton GroupName="Paints" 
-                             IsChecked="{Binding Other}">Другое</RadioButton>
-                <ComboBox ItemsSource="{Binding PaintNameList}" SelectedValue ="{Binding CurrentPaintName.ID}" DisplayMemberPath="Name" SelectedValuePath="ID" Width="150" IsEnabled="{Binding IsChecked, ElementName=Other_Radio}"></ComboBox>
+                             IsChecked="{Binding Polish, Mode=TwoWay}"
+                             Command="{Binding SetPaintCommand}">Лак</RadioButton>
+                <RadioButton GroupName="Paints" Name="OtherRadio"
+                             IsChecked="{Binding Path=Other, Mode=TwoWay}"
+                             Command="{Binding SetPaintCommand}">Другое</RadioButton>
+                <ComboBox ItemsSource="{Binding OtherPaints}" 
+                          SelectedValue ="{Binding Path=CurrentPaint.NameID}" DisplayMemberPath="Name" SelectedValuePath="ID" Width="150" IsEnabled="{Binding IsChecked, ElementName=OtherRadio}"></ComboBox>
             </StackPanel>
             <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="45,5,0,5">
                 <StackPanel.Resources>
@@ -94,22 +100,29 @@
                     </Style>
                 </StackPanel.Resources>
                 <RadioButton GroupName="L2KColors" IsEnabled="{Binding ElementName=L2KRadio, Path=IsChecked}"
-                             IsChecked="{Binding White, Mode=TwoWay}">Белая</RadioButton>
+                             IsChecked="{Binding White, Mode=TwoWay}"
+                             Command="{Binding SetPaintCommand}">Белая</RadioButton>
                 <RadioButton GroupName="L2KColors" IsEnabled="{Binding ElementName=L2KRadio, Path=IsChecked}"
-                             IsChecked="{Binding Red}">Красная</RadioButton>
+                             IsChecked="{Binding Red, Mode=TwoWay}"
+                             Command="{Binding SetPaintCommand}">Красная</RadioButton>
                 <RadioButton GroupName="L2KColors" IsEnabled="{Binding ElementName=L2KRadio, Path=IsChecked}"
-                             IsChecked="{Binding Color}">Цветная</RadioButton>
+                             IsChecked="{Binding Color, Mode=TwoWay}"
+                             Command="{Binding SetPaintCommand}">Цветная</RadioButton>
             </StackPanel>
             <StackPanel Orientation="Vertical" DockPanel.Dock="Left">
-                <CheckBox IsChecked="{Binding Package, Mode=TwoWay}" DockPanel.Dock="Left">Комплект</CheckBox>
-                <CheckBox IsChecked="{Binding ThreeLayers, Mode=TwoWay}" DockPanel.Dock="Left">Три слоя</CheckBox>
+                <CheckBox IsChecked="{Binding Package}" DockPanel.Dock="Left"
+                          Command="{Binding SetPaintCommand}"
+                          CommandParameter="{Binding}">Комплект</CheckBox>
+                <CheckBox IsChecked="{Binding ThreeLayers}" DockPanel.Dock="Left"
+                          Command="{Binding SetPaintCommand}"
+                          CommandParameter="{Binding}">Три слоя</CheckBox>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" DockPanel.Dock="Bottom">
                 <Label>Краска: </Label>
-                <TextBox Text="{Binding CurrentPaint.Amount, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Width="150"></TextBox>
+                <TextBox Text="{Binding Mode=TwoWay, UpdateSourceTrigger=LostFocus, Path=CurrentPaint.Amount, StringFormat=\{0:N\}}" Width="150"></TextBox>
                 <Label>Лак:</Label>
-                <TextBox Text="{Binding CurrentPaint.AmountPolish, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="150"></TextBox>
+                <TextBox Text="{Binding CurrentPaint.AmountPolish, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=\{0:N\}}" Width="150"></TextBox>
             </StackPanel>
         </DockPanel>
         <DockPanel Width="75" Height="50" Margin="710,5,0,0" VerticalAlignment="Top" HorizontalAlignment="Left">
@@ -122,24 +135,27 @@
                         <Setter Property="Margin" Value="0,2,0,0"/>
                     </Style>
                 </StackPanel.Resources>
-                <RadioButton GroupName="ServiceTypes" IsChecked="{Binding ByCode, Mode=TwoWay}">Код</RadioButton>
-                <RadioButton GroupName="ServiceTypes" IsChecked="{Binding Selection, Mode=TwoWay}" x:Name="Selection_radio">Подбор</RadioButton>
-                <CheckBox IsChecked="{Binding CurrentPaint.ServiceColorist}">Колорист</CheckBox>
+                <RadioButton GroupName="ServiceTypes" IsChecked="{Binding ByCode, Mode=TwoWay}"
+                             Command="{Binding SetPaintCommand}">Код</RadioButton>
+                <RadioButton GroupName="ServiceTypes" IsChecked="{Binding Selection, Mode=TwoWay}" x:Name="Selection_radio"
+                             Command="{Binding SetPaintCommand}">Подбор</RadioButton>
+                <CheckBox IsChecked="{Binding Colorist}"
+                             Command="{Binding SetPaintCommand}">Колорист</CheckBox>
             </StackPanel>
         </DockPanel>
         <DockPanel Width="240" Height="75" Margin="255,85,0,0" VerticalAlignment="Top" HorizontalAlignment="Left">
             <StackPanel Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Left">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                     <Label>Предоплата: </Label>
-                    <TextBox Text="{Binding CurrentPaint.Prepay, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="150"></TextBox>
+                    <TextBox Text="{Binding CurrentPaint.Prepay, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=\{0:c\}}" Width="150"></TextBox>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                     <Label>Сумма товара:</Label>
-                    <TextBox Text="{Binding CurrentPaint.GoodsSum, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="150"></TextBox>
+                    <TextBox Text="{Binding CurrentPaint.Sum, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=\{0:c\}}" Width="150"></TextBox>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                     <Label>Итого: </Label>
-                    <TextBox Text="{Binding CurrentPaint.TotalValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="150"></TextBox>
+                    <TextBox Text="{Binding Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Path=CurrentPaint.Total, StringFormat=\{0:c\}}" Width="150"></TextBox>
                 </StackPanel>
             </StackPanel>
         </DockPanel>
@@ -150,9 +166,10 @@
                         <Setter Property="Margin" Value="0,10,0,0"/>
                     </Style>
                 </StackPanel.Resources>
+                <Button Command="{Binding AddPaintCommand}">Добавить</Button>
                 <Button Command="{Binding ReCalcCommand}">ReCalc</Button>
-                <Button>Сохранить</Button>
-                <Button>Провести</Button>
+                <Button Command="{Binding SaveChangesCommand}">Сохранить</Button>
+                <Button Command="{Binding ConfirmDocumentCommand}">Провести</Button>
             </StackPanel>
         </DockPanel>        
     </Grid>

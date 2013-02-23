@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Data;
 using System.Linq;
 using System.Text;
 using ColoritWPF.Models;
@@ -26,42 +27,44 @@ namespace ColoritWPF.ViewModel
             }
         }
         private ColorITEntities colorItEntities;
-        
         private Paints _currentPaint;
-        //private PaintName _currentPaintName;
 
         public ObservableCollection<Client> Clients { get; set; }
-        public ObservableCollection<PaintName> PaintNameList { get; set; }
         public ObservableCollection<CarModels> CarModels { get; set; }
         public ObservableCollection<Paints> Paints { get; set; }
-
+        public ObservableCollection<PaintName> OtherPaints { get; set; }
+        
         #region Radio buttons
 
-        private bool _lsb;
+        private bool _lsb = true;
         private bool _l2k;
         private bool _abp;
         private bool _polish;
         private bool _other;
-        private bool _white;
+        private bool _white = true;
         private bool _red;
         private bool _color;
-        private bool _byCode;
-        private bool _selection;
-
+        private bool _package;
+        private bool _threeLayers;
 
         public bool LSB
         {
             get { return _lsb; }
-            set { _lsb = value;
-            base.RaisePropertyChanged("LSB");}
+            set 
+            { 
+                _lsb = value;
+                base.RaisePropertyChanged("LSB");
+            }
         }
 
         public bool L2K
         {
             get { return _l2k; }
-            set { _l2k = value;
-                //SetPaint();
-            base.RaisePropertyChanged("L2K");}
+            set 
+            { 
+                _l2k = value;
+                base.RaisePropertyChanged("L2K");
+            }
         }
 
         public bool ABP
@@ -69,8 +72,9 @@ namespace ColoritWPF.ViewModel
             get { return _abp; }
             set
             {
-                _abp = value; SetPaint();
-            base.RaisePropertyChanged("ABP");}
+                _abp = value;
+                base.RaisePropertyChanged("ABP");
+            }
         }
 
         public bool Polish
@@ -78,8 +82,9 @@ namespace ColoritWPF.ViewModel
             get { return _polish; }
             set
             {
-                _polish = value; SetPaint();
-            base.RaisePropertyChanged("Polish");}
+                Package  = _polish = value;
+                base.RaisePropertyChanged("Polish");
+            }
         }
 
         public bool Other
@@ -87,8 +92,9 @@ namespace ColoritWPF.ViewModel
             get { return _other; }
             set
             {
-                _other = value; SetPaint();
-            base.RaisePropertyChanged("Other");}
+                _other = value;
+                base.RaisePropertyChanged("Other");
+            }
         }
 
         public bool White
@@ -96,8 +102,9 @@ namespace ColoritWPF.ViewModel
             get { return _white; }
             set
             {
-                _white = value; SetPaint();
-            base.RaisePropertyChanged("White");}
+                _white = value;
+                base.RaisePropertyChanged("White");
+            }
         }
 
         public bool Red
@@ -105,8 +112,9 @@ namespace ColoritWPF.ViewModel
             get { return _red; }
             set
             {
-                _red = value; SetPaint();
-            base.RaisePropertyChanged("Red");}
+                _red = value;
+                base.RaisePropertyChanged("Red");
+            }
         }
 
         public bool Color
@@ -114,26 +122,27 @@ namespace ColoritWPF.ViewModel
             get { return _color; }
             set
             {
-                _color = value; SetPaint();
-            base.RaisePropertyChanged("Color");}
+                _color = value;
+                base.RaisePropertyChanged("Color");
+            }
         }
 
         public bool ThreeLayers
         {
-            get { return CurrentPaint.PaintName.ThreeLayers; }
+            get { return _threeLayers; }
             set
             {
-                CurrentPaint.PaintName.ThreeLayers = value; SetPaint();
-            base.RaisePropertyChanged("ThreeLayers");
+                _threeLayers = value; 
+                base.RaisePropertyChanged("ThreeLayers");
             }
         }
 
         public bool Package
         {
-            get { return CurrentPaint.PaintName.Package; }
+            get { return _package; }
             set
             {
-                CurrentPaint.PaintName.Package = value; SetPaint();
+                _package = value; 
                 base.RaisePropertyChanged("Package");
             }
         }
@@ -143,7 +152,7 @@ namespace ColoritWPF.ViewModel
             get { return CurrentPaint.ServiceByCode; }
             set
             {
-                CurrentPaint.ServiceByCode = value; SetPaint();
+                CurrentPaint.ServiceByCode = value; 
                 base.RaisePropertyChanged("ByCode");
             }
         }
@@ -153,7 +162,7 @@ namespace ColoritWPF.ViewModel
             get { return CurrentPaint.ServiceSelection; }
             set
             {
-                CurrentPaint.ServiceSelection = value; SetPaint();
+                CurrentPaint.ServiceSelection = value; 
                 base.RaisePropertyChanged("Selection");
             }
         }
@@ -163,8 +172,8 @@ namespace ColoritWPF.ViewModel
             get { return CurrentPaint.ServiceColorist; }
             set
             {
-                CurrentPaint.ServiceColorist = value; SetPaint();
-                base.RaisePropertyChanged("Selection");
+                CurrentPaint.ServiceColorist = value; 
+                base.RaisePropertyChanged("Colorist");
             }
         }
 
@@ -184,7 +193,6 @@ namespace ColoritWPF.ViewModel
             }
         }
         
-
         private void GetData()
         {
             SetDefaultValues();
@@ -192,8 +200,8 @@ namespace ColoritWPF.ViewModel
             Paints = new ObservableCollection<Paints>(colorItEntities.Paints.ToList());
 
             Clients = new ObservableCollection<Client>(colorItEntities.Client.ToList());
-            PaintNameList = new ObservableCollection<PaintName>(colorItEntities.PaintName.ToList());
             CarModels = new ObservableCollection<CarModels>(colorItEntities.CarModels.ToList());
+            OtherPaints = new ObservableCollection<PaintName>(colorItEntities.PaintName.Where(item => item.PaintType == "Other").ToList());
         }
 
         private void SetDefaultValues()
@@ -228,12 +236,87 @@ namespace ColoritWPF.ViewModel
             get;
             private set;
         }
-
+        public RelayCommand SetPaintCommand
+        {
+            get;
+            private set;
+        }
+        public RelayCommand AddPaintCommand
+        {
+            get;
+            private set;
+        }
+        public RelayCommand SaveChangesCommand
+        {
+            get;
+            private set;
+        }
+        public RelayCommand ConfirmDocumentCommand
+        {
+            get;
+            private set;
+        }
 
         //Initialize commands
         private void AddCommands()
         {
             ReCalcCommand = new RelayCommand(ReCalc);
+            SetPaintCommand = new RelayCommand(SetPaint);
+            AddPaintCommand = new RelayCommand(AddPaint);
+            SaveChangesCommand = new RelayCommand(SaveChanges);
+            ConfirmDocumentCommand = new RelayCommand(ConfirmDoc);
+        }
+
+        private void ConfirmDoc()
+        {
+            CurrentPaint.DocState = true;
+        }
+
+        private void SaveChanges()
+        {
+            try
+            {
+                CurrentPaint.PhoneNumber = CurrentPaint.Client.PhoneNumber;
+                colorItEntities.SaveChanges();
+            }
+            catch (OptimisticConcurrencyException ex)
+            {
+                throw new OptimisticConcurrencyException("Сохранить изменения не удалось\n" + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Сохранить изменения не удалось\n"+ex.Message);
+            }
+        }
+
+        private void AddPaint()
+        {
+            Paints ps = new Paints
+                            {
+                                Date = DateTime.Now,
+                                CarModelID = 3,
+                                PaintCode = "Введите код краски",
+                                ThreeLayers = false,
+                                NameID = 4,
+                                TypeID = 1,
+                                Amount = 0,
+                                Sum = 0,
+                                Salary = 0,
+                                ClientID = 7,
+                                DocState = false,
+                                PhoneNumber = String.Empty,
+                                ServiceByCode = false,
+                                ServiceSelection = true,
+                                ServiceColorist = true,
+                                AmountPolish = 0,
+                                Prepay = 0,
+                                Total = 0
+                            };
+
+            Paints.Add(ps);
+            CurrentPaint = ps;
+
+            colorItEntities.Paints.AddObject(ps);
         }
 
         private void ReCalc()
@@ -294,22 +377,24 @@ namespace ColoritWPF.ViewModel
                 Package = CurrentPaint.PaintName.Package;
                 ByCode = CurrentPaint.ServiceByCode;
                 Selection = CurrentPaint.ServiceSelection;
+                Colorist = CurrentPaint.ServiceColorist;
+
             }
         }
 
-        public void SetPaint()
+        private void SetPaint()
         {
             using (ColorITEntities colorItEntities = new ColorITEntities())
             {
                 int pName;
-                if (L2K)
+                if (_l2k)
                 {
                     string l2KType = string.Empty;
-                    if (White)
+                    if (_white)
                         l2KType = "White";
-                    if(Color)
+                    if(_color)
                         l2KType = "Color";
-                    if (Red)
+                    if (_red)
                         l2KType = "Red";
                     pName = (from paintName in colorItEntities.PaintName
                                  where (
@@ -319,100 +404,42 @@ namespace ColoritWPF.ViewModel
                                            (paintName.ThreeLayers == ThreeLayers)
                                        )
                                  select paintName.ID).First();
+                    CurrentPaint.NameID = pName;
+                    return;
                 }
-                else
-                {
-                    string paint = String.Empty;
-                    if (LSB)
-                        paint = "LSB";
-                    if (ABP)
-                        paint = "ABP";
-                    if (Other)
-                        paint = "Other";
-                    if (Polish)
-                        paint = "Polish";
+
+                if (Polish)
+                {   
                     pName = (from paintName in colorItEntities.PaintName
-                                    where (
-                                            (paintName.PaintType == paint) &&
-                                            (paintName.Package == Package) &&
-                                            (paintName.ThreeLayers == ThreeLayers)
-                                        )
-                                    select paintName.ID).First();                    
+                             where (
+                                     (paintName.L2KType == "Polish") &&
+                                     (paintName.Package == Package) &&
+                                     (paintName.ThreeLayers == ThreeLayers)
+                                 )
+                             select paintName.ID).First();
+                    CurrentPaint.NameID = pName;
+                    return;
                 }
+
+                if(Other)
+                    return;
+
+                string paint = String.Empty;
+                if (LSB)
+                    paint = "LSB";
+                if (ABP)
+                    paint = "ABP";
+
+                pName = (from paintName in colorItEntities.PaintName
+                                where (
+                                        (paintName.PaintType == paint) &&
+                                        (paintName.Package == Package) &&
+                                        (paintName.ThreeLayers == ThreeLayers)
+                                    )
+                                select paintName.ID).First();
                 CurrentPaint.NameID = pName;
             }
         }
-        /*
-        public void GetSelectedPaint()
-        {
-            using (ColorITEntities colorItEntities = new ColorITEntities())
-            {
-                if (CurrentPaintName == null)
-                    return;
-                
-                if (CurrentPaintName.L2K)
-                {
-                    if (CurrentPaintName.White)
-                    {
-                        var paint = (from _paint in colorItEntities.PaintName
-                                     where _paint.ID == 1
-                                     select _paint).FirstOrDefault();
-                        CurrentPaintName = paint;
-                    }
-                    if (CurrentPaintName.Color)
-                    {
-                        var paint = (from _paint in colorItEntities.PaintName
-                                     where _paint.ID == 2
-                                     select _paint).FirstOrDefault();
-                        CurrentPaintName = paint;
-                    }
-                    if (CurrentPaintName.Red)
-                    {
-                        var paint = (from _paint in colorItEntities.PaintName
-                                     where _paint.ID == 3
-                                     select _paint).FirstOrDefault();
-                        CurrentPaintName = paint;
-                    }
-                }
-                if (CurrentPaintName.LSB)
-                {
-                    if (CurrentPaintName.ThreeLayers)
-                    {
-                        var paint = (from _paint in colorItEntities.PaintName
-                                     where _paint.ID == 6
-                                     select _paint).FirstOrDefault();
-                        CurrentPaintName = paint;
-                    }
-                    if (CurrentPaintName.ThreeLayers == false)
-                    {
-                        var paint = (from _paint in colorItEntities.PaintName
-                                     where _paint.ID == 4
-                                     select _paint).FirstOrDefault();
-                        CurrentPaintName = paint;
-                    }
-                }
-                if (CurrentPaintName.ABP)
-                {
-                    if (CurrentPaintName.ThreeLayers)
-                    {
-                        var paint = (from _paint in colorItEntities.PaintName
-                                     where _paint.ID == 22
-                                     select _paint).FirstOrDefault();
-                        CurrentPaintName = paint;
-                    }
-                    if (CurrentPaintName.ThreeLayers == false)
-                    {
-                        var paint = (from _paint in colorItEntities.PaintName
-                                     where _paint.ID == 20
-                                     select _paint).FirstOrDefault();
-                        CurrentPaintName = paint;
-                    }
-                }
-            
-            }
-         
-        }
-         */
     }
 }
 

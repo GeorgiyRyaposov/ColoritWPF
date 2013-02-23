@@ -788,7 +788,7 @@
           <NavigationProperty Name="Client" Relationship="ColorITModel.PK_Paints_Clients" FromRole="Paints" ToRole="Client" />
           <NavigationProperty Name="PaintName" Relationship="ColorITModel.PK_Paints_PaintName" FromRole="Paints" ToRole="PaintName" />
           <NavigationProperty Name="ServiceTypes" Relationship="ColorITModel.PK_Paints_" FromRole="Paints" ToRole="ServiceTypes" />
-          <Property Type="Boolean" Name="DocState" />
+          <Property Type="Boolean" Name="DocState" ConcurrencyMode="None" DefaultValue="False" Nullable="false" />
           <Property Type="String" Name="PhoneNumber" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Type="Boolean" Name="ServiceByCode" Nullable="false" />
           <Property Type="Boolean" Name="ServiceSelection" Nullable="false" />

@@ -9,7 +9,7 @@ namespace ColoritWPF.Views
     {
         public ColorsWindow()
         {
-            InitializeComponent();
+            InitializeComponent();            
         }
     }
 }

@@ -2306,9 +2306,9 @@ namespace ColoritWPF
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public Nullable<global::System.Boolean> DocState
+        public global::System.Boolean DocState
         {
             get
             {
@@ -2323,8 +2323,8 @@ namespace ColoritWPF
                 OnDocStateChanged();
             }
         }
-        private Nullable<global::System.Boolean> _DocState;
-        partial void OnDocStateChanging(Nullable<global::System.Boolean> value);
+        private global::System.Boolean _DocState = false;
+        partial void OnDocStateChanging(global::System.Boolean value);
         partial void OnDocStateChanged();
     
         /// <summary>

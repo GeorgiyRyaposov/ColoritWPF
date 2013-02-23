@@ -7,20 +7,6 @@ namespace ColoritWPF
 {
     public partial class Paints
     {
-        private decimal _goodsSum;
-        public decimal GoodsSum
-        {
-            get
-            {
-                return _goodsSum;
-            }
-            set
-            {
-                _goodsSum = value;
-                OnPropertyChanged("GoodsSum");
-            }
-        }
-
         public decimal PolishSum
         {
             get { return AddToSumPackagePolish(); }
@@ -53,22 +39,12 @@ namespace ColoritWPF
                 }
             }
         }
-
-        private decimal _totalValue;
-        public decimal TotalValue
-        {
-            get { return (GoodsSum + Prepay + ClientValues.Balance); }
-            set { _totalValue = value; }
-        }
-
+        
         public void ReCalcAll(decimal work)
         {
             double census = GetCensus();
-            _goodsSum = ((PaintValues.Cost * (Decimal.Parse(Amount.ToString()) + Decimal.Parse(census.ToString())) + PolishSum) * (1 - (decimal)ClientValues.Discount)) + work + PaintValues.Container;
-            OnPropertyChanged("GoodsSum");
-
-            _totalValue = GoodsSum + Prepay + ClientValues.Balance;
-            OnPropertyChanged("TotalValue");
+            Sum = ((PaintValues.Cost * (Decimal.Parse(Amount.ToString()) + Decimal.Parse(census.ToString())) + PolishSum) * (1 - (decimal)ClientValues.Discount)) + work + PaintValues.Container;
+            Total = Sum + ClientValues.Balance - Prepay;
         }
 
         //Добыть перепыл
