@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Data;
 using System.Linq;
-using System.Text;
-using ColoritWPF.Models;
+using System.Windows;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 
@@ -53,6 +50,7 @@ namespace ColoritWPF.ViewModel
             set 
             { 
                 _lsb = value;
+                IsThreeLayers = value || ABP;
                 base.RaisePropertyChanged("LSB");
             }
         }
@@ -73,6 +71,7 @@ namespace ColoritWPF.ViewModel
             set
             {
                 _abp = value;
+                IsThreeLayers = value || LSB;
                 base.RaisePropertyChanged("ABP");
             }
         }
@@ -192,7 +191,27 @@ namespace ColoritWPF.ViewModel
                 SetRadio();
             }
         }
-        
+
+        private bool _docConfirmed;
+        public bool DocConfirmed
+        {
+            get { return _docConfirmed; }
+            set { _docConfirmed = value;
+            base.RaisePropertyChanged("DocConfirmed");
+            }
+        }
+
+        private bool _isThreeLayers;
+        public bool IsThreeLayers
+        {
+            get { return _isThreeLayers; }
+            set
+            {
+                _isThreeLayers = value;
+                base.RaisePropertyChanged("IsThreeLayers");
+            }
+        }
+
         private void GetData()
         {
             SetDefaultValues();
@@ -261,15 +280,31 @@ namespace ColoritWPF.ViewModel
         private void AddCommands()
         {
             ReCalcCommand = new RelayCommand(ReCalc);
-            SetPaintCommand = new RelayCommand(SetPaint);
+            SetPaintCommand = new RelayCommand(SetPaintAndRecalc, SetPaintCanExecute);
             AddPaintCommand = new RelayCommand(AddPaint);
             SaveChangesCommand = new RelayCommand(SaveChanges);
             ConfirmDocumentCommand = new RelayCommand(ConfirmDoc);
         }
 
+        private void SetPaintAndRecalc()
+        {
+            SetPaint();
+            ReCalc();
+        }
+
+        private bool SetPaintCanExecute()
+        {
+            return !CurrentPaint.DocState;
+        }
+
         private void ConfirmDoc()
         {
-            CurrentPaint.DocState = true;
+            if (MessageBox.Show("Вы уверены что хотите провести документ?",
+                                "Подтверждение", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            {
+                DocConfirmed = false;
+                CurrentPaint.DocState = true; 
+            }
         }
 
         private void SaveChanges()
@@ -336,6 +371,7 @@ namespace ColoritWPF.ViewModel
 
         #endregion
 
+        //Выставляет радио кнопки в зависимости от выбраной краски
         private void SetRadio()
         {
             if (CurrentPaint.PaintName != null)
@@ -378,15 +414,36 @@ namespace ColoritWPF.ViewModel
                 ByCode = CurrentPaint.ServiceByCode;
                 Selection = CurrentPaint.ServiceSelection;
                 Colorist = CurrentPaint.ServiceColorist;
-
+                DocConfirmed = !CurrentPaint.DocState;
             }
         }
 
+        //Выставляет краски в зависимости от выбраной радио кнопки
         private void SetPaint()
         {
             using (ColorITEntities colorItEntities = new ColorITEntities())
             {
                 int pName;
+
+                if (LSB || ABP)
+                {
+                    string paint = String.Empty;
+                    if (LSB)
+                        paint = "LSB";
+                    if (ABP)
+                        paint = "ABP";
+
+                    pName = (from paintName in colorItEntities.PaintName
+                             where (
+                                       (paintName.PaintType == paint) &&
+                                       (paintName.Package == Package) &&
+                                       (paintName.ThreeLayers == ThreeLayers)
+                                   )
+                             select paintName.ID).First();
+                    CurrentPaint.NameID = pName;
+                    return;
+                }
+
                 if (_l2k)
                 {
                     string l2KType = string.Empty;
@@ -423,21 +480,6 @@ namespace ColoritWPF.ViewModel
 
                 if(Other)
                     return;
-
-                string paint = String.Empty;
-                if (LSB)
-                    paint = "LSB";
-                if (ABP)
-                    paint = "ABP";
-
-                pName = (from paintName in colorItEntities.PaintName
-                                where (
-                                        (paintName.PaintType == paint) &&
-                                        (paintName.Package == Package) &&
-                                        (paintName.ThreeLayers == ThreeLayers)
-                                    )
-                                select paintName.ID).First();
-                CurrentPaint.NameID = pName;
             }
         }
     }

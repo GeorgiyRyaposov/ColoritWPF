@@ -8,169 +8,203 @@
         <ColoritWPF:CarModelConverter x:Key="CarModelConverter" />
         <ColoritWPF:ClientNameConverter x:Key="ClientNameConverter" />
         <ColoritWPF:PaintNameConverter x:Key="PaintNameConverter" />
-        <ColoritWPF:ServiceTypeConverter x:Key="ServiceTypeConverter" />
-        <ColoritWPF:EnumToBoolConverter x:Key="EBConverter"/>
+        
+        <!--Button style-->
+        <Style TargetType="Button">
+            <Setter Property="FontSize" Value ="12"/>
+            <Setter Property="FontWeight" Value ="Normal"/>
+            <Setter Property="MinWidth" Value ="75"/>
+            <Setter Property="Margin" Value ="5,0,0,0"/>
+        </Style>
+        <!--TextBox style-->
+        <Style TargetType="TextBox">
+            <Setter Property="MaxHeight" Value ="25"/>
+            <Setter Property="IsEnabled" Value="{Binding DocConfirmed}"/>
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="true">
+                    <Setter Property="ToolTip" Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=(Validation.Errors).CurrentItem.ErrorContent}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <!--ComboBox style-->
+        <Style TargetType="ComboBox">
+            <Setter Property="IsEnabled" Value="{Binding DocConfirmed}"/>
+        </Style>
     </Window.Resources>
+    <Window.InputBindings>
+        <KeyBinding Command="{Binding ConfirmDocumentCommand}"
+                    Key="Enter" Modifiers="Control"/>
+    </Window.InputBindings>
+
     <Grid>
-        <StackPanel Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Left">
-
-            <StackPanel Orientation="Horizontal" Margin="2" HorizontalAlignment="Right">
-                <Label>Выбор модели:</Label>
-                <ComboBox ItemsSource ="{Binding CarModels}" 
-                          SelectedValue="{Binding CurrentPaint.CarModelID}" 
-                          DisplayMemberPath="ModelName" IsSynchronizedWithCurrentItem="True" 
-                          SelectedValuePath="ID" Width="150" HorizontalAlignment="Right"></ComboBox>
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0" Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Label>Выбор модели:</Label>
+            <ComboBox
+                ItemsSource ="{Binding CarModels}" 
+                SelectedValue="{Binding CurrentPaint.CarModelID}" 
+                DisplayMemberPath="ModelName" IsSynchronizedWithCurrentItem="True" 
+                SelectedValuePath="ID" Width="150" HorizontalAlignment="Right"></ComboBox>
             </StackPanel>
-
-            <StackPanel Orientation="Horizontal" Margin="2" HorizontalAlignment="Right">
+        <StackPanel Grid.Column="0" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
                 <Label>Код краски: </Label>
                 <TextBox Text="{Binding CurrentPaint.PaintCode}" Width="150"></TextBox>
-            </StackPanel>
-
-            <StackPanel Orientation="Horizontal" Margin="2" HorizontalAlignment="Right">
-                <Label>Список клиентов:</Label>
-                <ComboBox x:Name="ClientCombo" 
-                          ItemsSource ="{Binding Clients}"  
-                          SelectedValue ="{Binding Path=SelectedItem.ClientID, ElementName=PaintsGrid, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                          DisplayMemberPath="Name" 
-                          SelectedValuePath="ID" 
-                          Width="150"></ComboBox>            
-            </StackPanel>
-
-            <StackPanel Orientation="Horizontal" Margin="2" HorizontalAlignment="Right">
-                <Label>Телефон: </Label>
-                <TextBox Text="{Binding Path=SelectedItem.PhoneNumber, ElementName=ClientCombo, Mode=OneWay}" Width="150" HorizontalAlignment="Right"></TextBox>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="8,2,0,0" HorizontalAlignment="Left">
-                <Label>Баланс Клиента:</Label>
-                <Label Content="{Binding SelectedItem.Balance, ElementName=ClientCombo}"></Label>
-            </StackPanel>
-
         </StackPanel>
-        <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Center">
-            <DataGrid x:Name="PaintsGrid" ItemsSource="{Binding Paints}" SelectedItem="{Binding CurrentPaint, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False" EnableRowVirtualization="True">
-                <DataGrid.Columns>
-                    <!--DataGridTextColumn x:Name="iDColumn1" Binding="{Binding Path=ID}" Header="ID" Width="SizeToHeader" /-->
-                    <DataGridTextColumn x:Name="dateColumn" Binding="{Binding Path=Date}" Header="Дата" Width="SizeToHeader" />
-                    <DataGridTextColumn x:Name="carModelIDColumn" Binding="{Binding Path=CarModelID, Converter={StaticResource CarModelConverter}, UpdateSourceTrigger=PropertyChanged}" Header="Модель авто" Width="SizeToHeader" />
-                    <DataGridTextColumn x:Name="paintCodeColumn" Binding="{Binding Path=PaintCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Header="Код краски" Width="SizeToHeader" />
-                    <!--DataGridCheckBoxColumn x:Name="threeLayersColumn" Binding="{Binding Path=PaintName.ThreeLayers}" Header="Три слоя" Width="SizeToHeader" /-->
-                    <DataGridTextColumn x:Name="nameIDColumn" Binding="{Binding Path=NameID, Converter={StaticResource PaintNameConverter}}" Header="Наименование" Width="SizeToHeader" />
-                    <!--DataGridTextColumn x:Name="typeIDColumn" Binding="{Binding Path=TypeID, Converter={StaticResource ServiceTypeConverter}}" Header="Код\Подбор" Width="SizeToHeader" /-->
-                    <DataGridCheckBoxColumn x:Name="ByCodeColumn" Binding="{Binding Path=ServiceByCode}" Header="Код" Width="Auto" />
-                    <DataGridCheckBoxColumn x:Name="SelectionColumn" Binding="{Binding Path=ServiceSelection}" Header="Подбор" Width="Auto" />
-                    <DataGridTextColumn x:Name="amountColumn" Binding="{Binding Path=Amount}" Header="Количество" Width="SizeToHeader" />
-                    <DataGridTextColumn x:Name="sumColumn" Binding="{Binding Path=Total, StringFormat=\{0:c\}}" Header="Сумма" Width="SizeToHeader" />
-                    <DataGridCheckBoxColumn x:Name="salaryColumn" Binding="{Binding Path=ServiceColorist}" Header="Колорист" Width="SizeToHeader" />
-                    <DataGridTextColumn x:Name="clientIDColumn" Binding="{Binding Path=ClientID, Converter={StaticResource ClientNameConverter}}" Header="Клиент" Width="Auto" />
-                    <DataGridTextColumn x:Name="phoneNumberColumn" Binding="{Binding Path=PhoneNumber}" Header="Телефон" Width="SizeToHeader" />
-                    <DataGridCheckBoxColumn x:Name="docStateColumn" Binding="{Binding Path=DocState}" Header="Проведено" Width="Auto" />
-                </DataGrid.Columns>
-            </DataGrid>
-        </DockPanel>
-        <DockPanel LastChildFill="True" Width="450" Height="75" Margin="255,5,0,0" VerticalAlignment="Top" HorizontalAlignment="Left">
-            <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
-                <StackPanel.Resources>
-                    <Style TargetType="{x:Type RadioButton}">
-                        <Setter Property="Margin" Value="0,0,10,0"/>
-                    </Style>
-                </StackPanel.Resources>
-                <RadioButton GroupName="Paints" 
-                             IsChecked="{Binding LSB, Mode=TwoWay}"
-                             Command="{Binding SetPaintCommand}">LSB</RadioButton>
-                <RadioButton GroupName="Paints" Name="L2KRadio"
-                             IsChecked="{Binding Path=L2K, Mode=TwoWay}"
-                             Command="{Binding SetPaintCommand}">L2K</RadioButton>
-                <RadioButton GroupName="Paints" 
-                             IsChecked="{Binding ABP, Mode=TwoWay}"
-                             Command="{Binding SetPaintCommand}">ABP</RadioButton>
-                <RadioButton GroupName="Paints" 
-                             IsChecked="{Binding Polish, Mode=TwoWay}"
-                             Command="{Binding SetPaintCommand}">Лак</RadioButton>
-                <RadioButton GroupName="Paints" Name="OtherRadio"
-                             IsChecked="{Binding Path=Other, Mode=TwoWay}"
-                             Command="{Binding SetPaintCommand}">Другое</RadioButton>
-                <ComboBox ItemsSource="{Binding OtherPaints}" 
-                          SelectedValue ="{Binding Path=CurrentPaint.NameID}" DisplayMemberPath="Name" SelectedValuePath="ID" Width="150" IsEnabled="{Binding IsChecked, ElementName=OtherRadio}"></ComboBox>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="45,5,0,5">
-                <StackPanel.Resources>
-                    <Style TargetType="{x:Type RadioButton}">
-                        <Setter Property="Margin" Value="0,0,15,0"/>
-                    </Style>
-                </StackPanel.Resources>
-                <RadioButton GroupName="L2KColors" IsEnabled="{Binding ElementName=L2KRadio, Path=IsChecked}"
-                             IsChecked="{Binding White, Mode=TwoWay}"
-                             Command="{Binding SetPaintCommand}">Белая</RadioButton>
-                <RadioButton GroupName="L2KColors" IsEnabled="{Binding ElementName=L2KRadio, Path=IsChecked}"
-                             IsChecked="{Binding Red, Mode=TwoWay}"
-                             Command="{Binding SetPaintCommand}">Красная</RadioButton>
-                <RadioButton GroupName="L2KColors" IsEnabled="{Binding ElementName=L2KRadio, Path=IsChecked}"
-                             IsChecked="{Binding Color, Mode=TwoWay}"
-                             Command="{Binding SetPaintCommand}">Цветная</RadioButton>
-            </StackPanel>
-            <StackPanel Orientation="Vertical" DockPanel.Dock="Left">
-                <CheckBox IsChecked="{Binding Package}" DockPanel.Dock="Left"
-                          Command="{Binding SetPaintCommand}"
-                          CommandParameter="{Binding}">Комплект</CheckBox>
-                <CheckBox IsChecked="{Binding ThreeLayers}" DockPanel.Dock="Left"
-                          Command="{Binding SetPaintCommand}"
-                          CommandParameter="{Binding}">Три слоя</CheckBox>
-            </StackPanel>
+        
+        <StackPanel Grid.Column="0" Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Label>Список клиентов:</Label>
+            <ComboBox 
+                    x:Name="ClientCombo" 
+                    ItemsSource ="{Binding Clients}"  
+                    SelectedValue ="{Binding Path=SelectedItem.ClientID, ElementName=PaintsGrid, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                    DisplayMemberPath="Name" 
+                    SelectedValuePath="ID" 
+                    Width="150"></ComboBox>
+        </StackPanel>
+        <StackPanel Grid.Column="0" Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
+                <Label >Телефон: </Label>
+                <TextBox Text="{Binding Path=SelectedItem.PhoneNumber, ElementName=ClientCombo, Mode=OneWay}" Width="150" HorizontalAlignment="Right"></TextBox>
+        </StackPanel>
+        <StackPanel Grid.Column="0" Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Right">
+                <Label>Баланс Клиента:</Label>
+                <Label Content="{Binding ElementName=ClientCombo, Path=SelectedItem.Balance, StringFormat=\{0:c\}}" Width="150" FontWeight="Bold" FontSize="12"></Label>
+        </StackPanel>
 
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" DockPanel.Dock="Bottom">
-                <Label>Краска: </Label>
-                <TextBox Text="{Binding Mode=TwoWay, UpdateSourceTrigger=LostFocus, Path=CurrentPaint.Amount, StringFormat=\{0:N\}}" Width="150"></TextBox>
-                <Label>Лак:</Label>
-                <TextBox Text="{Binding CurrentPaint.AmountPolish, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=\{0:N\}}" Width="150"></TextBox>
+        <DataGrid Grid.Column="0" Grid.Row="8" Grid.ColumnSpan="6" Grid.RowSpan="6"
+            x:Name="PaintsGrid" ItemsSource="{Binding Paints}" SelectedItem="{Binding CurrentPaint, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False" EnableRowVirtualization="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn x:Name="dateColumn" Binding="{Binding Path=Date, StringFormat=\{0:d\}}" Header="Дата" Width="Auto" />
+                <DataGridTextColumn x:Name="carModelIDColumn" Binding="{Binding Path=CarModelID, Converter={StaticResource CarModelConverter}, UpdateSourceTrigger=PropertyChanged}" Header="Модель авто" Width="Auto" />
+                <DataGridTextColumn x:Name="paintCodeColumn" Binding="{Binding Path=PaintCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Header="Код краски" Width="SizeToHeader" />
+                <DataGridTextColumn x:Name="nameIDColumn" Binding="{Binding Path=NameID, Converter={StaticResource PaintNameConverter}}" Header="Наименование" Width="*" />
+                <!--DataGridTextColumn x:Name="typeIDColumn" Binding="{Binding Path=TypeID, Converter={StaticResource ServiceTypeConverter}}" Header="Код\Подбор" Width="SizeToHeader" /-->
+                <DataGridCheckBoxColumn x:Name="ByCodeColumn" Binding="{Binding Path=ServiceByCode}" Header="Код" Width="Auto" />
+                <DataGridCheckBoxColumn x:Name="SelectionColumn" Binding="{Binding Path=ServiceSelection}" Header="Подбор" Width="Auto" />
+                <DataGridTextColumn x:Name="amountColumn" Binding="{Binding Path=Amount}" Header="Количество" Width="SizeToHeader" />
+                <DataGridTextColumn x:Name="sumColumn" Binding="{Binding Path=Total, StringFormat=\{0:c\}}" Header="Сумма" Width="SizeToHeader" />
+                <DataGridCheckBoxColumn x:Name="salaryColumn" Binding="{Binding Path=ServiceColorist}" Header="Колорист" Width="SizeToHeader" />
+                <DataGridTextColumn x:Name="clientIDColumn" Binding="{Binding Path=ClientID, Converter={StaticResource ClientNameConverter}}" Header="Клиент" Width="Auto" />
+                <DataGridTextColumn x:Name="phoneNumberColumn" Binding="{Binding Path=PhoneNumber}" Header="Телефон" Width="SizeToHeader" />
+                <DataGridCheckBoxColumn x:Name="docStateColumn" Binding="{Binding Path=DocState}" Header="Проведено" Width="Auto" />
+            </DataGrid.Columns>
+            <DataGrid.InputBindings>
+                <KeyBinding Modifiers="Control" Key="Enter" Command="{Binding ConfirmDocumentCommand}"></KeyBinding>
+            </DataGrid.InputBindings>
+        </DataGrid>
+        
+        <StackPanel Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Left">
+            <StackPanel.Resources>
+                <Style TargetType="{x:Type RadioButton}">
+                    <Setter Property="Margin" Value="0,0,10,0"/>
+                </Style>
+            </StackPanel.Resources>
+            <RadioButton GroupName="Paints" 
+                            IsChecked="{Binding LSB, Mode=TwoWay}"
+                            Command="{Binding SetPaintCommand}">LSB</RadioButton>
+            <RadioButton GroupName="Paints" Name="L2KRadio"
+                            IsChecked="{Binding Path=L2K, Mode=TwoWay}"
+                            Command="{Binding SetPaintCommand}">L2K</RadioButton>
+            <RadioButton GroupName="Paints" 
+                            IsChecked="{Binding ABP, Mode=TwoWay}"
+                            Command="{Binding SetPaintCommand}">ABP</RadioButton>
+            <RadioButton GroupName="Paints" 
+                            IsChecked="{Binding Polish, Mode=TwoWay}"
+                            Command="{Binding SetPaintCommand}">Лак</RadioButton>
+            <RadioButton GroupName="Paints" Name="OtherRadio"
+                            IsChecked="{Binding Path=Other, Mode=TwoWay}"
+                            Command="{Binding SetPaintCommand}">Другое</RadioButton>
+            <ComboBox ItemsSource="{Binding OtherPaints}"
+                        SelectedValue ="{Binding Path=CurrentPaint.NameID}" DisplayMemberPath="Name" SelectedValuePath="ID" Width="150" IsEnabled="{Binding IsChecked, ElementName=OtherRadio}"></ComboBox>
+        </StackPanel>
+
+        <StackPanel Grid.Column="1" Grid.Row="1"  Grid.ColumnSpan="2" Orientation="Horizontal" Margin="0,5,0,5" HorizontalAlignment="Left">
+            <StackPanel.Resources>
+                <Style TargetType="{x:Type RadioButton}">
+                    <Setter Property="Margin" Value="0,0,15,0"/>
+                </Style>
+            </StackPanel.Resources>
+            <StackPanel Orientation="Vertical" Margin="0,0,15,0">
+                <CheckBox IsChecked="{Binding Package}" 
+                        Command="{Binding SetPaintCommand}"
+                        CommandParameter="{Binding}">Комплект</CheckBox>
+                <CheckBox IsChecked="{Binding ThreeLayers}" IsEnabled="{Binding IsThreeLayers}"
+                        Command="{Binding SetPaintCommand}"
+                        CommandParameter="{Binding}">Три слоя</CheckBox>
             </StackPanel>
-        </DockPanel>
-        <DockPanel Width="75" Height="50" Margin="710,5,0,0" VerticalAlignment="Top" HorizontalAlignment="Left">
-            <StackPanel Orientation="Vertical">
-                <StackPanel.Resources>
-                    <Style TargetType="{x:Type RadioButton}">
-                        <Setter Property="Margin" Value="0,2,0,0"/>
-                    </Style>
-                    <Style TargetType="{x:Type CheckBox}">
-                        <Setter Property="Margin" Value="0,2,0,0"/>
-                    </Style>
-                </StackPanel.Resources>
-                <RadioButton GroupName="ServiceTypes" IsChecked="{Binding ByCode, Mode=TwoWay}"
-                             Command="{Binding SetPaintCommand}">Код</RadioButton>
-                <RadioButton GroupName="ServiceTypes" IsChecked="{Binding Selection, Mode=TwoWay}" x:Name="Selection_radio"
-                             Command="{Binding SetPaintCommand}">Подбор</RadioButton>
-                <CheckBox IsChecked="{Binding Colorist}"
-                             Command="{Binding SetPaintCommand}">Колорист</CheckBox>
-            </StackPanel>
-        </DockPanel>
-        <DockPanel Width="240" Height="75" Margin="255,85,0,0" VerticalAlignment="Top" HorizontalAlignment="Left">
-            <StackPanel Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Left">
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                    <Label>Предоплата: </Label>
-                    <TextBox Text="{Binding CurrentPaint.Prepay, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=\{0:c\}}" Width="150"></TextBox>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                    <Label>Сумма товара:</Label>
-                    <TextBox Text="{Binding CurrentPaint.Sum, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=\{0:c\}}" Width="150"></TextBox>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                    <Label>Итого: </Label>
-                    <TextBox Text="{Binding Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Path=CurrentPaint.Total, StringFormat=\{0:c\}}" Width="150"></TextBox>
-                </StackPanel>
-            </StackPanel>
-        </DockPanel>
-        <DockPanel Width="240" Height="75" Margin="495,85,0,0" VerticalAlignment="Top" HorizontalAlignment="Left">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <StackPanel.Resources>
-                    <Style TargetType="{x:Type Button}">
-                        <Setter Property="Margin" Value="0,10,0,0"/>
-                    </Style>
-                </StackPanel.Resources>
-                <Button Command="{Binding AddPaintCommand}">Добавить</Button>
-                <Button Command="{Binding ReCalcCommand}">ReCalc</Button>
-                <Button Command="{Binding SaveChangesCommand}">Сохранить</Button>
-                <Button Command="{Binding ConfirmDocumentCommand}">Провести</Button>
-            </StackPanel>
-        </DockPanel>        
+            <RadioButton GroupName="L2KColors" IsEnabled="{Binding ElementName=L2KRadio, Path=IsChecked}"
+                            IsChecked="{Binding White, Mode=TwoWay}"
+                            Command="{Binding SetPaintCommand}">Белая</RadioButton>
+            <RadioButton GroupName="L2KColors" IsEnabled="{Binding ElementName=L2KRadio, Path=IsChecked}"
+                            IsChecked="{Binding Red, Mode=TwoWay}"
+                            Command="{Binding SetPaintCommand}">Красная</RadioButton>
+            <RadioButton GroupName="L2KColors" IsEnabled="{Binding ElementName=L2KRadio, Path=IsChecked}"
+                            IsChecked="{Binding Color, Mode=TwoWay}"
+                            Command="{Binding SetPaintCommand}">Цветная</RadioButton>
+        </StackPanel>
+
+        <StackPanel Grid.Column="1" Grid.Row="2"  Orientation="Horizontal" HorizontalAlignment="Right">
+            <Label>Кол-во: </Label>
+            <TextBox Text="{Binding Mode=TwoWay, UpdateSourceTrigger=LostFocus, Path=CurrentPaint.Amount, StringFormat=\{0:N\}}" 
+                     Width="100">
+            </TextBox>
+        </StackPanel>
+        <StackPanel Grid.Column="2" Grid.Row="2"  Orientation="Horizontal" HorizontalAlignment="Right">
+            <Label>Лак:</Label>
+            <TextBox Text="{Binding CurrentPaint.AmountPolish, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=\{0:N\}}" Width="100"></TextBox>
+        </StackPanel>
+        
+        <StackPanel Grid.Column="3" Grid.Row="0" Grid.RowSpan="2" Orientation="Vertical">
+            <StackPanel.Resources>
+                <Style TargetType="{x:Type RadioButton}">
+                    <Setter Property="Margin" Value="0,2,0,0"/>
+                </Style>
+                <Style TargetType="{x:Type CheckBox}">
+                    <Setter Property="Margin" Value="0,2,0,0"/>
+                </Style>
+            </StackPanel.Resources>
+            <RadioButton GroupName="ServiceTypes" IsChecked="{Binding ByCode, Mode=TwoWay}"
+                            Command="{Binding SetPaintCommand}">Код</RadioButton>
+            <RadioButton GroupName="ServiceTypes" IsChecked="{Binding Selection, Mode=TwoWay}" x:Name="Selection_radio"
+                            Command="{Binding SetPaintCommand}">Подбор</RadioButton>
+            <CheckBox IsChecked="{Binding Colorist}"
+                            Command="{Binding SetPaintCommand}">Колорист</CheckBox>
+        </StackPanel>
+
+        <StackPanel Grid.Column="1" Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Label>Сумма товара:</Label>
+            <TextBox Text="{Binding CurrentPaint.Sum, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=\{0:c\}}" Width="100" Foreground="#FF00C200" FontSize="14"></TextBox>
+        </StackPanel>
+        <StackPanel Grid.Column="2" Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Label>Предоплата: </Label>
+            <TextBox Text="{Binding CurrentPaint.Prepay, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=\{0:c\}}" Width="100"></TextBox>
+        </StackPanel>
+        <StackPanel Grid.Column="2" Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Label>Итого:</Label>
+            <TextBox Text="{Binding Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Path=CurrentPaint.Total, StringFormat=\{0:c\}}" Width="100"></TextBox>
+        </StackPanel>
+
+        <StackPanel Grid.Column="3" Grid.Row="4" Grid.RowSpan="3" Orientation="Horizontal" HorizontalAlignment="Left">
+            <Button Command="{Binding AddPaintCommand}">Добавить</Button>
+            <Button Command="{Binding ReCalcCommand}">ReCalc</Button>
+            <Button Command="{Binding SaveChangesCommand}">Сохранить</Button>
+            <Button Command="{Binding ConfirmDocumentCommand}">Провести</Button>
+        </StackPanel>
+        
     </Grid>
 </Window>
