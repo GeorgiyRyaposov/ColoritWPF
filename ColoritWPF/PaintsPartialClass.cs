@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Windows.Media;
 
 namespace ColoritWPF
 {
@@ -8,6 +9,47 @@ namespace ColoritWPF
         public decimal PolishSum
         {
             get { return AddToSumPackagePolish(); }
+        }
+
+        private Brush _rowColor;
+        public Brush RowColor
+        {
+            get
+            {
+                _rowColor = Brushes.White;
+                if (DocState)
+                    _rowColor = Brushes.LightGreen;
+                if (!DocState && (Prepay == 0))
+                    _rowColor = Brushes.LightPink;
+                if (!DocState && (Prepay > 0))
+                    _rowColor = Brushes.LightGoldenrodYellow;
+                return _rowColor;
+            }
+            set
+            {
+                _rowColor = value;
+                OnPropertyChanged("RowColor");
+            }
+        }
+
+        partial void OnDocStateChanged()
+        {
+            UpdateRowColor();
+        }
+
+        partial void OnPrepayChanged()
+        {
+            UpdateRowColor();
+        }
+
+        private void UpdateRowColor()
+        {
+            if (DocState)
+                RowColor = Brushes.LightGreen;
+            if (!DocState && (Prepay == 0))
+                RowColor = Brushes.LightPink;
+            if (!DocState && (Prepay > 0))
+                RowColor = Brushes.LightGoldenrodYellow;
         }
 
         public Client ClientValues

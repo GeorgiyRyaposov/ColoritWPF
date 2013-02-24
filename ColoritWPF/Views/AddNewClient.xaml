@@ -1,0 +1,74 @@
+﻿<Window x:Class="ColoritWPF.Views.AddNewClient"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Добавить нового клиента" Height="280" Width="300"
+        DataContext="{Binding AddClientPage, Source={StaticResource Locator}}">
+    <Window.Resources>
+        <!--TextBox style-->
+        <Style TargetType="TextBox">
+            <Setter Property="MinWidth" Value="200"/>
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="true">
+                    <Setter Property="ToolTip" Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=(Validation.Errors).CurrentItem.ErrorContent}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <!--ComboBox style-->
+        <Style TargetType="ComboBox">
+            <Setter Property="MinWidth" Value="200"/>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        
+        <StackPanel Grid.Column="0" Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Label>ФИО</Label>
+            <TextBox Text="{Binding Path=Name, Mode=TwoWay}"></TextBox>
+        </StackPanel>
+        <StackPanel Grid.Column="0" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Label>Баланс</Label>
+            <TextBox Text="{Binding Path=Balance}"></TextBox>
+        </StackPanel>
+        <StackPanel Grid.Column="0" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Label>Баланс</Label>
+            <TextBox Text="{Binding Path=Balance, Mode=TwoWay, StringFormat=\{0:c\}}"></TextBox>
+        </StackPanel>
+        <StackPanel Grid.Column="0" Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Label>Скидка</Label>
+            <TextBox Text="{Binding Path=Discount, Mode=TwoWay}"></TextBox>
+        </StackPanel>
+        <StackPanel Grid.Column="0" Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Label>Инфо</Label>
+            <TextBox Text="{Binding Path=Info, Mode=TwoWay}" MinHeight="75" AcceptsReturn="True"></TextBox>
+        </StackPanel>
+        <StackPanel Grid.Column="0" Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Label>Телефон</Label>
+            <TextBox Text="{Binding Path=Phone, Mode=TwoWay}"></TextBox>
+        </StackPanel>
+        <StackPanel Grid.Column="0" Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Label>Группа</Label>
+            <ComboBox ItemsSource="{Binding Path=ClientGroup}"
+                      SelectedValue="{Binding GroupID, Mode=TwoWay}"
+                      SelectedValuePath="ID" 
+                      DisplayMemberPath="Name"></ComboBox>
+        </StackPanel>
+        <StackPanel Grid.Column="0" Grid.Row="6" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="Закрыть" Command="Close"></Button>
+            <Button Content="Добавить" Command="{Binding AddClientCommand}"></Button>
+        </StackPanel>
+        
+    </Grid>
+</Window>

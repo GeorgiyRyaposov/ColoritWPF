@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Data;
 using System.Linq;
 using System.Windows;
+using ColoritWPF.Views;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 
@@ -275,6 +276,21 @@ namespace ColoritWPF.ViewModel
             get;
             private set;
         }
+        public RelayCommand UnConfirmDocumentCommand
+        {
+            get;
+            private set;
+        }
+        public RelayCommand PreorderCommand
+        {
+            get;
+            private set;
+        }
+        public RelayCommand AddNewClientCommand
+        {
+            get;
+            private set;
+        }
 
         //Initialize commands
         private void AddCommands()
@@ -282,8 +298,45 @@ namespace ColoritWPF.ViewModel
             ReCalcCommand = new RelayCommand(ReCalc);
             SetPaintCommand = new RelayCommand(SetPaintAndRecalc, SetPaintCanExecute);
             AddPaintCommand = new RelayCommand(AddPaint);
-            SaveChangesCommand = new RelayCommand(SaveChanges);
-            ConfirmDocumentCommand = new RelayCommand(ConfirmDoc);
+            SaveChangesCommand = new RelayCommand(SaveChanges, SaveChangesCanExecute);
+            ConfirmDocumentCommand = new RelayCommand(ConfirmDoc, ConfirmDocCanExecute);
+            UnConfirmDocumentCommand = new RelayCommand(UnConfirmDoc, UnConfirmDocCanExecute);
+            PreorderCommand = new RelayCommand(Preorder, PreorderCanExecute);
+            AddNewClientCommand = new RelayCommand(AddNewClientCmd);
+        }
+
+        private void AddNewClientCmd()
+        {
+            AddNewClient addNewClient = new AddNewClient();
+            addNewClient.ShowDialog();
+        }
+
+        private void Preorder()
+        {
+            ReCalc();
+            if (CurrentPaint.ClientID != 7)
+                CurrentPaint.Client.Balance = CurrentPaint.Client.Balance - CurrentPaint.Total;
+            SaveWithoutRecalc();
+        }
+
+        private bool PreorderCanExecute()
+        {
+            return !CurrentPaint.DocState;
+        }
+
+        private bool SaveChangesCanExecute()
+        {
+            return !CurrentPaint.DocState;
+        }
+
+        private bool ConfirmDocCanExecute()
+        {
+            return !CurrentPaint.DocState;
+        }
+
+        private bool UnConfirmDocCanExecute()
+        {
+            return CurrentPaint.DocState;
         }
 
         private void SetPaintAndRecalc()
@@ -303,14 +356,48 @@ namespace ColoritWPF.ViewModel
                                 "Подтверждение", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
                 DocConfirmed = false;
-                CurrentPaint.DocState = true; 
+                CurrentPaint.DocState = true;
+                CurrentPaint.PhoneNumber = CurrentPaint.Client.PhoneNumber;
+                CurrentPaint.Client.Balance = CurrentPaint.Client.Balance + CurrentPaint.Total;
+                SaveWithoutRecalc();
             }
         }
 
+        //Распровести
+        private void UnConfirmDoc()
+        {
+            if (MessageBox.Show("Вы уверены что хотите разпровести документ?",
+                                "Подтверждение", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            {
+                if (MessageBox.Show("Вы точно-точно уверены что хотите разпровести документ?",
+                                    "Подтверждение", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                {
+                    DocConfirmed = true;
+                    CurrentPaint.DocState = false;
+                    SaveWithoutRecalc();
+                }
+            }
+        }
+        
+        //Сохранение без пересчета
+        private void SaveWithoutRecalc()
+        {
+            try
+            {
+                colorItEntities.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Сохранить изменения не удалось\n" + ex.Message);
+            }
+        }
+
+        //Сохранение с пересчетом
         private void SaveChanges()
         {
             try
             {
+                ReCalc();
                 CurrentPaint.PhoneNumber = CurrentPaint.Client.PhoneNumber;
                 colorItEntities.SaveChanges();
             }

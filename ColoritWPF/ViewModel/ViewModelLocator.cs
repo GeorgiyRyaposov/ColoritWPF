@@ -55,6 +55,14 @@ namespace ColoritWPF.ViewModel
             }
         }
 
+        public AddClientViewMode AddClientPage
+        {
+            get
+            {
+                return new AddClientViewMode();
+            }
+        }
+
         public MainViewModel Main
         {
             get
