@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Data;
 using System.Linq;
-using System.Windows;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Messaging;
 
 namespace ColoritWPF.ViewModel
 {
@@ -118,9 +117,17 @@ namespace ColoritWPF.ViewModel
         private void AddNewClientCmd()
         {
             colorItEntities.Client.AddObject(NewClient);
+            Messenger.Default.Send<Client>(NewClient);
             try
             {
                 colorItEntities.SaveChanges();
+                NewClient = new Client();
+                Name = String.Empty;
+                Info = String.Empty;
+                Phone = String.Empty;
+                Balance = 0;
+                Discount = 0;
+                GroupID = 1;
             }
             catch (Exception ex)
             {

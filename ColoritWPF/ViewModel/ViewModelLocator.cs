@@ -63,6 +63,14 @@ namespace ColoritWPF.ViewModel
             }
         }
 
+        public AddNewCarViewModel AddCarModelPage
+        {
+            get
+            {
+                return new AddNewCarViewModel();
+            }
+        }
+
         public MainViewModel Main
         {
             get

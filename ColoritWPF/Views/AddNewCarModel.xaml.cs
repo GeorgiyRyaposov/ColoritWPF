@@ -1,13 +1,14 @@
 ﻿using System.Windows;
 
+
 namespace ColoritWPF.Views
 {
     /// <summary>
-    /// Interaction logic for AddNewClient.xaml
+    /// Interaction logic for AddNewCarModel.xaml
     /// </summary>
-    public partial class AddNewClient : Window
+    public partial class AddNewCarModel : Window
     {
-        public AddNewClient()
+        public AddNewCarModel()
         {
             InitializeComponent();
         }

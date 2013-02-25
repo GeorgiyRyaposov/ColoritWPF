@@ -160,9 +160,13 @@
     <Compile Include="Models\ClientsListModel.cs" />
     <Compile Include="PaintsPartialClass.cs" />
     <Compile Include="ViewModel\AddClientViewModel.cs" />
+    <Compile Include="ViewModel\AddNewCarViewModel.cs" />
     <Compile Include="ViewModel\ColorsMainViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
+    <Compile Include="Views\AddNewCarModel.xaml.cs">
+      <DependentUpon>AddNewCarModel.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\AddNewClient.xaml.cs">
       <DependentUpon>AddNewClient.xaml</DependentUpon>
     </Compile>
@@ -262,6 +266,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SalesStats.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AddNewCarModel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

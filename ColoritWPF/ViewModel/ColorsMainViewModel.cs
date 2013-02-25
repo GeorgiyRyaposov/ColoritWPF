@@ -6,6 +6,7 @@ using System.Windows;
 using ColoritWPF.Views;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Messaging;
 
 namespace ColoritWPF.ViewModel
 {
@@ -22,6 +23,8 @@ namespace ColoritWPF.ViewModel
                 colorItEntities = new ColorITEntities();
                 GetData();
                 AddCommands();
+                Messenger.Default.Register<Client>(this, delegate(Client curClient) { Clients.Add(curClient); });
+                Messenger.Default.Register<CarModels>(this, delegate(CarModels carModel) { CarModels.Add(carModel); });
             }
         }
         private ColorITEntities colorItEntities;
@@ -218,7 +221,7 @@ namespace ColoritWPF.ViewModel
             SetDefaultValues();
 
             Paints = new ObservableCollection<Paints>(colorItEntities.Paints.ToList());
-
+            
             Clients = new ObservableCollection<Client>(colorItEntities.Client.ToList());
             CarModels = new ObservableCollection<CarModels>(colorItEntities.CarModels.ToList());
             OtherPaints = new ObservableCollection<PaintName>(colorItEntities.PaintName.Where(item => item.PaintType == "Other").ToList());
@@ -292,6 +295,12 @@ namespace ColoritWPF.ViewModel
             private set;
         }
 
+        public RelayCommand AddNewCarModelCommand
+        {
+            get;
+            private set;
+        }
+
         //Initialize commands
         private void AddCommands()
         {
@@ -303,6 +312,13 @@ namespace ColoritWPF.ViewModel
             UnConfirmDocumentCommand = new RelayCommand(UnConfirmDoc, UnConfirmDocCanExecute);
             PreorderCommand = new RelayCommand(Preorder, PreorderCanExecute);
             AddNewClientCommand = new RelayCommand(AddNewClientCmd);
+            AddNewCarModelCommand = new RelayCommand(AddNewCarModelCmd);
+        }
+
+        private void AddNewCarModelCmd()
+        {
+            AddNewCarModel addNewCar = new AddNewCarModel();
+            addNewCar.ShowDialog();
         }
 
         private void AddNewClientCmd()

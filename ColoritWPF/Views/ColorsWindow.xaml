@@ -224,6 +224,9 @@
             <MenuItem Header="Клиенты">
                 <MenuItem Header="Добавить" Command="{Binding AddNewClientCommand}" />
             </MenuItem>
+            <MenuItem Header="Модели авто">
+                <MenuItem Header="Добавить" Command="{Binding AddNewCarModelCommand}" />
+            </MenuItem>
         </Menu>
     </Grid>
     

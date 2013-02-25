@@ -66,8 +66,8 @@
                       DisplayMemberPath="Name"></ComboBox>
         </StackPanel>
         <StackPanel Grid.Column="0" Grid.Row="6" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Content="Закрыть" Command="Close"></Button>
-            <Button Content="Добавить" Command="{Binding AddClientCommand}"></Button>
+            <Button Content="Закрыть" Margin="0,5,0,0" Click="Button_Click"></Button>
+            <Button Content="Добавить" Command="{Binding AddClientCommand}" Margin="5,5,5,0" IsEnabled="True"></Button>
         </StackPanel>
         
     </Grid>
