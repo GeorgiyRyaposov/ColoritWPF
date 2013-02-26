@@ -71,6 +71,14 @@ namespace ColoritWPF.ViewModel
             }
         }
 
+        public ClientEditorViewModel ClientEditorPage
+        {
+            get
+            {
+                return new ClientEditorViewModel();
+            }
+        }
+
         public MainViewModel Main
         {
             get

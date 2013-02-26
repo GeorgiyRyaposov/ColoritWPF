@@ -40,10 +40,6 @@
         </StackPanel>
         <StackPanel Grid.Column="0" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
             <Label>Баланс</Label>
-            <TextBox Text="{Binding Path=Balance}"></TextBox>
-        </StackPanel>
-        <StackPanel Grid.Column="0" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Label>Баланс</Label>
             <TextBox Text="{Binding Path=Balance, Mode=TwoWay, StringFormat=\{0:c\}}"></TextBox>
         </StackPanel>
         <StackPanel Grid.Column="0" Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">

@@ -294,6 +294,11 @@ namespace ColoritWPF.ViewModel
             get;
             private set;
         }
+        public RelayCommand EditClientCommand
+        {
+            get;
+            private set;
+        }
 
         public RelayCommand AddNewCarModelCommand
         {
@@ -313,6 +318,13 @@ namespace ColoritWPF.ViewModel
             PreorderCommand = new RelayCommand(Preorder, PreorderCanExecute);
             AddNewClientCommand = new RelayCommand(AddNewClientCmd);
             AddNewCarModelCommand = new RelayCommand(AddNewCarModelCmd);
+            EditClientCommand = new RelayCommand(EditClientCmd);
+        }
+
+        private void EditClientCmd()
+        {
+            ClientEditor clientEditor = new ClientEditor();
+            clientEditor.ShowDialog();
         }
 
         private void AddNewCarModelCmd()

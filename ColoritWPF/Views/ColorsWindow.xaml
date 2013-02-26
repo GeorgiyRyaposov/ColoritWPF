@@ -223,6 +223,7 @@
         <Menu Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Height="23" HorizontalAlignment="Left" VerticalAlignment="Top" IsMainMenu="True" Width="200">
             <MenuItem Header="Клиенты">
                 <MenuItem Header="Добавить" Command="{Binding AddNewClientCommand}" />
+                <MenuItem Header="Редактировать" Command="{Binding EditClientCommand}" />
             </MenuItem>
             <MenuItem Header="Модели авто">
                 <MenuItem Header="Добавить" Command="{Binding AddNewCarModelCommand}" />
