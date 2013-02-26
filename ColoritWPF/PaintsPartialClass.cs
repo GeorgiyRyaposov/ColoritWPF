@@ -80,10 +80,10 @@ namespace ColoritWPF
             }
         }
         
-        public void ReCalcAll(decimal work)
+        public void ReCalcAll(decimal work, decimal discount)
         {
             double census = GetCensus();
-            Sum = ((PaintValues.Cost * (Decimal.Parse(Amount.ToString()) + Decimal.Parse(census.ToString())) + PolishSum) * (1 - (decimal)ClientValues.Discount)) + work + PaintValues.Container;
+            Sum = ((PaintValues.Cost * (Decimal.Parse(Amount.ToString()) + Decimal.Parse(census.ToString())) + PolishSum) * (1 - discount)) + work + PaintValues.Container;
             Total = Sum + ClientValues.Balance - Prepay;
         }
 

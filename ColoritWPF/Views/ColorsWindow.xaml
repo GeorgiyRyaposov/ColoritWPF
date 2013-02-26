@@ -166,6 +166,13 @@
                             Command="{Binding SetPaintCommand}">Цветная</RadioButton>
         </StackPanel>
 
+        <StackPanel Grid.Column="1" Grid.Row="4"  Orientation="Horizontal" HorizontalAlignment="Right">
+            <Label>Скидка:</Label>
+            <TextBox Text="{Binding Mode=TwoWay, UpdateSourceTrigger=LostFocus, Path=CurrentPaint.PaintName.MaxDiscount, StringFormat=\{0:N\}}" 
+                     Width="100">
+            </TextBox>
+        </StackPanel>
+
         <StackPanel Grid.Column="1" Grid.Row="3"  Orientation="Horizontal" HorizontalAlignment="Right">
             <Label>Кол-во: </Label>
             <TextBox Text="{Binding Mode=TwoWay, UpdateSourceTrigger=LostFocus, Path=CurrentPaint.Amount, StringFormat=\{0:N\}}" 
@@ -194,7 +201,7 @@
                             Command="{Binding SetPaintCommand}">Колорист</CheckBox>
         </StackPanel>
 
-        <StackPanel Grid.Column="1" Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Right">
+        <StackPanel Grid.Column="1" Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Right">
             <Label>Сумма товара:</Label>
             <TextBox Text="{Binding CurrentPaint.Sum, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=\{0:c\}}" Width="100" Foreground="#FF00C200" FontSize="14"></TextBox>
         </StackPanel>

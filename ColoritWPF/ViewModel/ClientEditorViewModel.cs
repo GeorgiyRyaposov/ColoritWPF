@@ -29,7 +29,6 @@ namespace ColoritWPF.ViewModel
             return client.Name.Contains(NameFilter);
         }
 
-
         private void SaveClient()
         {
             NewClient.Balance = NewClient.Balance + LoanDeposit;

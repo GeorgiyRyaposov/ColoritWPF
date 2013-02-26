@@ -41,30 +41,6 @@ namespace ColoritWPF
 
     }
 
-    public class ServiceTypeConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            if (value != null)
-            {
-                using (ColorITEntities сolorItEntities = new ColorITEntities())
-                {
-                    var grId = (from service in сolorItEntities.ServiceTypes
-                                where service.ID == (int)value
-                                select service.ServiceName).First();
-
-                    return grId.ToString(CultureInfo.InvariantCulture);
-                }
-            }
-            return "Сервис не найден";
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
     public class CarModelConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

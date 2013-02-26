@@ -79,6 +79,14 @@ namespace ColoritWPF.ViewModel
             }
         }
 
+        public PaintEditorViewModel PaintsEdtiorPage
+        {
+            get
+            {
+                return new PaintEditorViewModel();
+            }
+        }
+
         public MainViewModel Main
         {
             get

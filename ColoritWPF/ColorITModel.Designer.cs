@@ -31,7 +31,6 @@ using System.Runtime.Serialization;
 [assembly: EdmRelationshipAttribute("ColorITModel", "PK_Paints_CarModels", "CarModels", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(ColoritWPF.CarModels), "Paints", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ColoritWPF.Paints), true)]
 [assembly: EdmRelationshipAttribute("ColorITModel", "PK_Paints_Clients", "Client", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(ColoritWPF.Client), "Paints", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ColoritWPF.Paints), true)]
 [assembly: EdmRelationshipAttribute("ColorITModel", "PK_Paints_PaintName", "PaintName", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(ColoritWPF.PaintName), "Paints", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ColoritWPF.Paints), true)]
-[assembly: EdmRelationshipAttribute("ColorITModel", "PK_Paints_", "ServiceTypes", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(ColoritWPF.ServiceTypes), "Paints", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ColoritWPF.Paints), true)]
 
 #endregion
 
@@ -306,22 +305,6 @@ namespace ColoritWPF
             }
         }
         private ObjectSet<Paints> _Paints;
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        public ObjectSet<ServiceTypes> ServiceTypes
-        {
-            get
-            {
-                if ((_ServiceTypes == null))
-                {
-                    _ServiceTypes = base.CreateObjectSet<ServiceTypes>("ServiceTypes");
-                }
-                return _ServiceTypes;
-            }
-        }
-        private ObjectSet<ServiceTypes> _ServiceTypes;
 
         #endregion
         #region AddTo Methods
@@ -436,14 +419,6 @@ namespace ColoritWPF
         public void AddToPaints(Paints paints)
         {
             base.AddObject("Paints", paints);
-        }
-    
-        /// <summary>
-        /// Deprecated Method for adding a new object to the ServiceTypes EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
-        /// </summary>
-        public void AddToServiceTypes(ServiceTypes serviceTypes)
-        {
-            base.AddObject("ServiceTypes", serviceTypes);
         }
 
         #endregion
@@ -1693,11 +1668,13 @@ namespace ColoritWPF
         /// </summary>
         /// <param name="id">Initial value of the ID property.</param>
         /// <param name="name">Initial value of the Name property.</param>
-        public static PaintName CreatePaintName(global::System.Int32 id, global::System.String name)
+        /// <param name="maxDiscount">Initial value of the MaxDiscount property.</param>
+        public static PaintName CreatePaintName(global::System.Int32 id, global::System.String name, global::System.Double maxDiscount)
         {
             PaintName paintName = new PaintName();
             paintName.ID = id;
             paintName.Name = name;
+            paintName.MaxDiscount = maxDiscount;
             return paintName;
         }
 
@@ -1970,6 +1947,30 @@ namespace ColoritWPF
         private global::System.String _L2KType;
         partial void OnL2KTypeChanging(global::System.String value);
         partial void OnL2KTypeChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Double MaxDiscount
+        {
+            get
+            {
+                return _MaxDiscount;
+            }
+            set
+            {
+                OnMaxDiscountChanging(value);
+                ReportPropertyChanging("MaxDiscount");
+                _MaxDiscount = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("MaxDiscount");
+                OnMaxDiscountChanged();
+            }
+        }
+        private global::System.Double _MaxDiscount;
+        partial void OnMaxDiscountChanging(global::System.Double value);
+        partial void OnMaxDiscountChanged();
 
         #endregion
     
@@ -2016,20 +2017,20 @@ namespace ColoritWPF
         /// <param name="id">Initial value of the ID property.</param>
         /// <param name="date">Initial value of the Date property.</param>
         /// <param name="nameID">Initial value of the NameID property.</param>
-        /// <param name="typeID">Initial value of the TypeID property.</param>
         /// <param name="clientID">Initial value of the ClientID property.</param>
         /// <param name="serviceByCode">Initial value of the ServiceByCode property.</param>
         /// <param name="serviceSelection">Initial value of the ServiceSelection property.</param>
-        public static Paints CreatePaints(global::System.Int64 id, global::System.DateTime date, global::System.Int32 nameID, global::System.Int32 typeID, global::System.Int32 clientID, global::System.Boolean serviceByCode, global::System.Boolean serviceSelection)
+        /// <param name="isPreorder">Initial value of the IsPreorder property.</param>
+        public static Paints CreatePaints(global::System.Int64 id, global::System.DateTime date, global::System.Int32 nameID, global::System.Int32 clientID, global::System.Boolean serviceByCode, global::System.Boolean serviceSelection, global::System.Boolean isPreorder)
         {
             Paints paints = new Paints();
             paints.ID = id;
             paints.Date = date;
             paints.NameID = nameID;
-            paints.TypeID = typeID;
             paints.ClientID = clientID;
             paints.ServiceByCode = serviceByCode;
             paints.ServiceSelection = serviceSelection;
+            paints.IsPreorder = isPreorder;
             return paints;
         }
 
@@ -2138,30 +2139,6 @@ namespace ColoritWPF
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public Nullable<global::System.Boolean> ThreeLayers
-        {
-            get
-            {
-                return _ThreeLayers;
-            }
-            set
-            {
-                OnThreeLayersChanging(value);
-                ReportPropertyChanging("ThreeLayers");
-                _ThreeLayers = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("ThreeLayers");
-                OnThreeLayersChanged();
-            }
-        }
-        private Nullable<global::System.Boolean> _ThreeLayers;
-        partial void OnThreeLayersChanging(Nullable<global::System.Boolean> value);
-        partial void OnThreeLayersChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
         public global::System.Int32 NameID
@@ -2182,30 +2159,6 @@ namespace ColoritWPF
         private global::System.Int32 _NameID;
         partial void OnNameIDChanging(global::System.Int32 value);
         partial void OnNameIDChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Int32 TypeID
-        {
-            get
-            {
-                return _TypeID;
-            }
-            set
-            {
-                OnTypeIDChanging(value);
-                ReportPropertyChanging("TypeID");
-                _TypeID = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("TypeID");
-                OnTypeIDChanged();
-            }
-        }
-        private global::System.Int32 _TypeID;
-        partial void OnTypeIDChanging(global::System.Int32 value);
-        partial void OnTypeIDChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -2254,30 +2207,6 @@ namespace ColoritWPF
         private global::System.Decimal _Sum = 0m;
         partial void OnSumChanging(global::System.Decimal value);
         partial void OnSumChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Decimal Salary
-        {
-            get
-            {
-                return _Salary;
-            }
-            set
-            {
-                OnSalaryChanging(value);
-                ReportPropertyChanging("Salary");
-                _Salary = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("Salary");
-                OnSalaryChanged();
-            }
-        }
-        private global::System.Decimal _Salary = 0m;
-        partial void OnSalaryChanging(global::System.Decimal value);
-        partial void OnSalaryChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -2494,6 +2423,30 @@ namespace ColoritWPF
         private global::System.Decimal _Total = 0m;
         partial void OnTotalChanging(global::System.Decimal value);
         partial void OnTotalChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean IsPreorder
+        {
+            get
+            {
+                return _IsPreorder;
+            }
+            set
+            {
+                OnIsPreorderChanging(value);
+                ReportPropertyChanging("IsPreorder");
+                _IsPreorder = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("IsPreorder");
+                OnIsPreorderChanged();
+            }
+        }
+        private global::System.Boolean _IsPreorder;
+        partial void OnIsPreorderChanging(global::System.Boolean value);
+        partial void OnIsPreorderChanged();
 
         #endregion
     
@@ -2609,44 +2562,6 @@ namespace ColoritWPF
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<PaintName>("ColorITModel.PK_Paints_PaintName", "PaintName", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("ColorITModel", "PK_Paints_", "ServiceTypes")]
-        public ServiceTypes ServiceTypes
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<ServiceTypes>("ColorITModel.PK_Paints_", "ServiceTypes").Value;
-            }
-            set
-            {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<ServiceTypes>("ColorITModel.PK_Paints_", "ServiceTypes").Value = value;
-            }
-        }
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [BrowsableAttribute(false)]
-        [DataMemberAttribute()]
-        public EntityReference<ServiceTypes> ServiceTypesReference
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<ServiceTypes>("ColorITModel.PK_Paints_", "ServiceTypes");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<ServiceTypes>("ColorITModel.PK_Paints_", "ServiceTypes", value);
                 }
             }
         }
@@ -3881,112 +3796,6 @@ namespace ColoritWPF
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<States>("ColorITModel.PK_Sale_States", "States", value);
-                }
-            }
-        }
-
-        #endregion
-    }
-    
-    /// <summary>
-    /// No Metadata Documentation available.
-    /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="ColorITModel", Name="ServiceTypes")]
-    [Serializable()]
-    [DataContractAttribute(IsReference=true)]
-    public partial class ServiceTypes : EntityObject
-    {
-        #region Factory Method
-    
-        /// <summary>
-        /// Create a new ServiceTypes object.
-        /// </summary>
-        /// <param name="id">Initial value of the ID property.</param>
-        /// <param name="serviceName">Initial value of the ServiceName property.</param>
-        public static ServiceTypes CreateServiceTypes(global::System.Int32 id, global::System.String serviceName)
-        {
-            ServiceTypes serviceTypes = new ServiceTypes();
-            serviceTypes.ID = id;
-            serviceTypes.ServiceName = serviceName;
-            return serviceTypes;
-        }
-
-        #endregion
-        #region Primitive Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Int32 ID
-        {
-            get
-            {
-                return _ID;
-            }
-            set
-            {
-                if (_ID != value)
-                {
-                    OnIDChanging(value);
-                    ReportPropertyChanging("ID");
-                    _ID = StructuralObject.SetValidValue(value);
-                    ReportPropertyChanged("ID");
-                    OnIDChanged();
-                }
-            }
-        }
-        private global::System.Int32 _ID;
-        partial void OnIDChanging(global::System.Int32 value);
-        partial void OnIDChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.String ServiceName
-        {
-            get
-            {
-                return _ServiceName;
-            }
-            set
-            {
-                OnServiceNameChanging(value);
-                ReportPropertyChanging("ServiceName");
-                _ServiceName = StructuralObject.SetValidValue(value, false);
-                ReportPropertyChanged("ServiceName");
-                OnServiceNameChanged();
-            }
-        }
-        private global::System.String _ServiceName;
-        partial void OnServiceNameChanging(global::System.String value);
-        partial void OnServiceNameChanged();
-
-        #endregion
-    
-        #region Navigation Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("ColorITModel", "PK_Paints_", "Paints")]
-        public EntityCollection<Paints> Paints
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Paints>("ColorITModel.PK_Paints_", "Paints");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Paints>("ColorITModel.PK_Paints_", "Paints", value);
                 }
             }
         }

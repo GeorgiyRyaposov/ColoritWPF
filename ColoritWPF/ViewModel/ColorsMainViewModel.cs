@@ -239,7 +239,6 @@ namespace ColoritWPF.ViewModel
             ps.PaintCode = "Введите код краски";
             ps.NameID = 4;
             ps.Sum = 0;
-            ps.Salary = 0;
             ps.Prepay = 0;
             ps.Total = 0;
             ps.ClientID = 7;
@@ -446,12 +445,9 @@ namespace ColoritWPF.ViewModel
                                 Date = DateTime.Now,
                                 CarModelID = 3,
                                 PaintCode = "Введите код краски",
-                                ThreeLayers = false,
                                 NameID = 4,
-                                TypeID = 1,
                                 Amount = 0,
                                 Sum = 0,
-                                Salary = 0,
                                 ClientID = 7,
                                 DocState = false,
                                 PhoneNumber = String.Empty,
@@ -479,7 +475,7 @@ namespace ColoritWPF.ViewModel
             if (Selection && ThreeLayers)
                 work = 380;
 
-            CurrentPaint.ReCalcAll(work);
+            CurrentPaint.ReCalcAll(work, (decimal)CurrentPaint.PaintName.MaxDiscount);
         }
 
         #endregion

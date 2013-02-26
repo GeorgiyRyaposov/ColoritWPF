@@ -164,6 +164,7 @@
     <Compile Include="ViewModel\ClientEditorViewModel.cs" />
     <Compile Include="ViewModel\ColorsMainViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="ViewModel\PaintEditorViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Compile Include="Views\AddNewCarModel.xaml.cs">
       <DependentUpon>AddNewCarModel.xaml</DependentUpon>
@@ -176,6 +177,9 @@
     </Compile>
     <Compile Include="Views\ColorsWindow.xaml.cs">
       <DependentUpon>ColorsWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PaintsEditor.xaml.cs">
+      <DependentUpon>PaintsEditor.xaml</DependentUpon>
     </Compile>
     <EntityDeploy Include="ColorITModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
@@ -286,6 +290,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ColorsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PaintsEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
