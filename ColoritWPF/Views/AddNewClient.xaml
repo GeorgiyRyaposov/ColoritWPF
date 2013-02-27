@@ -54,13 +54,7 @@
             <Label>Телефон</Label>
             <TextBox Text="{Binding Path=Phone, Mode=TwoWay}"></TextBox>
         </StackPanel>
-        <StackPanel Grid.Column="0" Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Label>Группа</Label>
-            <ComboBox ItemsSource="{Binding Path=ClientGroup}"
-                      SelectedValue="{Binding GroupID, Mode=TwoWay}"
-                      SelectedValuePath="ID" 
-                      DisplayMemberPath="Name"></ComboBox>
-        </StackPanel>
+
         <StackPanel Grid.Column="0" Grid.Row="6" Orientation="Horizontal" HorizontalAlignment="Right">
             <Button Content="Закрыть" Margin="0,5,0,0" Click="Button_Click"></Button>
             <Button Content="Добавить" Command="{Binding AddClientCommand}" Margin="5,5,5,0" IsEnabled="True"></Button>

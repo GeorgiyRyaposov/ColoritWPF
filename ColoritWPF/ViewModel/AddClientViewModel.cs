@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.ObjectModel;
-using System.Linq;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
@@ -18,13 +16,11 @@ namespace ColoritWPF.ViewModel
             else
             {
                 colorItEntities = new ColorITEntities();
-                ClientGroup = new ObservableCollection<ClientGroups>(colorItEntities.ClientGroups.ToList());
                 AddClientCommand = new RelayCommand(AddNewClientCmd, AddNewClientCmdCanExecute);
                 _newClient = new Client
                                  {
                                      Balance = 0,
                                      Discount = 0,
-                                     GroupID = 1
                                  };
             }
         }
@@ -33,7 +29,6 @@ namespace ColoritWPF.ViewModel
 
         private ColorITEntities colorItEntities;
 
-        public ObservableCollection<ClientGroups> ClientGroup { get; set; }
 
         private Client _newClient;
         public Client NewClient
@@ -96,16 +91,6 @@ namespace ColoritWPF.ViewModel
             }
         }
 
-        public int? GroupID
-        {
-            get { return NewClient.GroupID; }
-            set
-            {
-                NewClient.GroupID = value;
-                base.RaisePropertyChanged("GroupID");
-            }
-        }
-
         #region Commands
 
         public RelayCommand AddClientCommand
@@ -127,7 +112,6 @@ namespace ColoritWPF.ViewModel
                 Phone = String.Empty;
                 Balance = 0;
                 Discount = 0;
-                GroupID = 1;
             }
             catch (Exception ex)
             {

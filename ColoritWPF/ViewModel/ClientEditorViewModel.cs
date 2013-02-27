@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Data;
 using System.Linq;
 using System.Windows.Data;
 using GalaSoft.MvvmLight;
@@ -15,7 +14,6 @@ namespace ColoritWPF.ViewModel
         public ClientEditorViewModel()
         {
             colorItEntities = new ColorITEntities();
-            ClientGroup = new ObservableCollection<ClientGroups>(colorItEntities.ClientGroups.ToList());
             ClientsList = new ObservableCollection<Client>(colorItEntities.Client.ToList());
             SaveCommand = new RelayCommand(SaveClient);
             _newClient = new Client();
@@ -47,7 +45,6 @@ namespace ColoritWPF.ViewModel
 
         private ColorITEntities colorItEntities;
 
-        public ObservableCollection<ClientGroups> ClientGroup { get; set; }
         public ObservableCollection<Client> ClientsList { get; set; }
         public ICollectionView ClientsListView { get; private set; }
 

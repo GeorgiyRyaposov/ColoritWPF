@@ -77,7 +77,7 @@
             <ComboBox 
                     x:Name="ClientCombo" 
                     ItemsSource ="{Binding Clients}"  
-                    SelectedValue ="{Binding Path=SelectedItem.ClientID, ElementName=PaintsGrid, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                    SelectedValue ="{Binding Path=CurrentClientId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                     DisplayMemberPath="Name" 
                     SelectedValuePath="ID" 
                     Width="150"></ComboBox>
@@ -168,7 +168,7 @@
 
         <StackPanel Grid.Column="1" Grid.Row="4"  Orientation="Horizontal" HorizontalAlignment="Right">
             <Label>Скидка:</Label>
-            <TextBox Text="{Binding Mode=TwoWay, UpdateSourceTrigger=LostFocus, Path=CurrentPaint.PaintName.MaxDiscount, StringFormat=\{0:N\}}" 
+            <TextBox Text="{Binding Mode=TwoWay, UpdateSourceTrigger=LostFocus, Path=Discount}" 
                      Width="100">
             </TextBox>
         </StackPanel>

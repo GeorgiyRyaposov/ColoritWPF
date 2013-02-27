@@ -18,7 +18,6 @@ using System.Runtime.Serialization;
 [assembly: EdmSchemaAttribute()]
 #region EDM Relationship Metadata
 
-[assembly: EdmRelationshipAttribute("ColorITModel", "FK_Client_ClientGroups", "ClientGroups", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(ColoritWPF.ClientGroups), "Client", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ColoritWPF.Client), true)]
 [assembly: EdmRelationshipAttribute("ColorITModel", "FK_Client_Deposit", "Client", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(ColoritWPF.Client), "Deposit", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ColoritWPF.Deposit), true)]
 [assembly: EdmRelationshipAttribute("ColorITModel", "FK_Client_Loan", "Client", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(ColoritWPF.Client), "Loan", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ColoritWPF.Loan), true)]
 [assembly: EdmRelationshipAttribute("ColorITModel", "FK_Group_Product", "Group", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(ColoritWPF.Group), "Product", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ColoritWPF.Product), true)]
@@ -97,22 +96,6 @@ namespace ColoritWPF
             }
         }
         private ObjectSet<Client> _Client;
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        public ObjectSet<ClientGroups> ClientGroups
-        {
-            get
-            {
-                if ((_ClientGroups == null))
-                {
-                    _ClientGroups = base.CreateObjectSet<ClientGroups>("ClientGroups");
-                }
-                return _ClientGroups;
-            }
-        }
-        private ObjectSet<ClientGroups> _ClientGroups;
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -315,14 +298,6 @@ namespace ColoritWPF
         public void AddToClient(Client client)
         {
             base.AddObject("Client", client);
-        }
-    
-        /// <summary>
-        /// Deprecated Method for adding a new object to the ClientGroups EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
-        /// </summary>
-        public void AddToClientGroups(ClientGroups clientGroups)
-        {
-            base.AddObject("ClientGroups", clientGroups);
         }
     
         /// <summary>
@@ -691,30 +666,6 @@ namespace ColoritWPF
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public Nullable<global::System.Int32> GroupID
-        {
-            get
-            {
-                return _GroupID;
-            }
-            set
-            {
-                OnGroupIDChanging(value);
-                ReportPropertyChanging("GroupID");
-                _GroupID = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("GroupID");
-                OnGroupIDChanged();
-            }
-        }
-        private Nullable<global::System.Int32> _GroupID;
-        partial void OnGroupIDChanging(Nullable<global::System.Int32> value);
-        partial void OnGroupIDChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
         public global::System.String PhoneNumber
         {
             get
@@ -733,48 +684,34 @@ namespace ColoritWPF
         private global::System.String _PhoneNumber;
         partial void OnPhoneNumberChanging(global::System.String value);
         partial void OnPhoneNumberChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean PrivatePerson
+        {
+            get
+            {
+                return _PrivatePerson;
+            }
+            set
+            {
+                OnPrivatePersonChanging(value);
+                ReportPropertyChanging("PrivatePerson");
+                _PrivatePerson = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("PrivatePerson");
+                OnPrivatePersonChanged();
+            }
+        }
+        private global::System.Boolean _PrivatePerson = false;
+        partial void OnPrivatePersonChanging(global::System.Boolean value);
+        partial void OnPrivatePersonChanged();
 
         #endregion
     
         #region Navigation Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("ColorITModel", "FK_Client_ClientGroups", "ClientGroups")]
-        public ClientGroups ClientGroups
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<ClientGroups>("ColorITModel.FK_Client_ClientGroups", "ClientGroups").Value;
-            }
-            set
-            {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<ClientGroups>("ColorITModel.FK_Client_ClientGroups", "ClientGroups").Value = value;
-            }
-        }
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [BrowsableAttribute(false)]
-        [DataMemberAttribute()]
-        public EntityReference<ClientGroups> ClientGroupsReference
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<ClientGroups>("ColorITModel.FK_Client_ClientGroups", "ClientGroups");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<ClientGroups>("ColorITModel.FK_Client_ClientGroups", "ClientGroups", value);
-                }
-            }
-        }
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -860,112 +797,6 @@ namespace ColoritWPF
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Paints>("ColorITModel.PK_Paints_Clients", "Paints", value);
-                }
-            }
-        }
-
-        #endregion
-    }
-    
-    /// <summary>
-    /// No Metadata Documentation available.
-    /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="ColorITModel", Name="ClientGroups")]
-    [Serializable()]
-    [DataContractAttribute(IsReference=true)]
-    public partial class ClientGroups : EntityObject
-    {
-        #region Factory Method
-    
-        /// <summary>
-        /// Create a new ClientGroups object.
-        /// </summary>
-        /// <param name="id">Initial value of the ID property.</param>
-        /// <param name="name">Initial value of the Name property.</param>
-        public static ClientGroups CreateClientGroups(global::System.Int32 id, global::System.String name)
-        {
-            ClientGroups clientGroups = new ClientGroups();
-            clientGroups.ID = id;
-            clientGroups.Name = name;
-            return clientGroups;
-        }
-
-        #endregion
-        #region Primitive Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Int32 ID
-        {
-            get
-            {
-                return _ID;
-            }
-            set
-            {
-                if (_ID != value)
-                {
-                    OnIDChanging(value);
-                    ReportPropertyChanging("ID");
-                    _ID = StructuralObject.SetValidValue(value);
-                    ReportPropertyChanged("ID");
-                    OnIDChanged();
-                }
-            }
-        }
-        private global::System.Int32 _ID;
-        partial void OnIDChanging(global::System.Int32 value);
-        partial void OnIDChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.String Name
-        {
-            get
-            {
-                return _Name;
-            }
-            set
-            {
-                OnNameChanging(value);
-                ReportPropertyChanging("Name");
-                _Name = StructuralObject.SetValidValue(value, false);
-                ReportPropertyChanged("Name");
-                OnNameChanged();
-            }
-        }
-        private global::System.String _Name;
-        partial void OnNameChanging(global::System.String value);
-        partial void OnNameChanged();
-
-        #endregion
-    
-        #region Navigation Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("ColorITModel", "FK_Client_ClientGroups", "Client")]
-        public EntityCollection<Client> Client
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Client>("ColorITModel.FK_Client_ClientGroups", "Client");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Client>("ColorITModel.FK_Client_ClientGroups", "Client", value);
                 }
             }
         }

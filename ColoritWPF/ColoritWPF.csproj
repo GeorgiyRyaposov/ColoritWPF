@@ -136,17 +136,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="AddCarModelDialog.xaml.cs">
-      <DependentUpon>AddCarModelDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="AddClientGroup.xaml.cs">
-      <DependentUpon>AddClientGroup.xaml</DependentUpon>
-    </Compile>
     <Compile Include="AddNewGroup.xaml.cs">
       <DependentUpon>AddNewGroup.xaml</DependentUpon>
     </Compile>
     <Compile Include="ClientByNameFilter.cs" />
-    <Compile Include="ClientGroupConverter.cs" />
     <Compile Include="ColorITModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -213,14 +206,6 @@
     <Content Include="x86\Microsoft.VC90.CRT\Microsoft.VC90.CRT.manifest">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Page Include="AddCarModelDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="AddClientGroup.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="AddNewGroup.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -230,14 +215,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="BuyProduct.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ClientAdd.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ClientList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -258,12 +235,6 @@
     </Compile>
     <Compile Include="BuyProduct.xaml.cs">
       <DependentUpon>BuyProduct.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ClientAdd.xaml.cs">
-      <DependentUpon>ClientAdd.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ClientList.xaml.cs">
-      <DependentUpon>ClientList.xaml</DependentUpon>
     </Compile>
     <Page Include="ProductSelection.xaml">
       <SubType>Designer</SubType>

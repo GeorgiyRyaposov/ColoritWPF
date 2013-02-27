@@ -205,6 +205,17 @@ namespace ColoritWPF.ViewModel
             }
         }
 
+        private double _discount;
+        public double Discount
+        {
+            get { return _discount; }
+            set
+            {
+                _discount = value;
+                base.RaisePropertyChanged("Discount");
+            }
+        }
+
         private bool _isThreeLayers;
         public bool IsThreeLayers
         {
@@ -213,6 +224,21 @@ namespace ColoritWPF.ViewModel
             {
                 _isThreeLayers = value;
                 base.RaisePropertyChanged("IsThreeLayers");
+            }
+        }
+
+        private int _currentClientId = 7;
+        public int CurrentClientId
+        {
+            get { return _currentClientId; }
+            set
+            {
+                _currentClientId = value;
+                CurrentPaint.ClientID = value;
+
+                SetDiscount();
+                ReCalc();
+                base.RaisePropertyChanged("CurrentClientId");
             }
         }
 
@@ -341,7 +367,7 @@ namespace ColoritWPF.ViewModel
         private void Preorder()
         {
             ReCalc();
-            if (CurrentPaint.ClientID != 7)
+            if (!CurrentPaint.Client.PrivatePerson)
                 CurrentPaint.Client.Balance = CurrentPaint.Client.Balance - CurrentPaint.Total;
             SaveWithoutRecalc();
         }
@@ -475,7 +501,7 @@ namespace ColoritWPF.ViewModel
             if (Selection && ThreeLayers)
                 work = 380;
 
-            CurrentPaint.ReCalcAll(work, (decimal)CurrentPaint.PaintName.MaxDiscount);
+            CurrentPaint.ReCalcAll(work, (decimal)Discount);
         }
 
         #endregion
@@ -526,7 +552,16 @@ namespace ColoritWPF.ViewModel
                 Selection = CurrentPaint.ServiceSelection;
                 Colorist = CurrentPaint.ServiceColorist;
                 DocConfirmed = !CurrentPaint.DocState;
+                CurrentClientId = CurrentPaint.ClientID;
+                SetDiscount();
             }
+        }
+
+        //Выставляет скидку в зависимости от выбраного клиента
+        private void SetDiscount()
+        {
+            if(CurrentPaint.Client != null)
+                Discount = !CurrentPaint.Client.PrivatePerson ? CurrentPaint.PaintName.MaxDiscount : 0;
         }
 
         //Выставляет краски в зависимости от выбраной радио кнопки
@@ -552,6 +587,7 @@ namespace ColoritWPF.ViewModel
                                    )
                              select paintName.ID).First();
                     CurrentPaint.NameID = pName;
+                    SetDiscount();
                     return;
                 }
 
@@ -573,6 +609,7 @@ namespace ColoritWPF.ViewModel
                                        )
                                  select paintName.ID).First();
                     CurrentPaint.NameID = pName;
+                    SetDiscount();
                     return;
                 }
 
@@ -586,11 +623,12 @@ namespace ColoritWPF.ViewModel
                                  )
                              select paintName.ID).First();
                     CurrentPaint.NameID = pName;
+                    SetDiscount();
                     return;
                 }
 
                 if(Other)
-                    return;
+                    SetDiscount();
             }
         }
     }
