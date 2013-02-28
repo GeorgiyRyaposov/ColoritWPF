@@ -23,8 +23,8 @@ namespace ColoritWPF.ViewModel
                 colorItEntities = new ColorITEntities();
                 GetData();
                 AddCommands();
-                Messenger.Default.Register<Client>(this, delegate(Client curClient) { Clients.Add(curClient); });
-                Messenger.Default.Register<CarModels>(this, delegate(CarModels carModel) { CarModels.Add(carModel); });
+                Messenger.Default.Register<Client>(this, curClient => Clients.Add(curClient));
+                Messenger.Default.Register<CarModels>(this, carModel => CarModels.Add(carModel));
             }
         }
         private ColorITEntities colorItEntities;
@@ -196,12 +196,12 @@ namespace ColoritWPF.ViewModel
             }
         }
 
-        private bool _docConfirmed;
-        public bool DocConfirmed
+        private bool _isEnabled;
+        public bool IsEnabled
         {
-            get { return _docConfirmed; }
-            set { _docConfirmed = value;
-            base.RaisePropertyChanged("DocConfirmed");
+            get { return _isEnabled; }
+            set { _isEnabled = value;
+            base.RaisePropertyChanged("IsEnabled");
             }
         }
 
@@ -235,10 +235,21 @@ namespace ColoritWPF.ViewModel
             {
                 _currentClientId = value;
                 CurrentPaint.ClientID = value;
-
+                PhoneNumber = CurrentPaint.Client.PhoneNumber;
                 SetDiscount();
                 ReCalc();
                 base.RaisePropertyChanged("CurrentClientId");
+            }
+        }
+
+        private string _phoneNumber = String.Empty;
+        public string PhoneNumber
+        {
+            get { return _phoneNumber; }
+            set
+            {
+                _phoneNumber = value;
+                base.RaisePropertyChanged("PhoneNumber");
             }
         }
 
@@ -255,23 +266,20 @@ namespace ColoritWPF.ViewModel
 
         private void SetDefaultValues()
         {
-            PaintName pn = new PaintName();
-            pn.PaintType = "LSB";
-            pn.Package = false;
-            pn.ThreeLayers = false;
-
-            Paints ps = new Paints();
-            ps.CarModelID = 3;
-            ps.PaintCode = "Введите код краски";
-            ps.NameID = 4;
-            ps.Sum = 0;
-            ps.Prepay = 0;
-            ps.Total = 0;
-            ps.ClientID = 7;
-            ps.ServiceByCode = false;
-            ps.ServiceSelection = true;
-            ps.ServiceColorist = true;
-            ps.PaintName = pn;
+            Paints ps = new Paints
+                            {
+                                Date = DateTime.Now,
+                                CarModelID = 3,
+                                PaintCode = "Введите код краски",
+                                NameID = 4,
+                                Sum = 0,
+                                Prepay = 0,
+                                Total = 0,
+                                ServiceByCode = false,
+                                ServiceSelection = true,
+                                ServiceColorist = true,
+                                ClientID = colorItEntities.Client.First(i => i.PrivatePerson).ID
+                            };
 
             CurrentPaint = ps;
         }
@@ -284,41 +292,49 @@ namespace ColoritWPF.ViewModel
             get;
             private set;
         }
+
         public RelayCommand SetPaintCommand
         {
             get;
             private set;
         }
+
         public RelayCommand AddPaintCommand
         {
             get;
             private set;
         }
+
         public RelayCommand SaveChangesCommand
         {
             get;
             private set;
         }
+
         public RelayCommand ConfirmDocumentCommand
         {
             get;
             private set;
         }
+
         public RelayCommand UnConfirmDocumentCommand
         {
             get;
             private set;
         }
+
         public RelayCommand PreorderCommand
         {
             get;
             private set;
         }
+
         public RelayCommand AddNewClientCommand
         {
             get;
             private set;
         }
+
         public RelayCommand EditClientCommand
         {
             get;
@@ -330,6 +346,20 @@ namespace ColoritWPF.ViewModel
             get;
             private set;
         }
+
+        public RelayCommand CancelPreorderCommand
+        {
+            get;
+            private set;
+        }
+
+        public RelayCommand EditPaintsCommand
+        {
+            get;
+            private set;
+        }
+        
+        #endregion
 
         //Initialize commands
         private void AddCommands()
@@ -344,6 +374,28 @@ namespace ColoritWPF.ViewModel
             AddNewClientCommand = new RelayCommand(AddNewClientCmd);
             AddNewCarModelCommand = new RelayCommand(AddNewCarModelCmd);
             EditClientCommand = new RelayCommand(EditClientCmd);
+            CancelPreorderCommand = new RelayCommand(CancelPreorderCmd, CancelPreorderCanExecute);
+            EditPaintsCommand = new RelayCommand(EditPaintsCmd);
+        }
+
+        private void EditPaintsCmd()
+        {
+            PaintsEditor paintsEditor = new PaintsEditor();
+            paintsEditor.ShowDialog();
+        }
+
+        private bool CancelPreorderCanExecute()
+        {
+            return CurrentPaint.IsPreorder;
+        }
+
+        private void CancelPreorderCmd()
+        {
+            if (CurrentPaint.Client.PrivatePerson == false)
+                CurrentPaint.Client.Balance = CurrentPaint.Client.Balance + CurrentPaint.Total;
+            CurrentPaint.IsPreorder = false;
+            SaveWithoutRecalc();
+            IsEnabled = true;
         }
 
         private void EditClientCmd()
@@ -369,12 +421,14 @@ namespace ColoritWPF.ViewModel
             ReCalc();
             if (!CurrentPaint.Client.PrivatePerson)
                 CurrentPaint.Client.Balance = CurrentPaint.Client.Balance - CurrentPaint.Total;
+            CurrentPaint.IsPreorder = true;
             SaveWithoutRecalc();
+            IsEnabled = false;
         }
 
         private bool PreorderCanExecute()
         {
-            return !CurrentPaint.DocState;
+            return !CurrentPaint.IsPreorder;
         }
 
         private bool SaveChangesCanExecute()
@@ -400,7 +454,9 @@ namespace ColoritWPF.ViewModel
 
         private bool SetPaintCanExecute()
         {
-            return !CurrentPaint.DocState;
+            if (CurrentPaint.DocState || CurrentPaint.IsPreorder)
+                return false;
+            return true;
         }
 
         private void ConfirmDoc()
@@ -408,11 +464,11 @@ namespace ColoritWPF.ViewModel
             if (MessageBox.Show("Вы уверены что хотите провести документ?",
                                 "Подтверждение", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
-                DocConfirmed = false;
                 CurrentPaint.DocState = true;
-                CurrentPaint.PhoneNumber = CurrentPaint.Client.PhoneNumber;
+                //CurrentPaint.PhoneNumber = CurrentPaint.Client.PhoneNumber;
                 CurrentPaint.Client.Balance = CurrentPaint.Client.Balance + CurrentPaint.Total;
                 SaveWithoutRecalc();
+                IsEnabled = false;
             }
         }
 
@@ -425,8 +481,9 @@ namespace ColoritWPF.ViewModel
                 if (MessageBox.Show("Вы точно-точно уверены что хотите разпровести документ?",
                                     "Подтверждение", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
-                    DocConfirmed = true;
+                    IsEnabled = true;
                     CurrentPaint.DocState = false;
+                    CurrentPaint.IsPreorder = false;
                     SaveWithoutRecalc();
                 }
             }
@@ -437,11 +494,12 @@ namespace ColoritWPF.ViewModel
         {
             try
             {
+                CurrentPaint.PhoneNumber = PhoneNumber;
                 colorItEntities.SaveChanges();
             }
             catch (Exception ex)
             {
-                throw new Exception("Сохранить изменения не удалось\n" + ex.Message);
+                throw new Exception("Сохранить изменения не удалось\n" + ex.Message + "\n" + ex.InnerException);
             }
         }
 
@@ -451,7 +509,7 @@ namespace ColoritWPF.ViewModel
             try
             {
                 ReCalc();
-                CurrentPaint.PhoneNumber = CurrentPaint.Client.PhoneNumber;
+                CurrentPaint.PhoneNumber = PhoneNumber;
                 colorItEntities.SaveChanges();
             }
             catch (OptimisticConcurrencyException ex)
@@ -474,8 +532,9 @@ namespace ColoritWPF.ViewModel
                                 NameID = 4,
                                 Amount = 0,
                                 Sum = 0,
-                                ClientID = 7,
+                                ClientID = colorItEntities.Client.First(i => i.PrivatePerson).ID,
                                 DocState = false,
+                                IsPreorder = false,
                                 PhoneNumber = String.Empty,
                                 ServiceByCode = false,
                                 ServiceSelection = true,
@@ -486,9 +545,8 @@ namespace ColoritWPF.ViewModel
                             };
 
             Paints.Add(ps);
-            CurrentPaint = ps;
-
             colorItEntities.Paints.AddObject(ps);
+            CurrentPaint = ps;
         }
 
         private void ReCalc()
@@ -504,7 +562,7 @@ namespace ColoritWPF.ViewModel
             CurrentPaint.ReCalcAll(work, (decimal)Discount);
         }
 
-        #endregion
+        
 
         #endregion
 
@@ -551,9 +609,14 @@ namespace ColoritWPF.ViewModel
                 ByCode = CurrentPaint.ServiceByCode;
                 Selection = CurrentPaint.ServiceSelection;
                 Colorist = CurrentPaint.ServiceColorist;
-                DocConfirmed = !CurrentPaint.DocState;
                 CurrentClientId = CurrentPaint.ClientID;
+                PhoneNumber = CurrentPaint.PhoneNumber;
                 SetDiscount();
+
+                if (CurrentPaint.DocState || CurrentPaint.IsPreorder)
+                    IsEnabled = false;
+                else
+                    IsEnabled = true;
             }
         }
 

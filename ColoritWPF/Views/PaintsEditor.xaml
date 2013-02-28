@@ -13,10 +13,16 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+        <Style TargetType="StackPanel">
+            <Setter Property="Margin" Value ="0,2,2,2"/>
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="Margin" Value ="2,0,2,0"/>
+            <Setter Property="MinWidth" Value ="75"/>
+        </Style>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -34,12 +40,13 @@
             <Label>Введите наименование краски</Label>
             <TextBox Text="{Binding PaintNameFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
         </StackPanel>
-        <DataGrid Grid.Column="0" Grid.Row="1" Grid.RowSpan="4" AutoGenerateColumns="False" SelectedItem="{Binding CurrentPaint, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" EnableRowVirtualization="True" HorizontalAlignment="Left" ItemsSource="{Binding PaintsView}" RowDetailsVisibilityMode="VisibleWhenSelected" VerticalAlignment="Top" Width="Auto" CanUserAddRows="False" CanUserDeleteRows="False">
+        <DataGrid Grid.Column="0" Grid.Row="1" Grid.RowSpan="7" AutoGenerateColumns="False" SelectedItem="{Binding CurrentPaint, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" EnableRowVirtualization="True" HorizontalAlignment="Left" 
+                  ItemsSource="{Binding PaintsList}" RowDetailsVisibilityMode="VisibleWhenSelected" VerticalAlignment="Top" Width="Auto" CanUserAddRows="False" CanUserDeleteRows="False">
             <DataGrid.Columns>
                 <DataGridTextColumn x:Name="nameColumn" Binding="{Binding Path=Name}" Header="Наименование" Width="120" />
                 <DataGridTextColumn x:Name="costColumn" Binding="{Binding Path=Cost}" Header="Цена" Width="SizeToHeader" />
                 <DataGridCheckBoxColumn x:Name="threeLayersColumn" Binding="{Binding Path=ThreeLayers}" Header="Три слоя" Width="SizeToHeader" />
-                <DataGridCheckBoxColumn x:Name="PackageColumn" Binding="{Binding Path=Package}" Header="Три слоя" Width="SizeToHeader" />
+                <DataGridCheckBoxColumn x:Name="PackageColumn" Binding="{Binding Path=Package}" Header="Комплект" Width="SizeToHeader" />
             </DataGrid.Columns>
         </DataGrid>
         <StackPanel Grid.Column="1" Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right">
@@ -55,12 +62,23 @@
             <TextBox Text="{Binding CurrentPaint.Container, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
         </StackPanel>
         <StackPanel Grid.Column="1" Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Label>Макс скидка</Label>
+            <TextBox Text="{Binding CurrentPaint.MaxDiscount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+        </StackPanel>
+        
+        <StackPanel Grid.Column="1" Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Right">
             <Label>Перепыл до 0.25</Label>
+            
             <TextBox Text="{Binding CurrentPaint.Census1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
         </StackPanel>
-        <StackPanel Grid.Column="1" Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Right">
+        <StackPanel Grid.Column="1" Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Right">
             <Label>Перепыл более 0.25</Label>
             <TextBox Text="{Binding CurrentPaint.Census2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+        </StackPanel>
+
+        <StackPanel Grid.Column="1" Grid.Row="6" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Click="Button_Click">Закрыть</Button>
+            <Button>Сохранить</Button>
         </StackPanel>
     </Grid>
 </Window>

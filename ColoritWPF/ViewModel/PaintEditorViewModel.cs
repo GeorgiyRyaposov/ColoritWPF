@@ -1,8 +1,10 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Data;
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 
 namespace ColoritWPF.ViewModel
 {
@@ -12,8 +14,28 @@ namespace ColoritWPF.ViewModel
         {
             colorItEntities = new ColorITEntities();
             PaintsList = new ObservableCollection<PaintName>(colorItEntities.PaintName.ToList());
+            _currentPaint = new PaintName();
+            SaveChangesCommand = new RelayCommand(SaveChangesCmd);
             PaintsView = CollectionViewSource.GetDefaultView(PaintsList);
             PaintsView.Filter = Filter;
+        }
+
+        private void SaveChangesCmd()
+        {
+            try
+            {
+                colorItEntities.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Не удалось сохранить измненения\n"+ex.Message + ex.InnerException);
+            }
+        }
+
+        public RelayCommand SaveChangesCommand
+        {
+            get;
+            private set;
         }
 
         private bool Filter(object o)
@@ -46,6 +68,7 @@ namespace ColoritWPF.ViewModel
             {
                 _paintNameFilter = value;
                 base.RaisePropertyChanged("PaintNameFilter");
+                PaintsView.Refresh();
             }
         }
     }

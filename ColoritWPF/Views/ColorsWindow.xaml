@@ -19,7 +19,7 @@
         <!--TextBox style-->
         <Style TargetType="TextBox">
             <Setter Property="MaxHeight" Value ="25"/>
-            <Setter Property="IsEnabled" Value="{Binding DocConfirmed}"/>
+            <Setter Property="IsEnabled" Value="{Binding IsEnabled}"/>
             <Style.Triggers>
                 <Trigger Property="Validation.HasError" Value="true">
                     <Setter Property="ToolTip" Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=(Validation.Errors).CurrentItem.ErrorContent}" />
@@ -28,7 +28,7 @@
         </Style>
         <!--ComboBox style-->
         <Style TargetType="ComboBox">
-            <Setter Property="IsEnabled" Value="{Binding DocConfirmed}"/>
+            <Setter Property="IsEnabled" Value="{Binding IsEnabled}"/>
         </Style>
         <!--GridRow style-->
         <Style x:Key="MyRowStyle" TargetType="{x:Type DataGridCell}">
@@ -84,14 +84,14 @@
         </StackPanel>
         <StackPanel Grid.Column="0" Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Right">
                 <Label >Телефон: </Label>
-                <TextBox Text="{Binding Path=SelectedItem.PhoneNumber, ElementName=ClientCombo, Mode=OneWay}" Width="150" HorizontalAlignment="Right"></TextBox>
+            <TextBox Text="{Binding Path=PhoneNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="150" HorizontalAlignment="Right"></TextBox>
         </StackPanel>
         <StackPanel Grid.Column="0" Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Right">
                 <Label>Баланс Клиента:</Label>
                 <Label Content="{Binding ElementName=ClientCombo, Path=SelectedItem.Balance, StringFormat=\{0:c\}}" Width="150" FontWeight="Bold" FontSize="12"></Label>
         </StackPanel>
 
-        <DataGrid Grid.Column="0" Grid.Row="9" Grid.ColumnSpan="6" Grid.RowSpan="6"
+        <DataGrid Grid.Column="0" Grid.Row="9" Grid.ColumnSpan="6" Grid.RowSpan="6" Background="White"
             x:Name="PaintsGrid" ItemsSource="{Binding Paints}" SelectedItem="{Binding CurrentPaint, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False" EnableRowVirtualization="True">
             <DataGrid.Columns>
                 <DataGridTextColumn x:Name="dateColumn" Binding="{Binding Path=Date, StringFormat=\{0:d\}}" Header="Дата" Width="Auto" />
@@ -215,12 +215,12 @@
         </StackPanel>
 
         <StackPanel Grid.Column="3" Grid.Row="3" Grid.RowSpan="3" Orientation="Vertical" HorizontalAlignment="Right">
-            <Button Command="{Binding UnConfirmDocumentCommand}">РазПровести</Button>
             <Button Command="{Binding ConfirmDocumentCommand}">Провести</Button>
+            <Button Command="{Binding UnConfirmDocumentCommand}">РазПровести</Button>
         </StackPanel>
         <StackPanel Grid.Column="3" Grid.Row="3" Grid.RowSpan="3" Orientation="Vertical" HorizontalAlignment="Center">
             <Button Command="{Binding PreorderCommand}">Предзаказ</Button>
-            <Button Command="{Binding SaveChangesCommand}">Сохранить</Button>
+            <Button Command="{Binding CancelPreorderCommand}">Отмена</Button>
         </StackPanel>
         <StackPanel Grid.Column="3" Grid.Row="3" Grid.RowSpan="3" Orientation="Vertical" HorizontalAlignment="Left">
             <Button Command="{Binding AddPaintCommand}">Добавить</Button>
@@ -234,6 +234,9 @@
             </MenuItem>
             <MenuItem Header="Модели авто">
                 <MenuItem Header="Добавить" Command="{Binding AddNewCarModelCommand}" />
+            </MenuItem>
+            <MenuItem Header="Краски">
+                <MenuItem Header="Редактировать" Command="{Binding EditPaintsCommand}" />
             </MenuItem>
         </Menu>
     </Grid>
