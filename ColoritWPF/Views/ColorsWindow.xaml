@@ -65,7 +65,8 @@
                 ItemsSource ="{Binding CarModels}" 
                 SelectedValue="{Binding CurrentPaint.CarModelID}" 
                 DisplayMemberPath="ModelName" IsSynchronizedWithCurrentItem="True" 
-                SelectedValuePath="ID" Width="150" HorizontalAlignment="Right"></ComboBox>
+                SelectedValuePath="ID" Width="150" HorizontalAlignment="Right"
+                IsEditable="True" IsTextSearchCaseSensitive="False"></ComboBox>
             </StackPanel>
         <StackPanel Grid.Column="0" Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
                 <Label>Код краски: </Label>
@@ -80,7 +81,7 @@
                     SelectedValue ="{Binding Path=CurrentClientId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                     DisplayMemberPath="Name" 
                     SelectedValuePath="ID" 
-                    Width="150"></ComboBox>
+                    Width="150" IsEditable="True" IsTextSearchCaseSensitive="False"></ComboBox>
         </StackPanel>
         <StackPanel Grid.Column="0" Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Right">
                 <Label >Телефон: </Label>
@@ -138,7 +139,8 @@
                             IsChecked="{Binding Path=Other, Mode=TwoWay}"
                             Command="{Binding SetPaintCommand}">Другое</RadioButton>
             <ComboBox ItemsSource="{Binding OtherPaints}"
-                        SelectedValue ="{Binding Path=CurrentPaint.NameID}" DisplayMemberPath="Name" SelectedValuePath="ID" Width="150" IsEnabled="{Binding IsChecked, ElementName=OtherRadio}"></ComboBox>
+                        SelectedValue ="{Binding Path=CurrentPaint.NameID}" DisplayMemberPath="Name" SelectedValuePath="ID" Width="150" IsEnabled="{Binding IsChecked, ElementName=OtherRadio}"
+                      IsEditable="True" IsTextSearchCaseSensitive="False"></ComboBox>
         </StackPanel>
 
         <StackPanel Grid.Column="1" Grid.Row="2"  Grid.ColumnSpan="2" Orientation="Horizontal" Margin="0,5,0,5" HorizontalAlignment="Left">
@@ -227,7 +229,7 @@
             <Button Command="{Binding ReCalcCommand}">Пересчет</Button>
             
         </StackPanel>
-        <Menu Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Height="23" HorizontalAlignment="Left" VerticalAlignment="Top" IsMainMenu="True" Width="200">
+        <Menu Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Height="23" HorizontalAlignment="Left" VerticalAlignment="Top" IsMainMenu="True" Width="250">
             <MenuItem Header="Клиенты">
                 <MenuItem Header="Добавить" Command="{Binding AddNewClientCommand}" />
                 <MenuItem Header="Редактировать" Command="{Binding EditClientCommand}" />
@@ -237,6 +239,9 @@
             </MenuItem>
             <MenuItem Header="Краски">
                 <MenuItem Header="Редактировать" Command="{Binding EditPaintsCommand}" />
+            </MenuItem>
+
+            <MenuItem Header="Настройки" Command="{Binding SettingsCommand}">
             </MenuItem>
         </Menu>
     </Grid>

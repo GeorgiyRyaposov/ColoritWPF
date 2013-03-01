@@ -361,6 +361,12 @@ namespace ColoritWPF.ViewModel
             get;
             private set;
         }
+
+        public RelayCommand SettingsCommand
+        {
+            get;
+            private set;
+        }
         
         #endregion
 
@@ -379,6 +385,13 @@ namespace ColoritWPF.ViewModel
             EditClientCommand = new RelayCommand(EditClientCmd);
             CancelPreorderCommand = new RelayCommand(CancelPreorderCmd, CancelPreorderCanExecute);
             EditPaintsCommand = new RelayCommand(EditPaintsCmd);
+            SettingsCommand = new RelayCommand(SettingsCmd);
+        }
+
+        private void SettingsCmd()
+        {
+            SettingsView settingsView = new SettingsView();
+            settingsView.ShowDialog();
         }
 
         private void EditPaintsCmd()
@@ -452,7 +465,8 @@ namespace ColoritWPF.ViewModel
         private void SetPaintAndRecalc()
         {
             SetPaint();
-            ReCalc();
+            if(IsEnabled)
+                ReCalc();
         }
 
         private bool SetPaintCanExecute()
@@ -468,7 +482,6 @@ namespace ColoritWPF.ViewModel
                                 "Подтверждение", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
                 CurrentPaint.DocState = true;
-                //CurrentPaint.PhoneNumber = CurrentPaint.Client.PhoneNumber;
                 CurrentPaint.Client.Balance = CurrentPaint.Client.Balance + CurrentPaint.Total;
                 SaveWithoutRecalc();
                 IsEnabled = false;
@@ -554,15 +567,18 @@ namespace ColoritWPF.ViewModel
 
         private void ReCalc()
         {
-            decimal work = 0;
-            if (ByCode)
-                work = settings.ByCodeCost;
-            if(Selection)
-                work = settings.SelectionCost;
-            if (Selection && ThreeLayers)
-                work = settings.SelectionAndThreeLayers;
+            if (IsEnabled)
+            {
+                decimal work = 0;
+                if (ByCode)
+                    work = settings.ByCodeCost;
+                if (Selection)
+                    work = settings.SelectionCost;
+                if (Selection && ThreeLayers)
+                    work = settings.SelectionAndThreeLayers;
 
-            CurrentPaint.ReCalcAll(work, (decimal)Discount);
+                CurrentPaint.ReCalcAll(work, (decimal) Discount);
+            }
         }
 
         
@@ -607,6 +623,11 @@ namespace ColoritWPF.ViewModel
                         break;
                 }
 
+                if (CurrentPaint.DocState || CurrentPaint.IsPreorder)
+                    IsEnabled = false;
+                else
+                    IsEnabled = true;
+
                 ThreeLayers = CurrentPaint.PaintName.ThreeLayers;
                 Package = CurrentPaint.PaintName.Package;
                 ByCode = CurrentPaint.ServiceByCode;
@@ -616,10 +637,7 @@ namespace ColoritWPF.ViewModel
                 PhoneNumber = CurrentPaint.PhoneNumber;
                 SetDiscount();
 
-                if (CurrentPaint.DocState || CurrentPaint.IsPreorder)
-                    IsEnabled = false;
-                else
-                    IsEnabled = true;
+
             }
         }
 
