@@ -158,6 +158,7 @@
     <Compile Include="ViewModel\ColorsMainViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\PaintEditorViewModel.cs" />
+    <Compile Include="ViewModel\PaintsSalesWatcherViewModel.cs" />
     <Compile Include="ViewModel\SettingsViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Compile Include="Views\AddNewCarModel.xaml.cs">
@@ -174,6 +175,9 @@
     </Compile>
     <Compile Include="Views\PaintsEditor.xaml.cs">
       <DependentUpon>PaintsEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PaintsSalesWatcherView.xaml.cs">
+      <DependentUpon>PaintsSalesWatcherView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SettingsView.xaml.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
@@ -269,6 +273,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\PaintsEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PaintsSalesWatcherView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

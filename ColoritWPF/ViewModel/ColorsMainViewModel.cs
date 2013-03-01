@@ -367,6 +367,12 @@ namespace ColoritWPF.ViewModel
             get;
             private set;
         }
+
+        public RelayCommand PaintsSalesWatcherCommand
+        {
+            get;
+            private set;
+        }
         
         #endregion
 
@@ -386,6 +392,13 @@ namespace ColoritWPF.ViewModel
             CancelPreorderCommand = new RelayCommand(CancelPreorderCmd, CancelPreorderCanExecute);
             EditPaintsCommand = new RelayCommand(EditPaintsCmd);
             SettingsCommand = new RelayCommand(SettingsCmd);
+            PaintsSalesWatcherCommand = new RelayCommand(PaintsSalesWatcherCmd);
+        }
+
+        private void PaintsSalesWatcherCmd()
+        {
+            PaintsSalesWatcherView paintsSalesWatcherView = new PaintsSalesWatcherView();
+            paintsSalesWatcherView.ShowDialog();
         }
 
         private void SettingsCmd()

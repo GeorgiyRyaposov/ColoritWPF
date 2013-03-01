@@ -95,6 +95,14 @@ namespace ColoritWPF.ViewModel
             }
         }
 
+        public PaintsSalesWatcherViewModel PaintsWatcherPage
+        {
+            get
+            {
+                return new PaintsSalesWatcherViewModel();
+            }
+        }
+
         public MainViewModel Main
         {
             get

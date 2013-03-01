@@ -239,6 +239,7 @@
             </MenuItem>
             <MenuItem Header="Краски">
                 <MenuItem Header="Редактировать" Command="{Binding EditPaintsCommand}" />
+                <MenuItem Header="Продажи" Command="{Binding PaintsSalesWatcherCommand}" />
             </MenuItem>
 
             <MenuItem Header="Настройки" Command="{Binding SettingsCommand}">
