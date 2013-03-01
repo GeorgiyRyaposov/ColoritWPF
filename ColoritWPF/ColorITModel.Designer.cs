@@ -288,6 +288,22 @@ namespace ColoritWPF
             }
         }
         private ObjectSet<Paints> _Paints;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<Settings> Settings
+        {
+            get
+            {
+                if ((_Settings == null))
+                {
+                    _Settings = base.CreateObjectSet<Settings>("Settings");
+                }
+                return _Settings;
+            }
+        }
+        private ObjectSet<Settings> _Settings;
 
         #endregion
         #region AddTo Methods
@@ -394,6 +410,14 @@ namespace ColoritWPF
         public void AddToPaints(Paints paints)
         {
             base.AddObject("Paints", paints);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the Settings EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToSettings(Settings settings)
+        {
+            base.AddObject("Settings", settings);
         }
 
         #endregion
@@ -3632,6 +3656,133 @@ namespace ColoritWPF
         }
 
         #endregion
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="ColorITModel", Name="Settings")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class Settings : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new Settings object.
+        /// </summary>
+        /// <param name="id">Initial value of the ID property.</param>
+        public static Settings CreateSettings(global::System.Int32 id)
+        {
+            Settings settings = new Settings();
+            settings.ID = id;
+            return settings;
+        }
+
+        #endregion
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 ID
+        {
+            get
+            {
+                return _ID;
+            }
+            set
+            {
+                if (_ID != value)
+                {
+                    OnIDChanging(value);
+                    ReportPropertyChanging("ID");
+                    _ID = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("ID");
+                    OnIDChanged();
+                }
+            }
+        }
+        private global::System.Int32 _ID;
+        partial void OnIDChanging(global::System.Int32 value);
+        partial void OnIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Decimal ByCodeCost
+        {
+            get
+            {
+                return _ByCodeCost;
+            }
+            set
+            {
+                OnByCodeCostChanging(value);
+                ReportPropertyChanging("ByCodeCost");
+                _ByCodeCost = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("ByCodeCost");
+                OnByCodeCostChanged();
+            }
+        }
+        private global::System.Decimal _ByCodeCost = 0m;
+        partial void OnByCodeCostChanging(global::System.Decimal value);
+        partial void OnByCodeCostChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Decimal SelectionCost
+        {
+            get
+            {
+                return _SelectionCost;
+            }
+            set
+            {
+                OnSelectionCostChanging(value);
+                ReportPropertyChanging("SelectionCost");
+                _SelectionCost = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("SelectionCost");
+                OnSelectionCostChanged();
+            }
+        }
+        private global::System.Decimal _SelectionCost = 0m;
+        partial void OnSelectionCostChanging(global::System.Decimal value);
+        partial void OnSelectionCostChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Decimal SelectionAndThreeLayers
+        {
+            get
+            {
+                return _SelectionAndThreeLayers;
+            }
+            set
+            {
+                OnSelectionAndThreeLayersChanging(value);
+                ReportPropertyChanging("SelectionAndThreeLayers");
+                _SelectionAndThreeLayers = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("SelectionAndThreeLayers");
+                OnSelectionAndThreeLayersChanged();
+            }
+        }
+        private global::System.Decimal _SelectionAndThreeLayers = 0m;
+        partial void OnSelectionAndThreeLayersChanging(global::System.Decimal value);
+        partial void OnSelectionAndThreeLayersChanged();
+
+        #endregion
+    
     }
     
     /// <summary>

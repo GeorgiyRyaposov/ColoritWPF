@@ -20,6 +20,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -54,7 +55,7 @@
             <Label>Введите имя клиента</Label>
             <TextBox Text="{Binding NameFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
         </StackPanel>
-        <DataGrid Grid.Column="0" Grid.Row="1" Grid.RowSpan="4" AutoGenerateColumns="False" SelectedItem="{Binding NewClient, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" EnableRowVirtualization="True" HorizontalAlignment="Left" ItemsSource="{Binding ClientsList}" RowDetailsVisibilityMode="VisibleWhenSelected" VerticalAlignment="Top" Width="Auto" CanUserAddRows="False" CanUserDeleteRows="False">
+        <DataGrid Grid.Column="0" Grid.Row="1" Grid.RowSpan="9" AutoGenerateColumns="False" SelectedItem="{Binding NewClient, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" EnableRowVirtualization="True" HorizontalAlignment="Left" ItemsSource="{Binding ClientsList}" RowDetailsVisibilityMode="VisibleWhenSelected" VerticalAlignment="Top" Width="Auto" CanUserAddRows="False" CanUserDeleteRows="False">
             <DataGrid.Columns>
                 <DataGridTextColumn x:Name="iDColumn" Binding="{Binding Path=ID}" Header="ID" Width="SizeToHeader" />
                 <DataGridTextColumn x:Name="nameColumn" Binding="{Binding Path=Name}" Header="ФИО" Width="120" />
@@ -62,11 +63,11 @@
                 <DataGridTextColumn x:Name="discountColumn" Binding="{Binding Path=Discount}" Header="Скидка" Width="SizeToHeader" />
             </DataGrid.Columns>
         </DataGrid>
-        <StackPanel Grid.Column="0" Grid.Row="6" Grid.RowSpan="2" Orientation="Vertical" HorizontalAlignment="Left">
+        <StackPanel Grid.Column="1" Grid.Row="6" Grid.RowSpan="2" Orientation="Vertical" HorizontalAlignment="Left">
             <Label>Введите сумму ("-" долг, "+" депозит)</Label>
             <TextBox Text="{Binding LoanDeposit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
         </StackPanel>
-        <StackPanel Grid.Column="1" Grid.Row="7" Orientation="Horizontal" HorizontalAlignment="Right">
+        <StackPanel Grid.Column="1" Grid.Row="8" Orientation="Horizontal" HorizontalAlignment="Right">
             <Button Content="Закрыть" Margin="0,5,0,0" Click="Button_Click"></Button>
             <Button Content="Сохранить" Command="{Binding SaveCommand}" Margin="5,5,5,0" IsEnabled="True"></Button>
         </StackPanel>

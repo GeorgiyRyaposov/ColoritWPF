@@ -21,14 +21,17 @@ namespace ColoritWPF.ViewModel
             else
             {
                 colorItEntities = new ColorITEntities();
+                settings = colorItEntities.Settings.First();
                 GetData();
                 AddCommands();
                 Messenger.Default.Register<Client>(this, curClient => Clients.Add(curClient));
                 Messenger.Default.Register<CarModels>(this, carModel => CarModels.Add(carModel));
+                Messenger.Default.Register<Settings>(this, setting => settings = setting);
             }
         }
         private ColorITEntities colorItEntities;
         private Paints _currentPaint;
+        private Settings settings;
 
         public ObservableCollection<Client> Clients { get; set; }
         public ObservableCollection<CarModels> CarModels { get; set; }
@@ -553,11 +556,11 @@ namespace ColoritWPF.ViewModel
         {
             decimal work = 0;
             if (ByCode)
-                work = 50;
+                work = settings.ByCodeCost;
             if(Selection)
-                work = 330;
+                work = settings.SelectionCost;
             if (Selection && ThreeLayers)
-                work = 380;
+                work = settings.SelectionAndThreeLayers;
 
             CurrentPaint.ReCalcAll(work, (decimal)Discount);
         }

@@ -18,6 +18,7 @@
           <EntitySet Name="Purchase" EntityType="ColorITModel.Store.Purchase" store:Type="Tables" />
           <EntitySet Name="Return" EntityType="ColorITModel.Store.Return" store:Type="Tables" />
           <EntitySet Name="Sale" EntityType="ColorITModel.Store.Sale" store:Type="Tables" />
+          <EntitySet Name="Settings" EntityType="ColorITModel.Store.Settings" store:Type="Tables" />
           <EntitySet Name="States" EntityType="ColorITModel.Store.States" store:Type="Tables" />
           <AssociationSet Name="FK_Client_Deposit" Association="ColorITModel.Store.FK_Client_Deposit">
             <End Role="Client" EntitySet="Client" />
@@ -212,6 +213,15 @@
           <Property Name="StateID" Type="int" Nullable="false" />
           <Property Name="Comments" Type="nvarchar" MaxLength="100" />
           <Property Name="FromWareHouse" Type="float" />
+        </EntityType>
+        <EntityType Name="Settings">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ByCodeCost" Type="money" Nullable="false" />
+          <Property Name="SelectionCost" Type="money" Nullable="false" />
+          <Property Name="SelectionAndThreeLayers" Type="money" Nullable="false" />
         </EntityType>
         <EntityType Name="States">
           <Key>
@@ -430,6 +440,7 @@
             <End Role="PaintName" EntitySet="PaintName" />
             <End Role="Paints" EntitySet="Paints" />
           </AssociationSet>
+          <EntitySet Name="Settings" EntityType="ColorITModel.Settings" />
         </EntityContainer>
         <EntityType Name="Client">
           <Key>
@@ -751,6 +762,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Settings">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Decimal" Name="ByCodeCost" Nullable="false" Precision="19" Scale="4" DefaultValue="0" />
+          <Property Type="Decimal" Name="SelectionCost" Nullable="false" Precision="19" Scale="4" DefaultValue="0" />
+          <Property Type="Decimal" Name="SelectionAndThreeLayers" Nullable="false" Precision="19" Scale="4" DefaultValue="0" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -890,6 +910,16 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Settings">
+            <EntityTypeMapping TypeName="ColorITModel.Settings">
+              <MappingFragment StoreEntitySet="Settings">
+                <ScalarProperty Name="SelectionAndThreeLayers" ColumnName="SelectionAndThreeLayers" />
+                <ScalarProperty Name="SelectionCost" ColumnName="SelectionCost" />
+                <ScalarProperty Name="ByCodeCost" ColumnName="ByCodeCost" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -979,6 +1009,7 @@
           <ConnectorPoint PointX="11.875" PointY="4.1734318033854159" />
           <ConnectorPoint PointX="12.5" PointY="4.1734318033854159" />
         </AssociationConnector>
+        <EntityTypeShape EntityType="ColorITModel.Settings" Width="1.5" PointX="3.625" PointY="0.625" Height="1.4279589843750031" />
       </Diagram>
     </Diagrams>
   </Designer>

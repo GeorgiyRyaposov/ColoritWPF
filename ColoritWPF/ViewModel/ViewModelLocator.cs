@@ -87,6 +87,14 @@ namespace ColoritWPF.ViewModel
             }
         }
 
+        public SettingsViewModel SettingsPage
+        {
+            get
+            {
+                return new SettingsViewModel();
+            }
+        }
+
         public MainViewModel Main
         {
             get
