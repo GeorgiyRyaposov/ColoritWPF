@@ -373,6 +373,12 @@ namespace ColoritWPF.ViewModel
             get;
             private set;
         }
+
+        public RelayCommand DensityCounterCommand
+        {
+            get;
+            private set;
+        }
         
         #endregion
 
@@ -393,6 +399,13 @@ namespace ColoritWPF.ViewModel
             EditPaintsCommand = new RelayCommand(EditPaintsCmd);
             SettingsCommand = new RelayCommand(SettingsCmd);
             PaintsSalesWatcherCommand = new RelayCommand(PaintsSalesWatcherCmd);
+            DensityCounterCommand = new RelayCommand(DensityCounterCmd);
+        }
+
+        private void DensityCounterCmd()
+        {
+            DensityView densityView = new DensityView();
+            densityView.ShowDialog();
         }
 
         private void PaintsSalesWatcherCmd()

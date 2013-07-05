@@ -151,11 +151,13 @@
       <DependentUpon>EditProducts.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\ClientsListModel.cs" />
+    <Compile Include="Models\DensityType.cs" />
     <Compile Include="PaintsPartialClass.cs" />
     <Compile Include="ViewModel\AddClientViewModel.cs" />
     <Compile Include="ViewModel\AddNewCarViewModel.cs" />
     <Compile Include="ViewModel\ClientEditorViewModel.cs" />
     <Compile Include="ViewModel\ColorsMainViewModel.cs" />
+    <Compile Include="ViewModel\DensityViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\PaintEditorViewModel.cs" />
     <Compile Include="ViewModel\PaintsSalesWatcherViewModel.cs" />
@@ -172,6 +174,9 @@
     </Compile>
     <Compile Include="Views\ColorsWindow.xaml.cs">
       <DependentUpon>ColorsWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DensityView.xaml.cs">
+      <DependentUpon>DensityView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\PaintsEditor.xaml.cs">
       <DependentUpon>PaintsEditor.xaml</DependentUpon>
@@ -269,6 +274,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ColorsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DensityView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

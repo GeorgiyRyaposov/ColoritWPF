@@ -229,7 +229,7 @@
             <Button Command="{Binding ReCalcCommand}">Пересчет</Button>
             
         </StackPanel>
-        <Menu Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Height="23" HorizontalAlignment="Left" VerticalAlignment="Top" IsMainMenu="True" Width="250">
+        <Menu Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Height="23" HorizontalAlignment="Left" VerticalAlignment="Top" IsMainMenu="True" Width="350">
             <MenuItem Header="Клиенты">
                 <MenuItem Header="Добавить" Command="{Binding AddNewClientCommand}" />
                 <MenuItem Header="Редактировать" Command="{Binding EditClientCommand}" />
@@ -240,6 +240,8 @@
             <MenuItem Header="Краски">
                 <MenuItem Header="Редактировать" Command="{Binding EditPaintsCommand}" />
                 <MenuItem Header="Продажи" Command="{Binding PaintsSalesWatcherCommand}" />
+            </MenuItem>
+            <MenuItem Header="Расчет плотности" Command="{Binding DensityCounterCommand}">
             </MenuItem>
 
             <MenuItem Header="Настройки" Command="{Binding SettingsCommand}">

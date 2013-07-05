@@ -103,6 +103,14 @@ namespace ColoritWPF.ViewModel
             }
         }
 
+        public DensityViewModel DensityPage
+        {
+            get
+            {
+                return new DensityViewModel();
+            }
+        }
+
         public MainViewModel Main
         {
             get
