@@ -617,7 +617,7 @@ namespace ColoritWPF.ViewModel
                 if (Selection && ThreeLayers)
                     work = settings.SelectionAndThreeLayers;
 
-                CurrentPaint.ReCalcAll(work, (decimal) Discount);
+                CurrentPaint.ReCalcAll(work, (decimal)Discount, ByCode);
             }
         }
 

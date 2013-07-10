@@ -80,9 +80,13 @@ namespace ColoritWPF
             }
         }
         
-        public void ReCalcAll(decimal work, decimal discount)
+        //byCode = если по коду, то перепыл не считается!
+        public void ReCalcAll(decimal work, decimal discount, bool byCode)
         {
-            double census = GetCensus();
+            double census = 0;
+            if(!byCode)
+                census = GetCensus();
+
             decimal amount = 0;
             if(Amount != 0)
                 amount = Decimal.Parse(Amount.ToString()) + Decimal.Parse(census.ToString()) + PolishSum;
