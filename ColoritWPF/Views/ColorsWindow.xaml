@@ -241,7 +241,9 @@
                 <MenuItem Header="Редактировать" Command="{Binding EditPaintsCommand}" />
                 <MenuItem Header="Продажи" Command="{Binding PaintsSalesWatcherCommand}" />
             </MenuItem>
-            <MenuItem Header="Расчет плотности" Command="{Binding DensityCounterCommand}">
+            <MenuItem Header="Плотность">
+                <MenuItem Header="Расчет плотности" Command="{Binding DensityCounterCommand}" />
+                <MenuItem Header="Добавить..." Command="{Binding AddNewDensityCommand}" />
             </MenuItem>
 
             <MenuItem Header="Настройки" Command="{Binding SettingsCommand}">

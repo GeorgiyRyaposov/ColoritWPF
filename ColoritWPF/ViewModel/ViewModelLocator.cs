@@ -13,6 +13,7 @@
 */
 
 using System.ComponentModel;
+using ColoritWPF.Views;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;
@@ -116,6 +117,14 @@ namespace ColoritWPF.ViewModel
             get
             {
                 return ServiceLocator.Current.GetInstance<MainViewModel>();
+            }
+        }
+
+        public AddNewDensityItemViewModel AddNewDensityItemPage
+        {
+            get
+            {
+                return new AddNewDensityItemViewModel();
             }
         }
         

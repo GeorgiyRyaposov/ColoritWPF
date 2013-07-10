@@ -155,6 +155,10 @@
     <Compile Include="PaintsPartialClass.cs" />
     <Compile Include="ViewModel\AddClientViewModel.cs" />
     <Compile Include="ViewModel\AddNewCarViewModel.cs" />
+    <Compile Include="ViewModel\AddNewDensityItemViewModel.cs" />
+    <Compile Include="Views\AddNewDensityItem.xaml.cs">
+      <DependentUpon>AddNewDensityItem.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModel\ClientEditorViewModel.cs" />
     <Compile Include="ViewModel\ColorsMainViewModel.cs" />
     <Compile Include="ViewModel\DensityViewModel.cs" />
@@ -258,6 +262,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SalesStats.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AddNewDensityItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
