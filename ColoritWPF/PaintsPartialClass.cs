@@ -83,8 +83,20 @@ namespace ColoritWPF
         public void ReCalcAll(decimal work, decimal discount)
         {
             double census = GetCensus();
-            Sum = ((PaintValues.Cost * (Decimal.Parse(Amount.ToString()) + Decimal.Parse(census.ToString())) + PolishSum) * (1 - discount)) + work + PaintValues.Container;
-            Total = Sum + ClientValues.Balance - Prepay;
+            decimal amount = 0;
+            if(Amount != 0)
+                amount = Decimal.Parse(Amount.ToString()) + Decimal.Parse(census.ToString()) + PolishSum;
+
+            if (Amount == 0 && PolishSum == 0)
+            {
+                Sum = 0;
+                Total = 0;
+            }
+            else
+            {
+                Sum = (PaintValues.Cost * amount * (1 - discount)) + work + PaintValues.Container;
+                Total = Sum + ClientValues.Balance - Prepay;
+            }
         }
 
         //Добыть перепыл

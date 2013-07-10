@@ -48,7 +48,7 @@ namespace ColoritWPF.ViewModel
         private bool _white = true;
         private bool _red;
         private bool _color;
-        private bool _package;
+        //private bool _package;
         private bool _threeLayers;
 
         public bool LSB
@@ -88,7 +88,7 @@ namespace ColoritWPF.ViewModel
             get { return _polish; }
             set
             {
-                Package  = _polish = value;
+                /*Package  = */_polish = value;
                 base.RaisePropertyChanged("Polish");
             }
         }
@@ -143,15 +143,15 @@ namespace ColoritWPF.ViewModel
             }
         }
 
-        public bool Package
-        {
-            get { return _package; }
-            set
-            {
-                _package = value; 
-                base.RaisePropertyChanged("Package");
-            }
-        }
+        //public bool Package
+        //{
+        //    get { return _package; }
+        //    set
+        //    {
+        //        _package = value; 
+        //        base.RaisePropertyChanged("Package");
+        //    }
+        //}
 
         public bool ByCode
         {
@@ -255,16 +255,17 @@ namespace ColoritWPF.ViewModel
                 base.RaisePropertyChanged("PhoneNumber");
             }
         }
-
+        
         private void GetData()
         {
-            SetDefaultValues();
-
             Paints = new ObservableCollection<Paints>(colorItEntities.Paints.ToList());
             
             Clients = new ObservableCollection<Client>(colorItEntities.Client.ToList());
             CarModels = new ObservableCollection<CarModels>(colorItEntities.CarModels.ToList());
             OtherPaints = new ObservableCollection<PaintName>(colorItEntities.PaintName.Where(item => item.PaintType == "Other").ToList());
+
+            //SetDefaultValues();
+            CurrentPaint = Paints.LastOrDefault();
         }
 
         private void SetDefaultValues()
@@ -668,7 +669,7 @@ namespace ColoritWPF.ViewModel
                     IsEnabled = true;
 
                 ThreeLayers = CurrentPaint.PaintName.ThreeLayers;
-                Package = CurrentPaint.PaintName.Package;
+                //Package = CurrentPaint.PaintName.Package;
                 ByCode = CurrentPaint.ServiceByCode;
                 Selection = CurrentPaint.ServiceSelection;
                 Colorist = CurrentPaint.ServiceColorist;
@@ -705,7 +706,7 @@ namespace ColoritWPF.ViewModel
                     pName = (from paintName in colorItEntities.PaintName
                              where (
                                        (paintName.PaintType == paint) &&
-                                       (paintName.Package == Package) &&
+                                       //(paintName.Package == Package) &&
                                        (paintName.ThreeLayers == ThreeLayers)
                                    )
                              select paintName.ID).First();
@@ -727,7 +728,7 @@ namespace ColoritWPF.ViewModel
                                  where (
                                            (paintName.PaintType == "L2K") &&
                                            (paintName.L2KType == l2KType) &&
-                                           (paintName.Package == Package) &&
+                                           //(paintName.Package == Package) &&
                                            (paintName.ThreeLayers == ThreeLayers)
                                        )
                                  select paintName.ID).First();
@@ -741,7 +742,7 @@ namespace ColoritWPF.ViewModel
                     pName = (from paintName in colorItEntities.PaintName
                              where (
                                      (paintName.L2KType == "Polish") &&
-                                     (paintName.Package == Package) &&
+                                     //(paintName.Package == Package) &&
                                      (paintName.ThreeLayers == ThreeLayers)
                                  )
                              select paintName.ID).First();

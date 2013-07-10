@@ -156,6 +156,7 @@
     <Compile Include="ViewModel\AddClientViewModel.cs" />
     <Compile Include="ViewModel\AddNewCarViewModel.cs" />
     <Compile Include="ViewModel\AddNewDensityItemViewModel.cs" />
+    <Compile Include="ViewModel\MenuItemsViewModel.cs" />
     <Compile Include="Views\AddNewDensityItem.xaml.cs">
       <DependentUpon>AddNewDensityItem.xaml</DependentUpon>
     </Compile>
@@ -181,6 +182,9 @@
     </Compile>
     <Compile Include="Views\DensityView.xaml.cs">
       <DependentUpon>DensityView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\PaintsEditor.xaml.cs">
       <DependentUpon>PaintsEditor.xaml</DependentUpon>
@@ -286,6 +290,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\DensityView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MainWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -415,7 +423,10 @@
       <FileType>File</FileType>
     </PublishFile>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="ViewModel\Products\" />
+    <Folder Include="Views\Products\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

@@ -127,7 +127,15 @@ namespace ColoritWPF.ViewModel
                 return new AddNewDensityItemViewModel();
             }
         }
-        
+
+        public MenuItemsViewModel MenuItemsViewModelPage
+        {
+            get
+            {
+                return new MenuItemsViewModel();
+            }
+        }
+
         public static void Cleanup()
         {
             // TODO Clear the ViewModels

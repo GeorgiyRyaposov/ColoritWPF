@@ -42,8 +42,8 @@ namespace ColoritWPF.ViewModel
         private double _volThinner;
         private double _massHardener;
         private double _massThinner;
-        private double _leftProportion;
-        private double _rightProportion;
+        private int _leftProportion;
+        private int _rightProportion;
         private ICollectionView _densitiesComboView;
         private ICollectionView _gruntDensitiesComboView;
         private string leftGruntMass;
@@ -121,23 +121,14 @@ namespace ColoritWPF.ViewModel
             base.RaisePropertyChanged("MassThinner");}
         }
 
-        public double LeftProportion
+        public int LeftProportion
         {
             get { return _leftProportion; }
-            set {
-                    if (value < 0 || value > 5)
-                    {
-                        LeftProportion = 5;
-                    }
-                    else
-                    {
-                        _leftProportion = value;   
-                    }
-                    base.RaisePropertyChanged("LeftProportion");
-                    RightProportion = 5 - value;}
+            set {_leftProportion = value;   
+                 base.RaisePropertyChanged("LeftProportion");}
         }
 
-        public double RightProportion
+        public int RightProportion
         {
             get { return _rightProportion; }
             set { _rightProportion = value;
@@ -322,15 +313,16 @@ namespace ColoritWPF.ViewModel
         //Высчитывает массу краски\прочего, не грунта
         private void PaintMassCounter()
         {
-            Mass = CurrentDensity.DensityValue * Volume;
+            Mass = CurrentDensity.DensityValue * Volume * 1000;
         }
 
         //Высчитывает массу грунта c пропорциями
         private void GruntMassCounter()
         {
-            double onePart = Volume/5;
-            double leftGrunt = onePart*LeftProportion*CurrentDensity.DensityValue;
-            double rightGrunt = onePart*RightProportion*CurrentGruntMixDensity.DensityValue;
+
+            double onePart = Volume / (LeftProportion + RightProportion);
+            double leftGrunt = Math.Round((onePart*LeftProportion*CurrentDensity.DensityValue * 1000),1);
+            double rightGrunt = Math.Round((onePart*RightProportion*CurrentGruntMixDensity.DensityValue * 1000),1);
             Mass = leftGrunt + rightGrunt;
 
             LeftGruntMass = String.Format("Масса {0} = {1}", CurrentDensity.Name, leftGrunt);
@@ -353,7 +345,7 @@ namespace ColoritWPF.ViewModel
                 thinnerValue = firstOrDefault.DensityValue;
             }
 
-            MassThinner = thinnerValue * VolThinner;
+            MassThinner = thinnerValue * VolThinner * 1000;
         }
 
         //Считает объем отвердителя
@@ -372,7 +364,7 @@ namespace ColoritWPF.ViewModel
                 hardenerValue = firstOrDefault.DensityValue;
             }
 
-            MassHardener = hardenerValue * VolHardener;
+            MassHardener = hardenerValue * VolHardener * 1000;
         }
 
         //Очищает все поля
