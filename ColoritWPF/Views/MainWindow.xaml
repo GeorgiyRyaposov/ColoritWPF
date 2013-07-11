@@ -26,8 +26,7 @@
                         <Setter Property="ToolTip" Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=(Validation.Errors).CurrentItem.ErrorContent}" />
                     </Trigger>
                 </Style.Triggers>
-            
-            </Style>
+        </Style>
             <!--ComboBox style-->
             <Style TargetType="ComboBox">
                 <Setter Property="IsEnabled" Value="{Binding IsEnabled}"/>
@@ -184,7 +183,7 @@
                         <StackPanel Grid.Column="1" Grid.Row="3"  Orientation="Horizontal" HorizontalAlignment="Right">
                             <Label>Кол-во:</Label>
                             <TextBox Text="{Binding Mode=TwoWay, UpdateSourceTrigger=LostFocus, Path=CurrentPaint.Amount, StringFormat=\{0:N\}}" 
-                     Width="100">
+                     Width="100" IsEnabled="{Binding IsAmountEnabled}">
                             </TextBox>
                         </StackPanel>
                         <StackPanel Grid.Column="2" Grid.Row="3"  Orientation="Horizontal" HorizontalAlignment="Right">
@@ -252,47 +251,59 @@
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
 
-                        <StackPanel Grid.Column="0" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Left">
+                        <StackPanel Grid.Column="0" Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Left">
                             <Label>Тип продукта:</Label>
-                            <ComboBox
-                ItemsSource ="{Binding DenTypes}" 
-                SelectedValue="{Binding CurrentType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                DisplayMemberPath="Name"
-                Width="150" HorizontalAlignment="Right"></ComboBox>
+
+                        </StackPanel>
+                    <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Left">
+                        <ComboBox
+                            ItemsSource ="{Binding DenTypes}" 
+                            SelectedValue="{Binding CurrentType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                            DisplayMemberPath="Name"
+                            Width="150" HorizontalAlignment="Right"></ComboBox>
+                        
+                    </StackPanel>
+                        
+                    <StackPanel Grid.Column="1" Grid.Row="3" Orientation="Vertical" HorizontalAlignment="Left">
+                        <ComboBox
+                            ItemsSource ="{Binding DensitiesComboView}" 
+                            SelectedValue="{Binding CurrentDensity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                            DisplayMemberPath="Name"
+                            Width="200" HorizontalAlignment="Right"
+                            IsEditable="True" IsTextSearchCaseSensitive="False"
+                            Margin="0,5,0,5"></ComboBox>
+
+                        <ComboBox
+                            ItemsSource ="{Binding GruntDensitiesComboView}" 
+                            SelectedValue="{Binding CurrentGruntMixDensity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                            DisplayMemberPath="Name"
+                            Width="200" HorizontalAlignment="Right"
+                            IsEditable="True" IsTextSearchCaseSensitive="False"></ComboBox>
+                    </StackPanel>
+                        
+                        <StackPanel Grid.Column="0" Grid.Row="3" Orientation="Vertical" HorizontalAlignment="Right">
+                            <Label HorizontalAlignment="Right">Продукт:</Label>
+
+                            <Label HorizontalAlignment="Right">Смешать с:</Label>
+
                         </StackPanel>
 
-                        <StackPanel Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="4" Orientation="Horizontal" HorizontalAlignment="Left">
-                            <Label>Продукт:</Label>
-                            <ComboBox
-                ItemsSource ="{Binding DensitiesComboView}" 
-                SelectedValue="{Binding CurrentDensity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                DisplayMemberPath="Name"
-                Width="200" HorizontalAlignment="Right"
-                IsEditable="True" IsTextSearchCaseSensitive="False"></ComboBox>
-                            <Label>Смешать с:</Label>
-                            <ComboBox
-                ItemsSource ="{Binding GruntDensitiesComboView}" 
-                SelectedValue="{Binding CurrentGruntMixDensity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                DisplayMemberPath="Name"
-                Width="200" HorizontalAlignment="Right"
-                IsEditable="True" IsTextSearchCaseSensitive="False"></ComboBox>
-                        </StackPanel>
-
-                        <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                        <StackPanel Grid.Column="2" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
                             <Label>Объём (л):</Label>
                             <TextBox Text="{Binding Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Path=Volume, StringFormat=\{0:N\}}" 
                      Width="50" />
                         </StackPanel>
 
-                        <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+                        <StackPanel Grid.Column="2" Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
                             <Label>Масса (г):</Label>
                             <TextBox Text="{Binding Mode=TwoWay, UpdateSourceTrigger=LostFocus, Path=Mass}" 
                      Width="50" />
                         </StackPanel>
 
-                        <StackPanel Grid.Column="2" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                        <StackPanel Grid.Column="4" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
                             <Label>Отвердитель (л):</Label>
                             <TextBox Text="{Binding Mode=TwoWay, UpdateSourceTrigger=LostFocus, Path=VolHardener}" 
                      Width="50" />
@@ -304,7 +315,7 @@
                      Width="50" />
                         </StackPanel>
 
-                        <StackPanel Grid.Column="2" Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+                        <StackPanel Grid.Column="4" Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
                             <Label>Отвердитель (г):</Label>
                             <TextBox Text="{Binding Mode=TwoWay, UpdateSourceTrigger=LostFocus, Path=MassHardener}" 
                      Width="50" />
@@ -315,22 +326,23 @@
                             <TextBox Text="{Binding Mode=TwoWay, UpdateSourceTrigger=LostFocus, Path=MassThinner}" 
                      Width="50" />
                         </StackPanel>
-                        <StackPanel Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Left">
+                        <StackPanel Grid.Column="2" Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Left">
                             <Label Content="Пропорция:"></Label>
                             <StackPanel Grid.Column="0" Grid.Row="4" Orientation="Vertical" HorizontalAlignment="Left">
 
-                                <TextBox Text="{Binding Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Path=LeftProportion}" 
+                            <TextBox Text="{Binding Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Path=LeftProportion, ValidatesOnDataErrors=True}" 
+                     Width="50" Margin="0,4,0,4" />
+                            <TextBox Text="{Binding Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Path=RightProportion, ValidatesOnDataErrors=True}" 
                      Width="50" />
-                                <TextBox Text="{Binding Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Path=RightProportion}" 
-                     Width="50" />
-                            </StackPanel>
-                        <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
-                            <Label Content="{Binding LeftGruntMass}"></Label>
-                            <Label Content="{Binding RightGruntMass}"></Label>
                             </StackPanel>
                         </StackPanel>
 
-                        <StackPanel Grid.Column="4" Grid.Row="4" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+                    <StackPanel Grid.Column="3" Grid.Row="3" Grid.ColumnSpan="2" Orientation="Vertical" HorizontalAlignment="Left">
+                        <Label Content="{Binding LeftGruntMass}"></Label>
+                        <Label Content="{Binding RightGruntMass}"></Label>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="4" Grid.Row="4" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Bottom">
                             <Button Content="Очистить" Command="{Binding CleanAllCommand}"></Button>
                         </StackPanel>
                     </Grid>

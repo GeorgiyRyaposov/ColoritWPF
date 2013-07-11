@@ -208,6 +208,17 @@ namespace ColoritWPF.ViewModel
             }
         }
 
+        private bool _isAmountEnabled;
+        public bool IsAmountEnabled
+        {
+            get { return _isAmountEnabled; }
+            set
+            {
+                _isAmountEnabled = value;
+                base.RaisePropertyChanged("IsAmountEnabled");
+            }
+        }
+
         private double _discount;
         public double Discount
         {
@@ -374,18 +385,6 @@ namespace ColoritWPF.ViewModel
             get;
             private set;
         }
-
-        public RelayCommand DensityCounterCommand
-        {
-            get;
-            private set;
-        }
-
-        public RelayCommand AddNewDensityCommand
-        {
-            get;
-            private set;
-        }
         
         #endregion
 
@@ -406,22 +405,8 @@ namespace ColoritWPF.ViewModel
             EditPaintsCommand = new RelayCommand(EditPaintsCmd);
             SettingsCommand = new RelayCommand(SettingsCmd);
             PaintsSalesWatcherCommand = new RelayCommand(PaintsSalesWatcherCmd);
-            DensityCounterCommand = new RelayCommand(DensityCounterCmd);
-            AddNewDensityCommand = new RelayCommand(AddNewDensityCmd);
         }
-
-        private void AddNewDensityCmd()
-        {
-            AddNewDensityItem addNewDensity = new AddNewDensityItem();
-            addNewDensity.ShowDialog();
-        }
-
-        private void DensityCounterCmd()
-        {
-            DensityView densityView = new DensityView();
-            densityView.ShowDialog();
-        }
-
+        
         private void PaintsSalesWatcherCmd()
         {
             PaintsSalesWatcherView paintsSalesWatcherView = new PaintsSalesWatcherView();
@@ -676,7 +661,13 @@ namespace ColoritWPF.ViewModel
                 CurrentClientId = CurrentPaint.ClientID;
                 PhoneNumber = CurrentPaint.PhoneNumber;
                 SetDiscount();
-
+                
+                //if (!IsEnabled)
+                //    IsAmountEnabled = false;
+                //if(Polish)
+                //    IsAmountEnabled = false;
+                //if(!Polish)
+                //    IsAmountEnabled = true;
 
             }
         }
@@ -751,8 +742,10 @@ namespace ColoritWPF.ViewModel
                     return;
                 }
 
-                if(Other)
+                if (Other)
+                {
                     SetDiscount();
+                }
             }
         }
     }

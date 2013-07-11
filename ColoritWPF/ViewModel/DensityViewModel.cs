@@ -9,7 +9,7 @@ using GalaSoft.MvvmLight.Command;
 
 namespace ColoritWPF.ViewModel
 {
-    public class DensityViewModel : ViewModelBase
+    public class DensityViewModel : ViewModelBase, IDataErrorInfo
     {
         private ColorITEntities colorItEntities;
 
@@ -30,6 +30,35 @@ namespace ColoritWPF.ViewModel
                 //Messenger.Default.Register<Settings>(this, setting => settings = setting);
             }
         }
+
+        #region IDataErrorInfo Members
+
+        public string Error
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public string this[string columnName]
+        {
+            get
+            {
+                string result = null;
+                switch (columnName)
+                {
+                    case "LeftProportion":
+                        if (CurrentGruntMixDensity != null && LeftProportion == 0)
+                            result = "Пропорция не может быть равна нулю";
+                        break;
+                    case "RightProportion":
+                        if (CurrentGruntMixDensity != null && RightProportion == 0)
+                            result = "Пропорция не может быть равна нулю";
+                        break;
+                }
+                return result;
+            }
+        }
+
+        #endregion
 
         #region Properties
 
