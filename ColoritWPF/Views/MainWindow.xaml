@@ -368,7 +368,7 @@
                 </TabItem>
                 
                 <TabItem Header="Магазин" >
-                <Grid DataContext="{Binding DensityPage, Source={StaticResource Locator}}">
+                <Grid DataContext="{Binding ProductsViewModelPage, Source={StaticResource Locator}}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
@@ -383,10 +383,51 @@
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
+                    
+                    <StackPanel Grid.Column="0" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Left">
+                        <Label>Список клиентов:</Label>
+                            <ComboBox 
+                            ItemsSource ="{Binding Clients}"  
+                            SelectedValue ="{Binding Path=CurrentClient, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                            DisplayMemberPath="Name"
+                            Width="150" IsEditable="True" IsTextSearchCaseSensitive="False"></ComboBox>
+                    </StackPanel>
 
-                    <StackPanel Grid.Column="0" Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Left">
-                        <Label>Тип продукта:</Label>
-                        </StackPanel>
+                    <StackPanel Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="6" Orientation="Horizontal" HorizontalAlignment="Right">
+                        <DataGrid AutoGenerateColumns="False" EnableRowVirtualization="True" Height="200" Width="Auto" 
+                                  ItemsSource="{Binding Path=Products}" CanUserAddRows="False">
+                            <DataGrid.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Command="ApplicationCommands.Delete" Header="Удалить" />
+                                </ContextMenu>
+                            </DataGrid.ContextMenu>
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Binding="{Binding Path=Amount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Header="Кол-во" Width="55" />
+                                <DataGridTextColumn Binding="{Binding Path=Name}" Header="Наименование" IsReadOnly="True" />
+                                <DataGridTextColumn Binding="{Binding Path=Cost}" Header="Цена" Width="SizeToHeader" IsReadOnly="True" />
+                                <DataGridTextColumn Binding="{Binding Path=Storage}" Header="Магазин" Width="SizeToHeader" IsReadOnly="True" />
+                                <DataGridTextColumn Binding="{Binding Path=Warehouse}" Header="Склад" Width="SizeToHeader" IsReadOnly="True" />
+                                <!--DataGridTextColumn x:Name="saleClientDiscountColumn" Binding="{Binding Path=ClientDiscount}" Header="Скидка клиента" Width="SizeToHeader" /-->
+                                <DataGridTextColumn Binding="{Binding Path=CurrentDiscount}" Header="Текущая скидка" Width="SizeToHeader" IsReadOnly="True" />
+                                <!--DataGridTextColumn x:Name="saleMaxDiscountColumn" Binding="{Binding Path=MaxDiscount}" Header="Макс скидка" Width="SizeToHeader" /-->
+                                <DataGridTextColumn Binding="{Binding Path=CleanTotal, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Header="Сумма без скидки" Width="SizeToHeader" IsReadOnly="True" />
+                                <DataGridTextColumn Binding="{Binding Path=Total, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Header="Сумма со скидкой" Width="SizeToHeader" IsReadOnly="True" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="3" Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Label>Сумма без скидки:</Label>
+                        <TextBox Text="{Binding CleanSum, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=\{0:c\}}" Width="100" FontSize="14"></TextBox>
+                    </StackPanel>
+                    <StackPanel Grid.Column="3" Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Label>Сумма:</Label>
+                        <TextBox Text="{Binding Sum, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=\{0:c\}}" Width="100" Foreground="#FF00C200" FontSize="14"></TextBox>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="0" Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Left">
+                        <Button Content="Подбор" Command="{Binding OpenSelectionCommand}"></Button>
+                    </StackPanel>
                 </Grid>
             </TabItem>
         </TabControl>

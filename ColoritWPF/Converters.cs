@@ -99,7 +99,9 @@ namespace ColoritWPF
                 if (value != null)
                 {
                     var grList = CIentity.Group.FirstOrDefault(c => c.ID == (int)value);
-                    return ((Group)grList).Name.ToString();
+                    if (grList != null) 
+                        return grList.Name;
+                    return "Без группы";
                 }
                 else
                     return "Без группы";

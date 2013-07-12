@@ -13,6 +13,7 @@
 */
 
 using System.ComponentModel;
+using ColoritWPF.ViewModel.Products;
 using ColoritWPF.Views;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
@@ -136,6 +137,21 @@ namespace ColoritWPF.ViewModel
             }
         }
 
+        public ProductsViewModel ProductsViewModelPage
+        {
+            get
+            {
+                return new ProductsViewModel();
+            }
+        }
+
+        public ProductsSelectorViewModel ProductsSelectorViewModelPage
+        {
+            get
+            {
+                return new ProductsSelectorViewModel();
+            }
+        }
         public static void Cleanup()
         {
             // TODO Clear the ViewModels

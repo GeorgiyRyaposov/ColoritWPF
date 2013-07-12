@@ -24,11 +24,11 @@ using System.Runtime.Serialization;
 [assembly: EdmRelationshipAttribute("ColorITModel", "FK_MoveProduct_Product", "Product", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(ColoritWPF.Product), "MoveProduct", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ColoritWPF.MoveProduct), true)]
 [assembly: EdmRelationshipAttribute("ColorITModel", "FK_Purchase_Product", "Product", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(ColoritWPF.Product), "Purchase", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ColoritWPF.Purchase), true)]
 [assembly: EdmRelationshipAttribute("ColorITModel", "FK_Return_Product", "Product", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(ColoritWPF.Product), "Return", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ColoritWPF.Return), true)]
-[assembly: EdmRelationshipAttribute("ColorITModel", "FK_Sale_Client", "Client", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(ColoritWPF.Client), "Sale", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ColoritWPF.Sale), true)]
-[assembly: EdmRelationshipAttribute("ColorITModel", "FK_Sale_Product", "Product", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(ColoritWPF.Product), "Sale", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ColoritWPF.Sale), true)]
 [assembly: EdmRelationshipAttribute("ColorITModel", "PK_Paints_CarModels", "CarModels", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(ColoritWPF.CarModels), "Paints", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ColoritWPF.Paints), true)]
 [assembly: EdmRelationshipAttribute("ColorITModel", "PK_Paints_Clients", "Client", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(ColoritWPF.Client), "Paints", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ColoritWPF.Paints), true)]
 [assembly: EdmRelationshipAttribute("ColorITModel", "PK_Paints_PaintName", "PaintName", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(ColoritWPF.PaintName), "Paints", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ColoritWPF.Paints), true)]
+[assembly: EdmRelationshipAttribute("ColorITModel", "FK_Sale_Client", "Client", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(ColoritWPF.Client), "Sale", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ColoritWPF.Sale), true)]
+[assembly: EdmRelationshipAttribute("ColorITModel", "FK_Sale_Product", "Product", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(ColoritWPF.Product), "Sale", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ColoritWPF.Sale), true)]
 
 #endregion
 
@@ -211,22 +211,6 @@ namespace ColoritWPF
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        public ObjectSet<Sale> Sale
-        {
-            get
-            {
-                if ((_Sale == null))
-                {
-                    _Sale = base.CreateObjectSet<Sale>("Sale");
-                }
-                return _Sale;
-            }
-        }
-        private ObjectSet<Sale> _Sale;
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
         public ObjectSet<CarModels> CarModels
         {
             get
@@ -303,6 +287,22 @@ namespace ColoritWPF
             }
         }
         private ObjectSet<Density> _Density;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<Sale> Sale
+        {
+            get
+            {
+                if ((_Sale == null))
+                {
+                    _Sale = base.CreateObjectSet<Sale>("Sale");
+                }
+                return _Sale;
+            }
+        }
+        private ObjectSet<Sale> _Sale;
 
         #endregion
         #region AddTo Methods
@@ -372,14 +372,6 @@ namespace ColoritWPF
         }
     
         /// <summary>
-        /// Deprecated Method for adding a new object to the Sale EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
-        /// </summary>
-        public void AddToSale(Sale sale)
-        {
-            base.AddObject("Sale", sale);
-        }
-    
-        /// <summary>
         /// Deprecated Method for adding a new object to the CarModels EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
         public void AddToCarModels(CarModels carModels)
@@ -417,6 +409,14 @@ namespace ColoritWPF
         public void AddToDensity(Density density)
         {
             base.AddObject("Density", density);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the Sale EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToSale(Sale sale)
+        {
+            base.AddObject("Sale", sale);
         }
 
         #endregion
@@ -786,28 +786,6 @@ namespace ColoritWPF
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("ColorITModel", "FK_Sale_Client", "Sale")]
-        public EntityCollection<Sale> Sale
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Sale>("ColorITModel.FK_Sale_Client", "Sale");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Sale>("ColorITModel.FK_Sale_Client", "Sale", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("ColorITModel", "PK_Paints_Clients", "Paints")]
         public EntityCollection<Paints> Paints
         {
@@ -820,6 +798,28 @@ namespace ColoritWPF
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Paints>("ColorITModel.PK_Paints_Clients", "Paints", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("ColorITModel", "FK_Sale_Client", "Sale")]
+        public EntityCollection<Sale> Sale
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Sale>("ColorITModel.FK_Sale_Client", "Sale");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Sale>("ColorITModel.FK_Sale_Client", "Sale", value);
                 }
             }
         }
@@ -3478,9 +3478,10 @@ namespace ColoritWPF
         /// <param name="amount">Initial value of the Amount property.</param>
         /// <param name="date">Initial value of the Date property.</param>
         /// <param name="clientID">Initial value of the ClientID property.</param>
-        /// <param name="docState">Initial value of the DocState property.</param>
+        /// <param name="fromStorage">Initial value of the FromStorage property.</param>
+        /// <param name="fromWareHouse">Initial value of the FromWareHouse property.</param>
         /// <param name="saleListNumber">Initial value of the SaleListNumber property.</param>
-        public static Sale CreateSale(global::System.Int64 id, global::System.Int64 productID, global::System.Decimal amount, global::System.DateTime date, global::System.Int32 clientID, global::System.String docState, global::System.String saleListNumber)
+        public static Sale CreateSale(global::System.Int64 id, global::System.Int64 productID, global::System.Decimal amount, global::System.DateTime date, global::System.Int32 clientID, global::System.Double fromStorage, global::System.Double fromWareHouse, global::System.String saleListNumber)
         {
             Sale sale = new Sale();
             sale.ID = id;
@@ -3488,7 +3489,8 @@ namespace ColoritWPF
             sale.Amount = amount;
             sale.Date = date;
             sale.ClientID = clientID;
-            sale.DocState = docState;
+            sale.FromStorage = fromStorage;
+            sale.FromWareHouse = fromWareHouse;
             sale.SaleListNumber = saleListNumber;
             return sale;
         }
@@ -3646,9 +3648,9 @@ namespace ColoritWPF
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public Nullable<global::System.Double> FromStorage
+        public global::System.Double FromStorage
         {
             get
             {
@@ -3663,8 +3665,8 @@ namespace ColoritWPF
                 OnFromStorageChanged();
             }
         }
-        private Nullable<global::System.Double> _FromStorage;
-        partial void OnFromStorageChanging(Nullable<global::System.Double> value);
+        private global::System.Double _FromStorage;
+        partial void OnFromStorageChanging(global::System.Double value);
         partial void OnFromStorageChanged();
     
         /// <summary>
@@ -3694,9 +3696,9 @@ namespace ColoritWPF
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public Nullable<global::System.Double> FromWareHouse
+        public global::System.Double FromWareHouse
         {
             get
             {
@@ -3711,8 +3713,8 @@ namespace ColoritWPF
                 OnFromWareHouseChanged();
             }
         }
-        private Nullable<global::System.Double> _FromWareHouse;
-        partial void OnFromWareHouseChanging(Nullable<global::System.Double> value);
+        private global::System.Double _FromWareHouse;
+        partial void OnFromWareHouseChanging(global::System.Double value);
         partial void OnFromWareHouseChanged();
     
         /// <summary>
@@ -3720,7 +3722,7 @@ namespace ColoritWPF
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.String DocState
+        public global::System.Boolean DocState
         {
             get
             {
@@ -3730,13 +3732,13 @@ namespace ColoritWPF
             {
                 OnDocStateChanging(value);
                 ReportPropertyChanging("DocState");
-                _DocState = StructuralObject.SetValidValue(value, false);
+                _DocState = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("DocState");
                 OnDocStateChanged();
             }
         }
-        private global::System.String _DocState;
-        partial void OnDocStateChanging(global::System.String value);
+        private global::System.Boolean _DocState = false;
+        partial void OnDocStateChanging(global::System.Boolean value);
         partial void OnDocStateChanged();
     
         /// <summary>

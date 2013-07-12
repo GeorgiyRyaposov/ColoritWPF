@@ -153,11 +153,14 @@
     <Compile Include="Models\ClientsListModel.cs" />
     <Compile Include="Models\DensityType.cs" />
     <Compile Include="PaintsPartialClass.cs" />
+    <Compile Include="ProductsPartialClass.cs" />
     <Compile Include="ValidationRules\Validations.cs" />
     <Compile Include="ViewModel\AddClientViewModel.cs" />
     <Compile Include="ViewModel\AddNewCarViewModel.cs" />
     <Compile Include="ViewModel\AddNewDensityItemViewModel.cs" />
     <Compile Include="ViewModel\MenuItemsViewModel.cs" />
+    <Compile Include="ViewModel\Products\ProductsSelectorViewModel.cs" />
+    <Compile Include="ViewModel\Products\ProductsViewModel.cs" />
     <Compile Include="Views\AddNewDensityItem.xaml.cs">
       <DependentUpon>AddNewDensityItem.xaml</DependentUpon>
     </Compile>
@@ -192,6 +195,9 @@
     </Compile>
     <Compile Include="Views\PaintsSalesWatcherView.xaml.cs">
       <DependentUpon>PaintsSalesWatcherView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Products\ProductsSelectorView.xaml.cs">
+      <DependentUpon>ProductsSelectorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SettingsView.xaml.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
@@ -303,6 +309,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\PaintsSalesWatcherView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Products\ProductsSelectorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -424,10 +434,7 @@
       <FileType>File</FileType>
     </PublishFile>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ViewModel\Products\" />
-    <Folder Include="Views\Products\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
