@@ -138,7 +138,7 @@
                             <RadioButton GroupName="Paints" 
                             IsChecked="{Binding ABP, Mode=TwoWay}"
                             Command="{Binding SetPaintCommand}">ABP</RadioButton>
-                            <RadioButton GroupName="Paints" 
+                            <RadioButton GroupName="Paints" Name="PolishRbtn"
                             IsChecked="{Binding Polish, Mode=TwoWay}"
                             Command="{Binding SetPaintCommand}">Лак</RadioButton>
                             <RadioButton GroupName="Paints" Name="OtherRadio"
@@ -183,7 +183,7 @@
                         <StackPanel Grid.Column="1" Grid.Row="3"  Orientation="Horizontal" HorizontalAlignment="Right">
                             <Label>Кол-во:</Label>
                             <TextBox Text="{Binding Mode=TwoWay, UpdateSourceTrigger=LostFocus, Path=CurrentPaint.Amount, StringFormat=\{0:N\}}" 
-                     Width="100" IsEnabled="{Binding IsAmountEnabled}">
+                     Width="100" IsEnabled="{Binding IsAmountEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                             </TextBox>
                         </StackPanel>
                         <StackPanel Grid.Column="2" Grid.Row="3"  Orientation="Horizontal" HorizontalAlignment="Right">

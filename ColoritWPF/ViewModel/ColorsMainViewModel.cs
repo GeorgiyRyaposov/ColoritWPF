@@ -89,6 +89,8 @@ namespace ColoritWPF.ViewModel
             set
             {
                 /*Package  = */_polish = value;
+                IsAmountEnabled = !value;
+                CurrentPaint.Amount = 0;
                 base.RaisePropertyChanged("Polish");
             }
         }
@@ -204,6 +206,7 @@ namespace ColoritWPF.ViewModel
         {
             get { return _isEnabled; }
             set { _isEnabled = value;
+                IsAmountEnabled = value;
             base.RaisePropertyChanged("IsEnabled");
             }
         }
@@ -661,13 +664,10 @@ namespace ColoritWPF.ViewModel
                 CurrentClientId = CurrentPaint.ClientID;
                 PhoneNumber = CurrentPaint.PhoneNumber;
                 SetDiscount();
+
+                //if (Polish)
+                    //IsAmountEnabled = false;
                 
-                //if (!IsEnabled)
-                //    IsAmountEnabled = false;
-                //if(Polish)
-                //    IsAmountEnabled = false;
-                //if(!Polish)
-                //    IsAmountEnabled = true;
 
             }
         }
