@@ -664,11 +664,6 @@ namespace ColoritWPF.ViewModel
                 CurrentClientId = CurrentPaint.ClientID;
                 PhoneNumber = CurrentPaint.PhoneNumber;
                 SetDiscount();
-
-                //if (Polish)
-                    //IsAmountEnabled = false;
-                
-
             }
         }
 

@@ -153,6 +153,7 @@
     <Compile Include="Models\ClientsListModel.cs" />
     <Compile Include="Models\DensityType.cs" />
     <Compile Include="PaintsPartialClass.cs" />
+    <Compile Include="ValidationRules\Validations.cs" />
     <Compile Include="ViewModel\AddClientViewModel.cs" />
     <Compile Include="ViewModel\AddNewCarViewModel.cs" />
     <Compile Include="ViewModel\AddNewDensityItemViewModel.cs" />

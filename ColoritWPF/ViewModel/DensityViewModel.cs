@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Windows.Controls;
 using System.Windows.Data;
 using ColoritWPF.Models;
 using GalaSoft.MvvmLight;
@@ -32,6 +33,15 @@ namespace ColoritWPF.ViewModel
         }
 
         #region IDataErrorInfo Members
+
+        private int _errors = 0;
+        public void Validation_Error(object sender, ValidationErrorEventArgs e)
+        {
+            if (e.Action == ValidationErrorEventAction.Added)
+                _errors++;
+            else
+                _errors--;
+        }
 
         public string Error
         {
@@ -75,8 +85,8 @@ namespace ColoritWPF.ViewModel
         private int _rightProportion;
         private ICollectionView _densitiesComboView;
         private ICollectionView _gruntDensitiesComboView;
-        private string leftGruntMass;
-        private string rightGruntMass;
+        private string _leftGruntMass;
+        private string _rightGruntMass;
         
         public ObservableCollection<DensityType> DenTypes { get; set; }
         public ObservableCollection<Density> Densities { get; set; }
@@ -101,8 +111,12 @@ namespace ColoritWPF.ViewModel
         public Density CurrentGruntMixDensity
         {
             get { return _currentGruntMixDensity; }
-            set { _currentGruntMixDensity = value;
-            base.RaisePropertyChanged("CurrentGruntMixDensity");}
+            set {
+                _currentGruntMixDensity = value;
+                base.RaisePropertyChanged("CurrentGruntMixDensity");
+                LeftProportion = 0;
+                RightProportion = 0;
+            }
         }
 
         public double Volume
@@ -163,78 +177,7 @@ namespace ColoritWPF.ViewModel
             set { _rightProportion = value;
             base.RaisePropertyChanged("RightProportion");}
         }
-
-        #region RadioButtons
-
-        //private bool _leftWhite;
-        //private bool _leftGray;
-        //private bool _leftBlack;
-        //private bool _rightWhite;
-        //private bool _rightGray;
-        //private bool _rightBlack;
-
-        //public bool LeftWhite
-        //{
-        //    get { return _leftWhite; }
-        //    set
-        //    {
-        //        _leftWhite = value;
-        //        base.RaisePropertyChanged("LeftWhite");
-        //    }
-        //}
-
-        //public bool LeftGray
-        //{
-        //    get { return _leftGray; }
-        //    set
-        //    {
-        //        _leftGray = value;
-        //        base.RaisePropertyChanged("LeftGray");
-        //    }
-        //}
-
-        //public bool LeftBlack
-        //{
-        //    get { return _leftBlack; }
-        //    set
-        //    {
-        //        _leftBlack = value;
-        //        base.RaisePropertyChanged("LeftBlack");
-        //    }
-        //}
-
-        //public bool RightWhite
-        //{
-        //    get { return _rightWhite; }
-        //    set
-        //    {
-        //        _rightWhite = value;
-        //        base.RaisePropertyChanged("RightWhite");
-        //    }
-        //}
-
-        //public bool RightGray
-        //{
-        //    get { return _rightGray; }
-        //    set
-        //    {
-        //        _rightGray = value;
-        //        base.RaisePropertyChanged("RightGray");
-        //    }
-        //}
-
-        //public bool RightBlack
-        //{
-        //    get { return _rightBlack; }
-        //    set
-        //    {
-        //        _rightBlack = value;
-        //        base.RaisePropertyChanged("RightBlack");
-        //    }
-        //}
-
-        #endregion
-
+        
         public ICollectionView DensitiesComboView
         {
             get { return _densitiesComboView; }
@@ -247,15 +190,15 @@ namespace ColoritWPF.ViewModel
 
         public string LeftGruntMass
         {
-            get { return leftGruntMass; }
-            set { leftGruntMass = value;
+            get { return _leftGruntMass; }
+            set { _leftGruntMass = value;
             base.RaisePropertyChanged("LeftGruntMass");}
         }
 
         public string RightGruntMass
         {
-            get { return rightGruntMass; }
-            set { rightGruntMass = value;
+            get { return _rightGruntMass; }
+            set { _rightGruntMass = value;
             base.RaisePropertyChanged("RightGruntMass");}
         }
 
