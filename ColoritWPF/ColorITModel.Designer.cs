@@ -27,6 +27,8 @@ using System.Runtime.Serialization;
 [assembly: EdmRelationshipAttribute("ColorITModel", "PK_Paints_CarModels", "CarModels", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(ColoritWPF.CarModels), "Paints", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ColoritWPF.Paints), true)]
 [assembly: EdmRelationshipAttribute("ColorITModel", "PK_Paints_Clients", "Client", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(ColoritWPF.Client), "Paints", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ColoritWPF.Paints), true)]
 [assembly: EdmRelationshipAttribute("ColorITModel", "PK_Paints_PaintName", "PaintName", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(ColoritWPF.PaintName), "Paints", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ColoritWPF.Paints), true)]
+[assembly: EdmRelationshipAttribute("ColorITModel", "FK_Producers_Product", "Producers", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(ColoritWPF.Producers), "Product", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ColoritWPF.Product), true)]
+[assembly: EdmRelationshipAttribute("ColorITModel", "FK_Client_SaleDocument", "Client", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(ColoritWPF.Client), "SaleDocument", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ColoritWPF.SaleDocument), true)]
 [assembly: EdmRelationshipAttribute("ColorITModel", "FK_Sale_Client", "Client", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(ColoritWPF.Client), "Sale", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ColoritWPF.Sale), true)]
 [assembly: EdmRelationshipAttribute("ColorITModel", "FK_Sale_Product", "Product", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(ColoritWPF.Product), "Sale", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ColoritWPF.Sale), true)]
 
@@ -291,6 +293,22 @@ namespace ColoritWPF
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
+        public ObjectSet<Producers> Producers
+        {
+            get
+            {
+                if ((_Producers == null))
+                {
+                    _Producers = base.CreateObjectSet<Producers>("Producers");
+                }
+                return _Producers;
+            }
+        }
+        private ObjectSet<Producers> _Producers;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
         public ObjectSet<Sale> Sale
         {
             get
@@ -303,6 +321,22 @@ namespace ColoritWPF
             }
         }
         private ObjectSet<Sale> _Sale;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<SaleDocument> SaleDocument
+        {
+            get
+            {
+                if ((_SaleDocument == null))
+                {
+                    _SaleDocument = base.CreateObjectSet<SaleDocument>("SaleDocument");
+                }
+                return _SaleDocument;
+            }
+        }
+        private ObjectSet<SaleDocument> _SaleDocument;
 
         #endregion
         #region AddTo Methods
@@ -412,11 +446,27 @@ namespace ColoritWPF
         }
     
         /// <summary>
+        /// Deprecated Method for adding a new object to the Producers EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToProducers(Producers producers)
+        {
+            base.AddObject("Producers", producers);
+        }
+    
+        /// <summary>
         /// Deprecated Method for adding a new object to the Sale EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
         public void AddToSale(Sale sale)
         {
             base.AddObject("Sale", sale);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the SaleDocument EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToSaleDocument(SaleDocument saleDocument)
+        {
+            base.AddObject("SaleDocument", saleDocument);
         }
 
         #endregion
@@ -798,6 +848,28 @@ namespace ColoritWPF
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Paints>("ColorITModel.PK_Paints_Clients", "Paints", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("ColorITModel", "FK_Client_SaleDocument", "SaleDocument")]
+        public EntityCollection<SaleDocument> SaleDocument
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<SaleDocument>("ColorITModel.FK_Client_SaleDocument", "SaleDocument");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<SaleDocument>("ColorITModel.FK_Client_SaleDocument", "SaleDocument", value);
                 }
             }
         }
@@ -2653,6 +2725,112 @@ namespace ColoritWPF
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="ColorITModel", Name="Producers")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class Producers : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new Producers object.
+        /// </summary>
+        /// <param name="id">Initial value of the Id property.</param>
+        /// <param name="name">Initial value of the Name property.</param>
+        public static Producers CreateProducers(global::System.Int32 id, global::System.String name)
+        {
+            Producers producers = new Producers();
+            producers.Id = id;
+            producers.Name = name;
+            return producers;
+        }
+
+        #endregion
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 Id
+        {
+            get
+            {
+                return _Id;
+            }
+            set
+            {
+                if (_Id != value)
+                {
+                    OnIdChanging(value);
+                    ReportPropertyChanging("Id");
+                    _Id = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("Id");
+                    OnIdChanged();
+                }
+            }
+        }
+        private global::System.Int32 _Id;
+        partial void OnIdChanging(global::System.Int32 value);
+        partial void OnIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String Name
+        {
+            get
+            {
+                return _Name;
+            }
+            set
+            {
+                OnNameChanging(value);
+                ReportPropertyChanging("Name");
+                _Name = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("Name");
+                OnNameChanged();
+            }
+        }
+        private global::System.String _Name;
+        partial void OnNameChanging(global::System.String value);
+        partial void OnNameChanged();
+
+        #endregion
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("ColorITModel", "FK_Producers_Product", "Product")]
+        public EntityCollection<Product> Product
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Product>("ColorITModel.FK_Producers_Product", "Product");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Product>("ColorITModel.FK_Producers_Product", "Product", value);
+                }
+            }
+        }
+
+        #endregion
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
     [EdmEntityTypeAttribute(NamespaceName="ColorITModel", Name="Product")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
@@ -2671,7 +2849,8 @@ namespace ColoritWPF
         /// <param name="storage">Initial value of the Storage property.</param>
         /// <param name="bottled">Initial value of the Bottled property.</param>
         /// <param name="maxDiscount">Initial value of the MaxDiscount property.</param>
-        public static Product CreateProduct(global::System.Int64 id, global::System.String name, global::System.Decimal selfCost, global::System.Decimal cost, global::System.Double warehouse, global::System.Double storage, global::System.Boolean bottled, global::System.Double maxDiscount)
+        /// <param name="producerId">Initial value of the ProducerId property.</param>
+        public static Product CreateProduct(global::System.Int64 id, global::System.String name, global::System.Decimal selfCost, global::System.Decimal cost, global::System.Double warehouse, global::System.Double storage, global::System.Boolean bottled, global::System.Double maxDiscount, global::System.Int32 producerId)
         {
             Product product = new Product();
             product.ID = id;
@@ -2682,6 +2861,7 @@ namespace ColoritWPF
             product.Storage = storage;
             product.Bottled = bottled;
             product.MaxDiscount = maxDiscount;
+            product.ProducerId = producerId;
             return product;
         }
 
@@ -2930,6 +3110,30 @@ namespace ColoritWPF
         private Nullable<global::System.Int32> _ParentGroup;
         partial void OnParentGroupChanging(Nullable<global::System.Int32> value);
         partial void OnParentGroupChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 ProducerId
+        {
+            get
+            {
+                return _ProducerId;
+            }
+            set
+            {
+                OnProducerIdChanging(value);
+                ReportPropertyChanging("ProducerId");
+                _ProducerId = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("ProducerId");
+                OnProducerIdChanged();
+            }
+        }
+        private global::System.Int32 _ProducerId;
+        partial void OnProducerIdChanging(global::System.Int32 value);
+        partial void OnProducerIdChanged();
 
         #endregion
     
@@ -3035,6 +3239,44 @@ namespace ColoritWPF
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Return>("ColorITModel.FK_Return_Product", "Return", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("ColorITModel", "FK_Producers_Product", "Producers")]
+        public Producers Producers
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Producers>("ColorITModel.FK_Producers_Product", "Producers").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Producers>("ColorITModel.FK_Producers_Product", "Producers").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Producers> ProducersReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Producers>("ColorITModel.FK_Producers_Product", "Producers");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Producers>("ColorITModel.FK_Producers_Product", "Producers", value);
                 }
             }
         }
@@ -3481,7 +3723,8 @@ namespace ColoritWPF
         /// <param name="fromStorage">Initial value of the FromStorage property.</param>
         /// <param name="fromWareHouse">Initial value of the FromWareHouse property.</param>
         /// <param name="saleListNumber">Initial value of the SaleListNumber property.</param>
-        public static Sale CreateSale(global::System.Int64 id, global::System.Int64 productID, global::System.Decimal amount, global::System.DateTime date, global::System.Int32 clientID, global::System.Double fromStorage, global::System.Double fromWareHouse, global::System.String saleListNumber)
+        /// <param name="cost">Initial value of the Cost property.</param>
+        public static Sale CreateSale(global::System.Int64 id, global::System.Int64 productID, global::System.Decimal amount, global::System.DateTime date, global::System.Int32 clientID, global::System.Double fromStorage, global::System.Double fromWareHouse, global::System.Int64 saleListNumber, global::System.Decimal cost)
         {
             Sale sale = new Sale();
             sale.ID = id;
@@ -3492,6 +3735,7 @@ namespace ColoritWPF
             sale.FromStorage = fromStorage;
             sale.FromWareHouse = fromWareHouse;
             sale.SaleListNumber = saleListNumber;
+            sale.Cost = cost;
             return sale;
         }
 
@@ -3672,30 +3916,6 @@ namespace ColoritWPF
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public global::System.String Comments
-        {
-            get
-            {
-                return _Comments;
-            }
-            set
-            {
-                OnCommentsChanging(value);
-                ReportPropertyChanging("Comments");
-                _Comments = StructuralObject.SetValidValue(value, true);
-                ReportPropertyChanged("Comments");
-                OnCommentsChanged();
-            }
-        }
-        private global::System.String _Comments;
-        partial void OnCommentsChanging(global::System.String value);
-        partial void OnCommentsChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
         public global::System.Double FromWareHouse
@@ -3722,31 +3942,7 @@ namespace ColoritWPF
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.Boolean DocState
-        {
-            get
-            {
-                return _DocState;
-            }
-            set
-            {
-                OnDocStateChanging(value);
-                ReportPropertyChanging("DocState");
-                _DocState = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("DocState");
-                OnDocStateChanged();
-            }
-        }
-        private global::System.Boolean _DocState = false;
-        partial void OnDocStateChanging(global::System.Boolean value);
-        partial void OnDocStateChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.String SaleListNumber
+        public global::System.Int64 SaleListNumber
         {
             get
             {
@@ -3756,14 +3952,38 @@ namespace ColoritWPF
             {
                 OnSaleListNumberChanging(value);
                 ReportPropertyChanging("SaleListNumber");
-                _SaleListNumber = StructuralObject.SetValidValue(value, false);
+                _SaleListNumber = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("SaleListNumber");
                 OnSaleListNumberChanged();
             }
         }
-        private global::System.String _SaleListNumber;
-        partial void OnSaleListNumberChanging(global::System.String value);
+        private global::System.Int64 _SaleListNumber;
+        partial void OnSaleListNumberChanging(global::System.Int64 value);
         partial void OnSaleListNumberChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Decimal Cost
+        {
+            get
+            {
+                return _Cost;
+            }
+            set
+            {
+                OnCostChanging(value);
+                ReportPropertyChanging("Cost");
+                _Cost = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Cost");
+                OnCostChanged();
+            }
+        }
+        private global::System.Decimal _Cost;
+        partial void OnCostChanging(global::System.Decimal value);
+        partial void OnCostChanged();
 
         #endregion
     
@@ -3841,6 +4061,304 @@ namespace ColoritWPF
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Product>("ColorITModel.FK_Sale_Product", "Product", value);
+                }
+            }
+        }
+
+        #endregion
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="ColorITModel", Name="SaleDocument")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class SaleDocument : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new SaleDocument object.
+        /// </summary>
+        /// <param name="id">Initial value of the Id property.</param>
+        /// <param name="clientId">Initial value of the ClientId property.</param>
+        /// <param name="saleListNumber">Initial value of the SaleListNumber property.</param>
+        /// <param name="confirmed">Initial value of the Confirmed property.</param>
+        /// <param name="prepay">Initial value of the Prepay property.</param>
+        /// <param name="dateCreated">Initial value of the DateCreated property.</param>
+        public static SaleDocument CreateSaleDocument(global::System.Int64 id, global::System.Int32 clientId, global::System.Int32 saleListNumber, global::System.Boolean confirmed, global::System.Boolean prepay, global::System.DateTime dateCreated)
+        {
+            SaleDocument saleDocument = new SaleDocument();
+            saleDocument.Id = id;
+            saleDocument.ClientId = clientId;
+            saleDocument.SaleListNumber = saleListNumber;
+            saleDocument.Confirmed = confirmed;
+            saleDocument.Prepay = prepay;
+            saleDocument.DateCreated = dateCreated;
+            return saleDocument;
+        }
+
+        #endregion
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int64 Id
+        {
+            get
+            {
+                return _Id;
+            }
+            set
+            {
+                if (_Id != value)
+                {
+                    OnIdChanging(value);
+                    ReportPropertyChanging("Id");
+                    _Id = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("Id");
+                    OnIdChanged();
+                }
+            }
+        }
+        private global::System.Int64 _Id;
+        partial void OnIdChanging(global::System.Int64 value);
+        partial void OnIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 ClientId
+        {
+            get
+            {
+                return _ClientId;
+            }
+            set
+            {
+                OnClientIdChanging(value);
+                ReportPropertyChanging("ClientId");
+                _ClientId = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("ClientId");
+                OnClientIdChanged();
+            }
+        }
+        private global::System.Int32 _ClientId;
+        partial void OnClientIdChanging(global::System.Int32 value);
+        partial void OnClientIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 SaleListNumber
+        {
+            get
+            {
+                return _SaleListNumber;
+            }
+            set
+            {
+                OnSaleListNumberChanging(value);
+                ReportPropertyChanging("SaleListNumber");
+                _SaleListNumber = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("SaleListNumber");
+                OnSaleListNumberChanged();
+            }
+        }
+        private global::System.Int32 _SaleListNumber;
+        partial void OnSaleListNumberChanging(global::System.Int32 value);
+        partial void OnSaleListNumberChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Decimal> Total
+        {
+            get
+            {
+                return _Total;
+            }
+            set
+            {
+                OnTotalChanging(value);
+                ReportPropertyChanging("Total");
+                _Total = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Total");
+                OnTotalChanged();
+            }
+        }
+        private Nullable<global::System.Decimal> _Total;
+        partial void OnTotalChanging(Nullable<global::System.Decimal> value);
+        partial void OnTotalChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Decimal> CleanTotal
+        {
+            get
+            {
+                return _CleanTotal;
+            }
+            set
+            {
+                OnCleanTotalChanging(value);
+                ReportPropertyChanging("CleanTotal");
+                _CleanTotal = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("CleanTotal");
+                OnCleanTotalChanged();
+            }
+        }
+        private Nullable<global::System.Decimal> _CleanTotal;
+        partial void OnCleanTotalChanging(Nullable<global::System.Decimal> value);
+        partial void OnCleanTotalChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean Confirmed
+        {
+            get
+            {
+                return _Confirmed;
+            }
+            set
+            {
+                OnConfirmedChanging(value);
+                ReportPropertyChanging("Confirmed");
+                _Confirmed = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Confirmed");
+                OnConfirmedChanged();
+            }
+        }
+        private global::System.Boolean _Confirmed;
+        partial void OnConfirmedChanging(global::System.Boolean value);
+        partial void OnConfirmedChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String Comments
+        {
+            get
+            {
+                return _Comments;
+            }
+            set
+            {
+                OnCommentsChanging(value);
+                ReportPropertyChanging("Comments");
+                _Comments = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("Comments");
+                OnCommentsChanged();
+            }
+        }
+        private global::System.String _Comments;
+        partial void OnCommentsChanging(global::System.String value);
+        partial void OnCommentsChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean Prepay
+        {
+            get
+            {
+                return _Prepay;
+            }
+            set
+            {
+                OnPrepayChanging(value);
+                ReportPropertyChanging("Prepay");
+                _Prepay = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Prepay");
+                OnPrepayChanged();
+            }
+        }
+        private global::System.Boolean _Prepay;
+        partial void OnPrepayChanging(global::System.Boolean value);
+        partial void OnPrepayChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.DateTime DateCreated
+        {
+            get
+            {
+                return _DateCreated;
+            }
+            set
+            {
+                OnDateCreatedChanging(value);
+                ReportPropertyChanging("DateCreated");
+                _DateCreated = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("DateCreated");
+                OnDateCreatedChanged();
+            }
+        }
+        private global::System.DateTime _DateCreated;
+        partial void OnDateCreatedChanging(global::System.DateTime value);
+        partial void OnDateCreatedChanged();
+
+        #endregion
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("ColorITModel", "FK_Client_SaleDocument", "Client")]
+        public Client Client
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Client>("ColorITModel.FK_Client_SaleDocument", "Client").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Client>("ColorITModel.FK_Client_SaleDocument", "Client").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Client> ClientReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Client>("ColorITModel.FK_Client_SaleDocument", "Client");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Client>("ColorITModel.FK_Client_SaleDocument", "Client", value);
                 }
             }
         }

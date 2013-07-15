@@ -283,7 +283,7 @@
                             ItemsSource ="{Binding DenTypes}" 
                             SelectedValue="{Binding CurrentType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                             DisplayMemberPath="Name"
-                            Width="150" HorizontalAlignment="Right"></ComboBox>
+                            Width="200" HorizontalAlignment="Right"></ComboBox>
                         
                     </StackPanel>
                         
@@ -346,13 +346,13 @@
                             <TextBox Text="{Binding Mode=TwoWay, UpdateSourceTrigger=LostFocus, Path=MassThinner}" 
                      Width="50" />
                         </StackPanel>
-                        <StackPanel Grid.Column="2" Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Left">
+                        <StackPanel Grid.Column="2" Grid.Row="3" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
                             <Label Content="Пропорция:"></Label>
                             <StackPanel Grid.Column="0" Grid.Row="4" Orientation="Vertical" HorizontalAlignment="Left">
                             <TextBox Text="{Binding Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Path=LeftProportion, NotifyOnValidationError=True, ValidatesOnDataErrors=True}" 
-                     Width="50" />
+                     Width="50" Margin="0,3,0,3"/>
                             <TextBox Text="{Binding Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Path=RightProportion, NotifyOnValidationError=True, ValidatesOnDataErrors=True}" 
-                     Width="50" />
+                     Width="50" Margin="0,1,0,0"/>
                             </StackPanel>
                         </StackPanel>
 
@@ -402,7 +402,7 @@
                                 </ContextMenu>
                             </DataGrid.ContextMenu>
                             <DataGrid.Columns>
-                                <DataGridTextColumn Binding="{Binding Path=Amount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Header="Кол-во" Width="55" />
+                                <DataGridTextColumn Binding="{Binding Path=Amount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Header="Кол-во" Width="55" />
                                 <DataGridTextColumn Binding="{Binding Path=Name}" Header="Наименование" IsReadOnly="True" />
                                 <DataGridTextColumn Binding="{Binding Path=Cost}" Header="Цена" Width="SizeToHeader" IsReadOnly="True" />
                                 <DataGridTextColumn Binding="{Binding Path=Storage}" Header="Магазин" Width="SizeToHeader" IsReadOnly="True" />
@@ -425,8 +425,15 @@
                         <TextBox Text="{Binding Sum, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=\{0:c\}}" Width="100" Foreground="#FF00C200" FontSize="14"></TextBox>
                     </StackPanel>
 
-                    <StackPanel Grid.Column="0" Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Left">
-                        <Button Content="Подбор" Command="{Binding OpenSelectionCommand}"></Button>
+                    <StackPanel Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="3" Grid.RowSpan="2" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top">
+                        <Button Content="Подбор" Command="{Binding OpenSelectionCommand}" MaxHeight="25" VerticalAlignment="Top" Margin="5,5,5,5"></Button>
+                        <Label>Комментарий:</Label>
+                        <TextBox Text="{Binding Comments, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                 AcceptsReturn="True" Height="50" Width="165" Margin="5,5,5,5"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="3" Grid.RowSpan="2" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top">
+                        <Button Content="Провести" Command="{Binding ConfirmDocumentCommand}" MaxHeight="25" VerticalAlignment="Top" Margin="5,5,5,5"></Button>
                     </StackPanel>
                 </Grid>
             </TabItem>

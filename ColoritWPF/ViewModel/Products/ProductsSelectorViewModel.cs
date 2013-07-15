@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Windows.Data;
+using ColoritWPF.Models;
 using GalaSoft.MvvmLight;
 using System.Collections.ObjectModel;
 using GalaSoft.MvvmLight.Command;
@@ -34,6 +35,7 @@ namespace ColoritWPF.ViewModel.Products
 
         public ObservableCollection<Product> Products { get; set; }
         public ObservableCollection<Product> SelectedProducts { get; set; }
+        public ObservableCollection<GroupByItem> GroupingList { get; set; }
         public ICollectionView ProductsView { get; private set; }
 
         private string _searchCriteria;
@@ -68,6 +70,29 @@ namespace ColoritWPF.ViewModel.Products
             }
         }
 
+        private string _selectedGroup;
+        public string SelectedGroup
+        {
+            get { return _selectedGroup; }
+            set { _selectedGroup = value;
+            base.RaisePropertyChanged("SelectedGroup");
+            ProductsView.GroupDescriptions.Clear();
+            ProductsView.GroupDescriptions.Add(new PropertyGroupDescription(value));
+            }
+        }
+
+        private bool _inStock;
+        public bool InStock
+        {
+            get { return _inStock; }
+            set
+            {
+                _inStock = value;
+                base.RaisePropertyChanged("InStock");
+                ProductsView.Refresh();
+            }
+        }
+
         #endregion
 
         #region Methods
@@ -76,18 +101,38 @@ namespace ColoritWPF.ViewModel.Products
         {
             Products = new ObservableCollection<Product>(colorItEntities.Product.ToList());
             SelectedProducts = new ObservableCollection<Product>();
-
+            
+            GroupingList = new ObservableCollection<GroupByItem>();
+            GroupingList.Add(new GroupByItem { Name = "Типу", Value = "Groups" });
+            GroupingList.Add(new GroupByItem { Name = "Производителю", Value = "ProducerGr" });
+            
             ProductsView = CollectionViewSource.GetDefaultView(Products);
             ProductsView.Filter = ProductsFilter;
-            ProductsView.GroupDescriptions.Add(new PropertyGroupDescription("Group"));
+            ProductsView.GroupDescriptions.Add(new PropertyGroupDescription("Groups"));
+            SelectedGroup = "Groups";
         }
 
         private bool ProductsFilter(object item)
         {
-            if (String.IsNullOrEmpty(SearchCriteria))
-                return true;
             Product product = item as Product;
-            return product != null && product.Name.ToLower().Contains(SearchCriteria.ToLower());
+
+            if (String.IsNullOrEmpty(SearchCriteria))
+                return isProductInStock(product);
+
+            return product != null && 
+                product.Name.ToLower().Contains(SearchCriteria.ToLower()) &&
+                isProductInStock(product);
+        }
+
+        private bool isProductInStock(Product product)
+        {
+            if (InStock)
+            {
+                if (product.Warehouse + product.Storage > 0)
+                    return true;
+                return false;
+            }
+            return true;
         }
 
         public void NotifyWindowToClose()
@@ -118,6 +163,8 @@ namespace ColoritWPF.ViewModel.Products
             private set;
         }
 
+
+
         private void InitializeCommands()
         {
             AddProductToListCommand = new RelayCommand(AddProductToList);
@@ -130,9 +177,6 @@ namespace ColoritWPF.ViewModel.Products
             if (SelectedProduct == null)
                 return;
 
-            if ((SelectedProduct.Warehouse + SelectedProduct.Storage) == 0)
-                return;
-
             if (SelectedProducts.Contains(SelectedProduct))
             {
                 Product prod = SelectedProducts.First(product => product.ID == SelectedProduct.ID);
@@ -141,7 +185,9 @@ namespace ColoritWPF.ViewModel.Products
             }
             else
             {
-                SelectedProduct.Amount++;
+                if (SelectedProduct.Warehouse != 0 || SelectedProduct.Storage != 0)
+                    SelectedProduct.Amount++;
+
                 SelectedProducts.Add(SelectedProduct);
             }
         }

@@ -37,6 +37,18 @@
                      Margin="0,0,0,5"/>
         </StackPanel>
 
+        <CheckBox Content="В наличии" IsChecked="{Binding InStock, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                  Grid.Column="7" Grid.Row="0" Width="75"/>
+
+        <StackPanel Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="6" Orientation="Horizontal" HorizontalAlignment="Left">
+            <Label Margin="5,0,0,0">Группировать по:</Label>
+            <ComboBox x:Name="GroupComboBox"
+            ItemsSource ="{Binding GroupingList}"  
+            DisplayMemberPath="Name"
+            SelectedValuePath="Value"
+            SelectedValue ="{Binding Path=SelectedGroup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+            Width="150" IsEditable="False" />
+        </StackPanel>
             <StackPanel Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="6" Orientation="Horizontal" HorizontalAlignment="Left">
             <DataGrid AutoGenerateColumns="False" EnableRowVirtualization="True" Height="300" Width="Auto" Margin="5,0,0,5"
                                   ItemsSource="{Binding Path=ProductsView}" CanUserAddRows="False"
@@ -68,7 +80,7 @@
                                             <Expander IsExpanded="True" Background="GhostWhite" Foreground="Black">
                                                 <Expander.Header>
                                                     <StackPanel Orientation="Horizontal">
-                                                        <TextBlock Text="{Binding Name, Converter={StaticResource ProductGroupConverter}}" />
+                                                        <TextBlock Text="{Binding Name}"/>
                                                         <TextBlock Text="{Binding Path=ItemCount}" Margin="8,0,4,0"/>
                                                         <TextBlock Text="(шт)"/>
                                                     </StackPanel>
@@ -109,7 +121,7 @@
                     </ContextMenu>
                 </DataGrid.ContextMenu>
                 <DataGrid.Columns>
-                    <DataGridTextColumn Binding="{Binding Path=Name}" Header="Наименование" Width="500" IsReadOnly="True" />
+                    <DataGridTextColumn Binding="{Binding Path=Name}" Header="Наименование" Width="550" IsReadOnly="True" />
                     <DataGridTextColumn Binding="{Binding Path=Amount}" Header="Кол-во" Width="55" />
                     <DataGridTextColumn Binding="{Binding Path=Cost}" Header="Цена" Width="SizeToHeader" IsReadOnly="True" />
                 </DataGrid.Columns>
