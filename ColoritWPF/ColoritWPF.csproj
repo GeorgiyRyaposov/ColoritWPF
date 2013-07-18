@@ -153,8 +153,10 @@
     <Compile Include="Models\ClientsListModel.cs" />
     <Compile Include="Models\DensityType.cs" />
     <Compile Include="Models\GroupByItem.cs" />
+    <Compile Include="Models\StorageModel.cs" />
     <Compile Include="PaintsPartialClass.cs" />
     <Compile Include="ProductsPartialClass.cs" />
+    <Compile Include="SaleDocumentPartialClass.cs" />
     <Compile Include="ValidationRules\Validations.cs" />
     <Compile Include="ViewModel\AddClientViewModel.cs" />
     <Compile Include="ViewModel\AddNewCarViewModel.cs" />
@@ -162,6 +164,7 @@
     <Compile Include="ViewModel\MenuItemsViewModel.cs" />
     <Compile Include="ViewModel\Products\ProductsSelectorViewModel.cs" />
     <Compile Include="ViewModel\Products\ProductsViewModel.cs" />
+    <Compile Include="ViewModel\Products\TransferProductViewModel.cs" />
     <Compile Include="Views\AddNewDensityItem.xaml.cs">
       <DependentUpon>AddNewDensityItem.xaml</DependentUpon>
     </Compile>
@@ -185,9 +188,6 @@
     <Compile Include="Views\ColorsWindow.xaml.cs">
       <DependentUpon>ColorsWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\DensityView.xaml.cs">
-      <DependentUpon>DensityView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
@@ -199,6 +199,9 @@
     </Compile>
     <Compile Include="Views\Products\ProductsSelectorView.xaml.cs">
       <DependentUpon>ProductsSelectorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Products\TransferProductView.xaml.cs">
+      <DependentUpon>TransferProductView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SettingsView.xaml.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
@@ -219,9 +222,6 @@
       <DependentUpon>ProductSelection.xaml</DependentUpon>
     </Compile>
     <Compile Include="ProductsForSale.cs" />
-    <Compile Include="SaleProduct.xaml.cs">
-      <DependentUpon>SaleProduct.xaml</DependentUpon>
-    </Compile>
     <Compile Include="SalesStats.xaml.cs">
       <DependentUpon>SalesStats.xaml</DependentUpon>
     </Compile>
@@ -268,10 +268,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SaleProduct.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="SalesStats.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -296,10 +292,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\DensityView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\MainWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -313,6 +305,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Products\ProductsSelectorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Products\TransferProductView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

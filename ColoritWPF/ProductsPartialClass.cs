@@ -8,8 +8,12 @@ namespace ColoritWPF
     {
         #region Properties
 
-        private decimal _total;
+        public string Article
+        {
+            get { return ID.ToString("00000"); }
+        }
 
+        private decimal _total;
         public decimal Total
         {
             get { return _total; }
@@ -21,7 +25,6 @@ namespace ColoritWPF
         }
 
         private decimal _cleanTotal;
-
         public decimal CleanTotal
         {
             get { return _cleanTotal; }
@@ -33,7 +36,6 @@ namespace ColoritWPF
         }
 
         private int _amount;
-
         public int Amount
         {
             get { return _amount; }
@@ -46,7 +48,6 @@ namespace ColoritWPF
         }
 
         private double _currentDiscount;
-
         public double CurrentDiscount
         {
             get { return _currentDiscount; }

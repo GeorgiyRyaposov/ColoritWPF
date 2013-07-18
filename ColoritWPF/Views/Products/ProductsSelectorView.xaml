@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:ColoritWPF="clr-namespace:ColoritWPF"
-        Title="ProductsSelectorView" Height="700" Width="800">
+        Title="Подбор продуктов" Height="Auto" Width="Auto">
     <Window.Resources>
         <ColoritWPF:ProductGroupConverter x:Key="ProductGroupConverter" />
         <!--Button style-->
@@ -32,27 +32,28 @@
         </Grid.ColumnDefinitions>
 
         <StackPanel Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="6" Orientation="Horizontal" HorizontalAlignment="Left">
-            <Label Margin="5,0,0,0">Поиск:</Label>
+            <Label Margin="5,5,0,5">Поиск:</Label>
             <TextBox Text="{Binding SearchCriteria, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="100"
-                     Margin="0,0,0,5"/>
+                     Margin="0,5,5,5"/>
         </StackPanel>
 
         <CheckBox Content="В наличии" IsChecked="{Binding InStock, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                  Grid.Column="7" Grid.Row="0" Width="75"/>
+                  Grid.Column="7" Margin="0,5,5,5" VerticalAlignment="Center" Grid.Row="0" Width="75"/>
 
         <StackPanel Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="6" Orientation="Horizontal" HorizontalAlignment="Left">
-            <Label Margin="5,0,0,0">Группировать по:</Label>
+            <Label Margin="5,5,0,5">Группировать по:</Label>
             <ComboBox x:Name="GroupComboBox"
             ItemsSource ="{Binding GroupingList}"  
             DisplayMemberPath="Name"
             SelectedValuePath="Value"
             SelectedValue ="{Binding Path=SelectedGroup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-            Width="150" IsEditable="False" />
+            Width="150" IsEditable="False" Margin="0,5,5,5" />
         </StackPanel>
-            <StackPanel Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="6" Orientation="Horizontal" HorizontalAlignment="Left">
-            <DataGrid AutoGenerateColumns="False" EnableRowVirtualization="True" Height="300" Width="Auto" Margin="5,0,0,5"
+            
+            <DataGrid AutoGenerateColumns="False" EnableRowVirtualization="True" Height="300" Width="Auto" Margin="5,5,5,5"
                                   ItemsSource="{Binding Path=ProductsView}" CanUserAddRows="False"
-                                  SelectedItem="{Binding SelectedProduct, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                  SelectedItem="{Binding SelectedProduct, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="6" LoadingRow="dg_LoadingRow">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseDoubleClick">
                         <i:InvokeCommandAction Command="{Binding AddProductToListCommand}" />
@@ -94,41 +95,48 @@
                         </GroupStyle.ContainerStyle>
                     </GroupStyle>
                 </DataGrid.GroupStyle>
-                <DataGrid.Columns>
-                    <!--DataGridTextColumn Binding="{Binding Path=Amount}" Header="Кол-во" Width="55" /-->
+            <DataGrid.RowHeaderTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGridRow}}, Path=Header}"></TextBlock>
+                </DataTemplate>
+            </DataGrid.RowHeaderTemplate>
+            <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding Path=Article}" Header="Артикль" Width="SizeToHeader" IsReadOnly="True" />
                     <DataGridTextColumn Binding="{Binding Path=Name}" Header="Наименование" Width="500" IsReadOnly="True" />
                     <DataGridTextColumn Binding="{Binding Path=Storage}" Header="Магазин" Width="SizeToHeader" IsReadOnly="True" />
                     <DataGridTextColumn Binding="{Binding Path=Warehouse}" Header="Склад" Width="SizeToHeader" IsReadOnly="True" />
                     <DataGridTextColumn Binding="{Binding Path=Cost}" Header="Цена" Width="SizeToHeader" IsReadOnly="True" />
-                    <!--DataGridTextColumn x:Name="saleClientDiscountColumn" Binding="{Binding Path=ClientDiscount}" Header="Скидка клиента" Width="SizeToHeader" /-->
-                    <!--DataGridTextColumn Binding="{Binding Path=CurrentDiscount}" Header="Текущая скидка" Width="SizeToHeader" IsReadOnly="True" /-->
-                    <!--DataGridTextColumn x:Name="saleMaxDiscountColumn" Binding="{Binding Path=MaxDiscount}" Header="Макс скидка" Width="SizeToHeader" /-->
-                    <!--DataGridTextColumn Binding="{Binding Path=CleanTotal}" Header="Сумма без скидки" Width="SizeToHeader" IsReadOnly="True" /-->
-                    <!--DataGridTextColumn Binding="{Binding Path=Total}" Header="Сумма со скидкой" Width="SizeToHeader" IsReadOnly="True" /-->
                 </DataGrid.Columns>
             </DataGrid>
-        </StackPanel>
         
 
         <!--Таблица уже выбраных продуктов-->
-        <StackPanel Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="6" Orientation="Horizontal" HorizontalAlignment="Left">
-            <DataGrid AutoGenerateColumns="False" EnableRowVirtualization="True" Height="300" Width="Auto" Margin="5,0,0,0"
+        
+            <DataGrid AutoGenerateColumns="False" EnableRowVirtualization="True" Height="300" Width="Auto" Margin="5,5,5,5"
                                   ItemsSource="{Binding Path=SelectedProducts}" CanUserAddRows="False"
-                                  SelectedItem="{Binding RemoveSelectedProduct, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                  SelectedItem="{Binding RemoveSelectedProduct, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="6" LoadingRow="dg_LoadingRow">
                 <DataGrid.ContextMenu>
                     <ContextMenu>
                         <MenuItem Command="{Binding RemoveProductFromListCommand}" Header="Удалить из списка" />
                     </ContextMenu>
                 </DataGrid.ContextMenu>
-                <DataGrid.Columns>
+            <DataGrid.RowHeaderTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGridRow}}, Path=Header}"></TextBlock>
+                </DataTemplate>
+            </DataGrid.RowHeaderTemplate>
+            <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding Path=Article}" Header="Артикль" Width="SizeToHeader" IsReadOnly="True" />
                     <DataGridTextColumn Binding="{Binding Path=Name}" Header="Наименование" Width="550" IsReadOnly="True" />
                     <DataGridTextColumn Binding="{Binding Path=Amount}" Header="Кол-во" Width="55" />
                     <DataGridTextColumn Binding="{Binding Path=Cost}" Header="Цена" Width="SizeToHeader" IsReadOnly="True" />
                 </DataGrid.Columns>
             </DataGrid>
-        </StackPanel>
+        
 
         <StackPanel Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="6" Orientation="Horizontal" HorizontalAlignment="Left">
+            <Button Content="Отмена" Click="Button_Click" />
             <Button Content="Готово" Command="{Binding SendProductsListCommand}" />
         </StackPanel>
     </Grid>

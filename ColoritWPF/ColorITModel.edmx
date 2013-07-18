@@ -138,10 +138,11 @@
           </Key>
           <Property Name="ID" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="ProductID" Type="bigint" Nullable="false" />
-          <Property Name="Number" Type="float" Nullable="false" />
           <Property Name="ToStorage" Type="bit" Nullable="false" />
           <Property Name="ToWarehouse" Type="bit" Nullable="false" />
           <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="Amount" Type="int" Nullable="false" />
+          <Property Name="Comment" Type="nvarchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="PaintName">
           <Key>
@@ -215,6 +216,7 @@
           <Property Name="ToWarehouse" Type="float" Nullable="false" />
           <Property Name="ToStorage" Type="float" Nullable="false" />
           <Property Name="Date" Type="datetime" />
+          <Property Name="Cost" Type="money" Nullable="false" />
         </EntityType>
         <EntityType Name="Return">
           <Key>
@@ -231,7 +233,7 @@
           </Key>
           <Property Name="ID" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="ProductID" Type="bigint" Nullable="false" />
-          <Property Name="Amount" Type="money" Nullable="false" />
+          <Property Name="Amount" Type="int" Nullable="false" />
           <Property Name="Discount" Type="float" />
           <Property Name="Date" Type="datetime" Nullable="false" />
           <Property Name="ClientID" Type="int" Nullable="false" />
@@ -247,8 +249,8 @@
           <Property Name="Id" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="ClientId" Type="int" Nullable="false" />
           <Property Name="SaleListNumber" Type="int" Nullable="false" />
-          <Property Name="Total" Type="money" />
-          <Property Name="CleanTotal" Type="money" />
+          <Property Name="Total" Type="money" Nullable="false" />
+          <Property Name="CleanTotal" Type="money" Nullable="false" />
           <Property Name="Confirmed" Type="bit" Nullable="false" />
           <Property Name="Comments" Type="nvarchar" MaxLength="255" />
           <Property Name="Prepay" Type="bit" Nullable="false" />
@@ -428,9 +430,7 @@
           <EntitySet Name="Deposit" EntityType="ColorITModel.Deposit" />
           <EntitySet Name="Group" EntityType="ColorITModel.Group" />
           <EntitySet Name="Loan" EntityType="ColorITModel.Loan" />
-          <EntitySet Name="MoveProduct" EntityType="ColorITModel.MoveProduct" />
           <EntitySet Name="Product" EntityType="ColorITModel.Product" />
-          <EntitySet Name="Purchase" EntityType="ColorITModel.Purchase" />
           <EntitySet Name="Return" EntityType="ColorITModel.Return" />
           <AssociationSet Name="FK_Client_Deposit" Association="ColorITModel.FK_Client_Deposit">
             <End Role="Client" EntitySet="Client" />
@@ -443,14 +443,6 @@
           <AssociationSet Name="FK_Group_Product" Association="ColorITModel.FK_Group_Product">
             <End Role="Group" EntitySet="Group" />
             <End Role="Product" EntitySet="Product" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MoveProduct_Product" Association="ColorITModel.FK_MoveProduct_Product">
-            <End Role="Product" EntitySet="Product" />
-            <End Role="MoveProduct" EntitySet="MoveProduct" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Purchase_Product" Association="ColorITModel.FK_Purchase_Product">
-            <End Role="Product" EntitySet="Product" />
-            <End Role="Purchase" EntitySet="Purchase" />
           </AssociationSet>
           <AssociationSet Name="FK_Return_Product" Association="ColorITModel.FK_Return_Product">
             <End Role="Product" EntitySet="Product" />
@@ -478,12 +470,12 @@
             <End Role="Producers" EntitySet="Producers" />
             <End Role="Product" EntitySet="Product" />
           </AssociationSet>
-          <EntitySet Name="Sale" EntityType="ColorITModel.Sale" />
           <EntitySet Name="SaleDocument" EntityType="ColorITModel.SaleDocument" />
           <AssociationSet Name="FK_Client_SaleDocument" Association="ColorITModel.FK_Client_SaleDocument">
             <End Role="Client" EntitySet="Client" />
             <End Role="SaleDocument" EntitySet="SaleDocument" />
           </AssociationSet>
+          <EntitySet Name="Sale" EntityType="ColorITModel.Sale" />
           <AssociationSet Name="FK_Sale_Client" Association="ColorITModel.FK_Sale_Client">
             <End Role="Client" EntitySet="Client" />
             <End Role="Sale" EntitySet="Sale" />
@@ -491,6 +483,16 @@
           <AssociationSet Name="FK_Sale_Product" Association="ColorITModel.FK_Sale_Product">
             <End Role="Product" EntitySet="Product" />
             <End Role="Sale" EntitySet="Sale" />
+          </AssociationSet>
+          <EntitySet Name="MoveProduct" EntityType="ColorITModel.MoveProduct" />
+          <AssociationSet Name="FK_MoveProduct_Product" Association="ColorITModel.FK_MoveProduct_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="MoveProduct" EntitySet="MoveProduct" />
+          </AssociationSet>
+          <EntitySet Name="Purchase" EntityType="ColorITModel.Purchase" />
+          <AssociationSet Name="FK_Purchase_Product" Association="ColorITModel.FK_Purchase_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="Purchase" EntitySet="Purchase" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="Client">
@@ -538,18 +540,6 @@
           <Property Name="Date" Type="DateTime" Nullable="false" />
           <NavigationProperty Name="Client" Relationship="ColorITModel.FK_Client_Loan" FromRole="Loan" ToRole="Client" />
         </EntityType>
-        <EntityType Name="MoveProduct">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ProductID" Type="Int64" Nullable="false" />
-          <Property Name="Number" Type="Double" Nullable="false" />
-          <Property Name="ToStorage" Type="Boolean" Nullable="false" />
-          <Property Name="ToWarehouse" Type="Boolean" Nullable="false" />
-          <Property Name="Date" Type="DateTime" Nullable="false" />
-          <NavigationProperty Name="Product" Relationship="ColorITModel.FK_MoveProduct_Product" FromRole="MoveProduct" ToRole="Product" />
-        </EntityType>
         <EntityType Name="Product">
           <Key>
             <PropertyRef Name="ID" />
@@ -565,24 +555,12 @@
           <Property Name="Group" Type="Int32" />
           <Property Name="ParentGroup" Type="Int32" />
           <NavigationProperty Name="Group1" Relationship="ColorITModel.FK_Group_Product" FromRole="Product" ToRole="Group" />
-          <NavigationProperty Name="MoveProduct" Relationship="ColorITModel.FK_MoveProduct_Product" FromRole="Product" ToRole="MoveProduct" />
-          <NavigationProperty Name="Purchase" Relationship="ColorITModel.FK_Purchase_Product" FromRole="Product" ToRole="Purchase" />
           <NavigationProperty Name="Return" Relationship="ColorITModel.FK_Return_Product" FromRole="Product" ToRole="Return" />
           <Property Type="Int32" Name="ProducerId" Nullable="false" />
           <NavigationProperty Name="Producers" Relationship="ColorITModel.FK_Producers_Product" FromRole="Product" ToRole="Producers" />
           <NavigationProperty Name="Sale" Relationship="ColorITModel.FK_Sale_Product" FromRole="Product" ToRole="Sale" />
-        </EntityType>
-        <EntityType Name="Purchase">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ProductID" Type="Int64" Nullable="false" />
-          <Property Name="SelfCost" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
-          <Property Name="ToWarehouse" Type="Double" Nullable="false" />
-          <Property Name="ToStorage" Type="Double" Nullable="false" />
-          <Property Name="Date" Type="DateTime" />
-          <NavigationProperty Name="Product" Relationship="ColorITModel.FK_Purchase_Product" FromRole="Purchase" ToRole="Product" />
+          <NavigationProperty Name="MoveProduct" Relationship="ColorITModel.FK_MoveProduct_Product" FromRole="Product" ToRole="MoveProduct" />
+          <NavigationProperty Name="Purchase" Relationship="ColorITModel.FK_Purchase_Product" FromRole="Product" ToRole="Purchase" />
         </EntityType>
         <EntityType Name="Return">
           <Key>
@@ -627,30 +605,6 @@
             </Principal>
             <Dependent Role="Product">
               <PropertyRef Name="Group" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MoveProduct_Product">
-          <End Role="Product" Type="ColorITModel.Product" Multiplicity="1" />
-          <End Role="MoveProduct" Type="ColorITModel.MoveProduct" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Product">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="MoveProduct">
-              <PropertyRef Name="ProductID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Purchase_Product">
-          <End Role="Product" Type="ColorITModel.Product" Multiplicity="1" />
-          <End Role="Purchase" Type="ColorITModel.Purchase" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Product">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Purchase">
-              <PropertyRef Name="ProductID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -795,23 +749,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Sale">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Type="Int64" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="Int64" Name="ProductID" Nullable="false" />
-          <Property Type="Decimal" Name="Amount" Nullable="false" Precision="19" Scale="4" />
-          <Property Type="Double" Name="Discount" />
-          <Property Type="DateTime" Name="Date" Nullable="false" />
-          <Property Type="Int32" Name="ClientID" Nullable="false" />
-          <Property Type="Double" Name="FromStorage" Nullable="false" />
-          <Property Type="Double" Name="FromWareHouse" Nullable="false" />
-          <Property Type="Int64" Name="SaleListNumber" Nullable="false" />
-          <Property Type="Decimal" Name="Cost" Nullable="false" Precision="19" Scale="4" />
-          <NavigationProperty Name="Client" Relationship="ColorITModel.FK_Sale_Client" FromRole="Sale" ToRole="Client" />
-          <NavigationProperty Name="Product" Relationship="ColorITModel.FK_Sale_Product" FromRole="Sale" ToRole="Product" />
-        </EntityType>
         <EntityType Name="SaleDocument">
           <Key>
             <PropertyRef Name="Id" />
@@ -819,8 +756,8 @@
           <Property Type="Int64" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="Int32" Name="ClientId" Nullable="false" />
           <Property Type="Int32" Name="SaleListNumber" Nullable="false" />
-          <Property Type="Decimal" Name="Total" Precision="19" Scale="4" />
-          <Property Type="Decimal" Name="CleanTotal" Precision="19" Scale="4" />
+          <Property Type="Decimal" Name="Total" Precision="19" Scale="4" Nullable="false" DefaultValue="0" />
+          <Property Type="Decimal" Name="CleanTotal" Precision="19" Scale="4" Nullable="false" DefaultValue="0" />
           <Property Type="Boolean" Name="Confirmed" Nullable="false" />
           <Property Type="String" Name="Comments" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Type="Boolean" Name="Prepay" Nullable="false" />
@@ -839,6 +776,23 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Sale">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int64" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int64" Name="ProductID" Nullable="false" />
+          <Property Type="Int32" Name="Amount" Nullable="false" />
+          <Property Type="Double" Name="Discount" />
+          <Property Type="DateTime" Name="Date" Nullable="false" />
+          <Property Type="Int32" Name="ClientID" Nullable="false" />
+          <Property Type="Double" Name="FromStorage" Nullable="false" />
+          <Property Type="Double" Name="FromWareHouse" Nullable="false" />
+          <Property Type="Int64" Name="SaleListNumber" Nullable="false" />
+          <Property Type="Decimal" Name="Cost" Nullable="false" Precision="19" Scale="4" />
+          <NavigationProperty Name="Client" Relationship="ColorITModel.FK_Sale_Client" FromRole="Sale" ToRole="Client" />
+          <NavigationProperty Name="Product" Relationship="ColorITModel.FK_Sale_Product" FromRole="Sale" ToRole="Product" />
+        </EntityType>
         <Association Name="FK_Sale_Client">
           <End Type="ColorITModel.Client" Role="Client" Multiplicity="1" />
           <End Type="ColorITModel.Sale" Role="Sale" Multiplicity="*" />
@@ -859,6 +813,56 @@
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="Sale">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="MoveProduct">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int64" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int64" Name="ProductID" Nullable="false" />
+          <Property Type="Boolean" Name="ToStorage" Nullable="false" />
+          <Property Type="Boolean" Name="ToWarehouse" Nullable="false" />
+          <Property Type="DateTime" Name="Date" Nullable="false" />
+          <Property Type="Int32" Name="Amount" Nullable="false" />
+          <Property Type="String" Name="Comment" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Product" Relationship="ColorITModel.FK_MoveProduct_Product" FromRole="MoveProduct" ToRole="Product" />
+        </EntityType>
+        <Association Name="FK_MoveProduct_Product">
+          <End Type="ColorITModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="ColorITModel.MoveProduct" Role="MoveProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="MoveProduct">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Purchase">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int64" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int64" Name="ProductID" Nullable="false" />
+          <Property Type="Decimal" Name="SelfCost" Nullable="false" Precision="19" Scale="4" />
+          <Property Type="Double" Name="ToWarehouse" Nullable="false" />
+          <Property Type="Double" Name="ToStorage" Nullable="false" />
+          <Property Type="DateTime" Name="Date" />
+          <Property Type="Decimal" Name="Cost" Nullable="false" Precision="19" Scale="4" />
+          <NavigationProperty Name="Product" Relationship="ColorITModel.FK_Purchase_Product" FromRole="Purchase" ToRole="Product" />
+        </EntityType>
+        <Association Name="FK_Purchase_Product">
+          <End Type="ColorITModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="ColorITModel.Purchase" Role="Purchase" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Purchase">
               <PropertyRef Name="ProductID" />
             </Dependent>
           </ReferentialConstraint>
@@ -894,14 +898,6 @@
             <ScalarProperty Name="Amount" ColumnName="Amount" />
             <ScalarProperty Name="Date" ColumnName="Date" />
           </MappingFragment></EntityTypeMapping></EntitySetMapping>
-          <EntitySetMapping Name="MoveProduct"><EntityTypeMapping TypeName="ColorITModel.MoveProduct"><MappingFragment StoreEntitySet="MoveProduct">
-            <ScalarProperty Name="ID" ColumnName="ID" />
-            <ScalarProperty Name="ProductID" ColumnName="ProductID" />
-            <ScalarProperty Name="Number" ColumnName="Number" />
-            <ScalarProperty Name="ToStorage" ColumnName="ToStorage" />
-            <ScalarProperty Name="ToWarehouse" ColumnName="ToWarehouse" />
-            <ScalarProperty Name="Date" ColumnName="Date" />
-          </MappingFragment></EntityTypeMapping></EntitySetMapping>
           <EntitySetMapping Name="Product"><EntityTypeMapping TypeName="ColorITModel.Product"><MappingFragment StoreEntitySet="Product">
             <ScalarProperty Name="ProducerId" ColumnName="ProducerId" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
@@ -914,14 +910,6 @@
             <ScalarProperty Name="MaxDiscount" ColumnName="MaxDiscount" />
             <ScalarProperty Name="Group" ColumnName="Group" />
             <ScalarProperty Name="ParentGroup" ColumnName="ParentGroup" />
-          </MappingFragment></EntityTypeMapping></EntitySetMapping>
-          <EntitySetMapping Name="Purchase"><EntityTypeMapping TypeName="ColorITModel.Purchase"><MappingFragment StoreEntitySet="Purchase">
-            <ScalarProperty Name="ID" ColumnName="ID" />
-            <ScalarProperty Name="ProductID" ColumnName="ProductID" />
-            <ScalarProperty Name="SelfCost" ColumnName="SelfCost" />
-            <ScalarProperty Name="ToWarehouse" ColumnName="ToWarehouse" />
-            <ScalarProperty Name="ToStorage" ColumnName="ToStorage" />
-            <ScalarProperty Name="Date" ColumnName="Date" />
           </MappingFragment></EntityTypeMapping></EntitySetMapping>
           <EntitySetMapping Name="Return"><EntityTypeMapping TypeName="ColorITModel.Return"><MappingFragment StoreEntitySet="Return">
             <ScalarProperty Name="ID" ColumnName="ID" />
@@ -1010,6 +998,21 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="SaleDocument">
+            <EntityTypeMapping TypeName="ColorITModel.SaleDocument">
+              <MappingFragment StoreEntitySet="SaleDocument">
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="Prepay" ColumnName="Prepay" />
+                <ScalarProperty Name="Comments" ColumnName="Comments" />
+                <ScalarProperty Name="Confirmed" ColumnName="Confirmed" />
+                <ScalarProperty Name="CleanTotal" ColumnName="CleanTotal" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="SaleListNumber" ColumnName="SaleListNumber" />
+                <ScalarProperty Name="ClientId" ColumnName="ClientId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Sale">
             <EntityTypeMapping TypeName="ColorITModel.Sale">
               <MappingFragment StoreEntitySet="Sale">
@@ -1026,18 +1029,29 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="SaleDocument">
-            <EntityTypeMapping TypeName="ColorITModel.SaleDocument">
-              <MappingFragment StoreEntitySet="SaleDocument">
-                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
-                <ScalarProperty Name="Prepay" ColumnName="Prepay" />
-                <ScalarProperty Name="Comments" ColumnName="Comments" />
-                <ScalarProperty Name="Confirmed" ColumnName="Confirmed" />
-                <ScalarProperty Name="CleanTotal" ColumnName="CleanTotal" />
-                <ScalarProperty Name="Total" ColumnName="Total" />
-                <ScalarProperty Name="SaleListNumber" ColumnName="SaleListNumber" />
-                <ScalarProperty Name="ClientId" ColumnName="ClientId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
+          <EntitySetMapping Name="MoveProduct">
+            <EntityTypeMapping TypeName="ColorITModel.MoveProduct">
+              <MappingFragment StoreEntitySet="MoveProduct">
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="ToWarehouse" ColumnName="ToWarehouse" />
+                <ScalarProperty Name="ToStorage" ColumnName="ToStorage" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Purchase">
+            <EntityTypeMapping TypeName="ColorITModel.Purchase">
+              <MappingFragment StoreEntitySet="Purchase">
+                <ScalarProperty Name="Cost" ColumnName="Cost" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="ToStorage" ColumnName="ToStorage" />
+                <ScalarProperty Name="ToWarehouse" ColumnName="ToWarehouse" />
+                <ScalarProperty Name="SelfCost" ColumnName="SelfCost" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1066,9 +1080,7 @@
         <EntityTypeShape EntityType="ColorITModel.Deposit" Width="1.5" PointX="7.875" PointY="4.125" Height="1.7566536458333335" IsExpanded="true" />
         <EntityTypeShape EntityType="ColorITModel.Group" Width="1.5" PointX="0.625" PointY="7.375" Height="1.4279589843749996" IsExpanded="true" />
         <EntityTypeShape EntityType="ColorITModel.Loan" Width="1.5" PointX="7.875" PointY="1.5" Height="1.7566536458333317" IsExpanded="true" />
-        <EntityTypeShape EntityType="ColorITModel.MoveProduct" Width="1.5" PointX="0.625" PointY="9.125" Height="2.0853483072916674" IsExpanded="true" />
         <EntityTypeShape EntityType="ColorITModel.Product" Width="1.5" PointX="3" PointY="6.375" Height="3.4001269531250014" IsExpanded="true" />
-        <EntityTypeShape EntityType="ColorITModel.Purchase" Width="1.5" PointX="5" PointY="10.375" Height="2.0853483072916674" IsExpanded="true" />
         <EntityTypeShape EntityType="ColorITModel.Return" Width="1.5" PointX="2.5" PointY="10.625" Height="1.7566536458333317" IsExpanded="true" />
         <AssociationConnector Association="ColorITModel.FK_Client_Deposit" ManuallyRouted="false">
           <ConnectorPoint PointX="7.5" PointY="3.6570849609375" />
@@ -1081,14 +1093,6 @@
         <AssociationConnector Association="ColorITModel.FK_Group_Product" ManuallyRouted="false">
           <ConnectorPoint PointX="2.125" PointY="8.0889794921875" />
           <ConnectorPoint PointX="3" PointY="8.0889794921875" />
-        </AssociationConnector>
-        <AssociationConnector Association="ColorITModel.FK_MoveProduct_Product" ManuallyRouted="false">
-          <ConnectorPoint PointX="3" PointY="9.6144108072916659" />
-          <ConnectorPoint PointX="2.125" PointY="9.6144108072916659" />
-        </AssociationConnector>
-        <AssociationConnector Association="ColorITModel.FK_Purchase_Product" ManuallyRouted="false">
-          <ConnectorPoint PointX="4.5000000000000036" PointY="10.103821614583334" />
-          <ConnectorPoint PointX="5" PointY="10.375" />
         </AssociationConnector>
         <AssociationConnector Association="ColorITModel.FK_Return_Product" ManuallyRouted="false">
           <ConnectorPoint PointX="3.5" PointY="10.103821614583334" />
@@ -1116,20 +1120,30 @@
           <ConnectorPoint PointX="2.125" PointY="6.6514794921875016" />
           <ConnectorPoint PointX="3" PointY="6.6514794921875016" />
         </AssociationConnector>
-        <EntityTypeShape EntityType="ColorITModel.Sale" Width="1.5" PointX="5.375" PointY="6.875" Height="2.907084960937496" />
         <EntityTypeShape EntityType="ColorITModel.SaleDocument" Width="1.5" PointX="8.25" PointY="7.625" Height="2.5783902994791674" />
         <AssociationConnector Association="ColorITModel.FK_Client_SaleDocument" >
-          <ConnectorPoint PointX="7.1874975" PointY="3.6570849609375" />
-          <ConnectorPoint PointX="7.1874975" PointY="10.023987630208332" />
+          <ConnectorPoint PointX="6.9999975" PointY="3.6570849609375" />
+          <ConnectorPoint PointX="6.9999975" PointY="10.023987630208332" />
           <ConnectorPoint PointX="8.25" PointY="10.023987630208332" />
         </AssociationConnector>
+        <EntityTypeShape EntityType="ColorITModel.Sale" Width="1.5" PointX="5" PointY="6.875" Height="2.907084960937496" />
         <AssociationConnector Association="ColorITModel.FK_Sale_Client" >
-          <ConnectorPoint PointX="6.4375" PointY="3.6570849609375" />
-          <ConnectorPoint PointX="6.4375" PointY="6.875" />
+          <ConnectorPoint PointX="6.25" PointY="3.6570849609375" />
+          <ConnectorPoint PointX="6.25" PointY="6.875" />
         </AssociationConnector>
         <AssociationConnector Association="ColorITModel.FK_Sale_Product" >
           <ConnectorPoint PointX="4.5" PointY="8.328542480468748" />
-          <ConnectorPoint PointX="5.375" PointY="8.328542480468748" />
+          <ConnectorPoint PointX="5" PointY="8.328542480468748" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="ColorITModel.MoveProduct" Width="1.5" PointX="0.625" PointY="9" Height="2.2496956380208388" />
+        <AssociationConnector Association="ColorITModel.FK_MoveProduct_Product" >
+          <ConnectorPoint PointX="3" PointY="9.5519108072916659" />
+          <ConnectorPoint PointX="2.125" PointY="9.5519108072916659" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="ColorITModel.Purchase" Width="1.5" PointX="5" PointY="10.375" Height="2.2496956380208388" />
+        <AssociationConnector Association="ColorITModel.FK_Purchase_Product" >
+          <ConnectorPoint PointX="4.5000000000000036" PointY="10.103821614583334" />
+          <ConnectorPoint PointX="5" PointY="10.375" />
         </AssociationConnector>
         </Diagram>
     </Diagrams>

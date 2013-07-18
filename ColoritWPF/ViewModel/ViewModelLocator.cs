@@ -152,6 +152,14 @@ namespace ColoritWPF.ViewModel
                 return new ProductsSelectorViewModel();
             }
         }
+
+        public TransferProductViewModel TransferProductViewModelPage
+        {
+            get
+            {
+                return new TransferProductViewModel();
+            }
+        }
         public static void Cleanup()
         {
             // TODO Clear the ViewModels

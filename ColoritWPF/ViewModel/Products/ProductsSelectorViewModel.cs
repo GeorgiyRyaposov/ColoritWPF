@@ -169,7 +169,14 @@ namespace ColoritWPF.ViewModel.Products
         {
             AddProductToListCommand = new RelayCommand(AddProductToList);
             RemoveProductFromListCommand = new RelayCommand(RemoveProductFromList);
-            SendProductsListCommand = new RelayCommand(SendProductsList);
+            SendProductsListCommand = new RelayCommand(SendProductsList, SendProductsListCanExecute);
+        }
+
+        private bool SendProductsListCanExecute()
+        {
+            if (SelectedProducts.Count == 0)
+                return false;
+            return true;
         }
 
         private void AddProductToList()

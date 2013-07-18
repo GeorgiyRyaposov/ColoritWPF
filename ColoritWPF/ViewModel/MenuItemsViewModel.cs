@@ -13,7 +13,6 @@ namespace ColoritWPF.ViewModel
             EditPaintsCommand = new RelayCommand(EditPaintsCmd);
             SettingsCommand = new RelayCommand(SettingsCmd);
             PaintsSalesWatcherCommand = new RelayCommand(PaintsSalesWatcherCmd);
-            DensityCounterCommand = new RelayCommand(DensityCounterCmd);
             AddNewDensityCommand = new RelayCommand(AddNewDensityCmd);
         }
         
@@ -61,12 +60,6 @@ namespace ColoritWPF.ViewModel
             private set;
         }
 
-        public RelayCommand DensityCounterCommand
-        {
-            get;
-            private set;
-        }
-
         public RelayCommand AddNewDensityCommand
         {
             get;
@@ -79,12 +72,6 @@ namespace ColoritWPF.ViewModel
         {
             AddNewDensityItem addNewDensity = new AddNewDensityItem();
             addNewDensity.ShowDialog();
-        }
-
-        private void DensityCounterCmd()
-        {
-            DensityView densityView = new DensityView();
-            densityView.ShowDialog();
         }
 
         private void PaintsSalesWatcherCmd()
