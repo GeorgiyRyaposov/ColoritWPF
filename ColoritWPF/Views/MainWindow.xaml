@@ -9,8 +9,9 @@
             <ColoritWPF:CarModelConverter x:Key="CarModelConverter" />
             <ColoritWPF:ClientNameConverter x:Key="ClientNameConverter" />
             <ColoritWPF:PaintNameConverter x:Key="PaintNameConverter" />
+            <ColoritWPF:PercentageConverter x:Key="PercentageConverter" />
 
-            <!--Button style-->
+        <!--Button style-->
             <Style TargetType="Button">
                 <Setter Property="FontSize" Value ="12"/>
                 <Setter Property="FontWeight" Value ="Normal"/>
@@ -193,7 +194,7 @@
 
                         <StackPanel Grid.Column="1" Grid.Row="4"  Orientation="Horizontal" HorizontalAlignment="Right">
                             <Label>Скидка:</Label>
-                            <TextBox Text="{Binding Mode=TwoWay, UpdateSourceTrigger=LostFocus, Path=Discount}" 
+                        <TextBox Text="{Binding Mode=TwoWay, UpdateSourceTrigger=LostFocus, Path=Discount, StringFormat=\{0:P0\}, Converter={StaticResource PercentageConverter}}" 
                      Width="100">
                             </TextBox>
                         </StackPanel>
@@ -399,11 +400,11 @@
                             <CheckBox IsChecked="{Binding IncludeClientBalanceToTotal, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                       Content="Включить в оплату" Margin="0,5,5,5" VerticalAlignment="Center"/>
                             <Label Margin="5,5,0,5">Скидка:</Label>
-                            <TextBox Text="{Binding CurrentDiscount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5,5,5,5" Width="50" />
+                            <TextBox Text="{Binding CurrentDiscount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=\{0:P0\}, Converter={StaticResource PercentageConverter}}" Margin="5,5,5,5" Width="50" />
                         </StackPanel>
                     </StackPanel>
                     <DataGrid AutoGenerateColumns="False" EnableRowVirtualization="True" Height="200" Width="Auto" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" 
-                                  ItemsSource="{Binding Path=SaleProductsList}" CanUserAddRows="False" LoadingRow="dgSaleList_LoadingRow" Margin="5,5,5,5">
+                                  ItemsSource="{Binding Path=SaleProductsList}" CanUserAddRows="False" LoadingRow="dgSaleList_LoadingRow" Margin="5,5,5,5" x:Name="SaleDg">
                             <DataGrid.ContextMenu>
                                 <ContextMenu>
                                     <MenuItem Command="ApplicationCommands.Delete" Header="Удалить" />
@@ -418,9 +419,9 @@
                                 <DataGridTextColumn Binding="{Binding Path=Article}" Header="Артикл" IsReadOnly="True" />
                                 <DataGridTextColumn Binding="{Binding Path=Name}" Header="Наименование" IsReadOnly="True" />
                                 <DataGridTextColumn Binding="{Binding Path=Amount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Header="Кол-во" Width="55" />
-                                <DataGridTextColumn Binding="{Binding Path=Cost}" Header="Цена" Width="SizeToHeader" IsReadOnly="True" />
-                                <DataGridTextColumn Binding="{Binding Path=CurrentDiscount}" Header="Текущая скидка" Width="SizeToHeader" IsReadOnly="True" />
-                                <DataGridTextColumn Binding="{Binding Path=Total, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Header="Сумма" Width="SizeToHeader" IsReadOnly="True" />
+                                <DataGridTextColumn Binding="{Binding Path=Cost, StringFormat=\{0:c\}}" Header="Цена" Width="SizeToHeader" IsReadOnly="False" />
+                            <DataGridTextColumn Binding="{Binding Path=CurrentDiscount, StringFormat=\{0:P0\}, Converter={StaticResource PercentageConverter}}" Header="Текущая скидка" Width="SizeToHeader" IsReadOnly="True" />
+                                <DataGridTextColumn Binding="{Binding Path=Total, StringFormat=\{0:c\}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Header="Сумма" Width="SizeToHeader" IsReadOnly="True" />
                             </DataGrid.Columns>
                         </DataGrid>
 
@@ -441,11 +442,11 @@
                     </StackPanel>
 
                     <StackPanel Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top">
-                        <Button Content="Печать" Command="Print" MaxHeight="25" VerticalAlignment="Top" Margin="5,5,5,5"></Button>
+                        <Button Content="Печать" Command="{Binding PrintDocumentCommand}" MaxHeight="25" VerticalAlignment="Top" Margin="5,5,5,5"></Button>
                         <Button Content="Подбор" Command="{Binding OpenSelectionCommand}" MaxHeight="25" VerticalAlignment="Top" Margin="5,5,5,5"></Button>
                         <Button Content="Перемещение" Command="{Binding MoveProductDlgCommand}" Margin="5,5,5,5"/>
-                        <Button Content="Сохранить" Command="Save" MaxHeight="25" VerticalAlignment="Top" Margin="5,5,5,5"></Button>
-                        <Button Content="Провести" Command="{Binding ConfirmDocumentCommand}" MaxHeight="25" VerticalAlignment="Top" Margin="5,5,5,5"></Button>
+                        <Button Content="Сохранить" Command="{Binding PrepayDocumentCommand}" MaxHeight="25" VerticalAlignment="Top" Margin="5,5,5,5"></Button>
+                        <Button Content="{Binding ConfirmButtonContent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Command="{Binding ConfirmDocumentCommand}" MaxHeight="25" VerticalAlignment="Top" Margin="5,5,5,5"></Button>
                     </StackPanel>
 
                     

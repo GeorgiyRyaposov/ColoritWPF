@@ -143,6 +143,7 @@
           <Property Name="Date" Type="datetime" Nullable="false" />
           <Property Name="Amount" Type="int" Nullable="false" />
           <Property Name="Comment" Type="nvarchar" MaxLength="100" />
+          <Property Name="Confirmed" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="PaintName">
           <Key>
@@ -829,6 +830,7 @@
           <Property Type="Int32" Name="Amount" Nullable="false" />
           <Property Type="String" Name="Comment" MaxLength="100" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Product" Relationship="ColorITModel.FK_MoveProduct_Product" FromRole="MoveProduct" ToRole="Product" />
+          <Property Type="Boolean" Name="Confirmed" Nullable="false" />
         </EntityType>
         <Association Name="FK_MoveProduct_Product">
           <End Type="ColorITModel.Product" Role="Product" Multiplicity="1" />
@@ -1032,6 +1034,7 @@
           <EntitySetMapping Name="MoveProduct">
             <EntityTypeMapping TypeName="ColorITModel.MoveProduct">
               <MappingFragment StoreEntitySet="MoveProduct">
+                <ScalarProperty Name="Confirmed" ColumnName="Confirmed" />
                 <ScalarProperty Name="Comment" ColumnName="Comment" />
                 <ScalarProperty Name="Amount" ColumnName="Amount" />
                 <ScalarProperty Name="Date" ColumnName="Date" />

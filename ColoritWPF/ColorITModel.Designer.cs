@@ -1599,7 +1599,8 @@ namespace ColoritWPF
         /// <param name="toWarehouse">Initial value of the ToWarehouse property.</param>
         /// <param name="date">Initial value of the Date property.</param>
         /// <param name="amount">Initial value of the Amount property.</param>
-        public static MoveProduct CreateMoveProduct(global::System.Int64 id, global::System.Int64 productID, global::System.Boolean toStorage, global::System.Boolean toWarehouse, global::System.DateTime date, global::System.Int32 amount)
+        /// <param name="confirmed">Initial value of the Confirmed property.</param>
+        public static MoveProduct CreateMoveProduct(global::System.Int64 id, global::System.Int64 productID, global::System.Boolean toStorage, global::System.Boolean toWarehouse, global::System.DateTime date, global::System.Int32 amount, global::System.Boolean confirmed)
         {
             MoveProduct moveProduct = new MoveProduct();
             moveProduct.ID = id;
@@ -1608,6 +1609,7 @@ namespace ColoritWPF
             moveProduct.ToWarehouse = toWarehouse;
             moveProduct.Date = date;
             moveProduct.Amount = amount;
+            moveProduct.Confirmed = confirmed;
             return moveProduct;
         }
 
@@ -1784,6 +1786,30 @@ namespace ColoritWPF
         private global::System.String _Comment;
         partial void OnCommentChanging(global::System.String value);
         partial void OnCommentChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean Confirmed
+        {
+            get
+            {
+                return _Confirmed;
+            }
+            set
+            {
+                OnConfirmedChanging(value);
+                ReportPropertyChanging("Confirmed");
+                _Confirmed = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Confirmed");
+                OnConfirmedChanged();
+            }
+        }
+        private global::System.Boolean _Confirmed;
+        partial void OnConfirmedChanging(global::System.Boolean value);
+        partial void OnConfirmedChanged();
 
         #endregion
     

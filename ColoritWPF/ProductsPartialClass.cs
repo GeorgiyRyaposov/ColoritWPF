@@ -80,6 +80,11 @@ namespace ColoritWPF
             CleanTotal = Amount*Cost;
         }
 
+        partial void OnCostChanged()
+        {
+            ReCalc();
+        }
+
         #endregion
 
         #region IDataErrorInfo Members

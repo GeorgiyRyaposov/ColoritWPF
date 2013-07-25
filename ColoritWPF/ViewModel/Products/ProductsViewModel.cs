@@ -8,6 +8,7 @@ using ColoritWPF.Views.Products;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
+using Excel = Microsoft.Office.Interop.Excel;
 
 namespace ColoritWPF.ViewModel.Products
 {
@@ -118,13 +119,27 @@ namespace ColoritWPF.ViewModel.Products
                     
                     _currentClient = _currentSaleDocument.Client;
                     base.RaisePropertyChanged("CurrentClient");
-
                     base.RaisePropertyChanged("CurrentDiscount");
+                    
+                    _confirmButtonContent = value.Confirmed ? "Разпровести" : "Провести";
+                    base.RaisePropertyChanged("ConfirmButtonContent");
 
                     UpdateListOfProductsForSale();
                 }
         }
 
+        private string _confirmButtonContent = "Провести";
+        public string ConfirmButtonContent
+        {
+            get
+            {
+                return _confirmButtonContent;
+            }
+            set { 
+                    _confirmButtonContent = value;
+                    base.RaisePropertyChanged("ConfirmButtonContent");
+                }
+        }
 
         #endregion
 
@@ -245,6 +260,12 @@ namespace ColoritWPF.ViewModel.Products
             private set;
         }
 
+        public RelayCommand PrepayDocumentCommand
+        {
+            get;
+            private set;
+        }
+
         public RelayCommand MoveProductDlgCommand
         {
             get;
@@ -254,9 +275,15 @@ namespace ColoritWPF.ViewModel.Products
         private void InitializeCommands()
         {
             OpenSelectionCommand = new RelayCommand(OpenSelection);
-            PrintDocumentCommand = new RelayCommand(PrintDocument);
-            ConfirmDocumentCommand = new RelayCommand(ConfirmDocument);
+            PrintDocumentCommand = new RelayCommand(PrintDocument, ConfirmDocumentCanExecute);
+            ConfirmDocumentCommand = new RelayCommand(ConfirmDocument, ConfirmDocumentCanExecute);
             MoveProductDlgCommand = new RelayCommand(MoveProductDlg);
+            PrepayDocumentCommand = new RelayCommand(PrepayDocument);
+        }
+
+        private bool ConfirmDocumentCanExecute()
+        {
+            return CurrentSaleDocument != null;
         }
 
         private void MoveProductDlg()
@@ -265,13 +292,44 @@ namespace ColoritWPF.ViewModel.Products
             transferProductView.ShowDialog();
         }
 
-        private void ConfirmDocument()
+        private void PrepayDocument()
         {
-            Prepay = false;
-            Confirmed = true;
+            Prepay = true;
+            Confirmed = false;
             SaveDocument();
         }
 
+        private void ConfirmDocument()
+        {
+            if (MessageBox.Show("Вы уверены что хотите "+ ConfirmButtonContent.ToLower()+" документ?",
+                                "Подтверждение", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            {
+                if (!CurrentSaleDocument.Confirmed)
+                {
+                    Prepay = false;
+                    Confirmed = true;
+
+                    if (CurrentSaleDocument.Id != 0) //Если документ уже есть в базе, просто проводим
+                    {
+                        OnlyConfirmDocument();
+                    }
+                    else // Иначе сохраняем документ, список продуктов и проводим
+                    {
+                        SaveDocument();
+                    }
+                }
+                else
+                {
+                    Prepay = true;
+                    Confirmed = false;
+                    UnConfirmDocument();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Используется при проведении и сохранении документа, в зависимости от значений Confirmed и Prepay
+        /// </summary>
         private void SaveDocument()
         {
             if (IsAllProductInStock() == false)
@@ -305,7 +363,6 @@ namespace ColoritWPF.ViewModel.Products
             try
             {
                 colorItEntities.SaveChanges();
-                
             }
             catch (Exception ex)
             {
@@ -332,7 +389,6 @@ namespace ColoritWPF.ViewModel.Products
                     var productStorage = colorItEntities.Product.First(pr => pr.ID == product.ID);
                     productStorage.Storage = productStorage.Storage - product.Amount;
                 }
-                product.Storage = product.Storage - product.Amount;
                 
                 colorItEntities.Sale.AddObject(sale);
             }
@@ -350,6 +406,88 @@ namespace ColoritWPF.ViewModel.Products
             catch (Exception ex)
             {
                 throw new Exception("Не удалось сохранить список продаж\n"+ex.Message+"\n"+ex.InnerException);
+            }
+        }
+
+        /// <summary>
+        /// Используется при разпроведении документа
+        /// </summary>
+        private void UnConfirmDocument()
+        {
+            CurrentSaleDocument.Prepay = Prepay;
+            CurrentSaleDocument.Confirmed = Confirmed;
+
+            try
+            {
+                colorItEntities.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Не удалось сохранить список продаж\n" + ex.Message + "\n" + ex.InnerException);
+            }
+
+            foreach (Product product in SaleProductsList)
+            {
+                var productStorage = colorItEntities.Product.First(pr => pr.ID == product.ID);
+                productStorage.Storage = productStorage.Storage + product.Amount;
+            }
+
+            //TODO спросить серегу что делать с деньгами клиента при перепроведении
+            //if (IncludeClientBalanceToTotal)
+            //{
+            //    Client client = colorItEntities.Client.First(cl => cl.ID == CurrentClient.ID);
+            //    client.Balance = 0;
+            //}
+
+            try
+            {
+                colorItEntities.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Не удалось сохранить список продаж\n" + ex.Message + "\n" + ex.InnerException);
+            }
+        }
+
+        /// <summary>
+        /// Используется при проведении документа, т.е. документ уже сохранен и его осталось только провести, или перепровести
+        /// </summary>
+        private void OnlyConfirmDocument()
+        {
+            if (IsAllProductInStock() == false)
+                return;
+
+            CurrentSaleDocument.Prepay = Prepay;
+            CurrentSaleDocument.Confirmed = Confirmed;
+
+            try
+            {
+                colorItEntities.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Не удалось сохранить список продаж\n" + ex.Message + "\n" + ex.InnerException);
+            }
+
+            foreach (Product product in SaleProductsList)
+            {
+                var productStorage = colorItEntities.Product.First(pr => pr.ID == product.ID);
+                productStorage.Storage = productStorage.Storage - product.Amount;
+            }
+
+            if (IncludeClientBalanceToTotal)
+            {
+                Client client = colorItEntities.Client.First(cl => cl.ID == CurrentClient.ID);
+                client.Balance = 0;
+            }
+
+            try
+            {
+                colorItEntities.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Не удалось сохранить список продаж\n" + ex.Message + "\n" + ex.InnerException);
             }
         }
 
@@ -399,10 +537,142 @@ namespace ColoritWPF.ViewModel.Products
 
         private void PrintDocument()
         {
+            object misValue = System.Reflection.Missing.Value;
 
+            Excel.ApplicationClass excel = new Excel.ApplicationClass();
+            excel.Visible = true;
+
+            Excel.Worksheet ws = Activate(excel);
+
+            ws.get_Range("A1", misValue).Formula = "Расходная накладная №" + CurrentSaleDocument.DocumentNumber +
+                                                                 " от " + CurrentSaleDocument.DateCreated;
+
+            string inclInTotalBalance = IncludeClientBalanceToTotal ? "Включить баланс в оплату: да" : "Включить баланс в оплату: нет";
+
+            ws.get_Range("A2", misValue).Formula = "Клиент: \t" + CurrentSaleDocument.Client.Name +
+                                                                 " Баланс клиента: " + CurrentSaleDocument.Client.Balance.ToString("c") + inclInTotalBalance;
+
+            ws.Range[ws.Cells[1, 1], ws.Cells[1, 8]].Merge();
+            ws.Range[ws.Cells[2, 1], ws.Cells[2, 8]].Merge();
+
+            string[] headers = { "№", "Артикул", "Наименование", "Количество", "Розн. цена", "Сумма", "% Скидки" };
+
+            int row = 4;
+            int col = 1;
+            for (int i = 0; i < headers.Count(); i++)
+            {
+                AddItemToSpreadsheet(row, col, ws, headers[i]);
+                AutoFitColumn(ws, col);
+                CellOutLine(row, col, ws);
+                col++;
+            }
+
+            row = 5;
+            
+            int index = 1;
+            foreach (Product product in SaleProductsList)
+            {
+                col = 1;
+                
+                CellOutLine(row, col, ws);
+                AddItemToSpreadsheet(row, col, ws, index.ToString()); col++; CellOutLine(row, col, ws);
+                AddItemToSpreadsheet(row, col, ws, product.Article); col++; CellOutLine(row, col, ws);
+                AddItemToSpreadsheet(row, col, ws, product.Name); AutoFitColumn(ws, col); col++; CellOutLine(row, col, ws); 
+                AddItemToSpreadsheet(row, col, ws, product.Amount.ToString()); col++; CellOutLine(row, col, ws);
+                AddItemToSpreadsheet(row, col, ws, product.Cost.ToString("c")); col++; CellOutLine(row, col, ws);
+                AddItemToSpreadsheet(row, col, ws, product.Total.ToString("c")); AutoFitColumn(ws, col); col++; CellOutLine(row, col, ws);
+                AddItemToSpreadsheet(row, col, ws, product.CurrentDiscount.ToString());
+
+                index++;
+                row++;
+            }
+
+            col = 6;
+            row++;
+            AddItemToSpreadsheet(row, col, ws, "Итого: " + CurrentSaleDocument.Total.ToString("c"));
+            
+            BoldRow(4, ws);
+            BoldRow(row, ws);
         }
         #endregion
-    }
+        
+        
+        public Excel.Worksheet Activate(Excel.ApplicationClass excel)
+        {
 
-   
+            // open new excel spreadsheet
+
+            Excel.Workbook workbook = excel.Workbooks.Add(Type.Missing);
+
+            Excel.Worksheet ws = (Excel.Worksheet)excel.ActiveSheet;
+
+            ws.Activate();
+
+            return ws;
+
+        }
+
+        public void AddItemToSpreadsheet(int row, int column, Excel.Worksheet ws, string item)
+        {
+
+            ((Excel.Range)ws.Cells[row, column]).Value2 = item;
+
+        }
+
+        public void BoldRow(int row, Excel.Worksheet ws)
+        {
+
+            ((Excel.Range)ws.Cells[row, 1]).EntireRow.Font.Bold = true;
+
+        }
+
+        public void ColorRow(int row, int col, Excel.Worksheet ws)
+        {
+
+            ((Excel.Range)ws.Cells[row, col]).Interior.Color = System.Drawing.Color.FromArgb(255, 120, 120).ToArgb();
+
+        }
+
+        public void ColorAltRow(int row, int col, Excel.Worksheet ws)
+        {
+
+            ((Excel.Range)ws.Cells[row, col]).Interior.Color = System.Drawing.Color.FromArgb(255, 180, 180).ToArgb();
+
+        }
+
+        public void CellOutLine(int row, int col, Excel.Worksheet ws)
+        {
+
+            ((Excel.Range)ws.Cells[row, col]).Borders.ColorIndex = 1;
+
+        }
+
+        public void FormatColumn(Excel.Worksheet ws, int col, string format)
+        {
+
+            ((Excel.Range)ws.Cells[1, col]).EntireColumn.NumberFormat = format;
+
+        }
+
+        public void FormatColumnText(Excel.Worksheet ws, int col)
+        {
+
+            ((Excel.Range)ws.Cells[1, col]).EntireColumn.NumberFormat = "@";
+            
+        }
+
+        public void SetColumnWidth(Excel.Worksheet ws, int col, int width)
+        {
+
+            ((Excel.Range)ws.Cells[1, col]).EntireColumn.ColumnWidth = width;
+
+        }
+
+        public void AutoFitColumn(Excel.Worksheet ws, int col)
+        {
+
+            ((Excel.Range)ws.Cells[1, col]).EntireColumn.AutoFit();
+
+        }
+    }
 }

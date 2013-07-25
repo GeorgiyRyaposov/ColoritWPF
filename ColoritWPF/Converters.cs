@@ -1,27 +1,32 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Data;
 
 namespace ColoritWPF
 {
-    ////Radio buttons converter   
-    //public class EnumToBooleanConverter : IValueConverter
-    //{
-    //    public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-    //    {
-    //        return value.Equals(parameter);
-    //    }
+    public class PercentageConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            return value;
+        }
 
-    //    public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-    //    {
-    //        return value.Equals(true) ? parameter : Binding.DoNothing;
-    //    }
-    //}
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            string value_str = value.ToString();
+            if (String.IsNullOrWhiteSpace(value_str)) return null;
+
+            value_str = value_str.TrimEnd(culture.NumberFormat.PercentSymbol.ToCharArray());
+
+            double result;
+            if (Double.TryParse(value_str, out result))
+            {
+                return result / 100.0;
+            }
+            return value;
+        }
+    }
 
     public class EnumToBoolConverter : IValueConverter
     {
