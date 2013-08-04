@@ -157,6 +157,8 @@
     <Compile Include="Models\DensityType.cs" />
     <Compile Include="Models\GroupByItem.cs" />
     <Compile Include="Models\StorageModel.cs" />
+    <Compile Include="MoveProductDocumentPartialClass.cs" />
+    <Compile Include="MoveProductPartialClass.cs" />
     <Compile Include="PaintsPartialClass.cs" />
     <Compile Include="ProductsPartialClass.cs" />
     <Compile Include="SaleDocumentPartialClass.cs" />
@@ -167,6 +169,7 @@
     <Compile Include="ViewModel\MenuItemsViewModel.cs" />
     <Compile Include="ViewModel\Products\ProductsSelectorViewModel.cs" />
     <Compile Include="ViewModel\Products\ProductsViewModel.cs" />
+    <Compile Include="ViewModel\Products\TransferProductsSelectorViewModel.cs" />
     <Compile Include="ViewModel\Products\TransferProductViewModel.cs" />
     <Compile Include="Views\AddNewDensityItem.xaml.cs">
       <DependentUpon>AddNewDensityItem.xaml</DependentUpon>
@@ -202,6 +205,9 @@
     </Compile>
     <Compile Include="Views\Products\ProductsSelectorView.xaml.cs">
       <DependentUpon>ProductsSelectorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Products\TransferProductsSelector.xaml.cs">
+      <DependentUpon>TransferProductsSelector.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Products\TransferProductView.xaml.cs">
       <DependentUpon>TransferProductView.xaml</DependentUpon>
@@ -308,6 +314,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Products\ProductsSelectorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Products\TransferProductsSelector.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

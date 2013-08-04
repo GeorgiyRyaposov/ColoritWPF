@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
 using ColoritWPF.Models;
 using ColoritWPF.Views.Products;
 using GalaSoft.MvvmLight;
@@ -30,20 +27,55 @@ namespace ColoritWPF.ViewModel.Products
 
                 GetData();
                 InitializeCommands();
-                Messenger.Reset();
-                Messenger.Default.Register<Product>(this, selectedItem => ProductsList.Add(selectedItem));
+                //Messenger.Reset();
+                Messenger.Default.Register<MoveProductDocument>(this, UpdateListsOfProducts);
             }
+        }
+
+        private void UpdateListsOfProducts(MoveProductDocument moveProductDocument)
+        {
+            TransferDocumentsList.Add(moveProductDocument);
+            CurrentTransferDocument = moveProductDocument;
         }
         
         #region Properties
         
-        public ObservableCollection<Product> ProductsList { get; set; }
-        public ICollectionView ProductsView { get; private set; }
+        public ObservableCollection<MoveProduct> ProductsList { get; set; }
         public ObservableCollection<StorageModel> StorageList { get; set; }
-        
+        public ObservableCollection<MoveProductDocument> TransferDocumentsList { get; set; }
 
-        private string _sender;
-        public string Sender
+        private MoveProductDocument _currentTransferDocument = new MoveProductDocument();
+        public MoveProductDocument CurrentTransferDocument
+        {
+            get { return _currentTransferDocument; }
+            set
+            {
+                _currentTransferDocument = value;
+                if (value.MoveProductsList.Count > 0)
+                {
+                    ProductsList.Clear();
+                    foreach (MoveProduct product in value.MoveProductsList)
+                    {
+                        ProductsList.Add(product);
+                    }
+                }
+                else
+                {
+                    UpdateListOfProductsForTransfer();
+                }
+                base.RaisePropertyChanged("CurrentTransferDocument");
+                base.RaisePropertyChanged("ProductsList");
+
+                UpdateSenderReceiver();
+
+                _confirmButtonContent = value.Confirmed ? "Разпровести" : "Провести";
+                base.RaisePropertyChanged("ConfirmButtonContent");
+
+            }
+        }
+
+        private StorageModel _sender;
+        public StorageModel Sender
         {
             get { return _sender; }
             set
@@ -53,8 +85,8 @@ namespace ColoritWPF.ViewModel.Products
             }
         }
 
-        private string _receiver;
-        public string Receiver
+        private StorageModel _receiver;
+        public StorageModel Receiver
         {
             get { return _receiver; }
             set
@@ -63,17 +95,23 @@ namespace ColoritWPF.ViewModel.Products
                 base.RaisePropertyChanged("Receiver");
             }
         }
-        
-        private string _comment;
-        public string Comment
+
+        private string _confirmButtonContent = "Провести";
+        public string ConfirmButtonContent
         {
-            get { return _comment; }
+            get
+            {
+                return _confirmButtonContent;
+            }
             set
             {
-                _comment = value;
-                base.RaisePropertyChanged("Comment");
+                _confirmButtonContent = value;
+                base.RaisePropertyChanged("ConfirmButtonContent");
             }
         }
+
+        private StorageModel _storage;
+        private StorageModel _warehouse;
 
         #endregion
 
@@ -81,14 +119,82 @@ namespace ColoritWPF.ViewModel.Products
 
         private void GetData()
         {
-            ProductsList = new ObservableCollection<Product>();
-            ProductsView = CollectionViewSource.GetDefaultView(ProductsList);
+            ProductsList = new ObservableCollection<MoveProduct>();
+            TransferDocumentsList = new ObservableCollection<MoveProductDocument>(colorItEntities.MoveProductDocument.ToList());
 
+            _storage = new StorageModel {Name = "Магазин", Value = "Storage"};
+            _warehouse = new StorageModel {Name = "Склад", Value = "Warehouse"};
             StorageList = new ObservableCollection<StorageModel>
                 {
-                    new StorageModel {Name = "Магазин", Value = "Storage"},
-                    new StorageModel {Name = "Склад", Value = "Warehouse"}
+                    _storage,
+                    _warehouse
                 };
+        }
+
+        private void UpdateListOfProductsForTransfer()
+        {
+            if (ProductsList != null)
+            {
+                ProductsList = CurrentTransferDocument.MoveProductsList;
+            }
+        }
+
+        private void UpdateSenderReceiver()
+        {
+            if (_currentTransferDocument.ToStorage)
+            {
+                Sender = _warehouse;
+                Receiver = _storage;
+            }
+            if(_currentTransferDocument.ToWarehouse)
+            {
+                Sender = _storage;
+                Receiver = _warehouse;
+            }
+        }
+
+        /// <summary>
+        /// Проверяет наличие каждого товара из списка
+        /// </summary>
+        /// <returns>Возвращает false если товара в магазине\на складе не достаточно</returns>
+        private bool IsAllProductInStock()
+        {
+            ObservableCollection<Product> notEnough = new ObservableCollection<Product>();
+
+            bool toStorage = false; 
+            bool toWarehouse = false;
+            if (Receiver.Value == "Storage")
+                toStorage = true;
+            else
+                toWarehouse = true;
+
+            if (toStorage)
+            {
+                foreach (MoveProduct product in ProductsList)
+                {
+                    if (product.Product.Warehouse < product.Amount)
+                        notEnough.Add(product.Product);
+                }
+            }
+            if (toWarehouse)
+            {
+
+                foreach (MoveProduct product in ProductsList)
+                {
+                    if (product.Product.Storage < product.Amount)
+                        notEnough.Add(product.Product);
+                }
+            }
+
+            if (notEnough.Count > 0)
+            {
+                string msgText = String.Format("Недостаточно товара в "+ Sender.Value.ToLower() +"е:\n");
+                msgText = notEnough.Aggregate(msgText, (current, product) => current + product.Name + "\n");
+
+                MessageBox.Show(msgText, "Внимание!", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+            return true;
         }
 
         #endregion
@@ -112,52 +218,123 @@ namespace ColoritWPF.ViewModel.Products
             get;
             private set;
         }
+
+        public RelayCommand SaveCommand
+        {
+            get;
+            private set;
+        }
         
         private void InitializeCommands()
         {
-            TransferSelectedProductCommand = new RelayCommand(TransferSelectedProduct, TransferSelectedCanExecute);
+            TransferSelectedProductCommand = new RelayCommand(ApplyDocument, TransferSelectedCanExecute);
             SendProductsListCommand = new RelayCommand(SendProductsList);
             OpenSelectionCommand = new RelayCommand(OpenSelection);
+            SaveCommand = new RelayCommand(SaveCmd);
         }
 
-        private void TransferSelectedProduct()
+        private void ApplyDocument()
         {
+            if (MessageBox.Show("Вы уверены что хотите " + ConfirmButtonContent.ToLower() + " документ?",
+                                "Подтверждение", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            {
+                if (IsAllProductInStock())
+                {
+                    if(!CurrentTransferDocument.Confirmed)
+                        ConfirmDocument();
+                    else
+                        UnConfirmDocument();
+                }
+            }
+        }
+
+        private void SaveCmd()
+        {
+            if (CurrentTransferDocument.Id == 0)
+            {
+                if (Sender.Value == "Warehouse")
+                {
+                    CurrentTransferDocument.ToStorage = true;
+                    CurrentTransferDocument.ToWarehouse = false;
+                }
+
+                if (Sender.Value == "Storage")
+                {
+                    CurrentTransferDocument.ToStorage = false;
+                    CurrentTransferDocument.ToWarehouse = true;
+                }
+                colorItEntities.MoveProductDocument.AddObject(CurrentTransferDocument);
+            }
+
             try
             {
-                foreach (Product product in ProductsList)
+                colorItEntities.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Не удалось совершить перемещение\n" + ex.Message + "\n" + ex.InnerException);
+            }
+
+            foreach (MoveProduct product in ProductsList)
+            {
+                bool toStorage = false;
+                bool toWarehouse = false;
+                if (Sender.Value == "Warehouse")
                 {
-                    bool toStorage = false;
-                    bool toWarehouse = false;
-                    var productToUpdate = colorItEntities.Product.First(pr => pr.ID == product.ID);
-                    if (Sender == "Warehouse")
-                    {
-                        productToUpdate.Storage = productToUpdate.Storage + product.Amount;
-                        productToUpdate.Warehouse = productToUpdate.Warehouse - product.Amount;
-                        toStorage = true;
-                    }
+                    toStorage = true;
+                }
 
-                    if (Sender == "Storage")
-                    {
-                        productToUpdate.Warehouse = productToUpdate.Warehouse + product.Amount;
-                        productToUpdate.Storage = productToUpdate.Storage - product.Amount;
-                        toWarehouse = true;
-                    }
+                if (Sender.Value == "Storage")
+                {
+                    toWarehouse = true;
+                }
 
-                    MoveProduct moveProduct = new MoveProduct
+                MoveProduct moveProduct = new MoveProduct
                     {
                         ProductID = product.ID,
                         ToStorage = toStorage,
                         ToWarehouse = toWarehouse,
                         Date = DateTime.Now,
                         Amount = product.Amount,
-                        Comment = Comment
+                        DocNumber = CurrentTransferDocument.Id
                     };
 
-                    colorItEntities.MoveProduct.AddObject(moveProduct);
+                colorItEntities.MoveProduct.AddObject(moveProduct);
+            }
 
-                    colorItEntities.SaveChanges();
+            try
+            {
+                colorItEntities.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Не удалось совершить перемещение\n" + ex.Message + "\n" + ex.InnerException);
+            }
+            
+        }
+
+        private void ConfirmDocument()
+        {
+            CurrentTransferDocument.Confirmed = true;
+
+            foreach (MoveProduct product in ProductsList)
+            {
+                var productToUpdate = colorItEntities.Product.First(pr => pr.ID == product.ID);
+                if (Sender.Value == "Warehouse")
+                {
+                    productToUpdate.Storage = productToUpdate.Storage + product.Amount;
+                    productToUpdate.Warehouse = productToUpdate.Warehouse - product.Amount;
                 }
-                ProductsList.Clear();
+
+                if (Sender.Value == "Storage")
+                {
+                    productToUpdate.Warehouse = productToUpdate.Warehouse + product.Amount;
+                    productToUpdate.Storage = productToUpdate.Storage - product.Amount;
+                }
+            }
+            try
+            {
+                colorItEntities.SaveChanges();
             }
             catch (Exception ex)
             {
@@ -165,9 +342,38 @@ namespace ColoritWPF.ViewModel.Products
             }
         }
 
+        private void UnConfirmDocument()
+        {
+            CurrentTransferDocument.Confirmed = false;
+
+            foreach (MoveProduct product in ProductsList)
+            {
+                var productToUpdate = colorItEntities.Product.First(pr => pr.ID == product.ID);
+                if (Sender.Value == "Warehouse")
+                {
+                    productToUpdate.Storage = productToUpdate.Storage - product.Amount;
+                    productToUpdate.Warehouse = productToUpdate.Warehouse + product.Amount;
+                }
+
+                if (Sender.Value == "Storage")
+                {
+                    productToUpdate.Warehouse = productToUpdate.Warehouse - product.Amount;
+                    productToUpdate.Storage = productToUpdate.Storage + product.Amount;
+                }
+            }
+            try
+            {
+                colorItEntities.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Не удалось совершить перемещение\n" + ex.Message + "\n" + ex.InnerException);
+            }
+        }
+
         private void OpenSelection()
         {
-            ProductsSelectorView productsSelector = new ProductsSelectorView();
+            TransferProductsSelector productsSelector = new TransferProductsSelector();
             productsSelector.ShowDialog();
         }
 
@@ -205,21 +411,34 @@ namespace ColoritWPF.ViewModel.Products
                 switch (columnName)
                 {
                     case "Sender":
-                        if (Sender == Receiver)
+                        if (Sender == null)
                         {
-                            result = "Склад отправитель должен отличаться от получателя";
-                        }
-                        if(Sender == null)
                             result = "Выберите склад отправитель";
+                            break;
+                        }
+                        if (Receiver != null)
+                        {
+                            if (Sender.Value == Receiver.Value)
+                            {
+                                result = "Склад отправитель должен отличаться от получателя";
+                            }
+                        }
                         break;
                     case "Receiver":
-                        if (Receiver == Sender)
-                        {
-                            result = "Склад получатель должен отличаться от отправителя";
-                        }
                         if (Receiver == null)
+                        {
                             result = "Выберите склад получатель";
+                            break;
+                        }
+                        if (Sender != null)
+                        {
+                            if (Receiver.Value == Sender.Value)
+                            {
+                                result = "Склад получатель должен отличаться от отправителя";
+                            }
+                        }
                         break;
+                        
                 }
                 return result;
             }

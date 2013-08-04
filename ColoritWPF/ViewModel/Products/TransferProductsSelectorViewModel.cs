@@ -10,11 +10,11 @@ using GalaSoft.MvvmLight.Messaging;
 
 namespace ColoritWPF.ViewModel.Products
 {
-    public class ProductsSelectorViewModel : ViewModelBase
+    public class TransferProductsSelectorViewModel : ViewModelBase
     {
         private ColorITEntities colorItEntities;
 
-        public ProductsSelectorViewModel()
+        public TransferProductsSelectorViewModel()
         {
             if (IsInDesignMode)
             {
@@ -23,7 +23,7 @@ namespace ColoritWPF.ViewModel.Products
             else
             {
                 colorItEntities = new ColorITEntities();
-                
+
                 GetData();
                 InitializeCommands();
             }
@@ -40,7 +40,9 @@ namespace ColoritWPF.ViewModel.Products
         public string SearchCriteria
         {
             get { return _searchCriteria; }
-            set { _searchCriteria = value;
+            set
+            {
+                _searchCriteria = value;
                 base.RaisePropertyChanged("SearchCriteria");
                 ProductsView.Refresh();
             }
@@ -72,10 +74,12 @@ namespace ColoritWPF.ViewModel.Products
         public string SelectedGroup
         {
             get { return _selectedGroup; }
-            set { _selectedGroup = value;
-            base.RaisePropertyChanged("SelectedGroup");
-            ProductsView.GroupDescriptions.Clear();
-            ProductsView.GroupDescriptions.Add(new PropertyGroupDescription(value));
+            set
+            {
+                _selectedGroup = value;
+                base.RaisePropertyChanged("SelectedGroup");
+                ProductsView.GroupDescriptions.Clear();
+                ProductsView.GroupDescriptions.Add(new PropertyGroupDescription(value));
             }
         }
 
@@ -100,10 +104,11 @@ namespace ColoritWPF.ViewModel.Products
             Products = new ObservableCollection<Product>(colorItEntities.Product.ToList());
             SelectedProducts = new ObservableCollection<Product>();
             
+
             GroupingList = new ObservableCollection<GroupByItem>();
             GroupingList.Add(new GroupByItem { Name = "Типу", Value = "Groups" });
             GroupingList.Add(new GroupByItem { Name = "Производителю", Value = "ProducerGr" });
-            
+
             ProductsView = CollectionViewSource.GetDefaultView(Products);
             ProductsView.Filter = ProductsFilter;
             ProductsView.GroupDescriptions.Add(new PropertyGroupDescription("Groups"));
@@ -115,14 +120,14 @@ namespace ColoritWPF.ViewModel.Products
             Product product = item as Product;
 
             if (String.IsNullOrEmpty(SearchCriteria))
-                return isProductInStock(product);
+                return IsProductInStock(product);
 
-            return product != null && 
+            return product != null &&
                 product.Name.ToLower().Contains(SearchCriteria.ToLower()) &&
-                isProductInStock(product);
+                IsProductInStock(product);
         }
 
-        private bool isProductInStock(Product product)
+        private bool IsProductInStock(Product product)
         {
             if (InStock)
             {
@@ -204,10 +209,26 @@ namespace ColoritWPF.ViewModel.Products
 
         private void SendProductsList()
         {
-            foreach (Product product in SelectedProducts)
+            MoveProductDocument sendItem = new MoveProductDocument();
+            sendItem.GenerateDocNumber();
+            sendItem.Date = DateTime.Now;
+            sendItem.Confirmed = false;
+
+            foreach (Product selectedProduct in SelectedProducts)
             {
-                Messenger.Default.Send<Product>(product);                
+                sendItem.MoveProductsList.Add(
+                new MoveProduct
+                    {
+                        ProductID = selectedProduct.ID,
+                        Amount = selectedProduct.Amount,
+                        Date = DateTime.Now,
+                        DocNumber = sendItem.DocumentNumber,
+                        Product = selectedProduct
+                    });
             }
+            
+
+            Messenger.Default.Send<MoveProductDocument>(sendItem);
             NotifyWindowToClose();
         }
 
