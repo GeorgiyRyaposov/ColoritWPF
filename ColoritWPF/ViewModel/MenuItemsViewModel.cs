@@ -1,4 +1,5 @@
 ﻿using ColoritWPF.Views;
+using ColoritWPF.Views.Products;
 using GalaSoft.MvvmLight.Command;
 
 namespace ColoritWPF.ViewModel
@@ -14,6 +15,7 @@ namespace ColoritWPF.ViewModel
             SettingsCommand = new RelayCommand(SettingsCmd);
             PaintsSalesWatcherCommand = new RelayCommand(PaintsSalesWatcherCmd);
             AddNewDensityCommand = new RelayCommand(AddNewDensityCmd);
+            AddNewProductCommand = new RelayCommand(AddNewProductCmd);
         }
         
         #region fields
@@ -66,7 +68,19 @@ namespace ColoritWPF.ViewModel
             private set;
         }
 
+        public RelayCommand AddNewProductCommand
+        {
+            get;
+            private set;
+        }
+
         #endregion
+
+        private void AddNewProductCmd()
+        {
+            AddNewProductView addNewProduct = new AddNewProductView();
+            addNewProduct.ShowDialog();
+        }
         
         private void AddNewDensityCmd()
         {

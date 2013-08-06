@@ -1,0 +1,92 @@
+﻿<Window x:Class="ColoritWPF.Views.Products.AddNewProductView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+        xmlns:ColoritWPF="clr-namespace:ColoritWPF"
+        Title="Добавить новый продукт" Height="310" Width="290"
+        DataContext="{Binding AddNewProductViewModelPage, Source={StaticResource Locator}}">
+    <Window.Resources>
+        <ColoritWPF:PercentageConverter x:Key="PercentageConverter" />
+        <!--Button style-->
+        <Style TargetType="Button">
+            <Setter Property="FontSize" Value ="12"/>
+            <Setter Property="FontWeight" Value ="Normal"/>
+            <Setter Property="MinWidth" Value ="75"/>
+            <Setter Property="Margin" Value ="5,5,5,5"/>
+        </Style>
+        <!--TextBox style-->
+        <Style TargetType="ComboBox">
+            <Setter Property="Validation.ErrorTemplate">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <DockPanel LastChildFill="true">
+                            <Border Background="OrangeRed" DockPanel.Dock="right" Margin="5,0,0,0" 
+                                    Width="20" Height="20" CornerRadius="5"
+                                    ToolTip="{Binding ElementName=customAdorner, 
+                                              Path=AdornedElement.(Validation.Errors)[0].ErrorContent}">
+                                <TextBlock Text="!" VerticalAlignment="center" HorizontalAlignment="center" 
+                                       FontWeight="Bold" Foreground="white" />
+                            </Border>
+                            <AdornedElementPlaceholder Name="customAdorner" VerticalAlignment="Center" >
+                                <Border BorderBrush="red" BorderThickness="1" />
+                            </AdornedElementPlaceholder>
+                        </DockPanel>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Column="0" Grid.Row="0" Orientation="Vertical" HorizontalAlignment="Right" VerticalAlignment="Center">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Label Margin="5,5,0,5" HorizontalAlignment="Right">Наименование:</Label>
+                <TextBox Text="{Binding NewProduct.Name}" Margin="0,5,5,5" Width="150" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Label Margin="5,5,0,5" HorizontalAlignment="Right">Cебестоимость:</Label>
+                <TextBox Text="{Binding NewProduct.SelfCost, StringFormat=\{0:C\}}" Margin="0,5,5,5" Width="150" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Label Margin="5,5,0,5" HorizontalAlignment="Right">Цена:</Label>
+                <TextBox Text="{Binding NewProduct.Cost, StringFormat=\{0:C\}}" Margin="0,5,5,5" Width="150" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Label Margin="5,5,0,5" HorizontalAlignment="Right">Макс. скидка:</Label>
+                <TextBox Text="{Binding NewProduct.MaxDiscount, StringFormat=\{0:P0\}, Converter={StaticResource PercentageConverter}}" Margin="0,5,5,5" Width="150" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <CheckBox Content="Розлив" IsChecked="{Binding NewProduct.Bottled}" Margin="0,5,5,5" Width="150" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Label Margin="5,5,0,5" HorizontalAlignment="Right">Тип товара:</Label>
+                <ComboBox 
+                    ItemsSource="{Binding GroupCollection}"
+                    DisplayMemberPath="Name" 
+                    SelectedValuePath="Id"
+                    SelectedValue="{Binding NewProduct.Group, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    Margin="0,5,5,5" Width="150" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Label Margin="5,5,0,5" HorizontalAlignment="Right">Производитель:</Label>
+                <ComboBox 
+                    ItemsSource="{Binding ProducersCollection}"
+                    DisplayMemberPath="Name" 
+                    SelectedValuePath="Id"
+                    SelectedValue="{Binding NewProduct.ProducerId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    Margin="0,5,5,5" Width="150" />
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Grid.Column="0" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Content="Отмена" Click="Button_Click" />
+            <Button Content="Готово" Command="{Binding AddProductCommand}" />
+        </StackPanel>
+        
+    </Grid>
+</Window>

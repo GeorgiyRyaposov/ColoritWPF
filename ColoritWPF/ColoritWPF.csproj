@@ -52,7 +52,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>B13B92E83C0D512326A4447CD008F007E9073B3F</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>D42A52CA1CD758B540CF0635269B88523C7CB9E9</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestKeyFile>ColoritWPF_TemporaryKey.pfx</ManifestKeyFile>
@@ -167,6 +167,7 @@
     <Compile Include="ViewModel\AddNewCarViewModel.cs" />
     <Compile Include="ViewModel\AddNewDensityItemViewModel.cs" />
     <Compile Include="ViewModel\MenuItemsViewModel.cs" />
+    <Compile Include="ViewModel\Products\AddNewProductViewModel.cs" />
     <Compile Include="ViewModel\Products\ProductsSelectorViewModel.cs" />
     <Compile Include="ViewModel\Products\ProductsViewModel.cs" />
     <Compile Include="ViewModel\Products\TransferProductsSelectorViewModel.cs" />
@@ -202,6 +203,9 @@
     </Compile>
     <Compile Include="Views\PaintsSalesWatcherView.xaml.cs">
       <DependentUpon>PaintsSalesWatcherView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Products\AddNewProductView.xaml.cs">
+      <DependentUpon>AddNewProductView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Products\ProductsSelectorView.xaml.cs">
       <DependentUpon>ProductsSelectorView.xaml</DependentUpon>
@@ -313,6 +317,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Products\AddNewProductView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Products\ProductsSelectorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -351,6 +359,7 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="ColoritWPF_TemporaryKey.pfx" />
     <None Include="Properties\DataSources\ColorITEntities.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

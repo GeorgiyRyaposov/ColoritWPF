@@ -483,7 +483,10 @@
                     <MenuItem Header="Добавить" Command="{Binding AddNewClientCommand}" />
                     <MenuItem Header="Редактировать" Command="{Binding EditClientCommand}" />
                 </MenuItem>
-                <MenuItem Header="Модели авто">
+            <MenuItem Header="Продукты">
+                <MenuItem Header="Добавить..." Command="{Binding AddNewProductCommand}" />
+            </MenuItem>
+            <MenuItem Header="Модели авто">
                     <MenuItem Header="Добавить" Command="{Binding AddNewCarModelCommand}" />
                 </MenuItem>
                 <MenuItem Header="Краски">
