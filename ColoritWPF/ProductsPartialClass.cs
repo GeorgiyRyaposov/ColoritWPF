@@ -114,6 +114,22 @@ namespace ColoritWPF
                         if (Amount > (Warehouse+Storage))
                             result = "Недостаточно товара";
                         break;
+                    case "Name":
+                        if (String.IsNullOrEmpty(Name))
+                            result = "Введите наименование продукта";
+                        break;
+                    case "Cost":
+                        if (Cost<=0)
+                            result = "Цена должна быть больше нуля";
+                        break;
+                    case "SelfCost":
+                        if (SelfCost<= 0)
+                            result = "Себестоимость должна быть больше нуля";
+                        break;
+                    case "MaxDiscount":
+                        if (MaxDiscount < 0)
+                            result = "Скидка должна быть положительной или равно нулю";
+                        break;
                 }
                 return result;
             }

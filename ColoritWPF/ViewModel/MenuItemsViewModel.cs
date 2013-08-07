@@ -16,65 +16,38 @@ namespace ColoritWPF.ViewModel
             PaintsSalesWatcherCommand = new RelayCommand(PaintsSalesWatcherCmd);
             AddNewDensityCommand = new RelayCommand(AddNewDensityCmd);
             AddNewProductCommand = new RelayCommand(AddNewProductCmd);
+            EditProductCommand = new RelayCommand(EditProductCmd);
         }
-        
+
         #region fields
 
-        public RelayCommand AddPaintCommand
-        {
-            get;
-            private set;
-        }
-        
-        public RelayCommand AddNewClientCommand
-        {
-            get;
-            private set;
-        }
+        public RelayCommand AddPaintCommand { get; private set; }
 
-        public RelayCommand EditClientCommand
-        {
-            get;
-            private set;
-        }
+        public RelayCommand AddNewClientCommand { get; private set; }
 
-        public RelayCommand AddNewCarModelCommand
-        {
-            get;
-            private set;
-        }
-        
-        public RelayCommand EditPaintsCommand
-        {
-            get;
-            private set;
-        }
+        public RelayCommand EditClientCommand { get; private set; }
 
-        public RelayCommand SettingsCommand
-        {
-            get;
-            private set;
-        }
+        public RelayCommand AddNewCarModelCommand { get; private set; }
 
-        public RelayCommand PaintsSalesWatcherCommand
-        {
-            get;
-            private set;
-        }
+        public RelayCommand EditPaintsCommand { get; private set; }
 
-        public RelayCommand AddNewDensityCommand
-        {
-            get;
-            private set;
-        }
+        public RelayCommand SettingsCommand { get; private set; }
 
-        public RelayCommand AddNewProductCommand
-        {
-            get;
-            private set;
-        }
+        public RelayCommand PaintsSalesWatcherCommand { get; private set; }
+
+        public RelayCommand AddNewDensityCommand { get; private set; }
+
+        public RelayCommand AddNewProductCommand { get; private set; }
+
+        public RelayCommand EditProductCommand { get; private set; }
 
         #endregion
+
+        private void EditProductCmd()
+        {
+            EditProductsView editProductsView = new EditProductsView();
+            editProductsView.ShowDialog();
+        }
 
         private void AddNewProductCmd()
         {

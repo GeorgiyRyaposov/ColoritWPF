@@ -2,7 +2,6 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
         xmlns:ColoritWPF="clr-namespace:ColoritWPF"
-        xmlns:validationRules="clr-namespace:ColoritWPF.ValidationRules"
         Title="Color it!" Height="600" Width="1000">
     
         <Window.Resources>
@@ -485,6 +484,7 @@
                 </MenuItem>
             <MenuItem Header="Продукты">
                 <MenuItem Header="Добавить..." Command="{Binding AddNewProductCommand}" />
+                <MenuItem Header="Редактировать..." Command="{Binding EditProductCommand}" />
             </MenuItem>
             <MenuItem Header="Модели авто">
                     <MenuItem Header="Добавить" Command="{Binding AddNewCarModelCommand}" />

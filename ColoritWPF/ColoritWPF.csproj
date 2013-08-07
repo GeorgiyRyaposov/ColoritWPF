@@ -168,6 +168,7 @@
     <Compile Include="ViewModel\AddNewDensityItemViewModel.cs" />
     <Compile Include="ViewModel\MenuItemsViewModel.cs" />
     <Compile Include="ViewModel\Products\AddNewProductViewModel.cs" />
+    <Compile Include="ViewModel\Products\EditProductsViewModel.cs" />
     <Compile Include="ViewModel\Products\ProductsSelectorViewModel.cs" />
     <Compile Include="ViewModel\Products\ProductsViewModel.cs" />
     <Compile Include="ViewModel\Products\TransferProductsSelectorViewModel.cs" />
@@ -206,6 +207,9 @@
     </Compile>
     <Compile Include="Views\Products\AddNewProductView.xaml.cs">
       <DependentUpon>AddNewProductView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Products\EditProductsView.xaml.cs">
+      <DependentUpon>EditProductsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Products\ProductsSelectorView.xaml.cs">
       <DependentUpon>ProductsSelectorView.xaml</DependentUpon>
@@ -318,6 +322,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Products\AddNewProductView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Products\EditProductsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
