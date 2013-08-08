@@ -61,7 +61,7 @@
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
@@ -142,17 +142,12 @@
     <Compile Include="AddNewGroup.xaml.cs">
       <DependentUpon>AddNewGroup.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ClientByNameFilter.cs" />
     <Compile Include="ColorITModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ColorITModel.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Commands\ClientPhoneCommand.cs" />
     <Compile Include="Converters.cs" />
-    <Compile Include="EditProducts.xaml.cs">
-      <DependentUpon>EditProducts.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Models\ClientsListModel.cs" />
     <Compile Include="Models\DensityType.cs" />
     <Compile Include="Models\GroupByItem.cs" />
@@ -162,7 +157,6 @@
     <Compile Include="PaintsPartialClass.cs" />
     <Compile Include="ProductsPartialClass.cs" />
     <Compile Include="SaleDocumentPartialClass.cs" />
-    <Compile Include="ValidationRules\Validations.cs" />
     <Compile Include="ViewModel\AddClientViewModel.cs" />
     <Compile Include="ViewModel\AddNewCarViewModel.cs" />
     <Compile Include="ViewModel\AddNewDensityItemViewModel.cs" />
@@ -230,17 +224,8 @@
     <Content Include="amd64\Microsoft.VC90.CRT\Microsoft.VC90.CRT.manifest">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Compile Include="ListOfProductsForSale.cs" />
-    <Compile Include="ProductByNameFilter.cs" />
     <Compile Include="ImportFromExcel.xaml.cs">
       <DependentUpon>ImportFromExcel.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ProductSelection.xaml.cs">
-      <DependentUpon>ProductSelection.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ProductsForSale.cs" />
-    <Compile Include="SalesStats.xaml.cs">
-      <DependentUpon>SalesStats.xaml</DependentUpon>
     </Compile>
     <Content Include="System.Data.SqlServerCe.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -255,40 +240,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="AddProduct.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="BuyProduct.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="EditProducts.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="ImportFromExcel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Compile Include="AddProduct.xaml.cs">
-      <DependentUpon>AddProduct.xaml</DependentUpon>
-    </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="BuyProduct.xaml.cs">
-      <DependentUpon>BuyProduct.xaml</DependentUpon>
-    </Compile>
-    <Page Include="ProductSelection.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="SalesStats.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\AddNewDensityItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -367,7 +326,6 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="ColoritWPF_TemporaryKey.pfx" />
     <None Include="Properties\DataSources\ColorITEntities.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

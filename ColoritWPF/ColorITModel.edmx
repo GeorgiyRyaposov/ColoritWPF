@@ -216,7 +216,6 @@
           <Property Name="Bottled" Type="bit" Nullable="false" />
           <Property Name="MaxDiscount" Type="float" Nullable="false" />
           <Property Name="Group" Type="int" />
-          <Property Name="ParentGroup" Type="int" />
           <Property Name="ProducerId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Purchase">
@@ -567,7 +566,6 @@
           <Property Name="Bottled" Type="Boolean" Nullable="false" />
           <Property Name="MaxDiscount" Type="Double" Nullable="false" />
           <Property Name="Group" Type="Int32" />
-          <Property Name="ParentGroup" Type="Int32" />
           <NavigationProperty Name="Group1" Relationship="ColorITModel.FK_Group_Product" FromRole="Product" ToRole="Group" />
           <NavigationProperty Name="Return" Relationship="ColorITModel.FK_Return_Product" FromRole="Product" ToRole="Return" />
           <Property Type="Int32" Name="ProducerId" Nullable="false" />
@@ -935,7 +933,6 @@
             <ScalarProperty Name="Bottled" ColumnName="Bottled" />
             <ScalarProperty Name="MaxDiscount" ColumnName="MaxDiscount" />
             <ScalarProperty Name="Group" ColumnName="Group" />
-            <ScalarProperty Name="ParentGroup" ColumnName="ParentGroup" />
           </MappingFragment></EntityTypeMapping></EntitySetMapping>
           <EntitySetMapping Name="Return"><EntityTypeMapping TypeName="ColorITModel.Return"><MappingFragment StoreEntitySet="Return">
             <ScalarProperty Name="ID" ColumnName="ID" />
@@ -1119,7 +1116,7 @@
         <EntityTypeShape EntityType="ColorITModel.Deposit" Width="1.5" PointX="7.875" PointY="4.125" Height="1.7566536458333335" IsExpanded="true" />
         <EntityTypeShape EntityType="ColorITModel.Group" Width="1.5" PointX="0.625" PointY="7.375" Height="1.4279589843749996" IsExpanded="true" />
         <EntityTypeShape EntityType="ColorITModel.Loan" Width="1.5" PointX="7.875" PointY="1.5" Height="1.7566536458333317" IsExpanded="true" />
-        <EntityTypeShape EntityType="ColorITModel.Product" Width="1.5" PointX="3" PointY="6.375" Height="3.4001269531250014" IsExpanded="true" />
+        <EntityTypeShape EntityType="ColorITModel.Product" Width="1.5" PointX="3" PointY="6.375" Height="3.5644742838541656" IsExpanded="true" />
         <EntityTypeShape EntityType="ColorITModel.Return" Width="1.5" PointX="2.5" PointY="10.625" Height="1.7566536458333317" IsExpanded="true" />
         <AssociationConnector Association="ColorITModel.FK_Client_Deposit" ManuallyRouted="false">
           <ConnectorPoint PointX="7.5" PointY="3.6570849609375" />
@@ -1134,7 +1131,7 @@
           <ConnectorPoint PointX="3" PointY="8.0889794921875" />
         </AssociationConnector>
         <AssociationConnector Association="ColorITModel.FK_Return_Product" ManuallyRouted="false">
-          <ConnectorPoint PointX="3.5" PointY="10.103821614583334" />
+          <ConnectorPoint PointX="3.5" PointY="9.9394742838541656" />
           <ConnectorPoint PointX="3.5" PointY="10.625" />
         </AssociationConnector>
         <EntityTypeShape EntityType="ColorITModel.CarModels" Width="1.5" PointX="10.375" PointY="1.5" Height="1.427958984375" />
@@ -1176,14 +1173,14 @@
         </AssociationConnector>
         <EntityTypeShape EntityType="ColorITModel.Purchase" Width="1.5" PointX="5" PointY="10.375" Height="2.2496956380208388" />
         <AssociationConnector Association="ColorITModel.FK_Purchase_Product" >
-          <ConnectorPoint PointX="4.5000000000000036" PointY="10.103821614583334" />
+          <ConnectorPoint PointX="4.4999999999999982" PointY="9.9394742838541656" />
           <ConnectorPoint PointX="5" PointY="10.375" />
         </AssociationConnector>
         <EntityTypeShape EntityType="ColorITModel.MoveProductDocument" Width="1.5" PointX="0.625" PointY="11.375" Height="1.9210009765625031" />
         <EntityTypeShape EntityType="ColorITModel.MoveProduct" Width="1.5" PointX="0.625" PointY="9" Height="2.2496956380208388" />
         <AssociationConnector Association="ColorITModel.FK_MoveProduct_Product" >
-          <ConnectorPoint PointX="3" PointY="9.5519108072916659" />
-          <ConnectorPoint PointX="2.125" PointY="9.5519108072916659" />
+          <ConnectorPoint PointX="3" PointY="9.4697371419270837" />
+          <ConnectorPoint PointX="2.125" PointY="9.4697371419270837" />
         </AssociationConnector>
         </Diagram>
     </Diagrams>

@@ -51,20 +51,20 @@ namespace ColoritWPF.ViewModel.Products
             set
             {
                 _currentTransferDocument = value;
-                if (value.MoveProductsList.Count > 0)
-                {
-                    ProductsList.Clear();
-                    foreach (MoveProduct product in value.MoveProductsList)
-                    {
-                        ProductsList.Add(product);
-                    }
-                }
-                else
-                {
-                    UpdateListOfProductsForTransfer();
-                }
+                //if (value.MoveProductsList.Count > 0)
+                //{
+                //    ProductsList.Clear();
+                //    foreach (MoveProduct product in value.MoveProductsList)
+                //    {
+                //        ProductsList.Add(product);
+                //    }
+                //}
+                //else
+                //{
+                //    UpdateListOfProductsForTransfer();
+                //}
                 base.RaisePropertyChanged("CurrentTransferDocument");
-                base.RaisePropertyChanged("ProductsList");
+                //base.RaisePropertyChanged("ProductsList");
 
                 UpdateSenderReceiver();
 

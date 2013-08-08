@@ -3349,30 +3349,6 @@ namespace ColoritWPF
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public Nullable<global::System.Int32> ParentGroup
-        {
-            get
-            {
-                return _ParentGroup;
-            }
-            set
-            {
-                OnParentGroupChanging(value);
-                ReportPropertyChanging("ParentGroup");
-                _ParentGroup = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("ParentGroup");
-                OnParentGroupChanged();
-            }
-        }
-        private Nullable<global::System.Int32> _ParentGroup;
-        partial void OnParentGroupChanging(Nullable<global::System.Int32> value);
-        partial void OnParentGroupChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
         public global::System.Int32 ProducerId

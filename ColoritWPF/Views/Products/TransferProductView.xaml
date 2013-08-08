@@ -75,7 +75,7 @@
         </StackPanel>
         
             <DataGrid AutoGenerateColumns="False" EnableRowVirtualization="True" Height="300" Margin="5,5,5,5" HorizontalAlignment="Stretch"
-                                  ItemsSource="{Binding ProductsList}" CanUserAddRows="False" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="6"
+                                  ItemsSource="{Binding CurrentTransferDocument.MoveProductsList}" CanUserAddRows="False" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="6"
                       LoadingRow="dg_LoadingRow">
                 <DataGrid.GroupStyle>
                     <GroupStyle>

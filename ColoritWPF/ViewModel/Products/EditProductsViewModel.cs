@@ -56,7 +56,8 @@ namespace ColoritWPF.ViewModel.Products
             set
             {
                 _selectedProduct = value;
-                //GroupForSelectedProduct = value.Group1;
+                GroupForSelectedProduct = value.Group1;
+                SelectedProducer = value.Producers;
                 base.RaisePropertyChanged("SelectedProduct");
             }
         }
@@ -82,6 +83,17 @@ namespace ColoritWPF.ViewModel.Products
             {
                 _groupForSelectedProduct = value;
                 base.RaisePropertyChanged("GroupForSelectedProduct");
+            }
+        }
+
+        private Producers _selectedProducer;
+        public Producers SelectedProducer
+        {
+            get { return _selectedProducer; }
+            set
+            {
+                _selectedProducer = value;
+                base.RaisePropertyChanged("SelectedProducer");
             }
         }
 
@@ -164,7 +176,7 @@ namespace ColoritWPF.ViewModel.Products
 
         private bool SaveChangesCommandCanExecute()
         {
-            return SelectedProduct.EntityState == EntityState.Modified;
+            return SelectedProduct != null;
         }
 
         private void SaveChangesCmd()
@@ -173,7 +185,7 @@ namespace ColoritWPF.ViewModel.Products
             {
                 SelectedProduct.Group = GroupForSelectedProduct.ID;
                 SelectedProduct.Group1 = GroupForSelectedProduct;
-                //SelectedProduct.ProducerId = SelectedProducer.Id;
+                SelectedProduct.ProducerId = SelectedProducer.Id;
 
                 colorItEntities.SaveChanges();
             }
@@ -181,6 +193,7 @@ namespace ColoritWPF.ViewModel.Products
             {
                 throw new Exception("Не удалось сохранить изменения\n"+ex.Message + "\n"+ex.InnerException);
             }
+            ProductsView.Refresh();
         }
 
         #endregion

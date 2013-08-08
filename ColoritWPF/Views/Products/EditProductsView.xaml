@@ -164,9 +164,8 @@
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top">
                 <Label Margin="5,5,0,5" HorizontalAlignment="Right">Производитель:</Label>
                 <ComboBox ItemsSource="{Binding ProducersCollection}"
-                          DisplayMemberPath="Name" 
-                          SelectedValuePath="Id"
-                          SelectedItem="{Binding SelectedProduct.ProducerId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                          DisplayMemberPath="Name"
+                          SelectedItem="{Binding SelectedProducer, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                           Margin="0,5,5,5" Width="150" />
             </StackPanel>
         </StackPanel>
