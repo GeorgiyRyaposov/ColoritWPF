@@ -190,7 +190,8 @@ namespace ColoritWPF.ViewModel.Products
             if (SelectedProducts.Contains(SelectedProduct))
             {
                 Product prod = SelectedProducts.First(product => product.ID == SelectedProduct.ID);
-                if (prod.Amount < (SelectedProduct.Warehouse + SelectedProduct.Storage))
+                if ((prod.Amount < SelectedProduct.Warehouse) || 
+                    (prod.Amount < SelectedProduct.Storage))
                     prod.Amount++;
             }
             else
@@ -209,26 +210,47 @@ namespace ColoritWPF.ViewModel.Products
 
         private void SendProductsList()
         {
-            MoveProductDocument sendItem = new MoveProductDocument();
-            sendItem.GenerateDocNumber();
-            sendItem.Date = DateTime.Now;
-            sendItem.Confirmed = false;
+            MoveProductDocument moveProductDocument = new MoveProductDocument();
+            moveProductDocument.GenerateDocNumber();
+            moveProductDocument.Date = DateTime.Now;
+            moveProductDocument.Confirmed = false;
+
+            colorItEntities.MoveProductDocument.AddObject(moveProductDocument);
+
+            try
+            {
+                colorItEntities.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Не удалось сохранить документ в базу\n" + ex.Message + "\n" + ex.InnerException);
+            }
 
             foreach (Product selectedProduct in SelectedProducts)
             {
-                sendItem.MoveProductsList.Add(
-                new MoveProduct
-                    {
-                        ProductID = selectedProduct.ID,
-                        Amount = selectedProduct.Amount,
-                        Date = DateTime.Now,
-                        DocNumber = sendItem.DocumentNumber,
-                        Product = selectedProduct
-                    });
-            }
-            
+                MoveProduct moveProduct = new MoveProduct
+                {
+                    ProductID = selectedProduct.ID,
+                    ToStorage = false,
+                    ToWarehouse = false,
+                    Date = DateTime.Now,
+                    Amount = selectedProduct.Amount,
+                    DocNumber = moveProductDocument.Id
+                };
 
-            Messenger.Default.Send<MoveProductDocument>(sendItem);
+                colorItEntities.MoveProduct.AddObject(moveProduct);
+            }
+
+            try
+            {
+                colorItEntities.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Не удалось сохранить список перемещаемых продуктов в базу\n" + ex.Message + "\n" + ex.InnerException);
+            }
+
+            Messenger.Default.Send<MoveProductDocument>(moveProductDocument);
             NotifyWindowToClose();
         }
 

@@ -1,26 +1,12 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows.Media;
 
 namespace ColoritWPF
 {
     public partial class MoveProductDocument
     {
         #region Properties
-
-        //public ObservableCollection<Product> TransferProductsList { get; set; }
-
-        private ObservableCollection<MoveProduct> _moveProducts;
-        public ObservableCollection<MoveProduct> MoveProductsList
-        {
-            get
-            {
-                if (_moveProducts == null)
-                    GetProducts();
-                return _moveProducts;
-            }
-            set { _moveProducts = value; }
-        }
 
         public string DisplayDocumentNumber
         {
@@ -43,7 +29,7 @@ namespace ColoritWPF
             {
                 if (ToStorage)
                     return "Склад";
-                return "Магаин";
+                return "Магазин";
             }
         }
         
@@ -54,6 +40,24 @@ namespace ColoritWPF
                 if (ToWarehouse)
                     return "Магазин";
                 return "Склад";
+            }
+        }
+
+        private Brush _rowColor = Brushes.White;
+        public Brush StorageRowColor
+        {
+            get
+            {
+                if (Confirmed)
+                    _rowColor = Brushes.LightGreen;
+                if (!Confirmed)
+                    _rowColor = Brushes.LightPink;
+                return _rowColor;
+            }
+            set
+            {
+                _rowColor = value;
+                OnPropertyChanged("StorageRowColor");
             }
         }
 
@@ -81,26 +85,19 @@ namespace ColoritWPF
 
                 num++;
 
-                this.DocumentNumber = num;
+                DocumentNumber = num;
             }
         }
 
-        private void GetProducts()
+        partial void OnConfirmedChanged()
         {
-            using (ColorITEntities colorItEntities = new ColorITEntities())
-            {
-                var productsList = (from product in colorItEntities.MoveProduct
-                                    where product.DocNumber == this.Id
-                                    select product).ToList();
-
-                _moveProducts = new ObservableCollection<MoveProduct>();
-                foreach (MoveProduct moveProduct in productsList)
-                {
-                    _moveProducts.Add(moveProduct);
-                }
-            }
+            if (Confirmed)
+                _rowColor = Brushes.LightGreen;
+            if (!Confirmed)
+                _rowColor = Brushes.LightPink;
+            OnPropertyChanged("StorageRowColor");
         }
-
+        
         #endregion
     }
 }

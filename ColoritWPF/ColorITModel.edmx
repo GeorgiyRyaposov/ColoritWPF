@@ -43,6 +43,10 @@
             <End Role="Product" EntitySet="Product" />
             <End Role="MoveProduct" EntitySet="MoveProduct" />
           </AssociationSet>
+          <AssociationSet Name="FK_MoveProductDocument_MoveProduct" Association="ColorITModel.Store.FK_MoveProductDocument_MoveProduct">
+            <End Role="MoveProductDocument" EntitySet="MoveProductDocument" />
+            <End Role="MoveProduct" EntitySet="MoveProduct" />
+          </AssociationSet>
           <AssociationSet Name="FK_Producers_Product" Association="ColorITModel.Store.FK_Producers_Product">
             <End Role="Producers" EntitySet="Producers" />
             <End Role="Product" EntitySet="Product" />
@@ -337,6 +341,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_MoveProductDocument_MoveProduct">
+          <End Role="MoveProductDocument" Type="ColorITModel.Store.MoveProductDocument" Multiplicity="1" />
+          <End Role="MoveProduct" Type="ColorITModel.Store.MoveProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MoveProductDocument">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MoveProduct">
+              <PropertyRef Name="DocNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Producers_Product">
           <End Role="Producers" Type="ColorITModel.Store.Producers" Multiplicity="1" />
           <End Role="Product" Type="ColorITModel.Store.Product" Multiplicity="*" />
@@ -501,10 +517,14 @@
             <End Role="Product" EntitySet="Product" />
             <End Role="Purchase" EntitySet="Purchase" />
           </AssociationSet>
-          <EntitySet Name="MoveProductDocument" EntityType="ColorITModel.MoveProductDocument" />
           <EntitySet Name="MoveProduct" EntityType="ColorITModel.MoveProduct" />
           <AssociationSet Name="FK_MoveProduct_Product" Association="ColorITModel.FK_MoveProduct_Product">
             <End Role="Product" EntitySet="Product" />
+            <End Role="MoveProduct" EntitySet="MoveProduct" />
+          </AssociationSet>
+          <EntitySet Name="MoveProductDocument" EntityType="ColorITModel.MoveProductDocument" />
+          <AssociationSet Name="FK_MoveProductDocument_MoveProduct" Association="ColorITModel.FK_MoveProductDocument_MoveProduct">
+            <End Role="MoveProductDocument" EntitySet="MoveProductDocument" />
             <End Role="MoveProduct" EntitySet="MoveProduct" />
           </AssociationSet>
           </EntityContainer>
@@ -854,18 +874,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="MoveProductDocument">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Type="Int64" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="Int32" Name="DocumentNumber" Nullable="false" />
-          <Property Type="Boolean" Name="ToStorage" Nullable="false" />
-          <Property Type="Boolean" Name="ToWarehouse" Nullable="false" />
-          <Property Type="DateTime" Name="Date" Nullable="false" />
-          <Property Type="String" Name="Comment" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Type="Boolean" Name="Confirmed" Nullable="false" />
-        </EntityType>
         <EntityType Name="MoveProduct">
           <Key>
             <PropertyRef Name="ID" />
@@ -878,6 +886,7 @@
           <Property Type="Int32" Name="Amount" Nullable="false" />
           <Property Type="Int64" Name="DocNumber" Nullable="false" />
           <NavigationProperty Name="Product" Relationship="ColorITModel.FK_MoveProduct_Product" FromRole="MoveProduct" ToRole="Product" />
+          <NavigationProperty Name="MoveProductDocument" Relationship="ColorITModel.FK_MoveProductDocument_MoveProduct" FromRole="MoveProduct" ToRole="MoveProductDocument" />
         </EntityType>
         <Association Name="FK_MoveProduct_Product">
           <End Type="ColorITModel.Product" Role="Product" Multiplicity="1" />
@@ -888,6 +897,31 @@
             </Principal>
             <Dependent Role="MoveProduct">
               <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="MoveProductDocument">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int64" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="DocumentNumber" Nullable="false" />
+          <Property Type="Boolean" Name="ToStorage" Nullable="false" />
+          <Property Type="Boolean" Name="ToWarehouse" Nullable="false" />
+          <Property Type="DateTime" Name="Date" Nullable="false" />
+          <Property Type="String" Name="Comment" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="Boolean" Name="Confirmed" Nullable="false" />
+          <NavigationProperty Name="MoveProduct" Relationship="ColorITModel.FK_MoveProductDocument_MoveProduct" FromRole="MoveProductDocument" ToRole="MoveProduct" />
+        </EntityType>
+        <Association Name="FK_MoveProductDocument_MoveProduct">
+          <End Type="ColorITModel.MoveProductDocument" Role="MoveProductDocument" Multiplicity="1" />
+          <End Type="ColorITModel.MoveProduct" Role="MoveProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MoveProductDocument">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MoveProduct">
+              <PropertyRef Name="DocNumber" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1065,19 +1099,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="MoveProductDocument">
-            <EntityTypeMapping TypeName="ColorITModel.MoveProductDocument">
-              <MappingFragment StoreEntitySet="MoveProductDocument">
-                <ScalarProperty Name="Confirmed" ColumnName="Confirmed" />
-                <ScalarProperty Name="Comment" ColumnName="Comment" />
-                <ScalarProperty Name="Date" ColumnName="Date" />
-                <ScalarProperty Name="ToWarehouse" ColumnName="ToWarehouse" />
-                <ScalarProperty Name="ToStorage" ColumnName="ToStorage" />
-                <ScalarProperty Name="DocumentNumber" ColumnName="DocumentNumber" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="MoveProduct">
             <EntityTypeMapping TypeName="ColorITModel.MoveProduct">
               <MappingFragment StoreEntitySet="MoveProduct">
@@ -1088,6 +1109,19 @@
                 <ScalarProperty Name="ToStorage" ColumnName="ToStorage" />
                 <ScalarProperty Name="ProductID" ColumnName="ProductID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MoveProductDocument">
+            <EntityTypeMapping TypeName="ColorITModel.MoveProductDocument">
+              <MappingFragment StoreEntitySet="MoveProductDocument">
+                <ScalarProperty Name="Confirmed" ColumnName="Confirmed" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="ToWarehouse" ColumnName="ToWarehouse" />
+                <ScalarProperty Name="ToStorage" ColumnName="ToStorage" />
+                <ScalarProperty Name="DocumentNumber" ColumnName="DocumentNumber" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1117,7 +1151,7 @@
         <EntityTypeShape EntityType="ColorITModel.Group" Width="1.5" PointX="0.625" PointY="7.375" Height="1.4279589843749996" IsExpanded="true" />
         <EntityTypeShape EntityType="ColorITModel.Loan" Width="1.5" PointX="7.875" PointY="1.5" Height="1.7566536458333317" IsExpanded="true" />
         <EntityTypeShape EntityType="ColorITModel.Product" Width="1.5" PointX="3" PointY="6.375" Height="3.5644742838541656" IsExpanded="true" />
-        <EntityTypeShape EntityType="ColorITModel.Return" Width="1.5" PointX="2.5" PointY="10.625" Height="1.7566536458333317" IsExpanded="true" />
+        <EntityTypeShape EntityType="ColorITModel.Return" Width="1.5" PointX="2.875" PointY="11.5" Height="1.7566536458333317" IsExpanded="true" />
         <AssociationConnector Association="ColorITModel.FK_Client_Deposit" ManuallyRouted="false">
           <ConnectorPoint PointX="7.5" PointY="3.6570849609375" />
           <ConnectorPoint PointX="7.875" PointY="4.125" />
@@ -1131,8 +1165,8 @@
           <ConnectorPoint PointX="3" PointY="8.0889794921875" />
         </AssociationConnector>
         <AssociationConnector Association="ColorITModel.FK_Return_Product" ManuallyRouted="false">
-          <ConnectorPoint PointX="3.5" PointY="9.9394742838541656" />
-          <ConnectorPoint PointX="3.5" PointY="10.625" />
+          <ConnectorPoint PointX="3.6875" PointY="9.9394742838541656" />
+          <ConnectorPoint PointX="3.6875" PointY="11.5" />
         </AssociationConnector>
         <EntityTypeShape EntityType="ColorITModel.CarModels" Width="1.5" PointX="10.375" PointY="1.5" Height="1.427958984375" />
         <EntityTypeShape EntityType="ColorITModel.PaintName" Width="1.5" PointX="10.375" PointY="3.125" Height="2.9070849609374996" />
@@ -1171,16 +1205,24 @@
           <ConnectorPoint PointX="4.5" PointY="8.328542480468748" />
           <ConnectorPoint PointX="5" PointY="8.328542480468748" />
         </AssociationConnector>
-        <EntityTypeShape EntityType="ColorITModel.Purchase" Width="1.5" PointX="5" PointY="10.375" Height="2.2496956380208388" />
-        <AssociationConnector Association="ColorITModel.FK_Purchase_Product" >
-          <ConnectorPoint PointX="4.4999999999999982" PointY="9.9394742838541656" />
-          <ConnectorPoint PointX="5" PointY="10.375" />
+        <EntityTypeShape EntityType="ColorITModel.Purchase" Width="1.5" PointX="5.125" PointY="11.5" Height="2.2496956380208388" />
+        <AssociationConnector Association="ColorITModel.FK_Purchase_Product" ManuallyRouted="true" >
+          <ConnectorPoint PointX="4.125002" PointY="9.9394742838541656" />
+          <ConnectorPoint PointX="4.125002" PointY="11.270795288085937" />
+          <ConnectorPoint PointX="4.96" PointY="11.270795288085937" />
+          <ConnectorPoint PointX="4.96" PointY="11.562461954752603" />
+          <ConnectorPoint PointX="5.125" PointY="11.562461954752603" />
         </AssociationConnector>
-        <EntityTypeShape EntityType="ColorITModel.MoveProductDocument" Width="1.5" PointX="0.625" PointY="11.375" Height="1.9210009765625031" />
-        <EntityTypeShape EntityType="ColorITModel.MoveProduct" Width="1.5" PointX="0.625" PointY="9" Height="2.2496956380208388" />
+        <EntityTypeShape EntityType="ColorITModel.MoveProduct" Width="1.5" PointX="0.5" PointY="11.5" Height="2.4140429687499996" />
         <AssociationConnector Association="ColorITModel.FK_MoveProduct_Product" >
-          <ConnectorPoint PointX="3" PointY="9.4697371419270837" />
-          <ConnectorPoint PointX="2.125" PointY="9.4697371419270837" />
+          <ConnectorPoint PointX="3" PointY="9.7010338774181548" />
+          <ConnectorPoint PointX="1.25" PointY="9.7010338774181548" />
+          <ConnectorPoint PointX="1.25" PointY="11.5" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="ColorITModel.MoveProductDocument" Width="1.5" PointX="0.5" PointY="14.25" Height="2.2496956380208388" />
+        <AssociationConnector Association="ColorITModel.FK_MoveProductDocument_MoveProduct" >
+          <ConnectorPoint PointX="1.25" PointY="14.25" />
+          <ConnectorPoint PointX="1.25" PointY="13.91404296875" />
         </AssociationConnector>
         </Diagram>
     </Diagrams>

@@ -9,7 +9,7 @@
 
         public string Article
         {
-            get { return this.Product.Article; }
+            get { return Product.Article; }
         }
 
         public decimal Cost

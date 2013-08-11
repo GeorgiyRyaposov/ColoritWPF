@@ -28,16 +28,10 @@ namespace ColoritWPF.ViewModel.Products
                 GetData();
                 InitializeCommands();
                 //Messenger.Reset();
-                Messenger.Default.Register<MoveProductDocument>(this, UpdateListsOfProducts);
+                Messenger.Default.Register<MoveProductDocument>(this, moveProductDoc => TransferDocumentsList.Add(moveProductDoc));
             }
         }
 
-        private void UpdateListsOfProducts(MoveProductDocument moveProductDocument)
-        {
-            TransferDocumentsList.Add(moveProductDocument);
-            CurrentTransferDocument = moveProductDocument;
-        }
-        
         #region Properties
         
         public ObservableCollection<MoveProduct> ProductsList { get; set; }
@@ -51,20 +45,13 @@ namespace ColoritWPF.ViewModel.Products
             set
             {
                 _currentTransferDocument = value;
-                //if (value.MoveProductsList.Count > 0)
-                //{
-                //    ProductsList.Clear();
-                //    foreach (MoveProduct product in value.MoveProductsList)
-                //    {
-                //        ProductsList.Add(product);
-                //    }
-                //}
-                //else
-                //{
-                //    UpdateListOfProductsForTransfer();
-                //}
+
+                ProductsList.Clear();
+                
+                ProductsList = new ObservableCollection<MoveProduct>(_currentTransferDocument.MoveProduct.ToList());
+
                 base.RaisePropertyChanged("CurrentTransferDocument");
-                //base.RaisePropertyChanged("ProductsList");
+                base.RaisePropertyChanged("ProductsList");
 
                 UpdateSenderReceiver();
 
@@ -130,15 +117,7 @@ namespace ColoritWPF.ViewModel.Products
                     _warehouse
                 };
         }
-
-        private void UpdateListOfProductsForTransfer()
-        {
-            if (ProductsList != null)
-            {
-                ProductsList = CurrentTransferDocument.MoveProductsList;
-            }
-        }
-
+        
         private void UpdateSenderReceiver()
         {
             if (_currentTransferDocument.ToStorage)
@@ -151,6 +130,8 @@ namespace ColoritWPF.ViewModel.Products
                 Sender = _storage;
                 Receiver = _warehouse;
             }
+            base.RaisePropertyChanged("Sender");
+            base.RaisePropertyChanged("Receiver");
         }
 
         /// <summary>
@@ -250,56 +231,31 @@ namespace ColoritWPF.ViewModel.Products
 
         private void SaveCmd()
         {
-            if (CurrentTransferDocument.Id == 0)
+            if (Sender.Value == "Warehouse")
             {
-                if (Sender.Value == "Warehouse")
-                {
-                    CurrentTransferDocument.ToStorage = true;
-                    CurrentTransferDocument.ToWarehouse = false;
-                }
-
-                if (Sender.Value == "Storage")
-                {
-                    CurrentTransferDocument.ToStorage = false;
-                    CurrentTransferDocument.ToWarehouse = true;
-                }
-                colorItEntities.MoveProductDocument.AddObject(CurrentTransferDocument);
+                CurrentTransferDocument.ToStorage = true;
+                CurrentTransferDocument.ToWarehouse = false;
             }
 
-            try
+            if (Sender.Value == "Storage")
             {
-                colorItEntities.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Не удалось совершить перемещение\n" + ex.Message + "\n" + ex.InnerException);
+                CurrentTransferDocument.ToStorage = false;
+                CurrentTransferDocument.ToWarehouse = true;
             }
 
             foreach (MoveProduct product in ProductsList)
             {
-                bool toStorage = false;
-                bool toWarehouse = false;
                 if (Sender.Value == "Warehouse")
                 {
-                    toStorage = true;
+                    product.ToStorage = true;
+                    product.ToWarehouse = false;
                 }
 
                 if (Sender.Value == "Storage")
                 {
-                    toWarehouse = true;
+                    product.ToWarehouse = true;
+                    product.ToStorage = false;
                 }
-
-                MoveProduct moveProduct = new MoveProduct
-                    {
-                        ProductID = product.ID,
-                        ToStorage = toStorage,
-                        ToWarehouse = toWarehouse,
-                        Date = DateTime.Now,
-                        Amount = product.Amount,
-                        DocNumber = CurrentTransferDocument.Id
-                    };
-
-                colorItEntities.MoveProduct.AddObject(moveProduct);
             }
 
             try
@@ -308,28 +264,27 @@ namespace ColoritWPF.ViewModel.Products
             }
             catch (Exception ex)
             {
-                throw new Exception("Не удалось совершить перемещение\n" + ex.Message + "\n" + ex.InnerException);
+                throw new Exception("Не удалось сохранить изменения\n" + ex.Message + "\n" + ex.InnerException);
             }
-            
         }
 
         private void ConfirmDocument()
         {
             CurrentTransferDocument.Confirmed = true;
 
-            foreach (MoveProduct product in ProductsList)
+            foreach (MoveProduct moveProduct in ProductsList)
             {
-                var productToUpdate = colorItEntities.Product.First(pr => pr.ID == product.ID);
+                var productToUpdate = colorItEntities.Product.First(pr => pr.ID == moveProduct.Product.ID);
                 if (Sender.Value == "Warehouse")
                 {
-                    productToUpdate.Storage = productToUpdate.Storage + product.Amount;
-                    productToUpdate.Warehouse = productToUpdate.Warehouse - product.Amount;
+                    productToUpdate.Storage = productToUpdate.Storage + moveProduct.Amount;
+                    productToUpdate.Warehouse = productToUpdate.Warehouse - moveProduct.Amount;
                 }
 
                 if (Sender.Value == "Storage")
                 {
-                    productToUpdate.Warehouse = productToUpdate.Warehouse + product.Amount;
-                    productToUpdate.Storage = productToUpdate.Storage - product.Amount;
+                    productToUpdate.Warehouse = productToUpdate.Warehouse + moveProduct.Amount;
+                    productToUpdate.Storage = productToUpdate.Storage - moveProduct.Amount;
                 }
             }
             try

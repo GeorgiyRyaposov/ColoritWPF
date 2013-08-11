@@ -31,6 +31,7 @@ using System.Runtime.Serialization;
 [assembly: EdmRelationshipAttribute("ColorITModel", "FK_Sale_Product", "Product", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(ColoritWPF.Product), "Sale", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ColoritWPF.Sale), true)]
 [assembly: EdmRelationshipAttribute("ColorITModel", "FK_Purchase_Product", "Product", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(ColoritWPF.Product), "Purchase", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ColoritWPF.Purchase), true)]
 [assembly: EdmRelationshipAttribute("ColorITModel", "FK_MoveProduct_Product", "Product", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(ColoritWPF.Product), "MoveProduct", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ColoritWPF.MoveProduct), true)]
+[assembly: EdmRelationshipAttribute("ColorITModel", "FK_MoveProductDocument_MoveProduct", "MoveProductDocument", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(ColoritWPF.MoveProductDocument), "MoveProduct", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ColoritWPF.MoveProduct), true)]
 
 #endregion
 
@@ -325,22 +326,6 @@ namespace ColoritWPF
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        public ObjectSet<MoveProductDocument> MoveProductDocument
-        {
-            get
-            {
-                if ((_MoveProductDocument == null))
-                {
-                    _MoveProductDocument = base.CreateObjectSet<MoveProductDocument>("MoveProductDocument");
-                }
-                return _MoveProductDocument;
-            }
-        }
-        private ObjectSet<MoveProductDocument> _MoveProductDocument;
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
         public ObjectSet<MoveProduct> MoveProduct
         {
             get
@@ -353,6 +338,22 @@ namespace ColoritWPF
             }
         }
         private ObjectSet<MoveProduct> _MoveProduct;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<MoveProductDocument> MoveProductDocument
+        {
+            get
+            {
+                if ((_MoveProductDocument == null))
+                {
+                    _MoveProductDocument = base.CreateObjectSet<MoveProductDocument>("MoveProductDocument");
+                }
+                return _MoveProductDocument;
+            }
+        }
+        private ObjectSet<MoveProductDocument> _MoveProductDocument;
 
         #endregion
         #region AddTo Methods
@@ -478,19 +479,19 @@ namespace ColoritWPF
         }
     
         /// <summary>
-        /// Deprecated Method for adding a new object to the MoveProductDocument EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
-        /// </summary>
-        public void AddToMoveProductDocument(MoveProductDocument moveProductDocument)
-        {
-            base.AddObject("MoveProductDocument", moveProductDocument);
-        }
-    
-        /// <summary>
         /// Deprecated Method for adding a new object to the MoveProduct EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
         public void AddToMoveProduct(MoveProduct moveProduct)
         {
             base.AddObject("MoveProduct", moveProduct);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the MoveProductDocument EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToMoveProductDocument(MoveProductDocument moveProductDocument)
+        {
+            base.AddObject("MoveProductDocument", moveProductDocument);
         }
 
         #endregion
@@ -1852,6 +1853,44 @@ namespace ColoritWPF
                 }
             }
         }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("ColorITModel", "FK_MoveProductDocument_MoveProduct", "MoveProductDocument")]
+        public MoveProductDocument MoveProductDocument
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<MoveProductDocument>("ColorITModel.FK_MoveProductDocument_MoveProduct", "MoveProductDocument").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<MoveProductDocument>("ColorITModel.FK_MoveProductDocument_MoveProduct", "MoveProductDocument").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<MoveProductDocument> MoveProductDocumentReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<MoveProductDocument>("ColorITModel.FK_MoveProductDocument_MoveProduct", "MoveProductDocument");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<MoveProductDocument>("ColorITModel.FK_MoveProductDocument_MoveProduct", "MoveProductDocument", value);
+                }
+            }
+        }
 
         #endregion
     }
@@ -2063,6 +2102,31 @@ namespace ColoritWPF
 
         #endregion
     
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("ColorITModel", "FK_MoveProductDocument_MoveProduct", "MoveProduct")]
+        public EntityCollection<MoveProduct> MoveProduct
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<MoveProduct>("ColorITModel.FK_MoveProductDocument_MoveProduct", "MoveProduct");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<MoveProduct>("ColorITModel.FK_MoveProductDocument_MoveProduct", "MoveProduct", value);
+                }
+            }
+        }
+
+        #endregion
     }
     
     /// <summary>
