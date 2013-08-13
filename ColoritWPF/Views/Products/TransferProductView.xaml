@@ -67,7 +67,7 @@
                 <ComboBox Margin="0,5,5,5"
                 ItemsSource ="{Binding StorageList}"  
                 DisplayMemberPath="Name"
-                SelectedValue ="{Binding Path=Receiver, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
+                SelectedItem ="{Binding Path=Receiver, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
                 Width="150" IsEditable="False" />
             
             </StackPanel>
@@ -78,7 +78,8 @@
         </StackPanel>
         
             <DataGrid AutoGenerateColumns="False" EnableRowVirtualization="True" Height="300" Margin="5,5,5,5" HorizontalAlignment="Stretch"
-                                  ItemsSource="{Binding ProductsList}" CanUserAddRows="False" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="6"
+                      ItemsSource="{Binding ProductsList}" CanUserAddRows="False" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="6"                      
+                      x:Name="ProductsGrid"
                       LoadingRow="dg_LoadingRow">
                 <DataGrid.GroupStyle>
                     <GroupStyle>
@@ -125,7 +126,7 @@
             </DataGrid>
         
         <StackPanel Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="6" Orientation="Horizontal" HorizontalAlignment="Left">
-            <Button Content="Печать" Command="PrintPreview" />
+            <Button Content="Печать" Command="{Binding PrintCommand, Mode=OneWay}" CommandParameter="{Binding ElementName=ProductsGrid, Mode=OneWay}" />
             <Button Content="Подбор" Command="{Binding OpenSelectionCommand}" />
             <Button Content="Закрыть" Click="Button_Click" />
             <Button Content="Сохранить" Command="{Binding SaveCommand}" />
@@ -147,9 +148,11 @@
                 <DataGridTextColumn Binding="{Binding Path=ShortDate}" Header="Дата" Width="SizeToHeader" IsReadOnly="True" />
                 <DataGridTextColumn Binding="{Binding Path=ShortTime}" Header="Время" Width="SizeToHeader" IsReadOnly="True" />
                 <DataGridTextColumn Binding="{Binding Path=DisplayDocumentNumber}" Header="№ Док-та" Width="SizeToHeader" IsReadOnly="True" />
-                <DataGridTextColumn Binding="{Binding Path=Sender}" Header="Склад - отправитель" Width="SizeToHeader" IsReadOnly="True" />
-                <DataGridTextColumn Binding="{Binding Path=Receiver}" Header="Склад - получатель" Width="SizeToHeader" IsReadOnly="True" />
+                <DataGridTextColumn Binding="{Binding Path=Sender, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Header="Склад - отправитель" Width="SizeToHeader" IsReadOnly="True" />
+                <DataGridTextColumn Binding="{Binding Path=Receiver, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Header="Склад - получатель" Width="SizeToHeader" IsReadOnly="True" />
                 <DataGridCheckBoxColumn Binding="{Binding Path=Confirmed}" Header="Проведен" CellStyle="{StaticResource StorageRowColorStyle}" />
+                <DataGridCheckBoxColumn Binding="{Binding Path=ToStorage}" IsThreeState="True" Header="ToStorage" />
+                <DataGridCheckBoxColumn Binding="{Binding Path=ToWarehouse}" IsThreeState="True" Header="ToWarehouse" />
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

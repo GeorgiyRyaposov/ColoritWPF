@@ -403,7 +403,8 @@
                         </StackPanel>
                     </StackPanel>
                     <DataGrid AutoGenerateColumns="False" EnableRowVirtualization="True" Height="200" Width="Auto" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" 
-                                  ItemsSource="{Binding Path=SaleProductsList}" CanUserAddRows="False" LoadingRow="dgSaleList_LoadingRow" Margin="5,5,5,5" x:Name="SaleDg">
+                              ItemsSource="{Binding Path=SaleProductsList}" CanUserAddRows="False" LoadingRow="dgSaleList_LoadingRow" Margin="5,5,5,5" 
+                              x:Name="SaleDg">
                             <DataGrid.ContextMenu>
                                 <ContextMenu>
                                     <MenuItem Command="ApplicationCommands.Delete" Header="Удалить" />
@@ -441,7 +442,8 @@
                     </StackPanel>
 
                     <StackPanel Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top">
-                        <Button Content="Печать" Command="{Binding PrintDocumentCommand}" MaxHeight="25" VerticalAlignment="Top" Margin="5,5,5,5"></Button>
+                        <Button Content="Печать" Command="{Binding PrintCommand, Mode=OneWay}" CommandParameter="{Binding ElementName=SaleDg, Mode=OneWay}"
+                                MaxHeight="25" VerticalAlignment="Top" Margin="5,5,5,5"></Button>
                         <Button Content="Подбор" Command="{Binding OpenSelectionCommand}" MaxHeight="25" VerticalAlignment="Top" Margin="5,5,5,5"></Button>
                         <Button Content="Перемещение" Command="{Binding MoveProductDlgCommand}" Margin="5,5,5,5"/>
                         <Button Content="Сохранить" Command="{Binding PrepayDocumentCommand}" MaxHeight="25" VerticalAlignment="Top" Margin="5,5,5,5"></Button>

@@ -4,6 +4,8 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
 using ColoritWPF.Views.Products;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
@@ -270,6 +272,65 @@ namespace ColoritWPF.ViewModel.Products
         {
             get;
             private set;
+        }
+
+        public RelayCommand<Visual> PrintCommand
+        {
+            get
+            {
+                return new RelayCommand<Visual>(v =>
+                {
+                    PrintDialog printDlg = new PrintDialog();
+
+                    if (printDlg.ShowDialog() != true)
+                    {return;}
+
+                    StackPanel myPanel = new StackPanel();
+                    myPanel.Margin = new Thickness(5);
+
+                    TextBlock myBlock = new TextBlock();
+                    myBlock.Text = "Расходная накладная №" + CurrentSaleDocument.DocumentNumber +
+                                                                 " от " + CurrentSaleDocument.DateCreated;
+                    myBlock.TextAlignment = TextAlignment.Left;
+                    myPanel.Children.Add(myBlock);
+
+                    TextBlock clientBalance = new TextBlock();
+                    clientBalance.Text = "Клиент: \t" + CurrentSaleDocument.Client.Name +
+                                                                 " Баланс клиента: " + CurrentSaleDocument.Client.Balance.ToString("c");
+                    myPanel.Children.Add(clientBalance);
+
+                    CheckBox checkBox = new CheckBox();
+                    checkBox.Content = "Включить баланс в оплату";
+                    checkBox.IsChecked = IncludeClientBalanceToTotal;
+                    //string inclInTotalBalance = IncludeClientBalanceToTotal ? "Включить баланс в оплату: да" : "Включить баланс в оплату: нет";
+                    myPanel.Children.Add(checkBox);
+
+                    DataGrid dg = v as DataGrid;
+                    DataGrid printDataGrid = new DataGrid();
+                    printDataGrid.ItemsSource = dg.ItemsSource;
+                    printDataGrid.UpdateLayout();
+                    //foreach (DataGridTextColumn item in dg.Columns)
+                    //{
+                    //    printDataGrid.Columns.Add(new DataGridTextColumn
+                    //                                  {
+                    //                                      Width = item.Width,
+                    //                                      Header = item.Header,
+                    //                                  });
+                    //}
+                    //foreach (Product item in dg.Items)
+                    //{
+                    //    printDataGrid.Items.Add(item);
+                    //}
+
+                    myPanel.Children.Add(printDataGrid);
+
+                    TextBlock totalValue = new TextBlock();
+                    totalValue.Text = "Итого: " + CurrentSaleDocument.Total.ToString("c");
+                    myPanel.Children.Add(totalValue);
+
+                    printDlg.PrintVisual(myPanel, "Grid Printing.");
+                });
+            }
         }
 
         private void InitializeCommands()

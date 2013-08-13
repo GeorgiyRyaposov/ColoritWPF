@@ -23,23 +23,40 @@ namespace ColoritWPF
             get { return Date.ToShortTimeString(); }
         }
 
+        private string _sender;
         public string Sender
         {
             get
             {
-                if (ToStorage)
-                    return "Склад";
-                return "Магазин";
+                if (_sender == null)
+                {
+                    _sender = "Не выбрано";
+                }
+                return _sender;
+            }
+            set
+            {
+                _sender = value;
+                OnPropertyChanged("Sender");
             }
         }
-        
+
+        private string _receiver;
         public string Receiver
         {
             get
             {
-                if (ToWarehouse)
-                    return "Магазин";
-                return "Склад";
+                if (_receiver == null)
+                {
+                    _receiver = "Не выбрано";
+                }
+                
+                return _receiver;
+            }
+            set
+            {
+                _receiver = value;
+                OnPropertyChanged("Receiver");
             }
         }
 
@@ -97,7 +114,23 @@ namespace ColoritWPF
                 _rowColor = Brushes.LightPink;
             OnPropertyChanged("StorageRowColor");
         }
-        
+
+        partial void OnToStorageChanged()
+        {
+            if (ToStorage)
+                Sender = "Склад";
+            if (!ToStorage)
+                Sender = "Магазин";
+        }
+
+        partial void OnToWarehouseChanged()
+        {
+            if (ToWarehouse)
+                Receiver = "Магазин";
+            if (!ToWarehouse)
+                Receiver = "Склад";
+        }
+
         #endregion
     }
 }
