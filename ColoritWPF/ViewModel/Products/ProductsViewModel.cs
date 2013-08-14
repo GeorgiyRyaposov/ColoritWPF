@@ -3,8 +3,10 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 using ColoritWPF.Views.Products;
 using GalaSoft.MvvmLight;
@@ -286,51 +288,89 @@ namespace ColoritWPF.ViewModel.Products
                     {return;}
 
                     StackPanel myPanel = new StackPanel();
-                    myPanel.Margin = new Thickness(5);
+                    myPanel.Margin = new Thickness(5,5,5,5);
 
                     TextBlock myBlock = new TextBlock();
                     myBlock.Text = "Расходная накладная №" + CurrentSaleDocument.DocumentNumber +
                                                                  " от " + CurrentSaleDocument.DateCreated;
                     myBlock.TextAlignment = TextAlignment.Left;
+                    myBlock.Margin = new Thickness(5,5,5,5);
                     myPanel.Children.Add(myBlock);
 
                     TextBlock clientBalance = new TextBlock();
                     clientBalance.Text = "Клиент: \t" + CurrentSaleDocument.Client.Name +
                                                                  " Баланс клиента: " + CurrentSaleDocument.Client.Balance.ToString("c");
+                    clientBalance.Margin = new Thickness(5, 5, 5, 5);
                     myPanel.Children.Add(clientBalance);
 
                     CheckBox checkBox = new CheckBox();
                     checkBox.Content = "Включить баланс в оплату";
                     checkBox.IsChecked = IncludeClientBalanceToTotal;
+                    checkBox.Margin = new Thickness(5,5,5,5);
                     //string inclInTotalBalance = IncludeClientBalanceToTotal ? "Включить баланс в оплату: да" : "Включить баланс в оплату: нет";
                     myPanel.Children.Add(checkBox);
 
                     DataGrid dg = v as DataGrid;
                     DataGrid printDataGrid = new DataGrid();
-                    printDataGrid.ItemsSource = dg.ItemsSource;
-                    printDataGrid.UpdateLayout();
-                    //foreach (DataGridTextColumn item in dg.Columns)
-                    //{
-                    //    printDataGrid.Columns.Add(new DataGridTextColumn
-                    //                                  {
-                    //                                      Width = item.Width,
-                    //                                      Header = item.Header,
-                    //                                  });
-                    //}
-                    //foreach (Product item in dg.Items)
-                    //{
-                    //    printDataGrid.Items.Add(item);
-                    //}
+                    printDataGrid.Margin = new Thickness(5,5,5,5);
+                    printDataGrid.LoadingRow += LoadingRow;
 
+                    //Style style = new Style{TargetType = typeof(DataGridColumnHeader)};
+                    //style.Setters.Add(new Setter(FrameworkElement.WidthProperty, new DataGridLength(1.0, DataGridLengthUnitType.Auto)));
+                    //style.Setters.Add(new Setter(DataGridColumnHeader.HorizontalAlignmentProperty, HorizontalAlignment.Center));
+                    //printDataGrid.ColumnHeaderStyle = style;
+                    printDataGrid.RowHeaderTemplate = dg.RowHeaderTemplate;
+                    printDataGrid.RowHeaderWidth = dg.RowHeaderWidth;
+                     
+                    printDataGrid.Columns.Add(new DataGridTextColumn
+                                                  {
+                                                      Width = new DataGridLength(0.0, DataGridLengthUnitType.SizeToCells), 
+                                                      Header = "#"
+                                                  });
+                    foreach (DataGridTextColumn item in dg.Columns)
+                    {
+                        printDataGrid.Columns.Add(new DataGridTextColumn
+                                                      {
+                                                          Width = new DataGridLength(1.0, DataGridLengthUnitType.Auto),
+                                                          Header = item.Header,
+                                                          Binding = item.Binding
+                                                      });
+                    }
+                    
+                    foreach (Product item in dg.Items)
+                    {
+                        printDataGrid.Items.Add(new Product
+                                                    {
+                                                        ID = item.ID,
+                                                        Name = item.Name,
+                                                        Amount = item.Amount,
+                                                        Cost = item.Cost,
+                                                        CurrentDiscount = item.CurrentDiscount,
+                                                        Total = item.Total
+                                                    });
+                    }
+                    
                     myPanel.Children.Add(printDataGrid);
 
                     TextBlock totalValue = new TextBlock();
                     totalValue.Text = "Итого: " + CurrentSaleDocument.Total.ToString("c");
+                    totalValue.Margin = new Thickness(5,5,5,5);
                     myPanel.Children.Add(totalValue);
+                    
+                    Grid grid = new Grid();
+                    ColumnDefinition columnDefinition = new ColumnDefinition();
+                    columnDefinition.Width = new GridLength(1.0, GridUnitType.Auto);
+                    grid.Children.Add(myPanel);
 
-                    printDlg.PrintVisual(myPanel, "Grid Printing.");
+                    grid.ColumnDefinitions.Add(columnDefinition);
+                    printDlg.PrintVisual(grid, "Grid Printing.");
                 });
             }
+        }
+
+        private void LoadingRow(object sender, DataGridRowEventArgs e)
+        {
+            e.Row.Header = (e.Row.GetIndex() + 1).ToString();   
         }
 
         private void InitializeCommands()
