@@ -231,9 +231,6 @@ namespace ColoritWPF.ViewModel.Products
                 MoveProduct moveProduct = new MoveProduct
                 {
                     ProductID = selectedProduct.ID,
-                    ToStorage = false,
-                    ToWarehouse = false,
-                    Date = DateTime.Now,
                     Amount = selectedProduct.Amount,
                     DocNumber = moveProductDocument.Id
                 };

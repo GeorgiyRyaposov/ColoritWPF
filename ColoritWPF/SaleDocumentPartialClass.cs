@@ -1,4 +1,6 @@
-﻿using System.Windows.Media;
+﻿using System;
+using System.Linq;
+using System.Windows.Media;
 
 namespace ColoritWPF
 {
@@ -65,6 +67,33 @@ namespace ColoritWPF
             if (!Confirmed && !Prepay)
                 _rowColor = Brushes.LightPink;
             OnPropertyChanged("StorageRowColor");
+        }
+
+        public void GenerateDocNumber()
+        {
+            using (ColorITEntities colorItEntities = new ColorITEntities())
+            {
+                var previousSaleDoc = (from n in colorItEntities.SaleDocument
+                                       orderby n.Id descending
+                                       select n).FirstOrDefault();
+
+                if (previousSaleDoc == null)
+                    previousSaleDoc = new SaleDocument();
+                {
+                    SaleListNumber = 0;
+                }
+
+                int num = previousSaleDoc.SaleListNumber;
+
+                if (previousSaleDoc.DateCreated.Month != DateTime.Now.Month)
+                {
+                    num = 0;
+                }
+
+                num++;
+
+                SaleListNumber = num;
+            }
         }
 
         #endregion

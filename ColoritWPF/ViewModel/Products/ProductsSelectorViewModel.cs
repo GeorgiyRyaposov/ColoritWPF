@@ -204,10 +204,51 @@ namespace ColoritWPF.ViewModel.Products
 
         private void SendProductsList()
         {
+            Client defaultClient = colorItEntities.Client.First(client => client.PrivatePerson);
+
+            SaleDocument saleDocument = new SaleDocument
+                {
+                    DateCreated = DateTime.Now,
+                    Confirmed = false,
+                    Prepay = false,
+                    Client = defaultClient,
+                    ClientId = defaultClient.ID
+                };
+            saleDocument.GenerateDocNumber();
+            colorItEntities.SaleDocument.AddObject(saleDocument);
+            
+            try
+            {
+                colorItEntities.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Не удалось сохранить документ в базу\n" + ex.Message + "\n" + ex.InnerException);
+            }
+
             foreach (Product product in SelectedProducts)
             {
-                Messenger.Default.Send<Product>(product);                
+                Sale saleProduct = new Sale
+                    {
+                        ProductID = product.ID,
+                        SaleListNumber = saleDocument.Id,
+                        Amount = product.Amount,
+                        Cost = product.Cost
+                    };
+                colorItEntities.Sale.AddObject(saleProduct);
             }
+
+            try
+            {
+                colorItEntities.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Не удалось сохранить список продаваемых продуктов в базу\n" + ex.Message + "\n" + ex.InnerException);
+            }
+
+            Messenger.Default.Send<SaleDocument>(saleDocument);                
+
             NotifyWindowToClose();
         }
 

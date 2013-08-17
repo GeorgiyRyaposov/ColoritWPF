@@ -274,22 +274,7 @@ namespace ColoritWPF.ViewModel.Products
                 productDocToUpdate.ToStorage = false;
                 productDocToUpdate.ToWarehouse = true;
             }
-
-            foreach (MoveProduct product in productDocToUpdate.MoveProduct.ToList())
-            {
-                if (Sender.Value == "Warehouse")
-                {
-                    product.ToStorage = true;
-                    product.ToWarehouse = false;
-                }
-
-                if (Sender.Value == "Storage")
-                {
-                    product.ToWarehouse = true;
-                    product.ToStorage = false;
-                }
-            }
-
+            
             try
             {
                 colorItEntities.SaveChanges();
