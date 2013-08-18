@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:ColoritWPF="clr-namespace:ColoritWPF"
+        SizeToContent="WidthAndHeight"
         Title="Подбор продуктов" Height="Auto" Width="Auto">
     <Window.Resources>
         <ColoritWPF:ProductGroupConverter x:Key="ProductGroupConverter" />

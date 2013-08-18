@@ -107,6 +107,17 @@ namespace ColoritWPF.ViewModel.Products
             }
         }
 
+        private bool _isEnabled;
+        public bool IsEnabled
+        {
+            get { return _isEnabled; }
+            set
+            {
+                _isEnabled = value;
+                base.RaisePropertyChanged("IsEnabled");
+            }
+        }
+
         private bool _confirmed;
         public bool Confirmed
         {
@@ -122,27 +133,30 @@ namespace ColoritWPF.ViewModel.Products
         public SaleDocument CurrentSaleDocument
         {
             get { return _currentSaleDocument; }
-            set { 
-                    _currentSaleDocument = value;
-                    base.RaisePropertyChanged("CurrentSaleDocument");
+            set 
+            { 
+                _currentSaleDocument = value;
+                base.RaisePropertyChanged("CurrentSaleDocument");
                     
-                    CurrentClient = _currentSaleDocument.Client;
+                CurrentClient = _currentSaleDocument.Client;
                     
-                    _confirmButtonContent = value.Confirmed ? "Разпровести" : "Провести";
-                    base.RaisePropertyChanged("ConfirmButtonContent");
+                _confirmButtonContent = value.Confirmed ? "Разпровести" : "Провести";
+                base.RaisePropertyChanged("ConfirmButtonContent");
 
-                    //При смене документа отчищаем список продуктов и перезаполняем.. да, ужас.. но я пока хз как лучше сделать
-                    //а все потому что на изменения SaleProductsList подписка слушателя, которая сбрасывается
-                    //если оставить как было: SaleProductsList = new ObservableCollection<Sale>(_currentSaleDocument.Sale.ToList());
-                    SaleProductsList.Clear();
-                    var tempCollection = new ObservableCollection<Sale>(_currentSaleDocument.Sale.ToList());
-                    foreach (Sale sale in tempCollection)
-                    {
-                        SaleProductsList.Add(sale);
-                    }
-                    
-                    base.RaisePropertyChanged("SaleProductsList");
+                //При смене документа отчищаем список продуктов и перезаполняем.. да, ужас.. но я пока хз как лучше сделать
+                //а все потому что на изменения SaleProductsList подписка слушателя, которая сбрасывается
+                //если оставить как было: SaleProductsList = new ObservableCollection<Sale>(_currentSaleDocument.Sale.ToList());
+                SaleProductsList.Clear();
+                var tempCollection = new ObservableCollection<Sale>(_currentSaleDocument.Sale.ToList());
+                foreach (Sale sale in tempCollection)
+                {
+                    SaleProductsList.Add(sale);
                 }
+                    
+                base.RaisePropertyChanged("SaleProductsList");
+
+                IsEnabled = !_currentSaleDocument.Confirmed;                
+            }
         }
 
         private string _confirmButtonContent = "Провести";
@@ -402,12 +416,14 @@ namespace ColoritWPF.ViewModel.Products
                     Confirmed = true;
 
                     SaveDocument();
+                    IsEnabled = false;
                 }
                 else
                 {
                     Prepay = true;
                     Confirmed = false;
                     UnConfirmDocument();
+                    IsEnabled = true;
                 }
             }
         }

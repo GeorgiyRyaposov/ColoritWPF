@@ -59,6 +59,18 @@ namespace ColoritWPF.ViewModel.Products
                 _confirmButtonContent = value.Confirmed ? "Разпровести" : "Провести";
                 base.RaisePropertyChanged("ConfirmButtonContent");
 
+                IsEnabled = !value.Confirmed;
+            }
+        }
+
+        private bool _isEnabled;
+        public bool IsEnabled
+        {
+            get { return _isEnabled; }
+            set
+            {
+                _isEnabled = value;
+                base.RaisePropertyChanged("IsEnabled");
             }
         }
 
@@ -314,6 +326,8 @@ namespace ColoritWPF.ViewModel.Products
             {
                 throw new Exception("Не удалось совершить перемещение\n"+ex.Message+"\n" + ex.InnerException);
             }
+
+            IsEnabled = false;
         }
 
         private void UnConfirmDocument()
@@ -345,6 +359,8 @@ namespace ColoritWPF.ViewModel.Products
             {
                 throw new Exception("Не удалось совершить перемещение\n" + ex.Message + "\n" + ex.InnerException);
             }
+
+            IsEnabled = true;
         }
 
         private void OpenSelection()

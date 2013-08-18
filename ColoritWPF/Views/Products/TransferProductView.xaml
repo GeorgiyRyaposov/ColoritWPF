@@ -151,8 +151,6 @@
                 <DataGridTextColumn Binding="{Binding Path=Sender, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Header="Склад - отправитель" Width="SizeToHeader" IsReadOnly="True" />
                 <DataGridTextColumn Binding="{Binding Path=Receiver, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Header="Склад - получатель" Width="SizeToHeader" IsReadOnly="True" />
                 <DataGridCheckBoxColumn Binding="{Binding Path=Confirmed}" Header="Проведен" CellStyle="{StaticResource StorageRowColorStyle}" />
-                <DataGridCheckBoxColumn Binding="{Binding Path=ToStorage}" IsThreeState="True" Header="ToStorage" />
-                <DataGridCheckBoxColumn Binding="{Binding Path=ToWarehouse}" IsThreeState="True" Header="ToWarehouse" />
             </DataGrid.Columns>
         </DataGrid>
     </Grid>
