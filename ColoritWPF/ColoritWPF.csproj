@@ -159,6 +159,8 @@
     <Compile Include="MoveProductPartialClass.cs" />
     <Compile Include="PaintsPartialClass.cs" />
     <Compile Include="ProductsPartialClass.cs" />
+    <Compile Include="PurchaseDocumentPartialClass.cs" />
+    <Compile Include="PurchasePartialClass.cs" />
     <Compile Include="SaleDocumentPartialClass.cs" />
     <Compile Include="SalePartialClass.cs" />
     <Compile Include="ViewModel\AddClientViewModel.cs" />
@@ -169,6 +171,8 @@
     <Compile Include="ViewModel\Products\EditProductsViewModel.cs" />
     <Compile Include="ViewModel\Products\ProductsSelectorViewModel.cs" />
     <Compile Include="ViewModel\Products\ProductsViewModel.cs" />
+    <Compile Include="ViewModel\Products\PurchaseProductsSelectorViewModel.cs" />
+    <Compile Include="ViewModel\Products\PurchaseProductViewModel.cs" />
     <Compile Include="ViewModel\Products\TransferProductsSelectorViewModel.cs" />
     <Compile Include="ViewModel\Products\TransferProductViewModel.cs" />
     <Compile Include="Views\AddNewDensityItem.xaml.cs">
@@ -211,6 +215,12 @@
     </Compile>
     <Compile Include="Views\Products\ProductsSelectorView.xaml.cs">
       <DependentUpon>ProductsSelectorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Products\PurchaseProductSelectorView.xaml.cs">
+      <DependentUpon>PurchaseProductSelectorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Products\PurchaseProductView.xaml.cs">
+      <DependentUpon>PurchaseProductView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Products\TransferProductsSelector.xaml.cs">
       <DependentUpon>TransferProductsSelector.xaml</DependentUpon>
@@ -301,6 +311,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Products\ProductsSelectorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Products\PurchaseProductSelectorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Products\PurchaseProductView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -421,12 +439,12 @@
   <ItemGroup>
     <PublishFile Include="ColoritWPF.pdb">
       <Visible>False</Visible>
-      <PublishState>Exclude</PublishState>
-      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
   </ItemGroup>
