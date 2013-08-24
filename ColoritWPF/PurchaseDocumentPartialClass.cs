@@ -4,13 +4,13 @@ using System.Windows.Media;
 
 namespace ColoritWPF
 {
-    public partial class SaleDocument
+    partial class PurchaseDocument
     {
         #region Properties
-        
-        public string DocumentNumber
+
+        public string DisplayDocumentNumber
         {
-            get { return SaleListNumber.ToString("00000"); }
+            get { return DocumentNumber.ToString("00000"); }
         }
 
         partial void OnPrepayChanged()
@@ -22,18 +22,7 @@ namespace ColoritWPF
         {
             UpdateBrush();
         }
-
-        private double _discount;
-        public double Discount
-        {
-            get { return _discount; }
-            set
-            {
-                _discount = value;
-                OnPropertyChanged("Discount");
-            }
-        }
-
+        
         private Brush _rowColor = Brushes.White;
         public Brush StorageRowColor
         {
@@ -73,26 +62,26 @@ namespace ColoritWPF
         {
             using (ColorITEntities colorItEntities = new ColorITEntities())
             {
-                var previousSaleDoc = (from n in colorItEntities.SaleDocument
+                var previousPurchDoc = (from n in colorItEntities.PurchaseDocument
                                        orderby n.Id descending
                                        select n).FirstOrDefault();
 
-                if (previousSaleDoc == null)
-                    previousSaleDoc = new SaleDocument();
+                if (previousPurchDoc == null)
+                    previousPurchDoc = new PurchaseDocument();
                 
-                SaleListNumber = 0;
+                DocumentNumber = 0;
                 
 
-                int num = previousSaleDoc.SaleListNumber;
+                int num = previousPurchDoc.DocumentNumber;
 
-                if (previousSaleDoc.DateCreated.Month != DateTime.Now.Month)
+                if (previousPurchDoc.Date.Month != DateTime.Now.Month)
                 {
                     num = 0;
                 }
 
                 num++;
 
-                SaleListNumber = num;
+                DocumentNumber = num;
             }
         }
 

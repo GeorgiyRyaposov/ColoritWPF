@@ -33,6 +33,7 @@ using System.Runtime.Serialization;
 [assembly: EdmRelationshipAttribute("ColorITModel", "FK_MoveProductDocument_MoveProduct", "MoveProductDocument", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(ColoritWPF.MoveProductDocument), "MoveProduct", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ColoritWPF.MoveProduct), true)]
 [assembly: EdmRelationshipAttribute("ColorITModel", "FK_Sale_SaleDocument", "SaleDocument", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(ColoritWPF.SaleDocument), "Sale", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ColoritWPF.Sale), true)]
 [assembly: EdmRelationshipAttribute("ColorITModel", "FK_Purchase_PurchaseDocument", "PurchaseDocument", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(ColoritWPF.PurchaseDocument), "Purchase", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ColoritWPF.Purchase), true)]
+[assembly: EdmRelationshipAttribute("ColorITModel", "FK_PurchaseDocument_Client", "Client", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(ColoritWPF.Client), "PurchaseDocument", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ColoritWPF.PurchaseDocument), true)]
 
 #endregion
 
@@ -920,6 +921,28 @@ namespace ColoritWPF
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<SaleDocument>("ColorITModel.FK_Client_SaleDocument", "SaleDocument", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("ColorITModel", "FK_PurchaseDocument_Client", "PurchaseDocument")]
+        public EntityCollection<PurchaseDocument> PurchaseDocument
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<PurchaseDocument>("ColorITModel.FK_PurchaseDocument_Client", "PurchaseDocument");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<PurchaseDocument>("ColorITModel.FK_PurchaseDocument_Client", "PurchaseDocument", value);
                 }
             }
         }
@@ -3550,7 +3573,8 @@ namespace ColoritWPF
         /// <param name="toStorage">Initial value of the ToStorage property.</param>
         /// <param name="cost">Initial value of the Cost property.</param>
         /// <param name="listNumber">Initial value of the ListNumber property.</param>
-        public static Purchase CreatePurchase(global::System.Int64 id, global::System.Int64 productID, global::System.Decimal selfCost, global::System.Double toWarehouse, global::System.Double toStorage, global::System.Decimal cost, global::System.Int64 listNumber)
+        /// <param name="amount">Initial value of the Amount property.</param>
+        public static Purchase CreatePurchase(global::System.Int64 id, global::System.Int64 productID, global::System.Decimal selfCost, global::System.Double toWarehouse, global::System.Double toStorage, global::System.Decimal cost, global::System.Int64 listNumber, global::System.Int32 amount)
         {
             Purchase purchase = new Purchase();
             purchase.ID = id;
@@ -3560,6 +3584,7 @@ namespace ColoritWPF
             purchase.ToStorage = toStorage;
             purchase.Cost = cost;
             purchase.ListNumber = listNumber;
+            purchase.Amount = amount;
             return purchase;
         }
 
@@ -3760,6 +3785,30 @@ namespace ColoritWPF
         private global::System.Int64 _ListNumber;
         partial void OnListNumberChanging(global::System.Int64 value);
         partial void OnListNumberChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 Amount
+        {
+            get
+            {
+                return _Amount;
+            }
+            set
+            {
+                OnAmountChanging(value);
+                ReportPropertyChanging("Amount");
+                _Amount = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Amount");
+                OnAmountChanged();
+            }
+        }
+        private global::System.Int32 _Amount;
+        partial void OnAmountChanging(global::System.Int32 value);
+        partial void OnAmountChanged();
 
         #endregion
     
@@ -3863,7 +3912,10 @@ namespace ColoritWPF
         /// <param name="total">Initial value of the Total property.</param>
         /// <param name="cleanTotal">Initial value of the CleanTotal property.</param>
         /// <param name="contractor">Initial value of the Contractor property.</param>
-        public static PurchaseDocument CreatePurchaseDocument(global::System.Int64 id, global::System.Int32 documentNumber, global::System.DateTime date, global::System.Decimal total, global::System.Decimal cleanTotal, global::System.String contractor)
+        /// <param name="clientId">Initial value of the ClientId property.</param>
+        /// <param name="confirmed">Initial value of the Confirmed property.</param>
+        /// <param name="prepay">Initial value of the Prepay property.</param>
+        public static PurchaseDocument CreatePurchaseDocument(global::System.Int64 id, global::System.Int32 documentNumber, global::System.DateTime date, global::System.Decimal total, global::System.Decimal cleanTotal, global::System.String contractor, global::System.Int32 clientId, global::System.Boolean confirmed, global::System.Boolean prepay)
         {
             PurchaseDocument purchaseDocument = new PurchaseDocument();
             purchaseDocument.Id = id;
@@ -3872,6 +3924,9 @@ namespace ColoritWPF
             purchaseDocument.Total = total;
             purchaseDocument.CleanTotal = cleanTotal;
             purchaseDocument.Contractor = contractor;
+            purchaseDocument.ClientId = clientId;
+            purchaseDocument.Confirmed = confirmed;
+            purchaseDocument.Prepay = prepay;
             return purchaseDocument;
         }
 
@@ -4024,6 +4079,102 @@ namespace ColoritWPF
         private global::System.String _Contractor;
         partial void OnContractorChanging(global::System.String value);
         partial void OnContractorChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 ClientId
+        {
+            get
+            {
+                return _ClientId;
+            }
+            set
+            {
+                OnClientIdChanging(value);
+                ReportPropertyChanging("ClientId");
+                _ClientId = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("ClientId");
+                OnClientIdChanged();
+            }
+        }
+        private global::System.Int32 _ClientId;
+        partial void OnClientIdChanging(global::System.Int32 value);
+        partial void OnClientIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean Confirmed
+        {
+            get
+            {
+                return _Confirmed;
+            }
+            set
+            {
+                OnConfirmedChanging(value);
+                ReportPropertyChanging("Confirmed");
+                _Confirmed = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Confirmed");
+                OnConfirmedChanged();
+            }
+        }
+        private global::System.Boolean _Confirmed;
+        partial void OnConfirmedChanging(global::System.Boolean value);
+        partial void OnConfirmedChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean Prepay
+        {
+            get
+            {
+                return _Prepay;
+            }
+            set
+            {
+                OnPrepayChanging(value);
+                ReportPropertyChanging("Prepay");
+                _Prepay = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Prepay");
+                OnPrepayChanged();
+            }
+        }
+        private global::System.Boolean _Prepay;
+        partial void OnPrepayChanging(global::System.Boolean value);
+        partial void OnPrepayChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String Comment
+        {
+            get
+            {
+                return _Comment;
+            }
+            set
+            {
+                OnCommentChanging(value);
+                ReportPropertyChanging("Comment");
+                _Comment = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("Comment");
+                OnCommentChanged();
+            }
+        }
+        private global::System.String _Comment;
+        partial void OnCommentChanging(global::System.String value);
+        partial void OnCommentChanged();
 
         #endregion
     
@@ -4047,6 +4198,44 @@ namespace ColoritWPF
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Purchase>("ColorITModel.FK_Purchase_PurchaseDocument", "Purchase", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("ColorITModel", "FK_PurchaseDocument_Client", "Client")]
+        public Client Client
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Client>("ColorITModel.FK_PurchaseDocument_Client", "Client").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Client>("ColorITModel.FK_PurchaseDocument_Client", "Client").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Client> ClientReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Client>("ColorITModel.FK_PurchaseDocument_Client", "Client");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Client>("ColorITModel.FK_PurchaseDocument_Client", "Client", value);
                 }
             }
         }

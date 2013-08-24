@@ -386,6 +386,7 @@
             <MenuItem Header="Продукты">
                 <MenuItem Header="Добавить..." Command="{Binding AddNewProductCommand}" />
                 <MenuItem Header="Редактировать..." Command="{Binding EditProductCommand}" />
+                <MenuItem Header="Приход..." Command="{Binding PurchaseProductCommand}" />
             </MenuItem>
             <MenuItem Header="Модели авто">
                     <MenuItem Header="Добавить" Command="{Binding AddNewCarModelCommand}" />

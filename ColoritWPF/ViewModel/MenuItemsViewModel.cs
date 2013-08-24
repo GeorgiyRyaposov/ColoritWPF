@@ -17,6 +17,7 @@ namespace ColoritWPF.ViewModel
             AddNewDensityCommand = new RelayCommand(AddNewDensityCmd);
             AddNewProductCommand = new RelayCommand(AddNewProductCmd);
             EditProductCommand = new RelayCommand(EditProductCmd);
+            PurchaseProductCommand = new RelayCommand(PurchaseProductCmd);
         }
 
         #region fields
@@ -41,7 +42,15 @@ namespace ColoritWPF.ViewModel
 
         public RelayCommand EditProductCommand { get; private set; }
 
+        public RelayCommand PurchaseProductCommand { get; private set; }
+
         #endregion
+
+        private void PurchaseProductCmd()
+        {
+            PurchaseProductView purchaseProductView = new PurchaseProductView();
+            purchaseProductView.ShowDialog();
+        }
 
         private void EditProductCmd()
         {

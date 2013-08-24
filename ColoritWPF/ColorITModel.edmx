@@ -60,6 +60,10 @@
             <End Role="PurchaseDocument" EntitySet="PurchaseDocument" />
             <End Role="Purchase" EntitySet="Purchase" />
           </AssociationSet>
+          <AssociationSet Name="FK_PurchaseDocument_Client" Association="ColorITModel.Store.FK_PurchaseDocument_Client">
+            <End Role="Client" EntitySet="Client" />
+            <End Role="PurchaseDocument" EntitySet="PurchaseDocument" />
+          </AssociationSet>
           <AssociationSet Name="FK_Return_Product" Association="ColorITModel.Store.FK_Return_Product">
             <End Role="Product" EntitySet="Product" />
             <End Role="Return" EntitySet="Return" />
@@ -236,6 +240,7 @@
           <Property Name="Date" Type="datetime" />
           <Property Name="Cost" Type="money" Nullable="false" />
           <Property Name="ListNumber" Type="bigint" Nullable="false" />
+          <Property Name="Amount" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="PurchaseDocument">
           <Key>
@@ -247,6 +252,10 @@
           <Property Name="Total" Type="money" Nullable="false" />
           <Property Name="CleanTotal" Type="money" Nullable="false" />
           <Property Name="Contractor" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="ClientId" Type="int" Nullable="false" />
+          <Property Name="Confirmed" Type="bit" Nullable="false" />
+          <Property Name="Prepay" Type="bit" Nullable="false" />
+          <Property Name="Comment" Type="nvarchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="Return">
           <Key>
@@ -397,6 +406,18 @@
             </Principal>
             <Dependent Role="Purchase">
               <PropertyRef Name="ListNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PurchaseDocument_Client">
+          <End Role="Client" Type="ColorITModel.Store.Client" Multiplicity="1" />
+          <End Role="PurchaseDocument" Type="ColorITModel.Store.PurchaseDocument" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PurchaseDocument">
+              <PropertyRef Name="ClientId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -555,6 +576,10 @@
             <End Role="PurchaseDocument" EntitySet="PurchaseDocument" />
             <End Role="Purchase" EntitySet="Purchase" />
           </AssociationSet>
+          <AssociationSet Name="FK_PurchaseDocument_Client" Association="ColorITModel.FK_PurchaseDocument_Client">
+            <End Role="Client" EntitySet="Client" />
+            <End Role="PurchaseDocument" EntitySet="PurchaseDocument" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Client">
           <Key>
@@ -571,6 +596,7 @@
           <NavigationProperty Name="Paints" Relationship="ColorITModel.PK_Paints_Clients" FromRole="Client" ToRole="Paints" />
           <Property Type="Boolean" Name="PrivatePerson" Nullable="false" DefaultValue="False" />
           <NavigationProperty Name="SaleDocument" Relationship="ColorITModel.FK_Client_SaleDocument" FromRole="Client" ToRole="SaleDocument" />
+          <NavigationProperty Name="PurchaseDocument" Relationship="ColorITModel.FK_PurchaseDocument_Client" FromRole="Client" ToRole="PurchaseDocument" />
         </EntityType>
         <EntityType Name="Deposit">
           <Key>
@@ -876,6 +902,7 @@
           <NavigationProperty Name="Product" Relationship="ColorITModel.FK_Purchase_Product" FromRole="Purchase" ToRole="Product" />
           <Property Type="Int64" Name="ListNumber" Nullable="false" />
           <NavigationProperty Name="PurchaseDocument" Relationship="ColorITModel.FK_Purchase_PurchaseDocument" FromRole="Purchase" ToRole="PurchaseDocument" />
+          <Property Type="Int32" Name="Amount" Nullable="false" />
         </EntityType>
         <Association Name="FK_Purchase_Product">
           <End Type="ColorITModel.Product" Role="Product" Multiplicity="1" />
@@ -960,6 +987,11 @@
           <Property Type="Decimal" Name="CleanTotal" Nullable="false" Precision="19" Scale="4" />
           <Property Type="String" Name="Contractor" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Purchase" Relationship="ColorITModel.FK_Purchase_PurchaseDocument" FromRole="PurchaseDocument" ToRole="Purchase" />
+          <Property Type="Int32" Name="ClientId" Nullable="false" />
+          <NavigationProperty Name="Client" Relationship="ColorITModel.FK_PurchaseDocument_Client" FromRole="PurchaseDocument" ToRole="Client" />
+          <Property Type="Boolean" Name="Confirmed" Nullable="false" />
+          <Property Type="Boolean" Name="Prepay" Nullable="false" />
+          <Property Type="String" Name="Comment" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_Purchase_PurchaseDocument">
           <End Type="ColorITModel.PurchaseDocument" Role="PurchaseDocument" Multiplicity="1" />
@@ -970,6 +1002,18 @@
             </Principal>
             <Dependent Role="Purchase">
               <PropertyRef Name="ListNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PurchaseDocument_Client">
+          <End Type="ColorITModel.Client" Role="Client" Multiplicity="1" />
+          <End Type="ColorITModel.PurchaseDocument" Role="PurchaseDocument" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PurchaseDocument">
+              <PropertyRef Name="ClientId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1134,6 +1178,7 @@
           <EntitySetMapping Name="Purchase">
             <EntityTypeMapping TypeName="ColorITModel.Purchase">
               <MappingFragment StoreEntitySet="Purchase">
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
                 <ScalarProperty Name="ListNumber" ColumnName="ListNumber" />
                 <ScalarProperty Name="Cost" ColumnName="Cost" />
                 <ScalarProperty Name="Date" ColumnName="Date" />
@@ -1171,6 +1216,10 @@
           <EntitySetMapping Name="PurchaseDocument">
             <EntityTypeMapping TypeName="ColorITModel.PurchaseDocument">
               <MappingFragment StoreEntitySet="PurchaseDocument">
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="Prepay" ColumnName="Prepay" />
+                <ScalarProperty Name="Confirmed" ColumnName="Confirmed" />
+                <ScalarProperty Name="ClientId" ColumnName="ClientId" />
                 <ScalarProperty Name="Contractor" ColumnName="Contractor" />
                 <ScalarProperty Name="CleanTotal" ColumnName="CleanTotal" />
                 <ScalarProperty Name="Total" ColumnName="Total" />
@@ -1201,19 +1250,19 @@
     <!-- Diagram content (shape and connector positions) -->
     <Diagrams>
       <Diagram Name="ColorITModel">
-        <EntityTypeShape EntityType="ColorITModel.Client" Width="1.5" PointX="6" PointY="0.75" Height="2.7427376302083339" IsExpanded="true" />
-        <EntityTypeShape EntityType="ColorITModel.Deposit" Width="1.5" PointX="7.875" PointY="4.125" Height="1.7566536458333335" IsExpanded="true" />
+        <EntityTypeShape EntityType="ColorITModel.Client" Width="1.5" PointX="12.5" PointY="7" Height="2.9070849609375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ColorITModel.Deposit" Width="1.5" PointX="15.375" PointY="8.875" Height="1.7566536458333335" IsExpanded="true" />
         <EntityTypeShape EntityType="ColorITModel.Group" Width="1.5" PointX="0.625" PointY="7.375" Height="1.4279589843749996" IsExpanded="true" />
-        <EntityTypeShape EntityType="ColorITModel.Loan" Width="1.5" PointX="7.875" PointY="1.5" Height="1.7566536458333317" IsExpanded="true" />
+        <EntityTypeShape EntityType="ColorITModel.Loan" Width="1.5" PointX="15.375" PointY="6.875" Height="1.7566536458333317" IsExpanded="true" />
         <EntityTypeShape EntityType="ColorITModel.Product" Width="1.5" PointX="3" PointY="6.625" Height="3.5644742838541656" IsExpanded="true" />
         <EntityTypeShape EntityType="ColorITModel.Return" Width="1.5" PointX="2.875" PointY="11.5" Height="1.7566536458333317" IsExpanded="true" />
         <AssociationConnector Association="ColorITModel.FK_Client_Deposit" ManuallyRouted="false">
-          <ConnectorPoint PointX="7.5" PointY="3.4927376302083339" />
-          <ConnectorPoint PointX="7.875" PointY="4.125" />
+          <ConnectorPoint PointX="14" PointY="9.39104248046875" />
+          <ConnectorPoint PointX="15.375" PointY="9.39104248046875" />
         </AssociationConnector>
         <AssociationConnector Association="ColorITModel.FK_Client_Loan" ManuallyRouted="false">
-          <ConnectorPoint PointX="7.5" PointY="2.3783268229166659" />
-          <ConnectorPoint PointX="7.875" PointY="2.3783268229166659" />
+          <ConnectorPoint PointX="14" PointY="7.8158268229166659" />
+          <ConnectorPoint PointX="15.375" PointY="7.8158268229166659" />
         </AssociationConnector>
         <AssociationConnector Association="ColorITModel.FK_Group_Product" ManuallyRouted="false">
           <ConnectorPoint PointX="2.125" PointY="8.0889794921875" />
@@ -1231,8 +1280,8 @@
           <ConnectorPoint PointX="12.5" PointY="2.2139794921875" />
         </AssociationConnector>
         <AssociationConnector Association="ColorITModel.PK_Paints_Clients" >
-          <ConnectorPoint PointX="7.5" PointY="1.21875" />
-          <ConnectorPoint PointX="12.5" PointY="1.21875" />
+          <ConnectorPoint PointX="13.2812525" PointY="7" />
+          <ConnectorPoint PointX="13.2812525" PointY="5.2218636067708326" />
         </AssociationConnector>
         <AssociationConnector Association="ColorITModel.PK_Paints_PaintName" >
           <ConnectorPoint PointX="11.875" PointY="4.1734318033854159" />
@@ -1247,9 +1296,8 @@
         </AssociationConnector>
         <EntityTypeShape EntityType="ColorITModel.SaleDocument" Width="1.5" PointX="8.25" PointY="7.625" Height="2.5783902994791674" />
         <AssociationConnector Association="ColorITModel.FK_Client_SaleDocument" >
-          <ConnectorPoint PointX="7.0000005000000005" PointY="3.4927376302083339" />
-          <ConnectorPoint PointX="7.0000005000000005" PointY="7.91860749897204" />
-          <ConnectorPoint PointX="8.25" PointY="7.91860749897204" />
+          <ConnectorPoint PointX="12.5" PointY="8.76604248046875" />
+          <ConnectorPoint PointX="9.75" PointY="8.76604248046875" />
         </AssociationConnector>
         <EntityTypeShape EntityType="ColorITModel.Sale" Width="1.5" PointX="5" PointY="6.875" Height="2.0853483072916656" />
         <AssociationConnector Association="ColorITModel.FK_Sale_Product" >
@@ -1281,6 +1329,11 @@
         <AssociationConnector Association="ColorITModel.FK_Purchase_PurchaseDocument" >
           <ConnectorPoint PointX="5.875" PointY="14.5" />
           <ConnectorPoint PointX="5.875" PointY="14.078390299479167" />
+        </AssociationConnector>
+        <AssociationConnector Association="ColorITModel.FK_PurchaseDocument_Client" >
+          <ConnectorPoint PointX="13.25" PointY="9.9070849609375" />
+          <ConnectorPoint PointX="13.25" PointY="15.707021484375" />
+          <ConnectorPoint PointX="6.625" PointY="15.707021484375" />
         </AssociationConnector>
         </Diagram>
     </Diagrams>

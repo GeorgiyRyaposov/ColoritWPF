@@ -183,6 +183,22 @@ namespace ColoritWPF.ViewModel
                 return new EditProductsViewModel();
             }
         }
+
+        public PurchaseProductViewModel PurchaseProductViewModelPage
+        {
+            get
+            {
+                return new PurchaseProductViewModel();
+            }
+        }
+
+        public PurchaseProductsSelectorViewModel PurchaseProductsSelectorViewModelPage
+        {
+            get
+            {
+                return new PurchaseProductsSelectorViewModel();
+            }
+        }
         public static void Cleanup()
         {
             // TODO Clear the ViewModels

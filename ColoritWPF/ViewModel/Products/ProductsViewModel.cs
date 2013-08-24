@@ -440,7 +440,7 @@ namespace ColoritWPF.ViewModel.Products
             CurrentSaleDocument.Prepay = Prepay;
             CurrentSaleDocument.Confirmed = Confirmed;
             
-            if (IncludeClientBalanceToTotal && Confirmed)
+            if (IncludeClientBalanceToTotal && Confirmed && !CurrentClient.PrivatePerson)
             {
                 Client client = colorItEntities.Client.First(cl => cl.ID == CurrentClient.ID);
                 CurrentSaleDocument.ClientBalancePartInTotal = client.Balance;

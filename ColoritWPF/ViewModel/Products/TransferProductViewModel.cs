@@ -30,8 +30,14 @@ namespace ColoritWPF.ViewModel.Products
                 GetData();
                 InitializeCommands();
                 //Messenger.Reset();
-                Messenger.Default.Register<MoveProductDocument>(this, moveProductDoc => TransferDocumentsList.Add(moveProductDoc));
+                Messenger.Default.Register<MoveProductDocument>(this, AddToTransferDocuments);
             }
+        }
+
+        private void AddToTransferDocuments(MoveProductDocument moveProductDocument)
+        {
+            TransferDocumentsList.Add(moveProductDocument);
+            CurrentTransferDocument = moveProductDocument;
         }
 
         #region Properties
@@ -147,7 +153,7 @@ namespace ColoritWPF.ViewModel.Products
                 Sender = _storage;
                 Receiver = _warehouse;
             }
-            else
+            else if (_currentTransferDocument.ToWarehouse == _currentTransferDocument.ToStorage)
             {
                 Sender = _none;
                 Receiver = _none;
@@ -207,13 +213,7 @@ namespace ColoritWPF.ViewModel.Products
             get;
             private set;
         }
-
-        public RelayCommand SendProductsListCommand
-        {
-            get;
-            private set;
-        }
-
+        
         public RelayCommand OpenSelectionCommand
         {
             get;
@@ -236,17 +236,104 @@ namespace ColoritWPF.ViewModel.Products
                 return new RelayCommand<Visual>(v =>
                 {
                     PrintDialog printDlg = new PrintDialog();
-                    printDlg.PrintVisual(v, "Grid Printing.");
+
+                    if (printDlg.ShowDialog() != true)
+                    { return; }
+
+                    StackPanel myPanel = new StackPanel();
+                    myPanel.Margin = new Thickness(5, 5, 5, 5);
+
+                    TextBlock myBlock = new TextBlock
+                        {
+                            Text = "Перемещение № " + CurrentTransferDocument.DisplayDocumentNumber +
+                                   " от " + CurrentTransferDocument.Date,
+                            TextAlignment = TextAlignment.Left,
+                            Margin = new Thickness(5, 5, 5, 5)
+                        };
+                    myPanel.Children.Add(myBlock);
+
+                    
+                    TextBlock senderTxtBx = new TextBlock
+                        {
+                            Text = "Склад отправитель: " + CurrentTransferDocument.Sender,
+                            TextAlignment = TextAlignment.Left,
+                            Margin = new Thickness(5, 5, 5, 5)
+                        };
+                    myPanel.Children.Add(senderTxtBx);
+
+                    TextBlock receiverTxtBx = new TextBlock
+                    {
+                        Text = "Склад получатель: " + CurrentTransferDocument.Receiver,
+                        TextAlignment = TextAlignment.Left,
+                        Margin = new Thickness(5, 5, 5, 5)
+                    };
+                    myPanel.Children.Add(receiverTxtBx);
+
+                    TextBlock commentaryTxtBx = new TextBlock
+                    {
+                        Text = "Комментарии: " + CurrentTransferDocument.Comment,
+                        TextAlignment = TextAlignment.Left,
+                        Margin = new Thickness(5, 5, 5, 5)
+                    };
+                    myPanel.Children.Add(commentaryTxtBx);
+
+                    DataGrid dg = v as DataGrid;
+                    DataGrid printDataGrid = new DataGrid {Margin = new Thickness(5, 5, 5, 5)};
+                    printDataGrid.LoadingRow += LoadingRow;
+
+                    printDataGrid.RowHeaderTemplate = dg.RowHeaderTemplate;
+                    printDataGrid.RowHeaderWidth = dg.RowHeaderWidth;
+
+                    foreach (DataGridTextColumn item in dg.Columns)
+                    {
+                        printDataGrid.Columns.Add(new DataGridTextColumn
+                        {
+                            Width = new DataGridLength(1.0, DataGridLengthUnitType.Auto),
+                            Header = item.Header,
+                            Binding = item.Binding
+                        });
+                    }
+
+                    foreach (MoveProduct item in dg.Items)
+                    {
+                        printDataGrid.Items.Add(new MoveProduct
+                        {
+                            ID = item.ID,
+                            ProductID = item.ProductID,
+                            Amount = item.Amount,
+                            DocNumber = item.DocNumber,
+                            Product = item.Product
+                        });
+                    }
+
+                    myPanel.Children.Add(printDataGrid);
+                    
+                    Grid grid = new Grid();
+                    ColumnDefinition columnDefinition = new ColumnDefinition();
+                    columnDefinition.Width = new GridLength(1.0, GridUnitType.Auto);
+                    grid.Children.Add(myPanel);
+
+                    grid.ColumnDefinitions.Add(columnDefinition);
+                    printDlg.PrintVisual(grid, "Перемещение");
                 });
             }
+        }
+
+        private void LoadingRow(object sender, DataGridRowEventArgs e)
+        {
+            e.Row.Header = (e.Row.GetIndex() + 1).ToString();
         }
         
         private void InitializeCommands()
         {
             TransferSelectedProductCommand = new RelayCommand(ApplyDocument, TransferSelectedCanExecute);
-            SendProductsListCommand = new RelayCommand(SendProductsList);
             OpenSelectionCommand = new RelayCommand(OpenSelection);
             SaveCommand = new RelayCommand(SaveCmd);
+        }
+
+        private void SaveCmd()
+        {
+            Save(false); // Сохранить не проведенным
         }
 
         private void ApplyDocument()
@@ -271,20 +358,27 @@ namespace ColoritWPF.ViewModel.Products
             }
         }
 
-        private void SaveCmd()
+        private void Save(bool isConfirmed)
         {
             var productDocToUpdate = colorItEntities.MoveProductDocument.First(item => item.Id == CurrentTransferDocument.Id);
+            productDocToUpdate.Comment = CurrentTransferDocument.Comment;
+            productDocToUpdate.Confirmed = isConfirmed;
+            CurrentTransferDocument.Confirmed = isConfirmed;
 
             if (Sender.Value == "Warehouse")
             {
                 productDocToUpdate.ToStorage = true;
                 productDocToUpdate.ToWarehouse = false;
+                CurrentTransferDocument.ToStorage = true;
+                CurrentTransferDocument.ToWarehouse = false;
             }
 
             if (Sender.Value == "Storage")
             {
                 productDocToUpdate.ToStorage = false;
                 productDocToUpdate.ToWarehouse = true;
+                CurrentTransferDocument.ToStorage = false;
+                CurrentTransferDocument.ToWarehouse = true;
             }
             
             try
@@ -299,9 +393,7 @@ namespace ColoritWPF.ViewModel.Products
 
         private void ConfirmDocument()
         {
-            var productDocToUpdate = colorItEntities.MoveProductDocument.First(item => item.Id == CurrentTransferDocument.Id);
-
-            productDocToUpdate.Confirmed = true;
+            Save(true);
 
             foreach (MoveProduct moveProduct in ProductsList)
             {
@@ -332,9 +424,7 @@ namespace ColoritWPF.ViewModel.Products
 
         private void UnConfirmDocument()
         {
-            var productDocToUpdate = colorItEntities.MoveProductDocument.First(item => item.Id == CurrentTransferDocument.Id);
-
-            productDocToUpdate.Confirmed = false;
+            Save(false);
 
             foreach (MoveProduct product in ProductsList)
             {
@@ -377,15 +467,6 @@ namespace ColoritWPF.ViewModel.Products
             return ProductsList != null;
         }
         
-        private void SendProductsList()
-        {
-            //foreach (Product product in SelectedProducts)
-            //{
-            //    Messenger.Default.Send<Product>(product);
-            //}
-            //NotifyWindowToClose();
-        }
-
         #endregion
 
         #region IDataErrorInfo Members

@@ -1,0 +1,26 @@
+﻿using System.Windows;
+using System.Windows.Controls;
+
+namespace ColoritWPF.Views.Products
+{
+    /// <summary>
+    /// Interaction logic for PurchaseProductSelectorView.xaml
+    /// </summary>
+    public partial class PurchaseProductSelectorView : Window
+    {
+        public PurchaseProductSelectorView()
+        {
+            InitializeComponent();
+        }
+
+        private void dg_LoadingRow(object sender, DataGridRowEventArgs e)
+        {
+            e.Row.Header = (e.Row.GetIndex() + 1).ToString();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+    }
+}
