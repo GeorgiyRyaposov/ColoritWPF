@@ -303,35 +303,18 @@ namespace ColoritWPF.ViewModel.Products
                     myPanel.Children.Add(myBlock);
 
                     TextBlock clientBalance = new TextBlock();
-                    clientBalance.Text = "Клиент: \t" + CurrentSaleDocument.Client.Name +
-                                                                 " Баланс клиента: " + CurrentSaleDocument.Client.Balance.ToString("c");
+                    clientBalance.Text = "Клиент: \t" + CurrentSaleDocument.Client.Name;
                     clientBalance.Margin = new Thickness(5, 5, 5, 5);
                     myPanel.Children.Add(clientBalance);
-
-                    CheckBox checkBox = new CheckBox();
-                    checkBox.Content = "Включить баланс в оплату";
-                    checkBox.IsChecked = IncludeClientBalanceToTotal;
-                    checkBox.Margin = new Thickness(5,5,5,5);
-                    //string inclInTotalBalance = IncludeClientBalanceToTotal ? "Включить баланс в оплату: да" : "Включить баланс в оплату: нет";
-                    myPanel.Children.Add(checkBox);
 
                     DataGrid dg = v as DataGrid;
                     DataGrid printDataGrid = new DataGrid();
                     printDataGrid.Margin = new Thickness(5,5,5,5);
                     printDataGrid.LoadingRow += LoadingRow;
 
-                    //Style style = new Style{TargetType = typeof(DataGridColumnHeader)};
-                    //style.Setters.Add(new Setter(FrameworkElement.WidthProperty, new DataGridLength(1.0, DataGridLengthUnitType.Auto)));
-                    //style.Setters.Add(new Setter(DataGridColumnHeader.HorizontalAlignmentProperty, HorizontalAlignment.Center));
-                    //printDataGrid.ColumnHeaderStyle = style;
                     printDataGrid.RowHeaderTemplate = dg.RowHeaderTemplate;
                     printDataGrid.RowHeaderWidth = dg.RowHeaderWidth;
                      
-                    printDataGrid.Columns.Add(new DataGridTextColumn
-                                                  {
-                                                      Width = new DataGridLength(0.0, DataGridLengthUnitType.SizeToCells), 
-                                                      Header = "#"
-                                                  });
                     foreach (DataGridTextColumn item in dg.Columns)
                     {
                         printDataGrid.Columns.Add(new DataGridTextColumn
@@ -342,12 +325,13 @@ namespace ColoritWPF.ViewModel.Products
                                                       });
                     }
                     
-                    foreach (Product item in dg.Items)
+                    foreach (Sale item in dg.Items)
                     {
-                        printDataGrid.Items.Add(new Product
+                        printDataGrid.Items.Add(new Sale
                                                     {
                                                         ID = item.ID,
-                                                        Name = item.Name,
+                                                        Product = item.Product,
+                                                        ProductID = item.ProductID,
                                                         Amount = item.Amount,
                                                         Cost = item.Cost,
                                                         CurrentDiscount = item.CurrentDiscount,
