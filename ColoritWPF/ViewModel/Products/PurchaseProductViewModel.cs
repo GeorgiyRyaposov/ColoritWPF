@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -6,13 +7,15 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using ColoritWPF.Models;
+using ColoritWPF.Views.Products;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
 
 namespace ColoritWPF.ViewModel.Products
 {
-    public class PurchaseProductViewModel : ViewModelBase
+    public class PurchaseProductViewModel : ViewModelBase, IDataErrorInfo
     {
         public PurchaseProductViewModel()
         {
@@ -28,19 +31,18 @@ namespace ColoritWPF.ViewModel.Products
                 InitializeCommands();
 
 
-                PurchaseDocuments.CollectionChanged += CollectionChanged;
+                PurchaseProductsList.CollectionChanged += CollectionChanged;
                 Messenger.Default.Register<PurchaseDocument>(this, UpdateSelectedDocument);
             }
         }
 
         #region Properties
         private ColorITEntities colorItEntities;
-        private bool _prepay, _confirm;
-
 
         public ObservableCollection<Client> Clients { get; set; }
         public ObservableCollection<Purchase> PurchaseProductsList { get; set; }
         public ObservableCollection<PurchaseDocument> PurchaseDocuments { get; set; }
+        public ObservableCollection<StorageModel> StorageList { get; set; }
 
         private PurchaseDocument _currentPurchaseDocument;
         public PurchaseDocument CurrentPurchaseDocument
@@ -67,6 +69,8 @@ namespace ColoritWPF.ViewModel.Products
                 }
 
                 base.RaisePropertyChanged("PurchaseProductsList");
+                
+                UpdateCurrentStorage();
 
                 IsEnabled = !_currentPurchaseDocument.Confirmed;
             }
@@ -108,10 +112,36 @@ namespace ColoritWPF.ViewModel.Products
             }
             set
             {
-                CurrentPurchaseDocument.Client = value;
                 _currentClient = value;
+                base.RaisePropertyChanged("CurrentClient");
             }
         }
+
+        private Purchase _currentPurchase;
+        public Purchase CurrentPurchase
+        {
+            get { return _currentPurchase; }
+            set
+            {
+                _currentPurchase = value;
+                base.RaisePropertyChanged("CurrentPurchase");
+            }
+        }
+
+        private StorageModel _currentStorage;
+        public StorageModel CurrentStorage
+        {
+            get { return _currentStorage; }
+            set
+            {
+                _currentStorage = value;
+                base.RaisePropertyChanged("CurrentStorage");
+            }
+        }
+
+        private StorageModel _storage;
+        private StorageModel _warehouse;
+        private StorageModel _none;
 
         #endregion //Properties
 
@@ -128,6 +158,16 @@ namespace ColoritWPF.ViewModel.Products
             Clients = new ObservableCollection<Client>(colorItEntities.Client.ToList());
             PurchaseProductsList = new ObservableCollection<Purchase>();
             PurchaseDocuments = new ObservableCollection<PurchaseDocument>(colorItEntities.PurchaseDocument.ToList());
+
+            _storage = new StorageModel { Name = "Магазин", Value = "Storage" };
+            _warehouse = new StorageModel { Name = "Склад", Value = "Warehouse" };
+            _none = new StorageModel { Name = "Не выбран", Value = "None" };
+            StorageList = new ObservableCollection<StorageModel>
+                {
+                    _storage,
+                    _warehouse,
+                    _none
+                };
         }
 
         //Этот метод позволяет узнать когда изменился элемент коллекции
@@ -135,7 +175,7 @@ namespace ColoritWPF.ViewModel.Products
         {
             if (e.Action == NotifyCollectionChangedAction.Remove)
             {
-                foreach (Sale item in e.OldItems)
+                foreach (Purchase item in e.OldItems)
                 {
                     //Removed items
                     item.PropertyChanged -= Recalc;
@@ -143,7 +183,7 @@ namespace ColoritWPF.ViewModel.Products
             }
             else if (e.Action == NotifyCollectionChangedAction.Add)
             {
-                foreach (Sale item in e.NewItems)
+                foreach (Purchase item in e.NewItems)
                 {
                     //Added items
                     item.PropertyChanged += Recalc;
@@ -177,6 +217,66 @@ namespace ColoritWPF.ViewModel.Products
             }
         }
 
+        private void UpdateCurrentStorage()
+        {
+            if (_currentPurchaseDocument.ToWarehouse)
+            {
+                CurrentStorage = _warehouse;
+            }
+            else if (_currentPurchaseDocument.ToStorage)
+            {
+                CurrentStorage = _storage;
+            }
+            else
+            {
+                CurrentStorage = _none;
+            }
+        }
+
+        //Удаляет из списка продуктов выбранный элемент
+        private void RemovePurchaseItemFromList(IEnumerable<Purchase> selectedItemsToRemove)
+        {
+            if (selectedItemsToRemove != null)
+            {
+                try
+                {
+                
+                foreach (Purchase purchase in selectedItemsToRemove)
+                {
+                    var removeIt = colorItEntities.Purchase.First(item => item.ID == purchase.ID);
+                    colorItEntities.Purchase.DeleteObject(removeIt);
+                    PurchaseProductsList.Remove(purchase);
+                }
+                   
+                colorItEntities.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Не удалось удалить продукт " +
+                                        "Ошибка: " + ex.Message + "\n" + ex.InnerException);
+                }
+            }
+        }
+        private void RemovePurchaseItemFromList(Purchase selectedItemToRemove)
+        {
+            if (selectedItemToRemove != null)
+            {
+                try
+                {
+                    var removeIt = colorItEntities.Purchase.First(item => item.ID == selectedItemToRemove.ID);
+                    colorItEntities.Purchase.DeleteObject(removeIt);
+                    PurchaseProductsList.Remove(selectedItemToRemove);
+
+                    colorItEntities.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Не удалось удалить продукт '" + selectedItemToRemove.Name + "' " +
+                                        "Ошибка: " + ex.Message + "\n" + ex.InnerException);
+                }
+            }
+        }
+
         #endregion //Methods
 
         #region Commands
@@ -197,6 +297,47 @@ namespace ColoritWPF.ViewModel.Products
         {
             get;
             private set;
+        }
+
+        public RelayCommand RemoveProductFromListCommand
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                    {
+                        RemovePurchaseItemFromList(CurrentPurchase);
+                    }, () => IsEnabled);
+            }
+        }
+
+
+        public RelayCommand RemoveProductDocumentFromListCommand
+        {
+            get
+            {
+                return new RelayCommand(()=>
+                {
+                    if (MessageBox.Show("Вы уверены что хотите удалить документ?",
+                                        "Подтверждение", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                    {
+                        RemovePurchaseItemFromList(PurchaseProductsList);
+                        var docToRemove = colorItEntities.PurchaseDocument.First(doc => doc.Id == CurrentPurchaseDocument.Id);
+
+                        try
+                        {
+                            colorItEntities.PurchaseDocument.DeleteObject(docToRemove);
+                            colorItEntities.SaveChanges();
+                            PurchaseDocuments.Remove(CurrentPurchaseDocument);
+                        }
+                        catch (Exception ex)
+                        {
+                            throw new Exception("Не удалось удалить документ '" + CurrentPurchaseDocument.DisplayDocumentNumber + "' " +
+                                                "Ошибка: " + ex.Message + "\n" + ex.InnerException);
+                        }
+                        
+                    }
+                }, () => IsEnabled);
+            }
         }
 
         public RelayCommand<Visual> PrintCommand
@@ -288,9 +429,20 @@ namespace ColoritWPF.ViewModel.Products
             PrepayDocumentCommand = new RelayCommand(PrepayDocument);
         }
 
-        private void OpenSelection()
+        private bool RemoveProductFromListCanExecute()
+        {
+            return !CurrentPurchaseDocument.Confirmed;
+        }
+
+        private void RemoveProductFromList()
         {
             throw new NotImplementedException();
+        }
+
+        private void OpenSelection()
+        {
+            var purchaseProductsSelector = new PurchaseProductSelectorView();
+            purchaseProductsSelector.ShowDialog();
         }
 
         private bool ConfirmDocumentCanExecute()
@@ -326,16 +478,32 @@ namespace ColoritWPF.ViewModel.Products
         /// </summary>
         private void Save(bool prepay, bool confirm, bool unConfirm)
         {
+            if (confirm && CurrentStorage == null)
+            {
+                MessageBox.Show("Выберите склад.", "Внимание", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
             PurchaseDocument purchaseDocumentToUpd =
                 colorItEntities.PurchaseDocument.First(doc => doc.Id == CurrentPurchaseDocument.Id);
+            //purchaseDocumentToUpd.Client = CurrentClient;
             purchaseDocumentToUpd.ClientId = CurrentClient.ID;
             purchaseDocumentToUpd.Total = CurrentPurchaseDocument.Total;
             purchaseDocumentToUpd.CleanTotal = CurrentPurchaseDocument.CleanTotal;
-            purchaseDocumentToUpd.Contractor = CurrentClient.Name;
             purchaseDocumentToUpd.Confirmed = confirm;
             purchaseDocumentToUpd.Prepay = prepay;
             purchaseDocumentToUpd.Comment = CurrentPurchaseDocument.Comment;
-
+            if (CurrentStorage.Value == "Storage")
+            {
+                purchaseDocumentToUpd.ToStorage = true;
+                purchaseDocumentToUpd.ToWarehouse = false;
+            }
+            if (CurrentStorage.Value == "Warehouse")
+            {
+                purchaseDocumentToUpd.ToStorage = false;
+                purchaseDocumentToUpd.ToWarehouse = true;
+            }
+            
             CurrentPurchaseDocument.ClientId = CurrentClient.ID;
             CurrentPurchaseDocument.Prepay = prepay;
             CurrentPurchaseDocument.Confirmed = confirm;
@@ -374,7 +542,10 @@ namespace ColoritWPF.ViewModel.Products
                     purchaseToUpd.Cost = purchaseProduct.Cost;
 
                     var productStorage = colorItEntities.Product.First(pr => pr.ID == purchaseProduct.Product.ID);
-                    productStorage.Warehouse += purchaseProduct.Amount;
+                    if (CurrentStorage.Value == "Storage")
+                        productStorage.Storage += purchaseProduct.Amount;
+                    if (CurrentStorage.Value == "Warehouse")
+                        productStorage.Warehouse += purchaseProduct.Amount;
                 }
             }
 
@@ -403,5 +574,29 @@ namespace ColoritWPF.ViewModel.Products
 
         #endregion //Commands
 
+        #region IDataErrorInfo Members
+
+        public string Error
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public string this[string columnName]
+        {
+            get
+            {
+                string result = null;
+                switch (columnName)
+                {
+                    case "CurrentStorage":
+                        if (CurrentStorage == null || CurrentStorage == _none)
+                            result = "Выберите склад";
+                        break;
+                }
+                return result;
+            }
+        }
+
+        #endregion
     }
 }

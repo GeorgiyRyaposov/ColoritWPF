@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using GalaSoft.MvvmLight.Messaging;
 
 namespace ColoritWPF.Views.Products
 {
@@ -11,6 +12,14 @@ namespace ColoritWPF.Views.Products
         public PurchaseProductSelectorView()
         {
             InitializeComponent();
+            Messenger.Default.Register<NotificationMessage>(this, (nm) =>
+            {
+                if (nm.Notification == "CloseWindowsBoundToMe")
+                {
+                    //if (nm.Sender == this.DataContext)
+                    this.Close();
+                }
+            });
         }
 
         private void dg_LoadingRow(object sender, DataGridRowEventArgs e)

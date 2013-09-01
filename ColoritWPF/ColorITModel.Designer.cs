@@ -21,7 +21,6 @@ using System.Runtime.Serialization;
 [assembly: EdmRelationshipAttribute("ColorITModel", "FK_Client_Deposit", "Client", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(ColoritWPF.Client), "Deposit", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ColoritWPF.Deposit), true)]
 [assembly: EdmRelationshipAttribute("ColorITModel", "FK_Client_Loan", "Client", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(ColoritWPF.Client), "Loan", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ColoritWPF.Loan), true)]
 [assembly: EdmRelationshipAttribute("ColorITModel", "FK_Group_Product", "Group", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(ColoritWPF.Group), "Product", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ColoritWPF.Product), true)]
-[assembly: EdmRelationshipAttribute("ColorITModel", "FK_Return_Product", "Product", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(ColoritWPF.Product), "Return", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ColoritWPF.Return), true)]
 [assembly: EdmRelationshipAttribute("ColorITModel", "PK_Paints_CarModels", "CarModels", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(ColoritWPF.CarModels), "Paints", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ColoritWPF.Paints), true)]
 [assembly: EdmRelationshipAttribute("ColorITModel", "PK_Paints_Clients", "Client", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(ColoritWPF.Client), "Paints", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ColoritWPF.Paints), true)]
 [assembly: EdmRelationshipAttribute("ColorITModel", "PK_Paints_PaintName", "PaintName", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(ColoritWPF.PaintName), "Paints", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ColoritWPF.Paints), true)]
@@ -32,8 +31,8 @@ using System.Runtime.Serialization;
 [assembly: EdmRelationshipAttribute("ColorITModel", "FK_MoveProduct_Product", "Product", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(ColoritWPF.Product), "MoveProduct", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ColoritWPF.MoveProduct), true)]
 [assembly: EdmRelationshipAttribute("ColorITModel", "FK_MoveProductDocument_MoveProduct", "MoveProductDocument", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(ColoritWPF.MoveProductDocument), "MoveProduct", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ColoritWPF.MoveProduct), true)]
 [assembly: EdmRelationshipAttribute("ColorITModel", "FK_Sale_SaleDocument", "SaleDocument", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(ColoritWPF.SaleDocument), "Sale", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ColoritWPF.Sale), true)]
-[assembly: EdmRelationshipAttribute("ColorITModel", "FK_Purchase_PurchaseDocument", "PurchaseDocument", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(ColoritWPF.PurchaseDocument), "Purchase", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ColoritWPF.Purchase), true)]
 [assembly: EdmRelationshipAttribute("ColorITModel", "FK_PurchaseDocument_Client", "Client", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(ColoritWPF.Client), "PurchaseDocument", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ColoritWPF.PurchaseDocument), true)]
+[assembly: EdmRelationshipAttribute("ColorITModel", "FK_Purchase_PurchaseDocument", "PurchaseDocument", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(ColoritWPF.PurchaseDocument), "Purchase", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(ColoritWPF.Purchase), true)]
 
 #endregion
 
@@ -164,22 +163,6 @@ namespace ColoritWPF
             }
         }
         private ObjectSet<Product> _Product;
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        public ObjectSet<Return> Return
-        {
-            get
-            {
-                if ((_Return == null))
-                {
-                    _Return = base.CreateObjectSet<Return>("Return");
-                }
-                return _Return;
-            }
-        }
-        private ObjectSet<Return> _Return;
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -414,14 +397,6 @@ namespace ColoritWPF
         public void AddToProduct(Product product)
         {
             base.AddObject("Product", product);
-        }
-    
-        /// <summary>
-        /// Deprecated Method for adding a new object to the Return EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
-        /// </summary>
-        public void AddToReturn(Return @return)
-        {
-            base.AddObject("Return", @return);
         }
     
         /// <summary>
@@ -3430,28 +3405,6 @@ namespace ColoritWPF
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("ColorITModel", "FK_Return_Product", "Return")]
-        public EntityCollection<Return> Return
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Return>("ColorITModel.FK_Return_Product", "Return");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Return>("ColorITModel.FK_Return_Product", "Return", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("ColorITModel", "FK_Producers_Product", "Producers")]
         public Producers Producers
         {
@@ -3911,11 +3864,12 @@ namespace ColoritWPF
         /// <param name="date">Initial value of the Date property.</param>
         /// <param name="total">Initial value of the Total property.</param>
         /// <param name="cleanTotal">Initial value of the CleanTotal property.</param>
-        /// <param name="contractor">Initial value of the Contractor property.</param>
         /// <param name="clientId">Initial value of the ClientId property.</param>
         /// <param name="confirmed">Initial value of the Confirmed property.</param>
         /// <param name="prepay">Initial value of the Prepay property.</param>
-        public static PurchaseDocument CreatePurchaseDocument(global::System.Int64 id, global::System.Int32 documentNumber, global::System.DateTime date, global::System.Decimal total, global::System.Decimal cleanTotal, global::System.String contractor, global::System.Int32 clientId, global::System.Boolean confirmed, global::System.Boolean prepay)
+        /// <param name="toWarehouse">Initial value of the ToWarehouse property.</param>
+        /// <param name="toStorage">Initial value of the ToStorage property.</param>
+        public static PurchaseDocument CreatePurchaseDocument(global::System.Int64 id, global::System.Int32 documentNumber, global::System.DateTime date, global::System.Decimal total, global::System.Decimal cleanTotal, global::System.Int32 clientId, global::System.Boolean confirmed, global::System.Boolean prepay, global::System.Boolean toWarehouse, global::System.Boolean toStorage)
         {
             PurchaseDocument purchaseDocument = new PurchaseDocument();
             purchaseDocument.Id = id;
@@ -3923,10 +3877,11 @@ namespace ColoritWPF
             purchaseDocument.Date = date;
             purchaseDocument.Total = total;
             purchaseDocument.CleanTotal = cleanTotal;
-            purchaseDocument.Contractor = contractor;
             purchaseDocument.ClientId = clientId;
             purchaseDocument.Confirmed = confirmed;
             purchaseDocument.Prepay = prepay;
+            purchaseDocument.ToWarehouse = toWarehouse;
+            purchaseDocument.ToStorage = toStorage;
             return purchaseDocument;
         }
 
@@ -4061,30 +4016,6 @@ namespace ColoritWPF
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.String Contractor
-        {
-            get
-            {
-                return _Contractor;
-            }
-            set
-            {
-                OnContractorChanging(value);
-                ReportPropertyChanging("Contractor");
-                _Contractor = StructuralObject.SetValidValue(value, false);
-                ReportPropertyChanged("Contractor");
-                OnContractorChanged();
-            }
-        }
-        private global::System.String _Contractor;
-        partial void OnContractorChanging(global::System.String value);
-        partial void OnContractorChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
         public global::System.Int32 ClientId
         {
             get
@@ -4175,32 +4106,58 @@ namespace ColoritWPF
         private global::System.String _Comment;
         partial void OnCommentChanging(global::System.String value);
         partial void OnCommentChanged();
-
-        #endregion
-    
-        #region Navigation Properties
     
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("ColorITModel", "FK_Purchase_PurchaseDocument", "Purchase")]
-        public EntityCollection<Purchase> Purchase
+        public global::System.Boolean ToWarehouse
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Purchase>("ColorITModel.FK_Purchase_PurchaseDocument", "Purchase");
+                return _ToWarehouse;
             }
             set
             {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Purchase>("ColorITModel.FK_Purchase_PurchaseDocument", "Purchase", value);
-                }
+                OnToWarehouseChanging(value);
+                ReportPropertyChanging("ToWarehouse");
+                _ToWarehouse = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("ToWarehouse");
+                OnToWarehouseChanged();
             }
         }
+        private global::System.Boolean _ToWarehouse;
+        partial void OnToWarehouseChanging(global::System.Boolean value);
+        partial void OnToWarehouseChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean ToStorage
+        {
+            get
+            {
+                return _ToStorage;
+            }
+            set
+            {
+                OnToStorageChanging(value);
+                ReportPropertyChanging("ToStorage");
+                _ToStorage = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("ToStorage");
+                OnToStorageChanged();
+            }
+        }
+        private global::System.Boolean _ToStorage;
+        partial void OnToStorageChanging(global::System.Boolean value);
+        partial void OnToStorageChanged();
+
+        #endregion
+    
+        #region Navigation Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -4239,140 +4196,6 @@ namespace ColoritWPF
                 }
             }
         }
-
-        #endregion
-    }
-    
-    /// <summary>
-    /// No Metadata Documentation available.
-    /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="ColorITModel", Name="Return")]
-    [Serializable()]
-    [DataContractAttribute(IsReference=true)]
-    public partial class Return : EntityObject
-    {
-        #region Factory Method
-    
-        /// <summary>
-        /// Create a new Return object.
-        /// </summary>
-        /// <param name="id">Initial value of the ID property.</param>
-        /// <param name="productID">Initial value of the ProductID property.</param>
-        /// <param name="number">Initial value of the Number property.</param>
-        public static Return CreateReturn(global::System.Int64 id, global::System.Int64 productID, global::System.Double number)
-        {
-            Return @return = new Return();
-            @return.ID = id;
-            @return.ProductID = productID;
-            @return.Number = number;
-            return @return;
-        }
-
-        #endregion
-        #region Primitive Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Int64 ID
-        {
-            get
-            {
-                return _ID;
-            }
-            set
-            {
-                if (_ID != value)
-                {
-                    OnIDChanging(value);
-                    ReportPropertyChanging("ID");
-                    _ID = StructuralObject.SetValidValue(value);
-                    ReportPropertyChanged("ID");
-                    OnIDChanged();
-                }
-            }
-        }
-        private global::System.Int64 _ID;
-        partial void OnIDChanging(global::System.Int64 value);
-        partial void OnIDChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Int64 ProductID
-        {
-            get
-            {
-                return _ProductID;
-            }
-            set
-            {
-                OnProductIDChanging(value);
-                ReportPropertyChanging("ProductID");
-                _ProductID = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("ProductID");
-                OnProductIDChanged();
-            }
-        }
-        private global::System.Int64 _ProductID;
-        partial void OnProductIDChanging(global::System.Int64 value);
-        partial void OnProductIDChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Double Number
-        {
-            get
-            {
-                return _Number;
-            }
-            set
-            {
-                OnNumberChanging(value);
-                ReportPropertyChanging("Number");
-                _Number = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("Number");
-                OnNumberChanged();
-            }
-        }
-        private global::System.Double _Number;
-        partial void OnNumberChanging(global::System.Double value);
-        partial void OnNumberChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public Nullable<global::System.DateTime> Date
-        {
-            get
-            {
-                return _Date;
-            }
-            set
-            {
-                OnDateChanging(value);
-                ReportPropertyChanging("Date");
-                _Date = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("Date");
-                OnDateChanged();
-            }
-        }
-        private Nullable<global::System.DateTime> _Date;
-        partial void OnDateChanging(Nullable<global::System.DateTime> value);
-        partial void OnDateChanged();
-
-        #endregion
-    
-        #region Navigation Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -4380,34 +4203,18 @@ namespace ColoritWPF
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("ColorITModel", "FK_Return_Product", "Product")]
-        public Product Product
+        [EdmRelationshipNavigationPropertyAttribute("ColorITModel", "FK_Purchase_PurchaseDocument", "Purchase")]
+        public EntityCollection<Purchase> Purchase
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Product>("ColorITModel.FK_Return_Product", "Product").Value;
-            }
-            set
-            {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Product>("ColorITModel.FK_Return_Product", "Product").Value = value;
-            }
-        }
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [BrowsableAttribute(false)]
-        [DataMemberAttribute()]
-        public EntityReference<Product> ProductReference
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Product>("ColorITModel.FK_Return_Product", "Product");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Purchase>("ColorITModel.FK_Purchase_PurchaseDocument", "Purchase");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Product>("ColorITModel.FK_Return_Product", "Product", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Purchase>("ColorITModel.FK_Purchase_PurchaseDocument", "Purchase", value);
                 }
             }
         }

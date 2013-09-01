@@ -16,7 +16,7 @@
         </Style>
 
     </Window.Resources>
-    <Grid DataContext="{Binding ProductsSelectorViewModelPage, Source={StaticResource Locator}}">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />

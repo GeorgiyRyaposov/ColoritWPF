@@ -237,7 +237,8 @@ namespace ColoritWPF.ViewModel.Products
                     ProductID = product.ID,
                     ListNumber = purchaseDocument.Id,
                     Amount = product.Amount,
-                    Cost = product.Cost
+                    Cost = product.Cost,
+                    SelfCost = product.SelfCost
                 };
                 colorItEntities.Purchase.AddObject(purchaseProduct);
             }

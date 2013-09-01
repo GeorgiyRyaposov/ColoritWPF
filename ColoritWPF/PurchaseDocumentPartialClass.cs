@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Windows.Media;
-
+    
 namespace ColoritWPF
 {
     partial class PurchaseDocument
@@ -86,5 +86,7 @@ namespace ColoritWPF
         }
 
         #endregion
+
+        
     }
 }
