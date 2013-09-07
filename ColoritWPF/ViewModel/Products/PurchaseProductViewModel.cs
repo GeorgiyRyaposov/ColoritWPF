@@ -52,27 +52,29 @@ namespace ColoritWPF.ViewModel.Products
             {
                 _currentPurchaseDocument = value;
                 base.RaisePropertyChanged("CurrentPurchaseDocument");
-
-                CurrentClient = _currentPurchaseDocument.Client;
-
-                _confirmButtonContent = value.Confirmed ? "Разпровести" : "Провести";
-                base.RaisePropertyChanged("ConfirmButtonContent");
-
-                //При смене документа отчищаем список продуктов и перезаполняем.. да, ужас.. но я пока хз как лучше сделать
-                //а все потому что на изменения SaleProductsList подписка слушателя, которая сбрасывается
-                //если оставить как было: SaleProductsList = new ObservableCollection<Sale>(_currentSaleDocument.Sale.ToList());
-                PurchaseProductsList.Clear();
-                var tempCollection = new ObservableCollection<Purchase>(_currentPurchaseDocument.Purchase.ToList());
-                foreach (Purchase purchase in tempCollection)
+                if (value != null)
                 {
-                    PurchaseProductsList.Add(purchase);
+                    CurrentClient = _currentPurchaseDocument.Client;
+
+                    _confirmButtonContent = value.Confirmed ? "Разпровести" : "Провести";
+                    base.RaisePropertyChanged("ConfirmButtonContent");
+
+                    //При смене документа отчищаем список продуктов и перезаполняем.. да, ужас.. но я пока хз как лучше сделать
+                    //а все потому что на изменения SaleProductsList подписка слушателя, которая сбрасывается
+                    //если оставить как было: SaleProductsList = new ObservableCollection<Sale>(_currentSaleDocument.Sale.ToList());
+                    PurchaseProductsList.Clear();
+                    var tempCollection = new ObservableCollection<Purchase>(_currentPurchaseDocument.Purchase.ToList());
+                    foreach (Purchase purchase in tempCollection)
+                    {
+                        PurchaseProductsList.Add(purchase);
+                    }
+
+                    base.RaisePropertyChanged("PurchaseProductsList");
+
+                    UpdateCurrentStorage();
+
+                    IsEnabled = !_currentPurchaseDocument.Confirmed;
                 }
-
-                base.RaisePropertyChanged("PurchaseProductsList");
-                
-                UpdateCurrentStorage();
-
-                IsEnabled = !_currentPurchaseDocument.Confirmed;
             }
         }
 
@@ -236,16 +238,19 @@ namespace ColoritWPF.ViewModel.Products
         //Удаляет из списка продуктов выбранный элемент
         private void RemovePurchaseItemFromList(IEnumerable<Purchase> selectedItemsToRemove)
         {
+            var tempList = new List<Purchase>(selectedItemsToRemove);
             if (selectedItemsToRemove != null)
             {
                 try
                 {
-                
-                foreach (Purchase purchase in selectedItemsToRemove)
+
+                foreach (Purchase purchase in tempList)
                 {
+                    
                     var removeIt = colorItEntities.Purchase.First(item => item.ID == purchase.ID);
                     colorItEntities.Purchase.DeleteObject(removeIt);
-                    PurchaseProductsList.Remove(purchase);
+                    if (PurchaseProductsList.Contains(purchase))
+                        PurchaseProductsList.Remove(purchase);
                 }
                    
                 colorItEntities.SaveChanges();
@@ -412,7 +417,7 @@ namespace ColoritWPF.ViewModel.Products
 
                     grid.ColumnDefinitions.Add(columnDefinition);
                     printDlg.PrintVisual(grid, "Grid Printing.");
-                });
+                }, visual => CurrentPurchaseDocument != null);
             }
         }
 
@@ -427,16 +432,6 @@ namespace ColoritWPF.ViewModel.Products
 
             ConfirmDocumentCommand = new RelayCommand(ConfirmDocument, ConfirmDocumentCanExecute);
             PrepayDocumentCommand = new RelayCommand(PrepayDocument);
-        }
-
-        private bool RemoveProductFromListCanExecute()
-        {
-            return !CurrentPurchaseDocument.Confirmed;
-        }
-
-        private void RemoveProductFromList()
-        {
-            throw new NotImplementedException();
         }
 
         private void OpenSelection()
@@ -483,6 +478,9 @@ namespace ColoritWPF.ViewModel.Products
                 MessageBox.Show("Выберите склад.", "Внимание", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
+
+            if(CurrentPurchaseDocument == null) 
+                return;
 
             PurchaseDocument purchaseDocumentToUpd =
                 colorItEntities.PurchaseDocument.First(doc => doc.Id == CurrentPurchaseDocument.Id);

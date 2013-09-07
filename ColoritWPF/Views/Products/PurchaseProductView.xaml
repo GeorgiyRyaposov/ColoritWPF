@@ -111,13 +111,13 @@
                 </DataTemplate>
             </DataGrid.RowHeaderTemplate>
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Path=DisplayDocumentNumber}" Header="№ док-та" Width="SizeToHeader" />
+                <DataGridTextColumn Binding="{Binding Path=DisplayDocumentNumber}" Header="№ док-та" Width="SizeToHeader" IsReadOnly="True" />
                 <DataGridTextColumn Binding="{Binding Path=Date}" Header="Дата" Width="SizeToHeader" IsReadOnly="True" />
                 <!--DataGridTextColumn Binding="{Binding Path=Comments}" Header="Комментарии" IsReadOnly="True" /-->
                 <DataGridTextColumn Binding="{Binding Path=Client.Name}" Header="Клиент" Width="SizeToHeader" IsReadOnly="True" />
                 <DataGridTextColumn Binding="{Binding Path=Total, StringFormat=\{0:c\}}" Header="Сумма" Width="SizeToHeader" IsReadOnly="True" />
-                <DataGridCheckBoxColumn Binding="{Binding Prepay}" Header="В ожидании" CellStyle="{StaticResource StorageRowColorStyle}" />
-                <DataGridCheckBoxColumn Binding="{Binding Confirmed}" Header="Проведен" CellStyle="{StaticResource StorageRowColorStyle}" />
+                <DataGridCheckBoxColumn Binding="{Binding Prepay}" Header="В ожидании" CellStyle="{StaticResource StorageRowColorStyle}" IsReadOnly="True"/>
+                <DataGridCheckBoxColumn Binding="{Binding Confirmed}" Header="Проведен" CellStyle="{StaticResource StorageRowColorStyle}" IsReadOnly="True"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

@@ -137,25 +137,38 @@ namespace ColoritWPF.ViewModel.Products
             { 
                 _currentSaleDocument = value;
                 base.RaisePropertyChanged("CurrentSaleDocument");
-                    
-                CurrentClient = _currentSaleDocument.Client;
-                    
-                _confirmButtonContent = value.Confirmed ? "Разпровести" : "Провести";
-                base.RaisePropertyChanged("ConfirmButtonContent");
-
-                //При смене документа отчищаем список продуктов и перезаполняем.. да, ужас.. но я пока хз как лучше сделать
-                //а все потому что на изменения SaleProductsList подписка слушателя, которая сбрасывается
-                //если оставить как было: SaleProductsList = new ObservableCollection<Sale>(_currentSaleDocument.Sale.ToList());
-                SaleProductsList.Clear();
-                var tempCollection = new ObservableCollection<Sale>(_currentSaleDocument.Sale.ToList());
-                foreach (Sale sale in tempCollection)
+                if (value != null)
                 {
-                    SaleProductsList.Add(sale);
-                }
-                    
-                base.RaisePropertyChanged("SaleProductsList");
+                    CurrentClient = _currentSaleDocument.Client;
 
-                IsEnabled = !_currentSaleDocument.Confirmed;                
+                    _confirmButtonContent = value.Confirmed ? "Разпровести" : "Провести";
+                    base.RaisePropertyChanged("ConfirmButtonContent");
+
+                    //При смене документа отчищаем список продуктов и перезаполняем.. да, ужас.. но я пока хз как лучше сделать
+                    //а все потому что на изменения SaleProductsList подписка слушателя, которая сбрасывается
+                    //если оставить как было: SaleProductsList = new ObservableCollection<Sale>(_currentSaleDocument.Sale.ToList());
+                    SaleProductsList.Clear();
+                    var tempCollection = new ObservableCollection<Sale>(_currentSaleDocument.Sale.ToList());
+                    foreach (Sale sale in tempCollection)
+                    {
+                        SaleProductsList.Add(sale);
+                    }
+
+                    base.RaisePropertyChanged("SaleProductsList");
+
+                    IsEnabled = !_currentSaleDocument.Confirmed;
+                }
+            }
+        }
+
+        private Sale _currentSale;
+        public Sale CurrentSale
+        {
+            get { return _currentSale; }
+            set
+            {
+                _currentSale = value;
+                base.RaisePropertyChanged("CurrentSale");
             }
         }
 
@@ -246,6 +259,53 @@ namespace ColoritWPF.ViewModel.Products
             }
         }
 
+        //Удаляет из списка продуктов выбранный элемент
+        private void RemoveSaleItemFromList(IEnumerable<Sale> selectedItemsToRemove)
+        {
+            var tempList = new List<Sale>(selectedItemsToRemove);
+            if (selectedItemsToRemove != null)
+            {
+                try
+                {
+
+                    foreach (Sale sale in tempList)
+                    {
+
+                        var removeIt = colorItEntities.Sale.First(item => item.ID == sale.ID);
+                        colorItEntities.Sale.DeleteObject(removeIt);
+                        if (SaleProductsList.Contains(sale))
+                            SaleProductsList.Remove(sale);
+                    }
+
+                    colorItEntities.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Не удалось удалить продукт " +
+                                        "Ошибка: " + ex.Message + "\n" + ex.InnerException);
+                }
+            }
+        }
+        private void RemoveSaleItemFromList(Sale selectedItemToRemove)
+        {
+            if (selectedItemToRemove != null)
+            {
+                try
+                {
+                    var removeIt = colorItEntities.Sale.First(item => item.ID == selectedItemToRemove.ID);
+                    colorItEntities.Sale.DeleteObject(removeIt);
+                    SaleProductsList.Remove(selectedItemToRemove);
+
+                    colorItEntities.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Не удалось удалить продукт '" + selectedItemToRemove.Name + "' " +
+                                        "Ошибка: " + ex.Message + "\n" + ex.InnerException);
+                }
+            }
+        }
+
         #endregion
 
         #region Commands
@@ -279,6 +339,47 @@ namespace ColoritWPF.ViewModel.Products
         {
             get;
             private set;
+        }
+
+        public RelayCommand RemoveProductFromListCommand
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    RemoveSaleItemFromList(CurrentSale);
+                }, () => IsEnabled);
+            }
+        }
+
+
+        public RelayCommand RemoveProductDocumentFromListCommand
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    if (MessageBox.Show("Вы уверены что хотите удалить документ?",
+                                        "Подтверждение", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                    {
+                        RemoveSaleItemFromList(SaleProductsList);
+                        var docToRemove = colorItEntities.SaleDocument.First(doc => doc.Id == CurrentSaleDocument.Id);
+
+                        try
+                        {
+                            colorItEntities.SaleDocument.DeleteObject(docToRemove);
+                            colorItEntities.SaveChanges();
+                            SaleDocuments.Remove(CurrentSaleDocument);
+                        }
+                        catch (Exception ex)
+                        {
+                            throw new Exception("Не удалось удалить документ '" + CurrentSaleDocument.DocumentNumber + "' " +
+                                                "Ошибка: " + ex.Message + "\n" + ex.InnerException);
+                        }
+
+                    }
+                }, () => IsEnabled);
+            }
         }
 
         public RelayCommand<Visual> PrintCommand
@@ -353,7 +454,7 @@ namespace ColoritWPF.ViewModel.Products
 
                     grid.ColumnDefinitions.Add(columnDefinition);
                     printDlg.PrintVisual(grid, "Grid Printing.");
-                });
+                }, visual => CurrentSaleDocument != null);
             }
         }
 
@@ -419,6 +520,9 @@ namespace ColoritWPF.ViewModel.Products
         {
             if (IsAllProductInStock() == false)
                 return;
+
+            if(CurrentSaleDocument == null)
+                return;         
 
             CurrentSaleDocument.ClientId = CurrentClient.ID;
             CurrentSaleDocument.Prepay = Prepay;
