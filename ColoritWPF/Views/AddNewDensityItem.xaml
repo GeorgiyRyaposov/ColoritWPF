@@ -1,42 +1,13 @@
 ﻿<Window x:Class="ColoritWPF.Views.AddNewDensityItem"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Добавление нового значения плотности" Height="Auto" Width="Auto"
+        Title="Добавление нового значения плотности" Height="350" Width="360"
         DataContext="{Binding AddNewDensityItemPage, Source={StaticResource Locator}}">
-    <Window.Resources>
-        <!--Label style-->
-        <Style TargetType="Label">
-            <Setter Property="FontSize" Value ="12"/>
-            <Setter Property="FontWeight" Value ="Normal"/>
-            <Setter Property="MinWidth" Value ="75"/>
-            <Setter Property="Margin" Value ="5,0,0,5"/>
-            <Setter Property="HorizontalAlignment" Value="Right"></Setter>
-        </Style>
-        <!--Combobox style-->
-        <Style TargetType="ComboBox">
-            <Setter Property="FontSize" Value ="12"/>
-            <Setter Property="FontWeight" Value ="Normal"/>
-            <Setter Property="MinWidth" Value ="75"/>
-            <Setter Property="Margin" Value ="5,3,0,5"/>
-        </Style>
-
-        <!--Textbox style-->
-        <Style TargetType="TextBox">
-            <Setter Property="FontSize" Value ="12"/>
-            <Setter Property="FontWeight" Value ="Normal"/>
-            <Setter Property="MinWidth" Value ="75"/>
-            <Setter Property="Margin" Value ="5,3,0,5"/>
-        </Style>
-        <!--Button style-->
-        <Style TargetType="Button">
-            <Setter Property="FontSize" Value ="12"/>
-            <Setter Property="FontWeight" Value ="Normal"/>
-            <Setter Property="MinWidth" Value ="75"/>
-            <Setter Property="Margin" Value ="5,0,0,5"/>
-        </Style>
-    </Window.Resources>
-    <Grid>
+    <Grid HorizontalAlignment="Stretch">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -44,49 +15,58 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <StackPanel Grid.Column="0" Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Right">
-            <Label>Тип краски:</Label>
-            <Label>Наименование:</Label>
-            <Label>Плотность:</Label>
-            <Label>Разбавитель:</Label>
-            <Label>Отвердитель:</Label>
-            <Label>Пропорция разбавитель:</Label>
-            <Label>Пропорция отвердитель:</Label>
-        </StackPanel>
-        <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Left">
-            <ComboBox
+        <StackPanel Grid.Row="0" Style="{StaticResource LabelAndTextHorizontal}">
+            <Label Style="{StaticResource LabelForTextBox}">Тип краски:</Label>
+            <ComboBox Style="{StaticResource LongComboBox}"
                 ItemsSource ="{Binding DenTypes}" 
                 SelectedValue="{Binding CurrentType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                DisplayMemberPath="Name"
-                Width="150" HorizontalAlignment="Right"></ComboBox>
-            
-            <TextBox Text="{Binding Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Path=Name}" 
-                     Width="150" />
-            <TextBox Text="{Binding Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Path=DensityValue}" 
-                     Width="150" />
-            <ComboBox
+                DisplayMemberPath="Name"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Style="{StaticResource LabelAndTextHorizontal}">
+            <Label Style="{StaticResource LabelForTextBox}">Наименование:</Label>
+            <TextBox Style="{StaticResource LongTextBox}" Text="{Binding Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Path=Name}" />
+        </StackPanel>
+        
+        <StackPanel Grid.Row="2" Style="{StaticResource LabelAndTextHorizontal}">
+            <Label Style="{StaticResource LabelForTextBox}">Плотность:</Label>
+            <TextBox Style="{StaticResource LongTextBox}" Text="{Binding Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Path=DensityValue}" />
+        </StackPanel>
+        
+        <StackPanel Grid.Row="3" Style="{StaticResource LabelAndTextHorizontal}">
+            <Label Style="{StaticResource LabelForTextBox}">Разбавитель:</Label>
+            <ComboBox Style="{StaticResource LongComboBox}"
                 ItemsSource ="{Binding Thinners}" 
                 SelectedValue="{Binding CurrentThinner, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                DisplayMemberPath="Name"
-                Width="150" HorizontalAlignment="Right" />
-            <ComboBox
+                DisplayMemberPath="Name"/>
+        </StackPanel>
+        
+        <StackPanel Grid.Row="4" Style="{StaticResource LabelAndTextHorizontal}">
+            <Label Style="{StaticResource LabelForTextBox}">Отвердитель:</Label>
+            <ComboBox Style="{StaticResource LongComboBox}"
                 ItemsSource ="{Binding Hardeners}" 
                 SelectedValue="{Binding CurrentHardener, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                DisplayMemberPath="Name"
-                Width="150" HorizontalAlignment="Right" />
-
-            <TextBox Text="{Binding Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Path=ProportionThinner}" 
-                     Width="150" />
-            <TextBox Text="{Binding Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Path=ProportionHardener}" 
-                     Width="150" />
+                DisplayMemberPath="Name"/>
         </StackPanel>
-        <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Left">
-            <Button Content="Сохранить" Command="{Binding SaveCommand}"></Button>
-            <Button Content="Закрыть" Command="Close"></Button>
-            </StackPanel>
+        
+        <StackPanel Grid.Row="5" Style="{StaticResource LabelAndTextHorizontal}">
+            <Label Style="{StaticResource LabelForTextBox}">Пропорция разбавитель:</Label>
+            <TextBox Style="{StaticResource LongTextBox}" Text="{Binding Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Path=ProportionThinner}" />
+        </StackPanel>
+        
+        <StackPanel Grid.Row="6" Style="{StaticResource LabelAndTextHorizontal}">
+            <Label Style="{StaticResource LabelForTextBox}">Пропорция отвердитель:</Label>
+            <TextBox Style="{StaticResource LongTextBox}" Text="{Binding Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Path=ProportionHardener}"/>
+        </StackPanel>
+        
+        <StackPanel Grid.Row="7" Style="{StaticResource LabelAndTextHorizontal}">
+            <Button Style="{StaticResource Buttons}" Content="Сохранить" Command="{Binding SaveCommand}"></Button>
+            <Button Style="{StaticResource Buttons}" Content="Закрыть" Click="ButtonBase_OnClick"></Button>
+        </StackPanel>
+
+        
     </Grid>
 </Window>

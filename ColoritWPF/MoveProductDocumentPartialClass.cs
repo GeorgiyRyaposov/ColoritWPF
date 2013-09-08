@@ -60,24 +60,6 @@ namespace ColoritWPF
             }
         }
 
-        private Brush _rowColor = Brushes.White;
-        public Brush StorageRowColor
-        {
-            get
-            {
-                if (Confirmed)
-                    _rowColor = Brushes.LightGreen;
-                if (!Confirmed)
-                    _rowColor = Brushes.LightPink;
-                return _rowColor;
-            }
-            set
-            {
-                _rowColor = value;
-                OnPropertyChanged("StorageRowColor");
-            }
-        }
-
         #endregion
 
         #region Methods
@@ -104,15 +86,6 @@ namespace ColoritWPF
 
                 DocumentNumber = num;
             }
-        }
-
-        partial void OnConfirmedChanged()
-        {
-            if (Confirmed)
-                _rowColor = Brushes.LightGreen;
-            if (!Confirmed)
-                _rowColor = Brushes.LightPink;
-            OnPropertyChanged("StorageRowColor");
         }
 
         partial void OnToStorageChanged()

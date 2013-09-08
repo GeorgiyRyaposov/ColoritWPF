@@ -1,29 +1,13 @@
 ﻿<Window x:Class="ColoritWPF.Views.PaintsEditor"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="PaintsEditor" Height="400" Width="600"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:ColoritWPF="clr-namespace:ColoritWPF"
+        Title="Редактирование красок" Height="400" Width="750"
         DataContext="{Binding PaintsEdtiorPage, Source={StaticResource Locator}}">
     <Window.Resources>
-        <!--TextBox style-->
-        <Style TargetType="TextBox">
-            <Setter Property="MinWidth" Value ="150"/>
-            <Style.Triggers>
-                <Trigger Property="Validation.HasError" Value="true">
-                    <Setter Property="ToolTip" Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=(Validation.Errors).CurrentItem.ErrorContent}" />
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-        <Style TargetType="StackPanel">
-            <Setter Property="Margin" Value ="0,2,2,2"/>
-        </Style>
-        <Style TargetType="Button">
-            <Setter Property="Margin" Value ="2,0,2,0"/>
-            <Setter Property="MinWidth" Value ="75"/>
-        </Style>
+        <ColoritWPF:PercentageConverter x:Key="PercentageConverter" />
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -36,49 +20,50 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <StackPanel Grid.Column="0" Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left">
-            <Label>Введите наименование краски</Label>
-            <TextBox Text="{Binding PaintNameFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+        <StackPanel Grid.Column="1" Grid.Row="0" Style="{StaticResource LabelAndTextHorizontal}">
+            <Label Style="{StaticResource LabelForTextBox}">Введите наименование краски</Label>
+            <TextBox Style="{StaticResource LongTextBox}" Text="{Binding PaintNameFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
         </StackPanel>
-        <DataGrid Grid.Column="0" Grid.Row="1" Grid.RowSpan="7" AutoGenerateColumns="False" SelectedItem="{Binding CurrentPaint, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" EnableRowVirtualization="True" HorizontalAlignment="Left" 
-                  ItemsSource="{Binding PaintsList}" RowDetailsVisibilityMode="VisibleWhenSelected" VerticalAlignment="Top" Width="Auto" CanUserAddRows="False" CanUserDeleteRows="False">
+        <DataGrid Grid.Column="1" Grid.Row="1" Grid.RowSpan="7" AutoGenerateColumns="False" Style="{StaticResource DataGridStyle}"
+                  SelectedItem="{Binding CurrentPaint, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" EnableRowVirtualization="True" 
+                  ItemsSource="{Binding PaintsList}" RowDetailsVisibilityMode="VisibleWhenSelected" VerticalAlignment="Top" CanUserAddRows="False" CanUserDeleteRows="False">
             <DataGrid.Columns>
-                <DataGridTextColumn x:Name="nameColumn" Binding="{Binding Path=Name}" Header="Наименование" Width="120" />
+                <DataGridTextColumn x:Name="nameColumn" Binding="{Binding Path=Name}" Header="Наименование" Width="*" />
                 <DataGridTextColumn x:Name="costColumn" Binding="{Binding Path=Cost}" Header="Цена" Width="SizeToHeader" />
                 <DataGridCheckBoxColumn x:Name="threeLayersColumn" Binding="{Binding Path=ThreeLayers}" Header="Три слоя" Width="SizeToHeader" />
                 <DataGridCheckBoxColumn x:Name="PackageColumn" Binding="{Binding Path=Package}" Header="Комплект" Width="SizeToHeader" />
             </DataGrid.Columns>
         </DataGrid>
-        <StackPanel Grid.Column="1" Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Label>Наименование</Label>
-            <TextBox Text="{Binding CurrentPaint.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+        <StackPanel Grid.Column="0" Grid.Row="0" Style="{StaticResource LabelAndTextHorizontal}">
+            <Label Style="{StaticResource LabelForTextBox}">Наименование</Label>
+            <TextBox Style="{StaticResource LongTextBox}" Text="{Binding CurrentPaint.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
         </StackPanel>
-        <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Label>Цена</Label>
-            <TextBox Text="{Binding CurrentPaint.Cost, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+        <StackPanel Grid.Column="0" Grid.Row="1" Style="{StaticResource LabelAndTextHorizontal}">
+            <Label Style="{StaticResource LabelForTextBox}">Цена</Label>
+            <TextBox Style="{StaticResource LongTextBox}" Text="{Binding CurrentPaint.Cost, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
         </StackPanel>
-        <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Label>Цена за тару</Label>
-            <TextBox Text="{Binding CurrentPaint.Container, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+        <StackPanel Grid.Column="0" Grid.Row="2" Style="{StaticResource LabelAndTextHorizontal}">
+            <Label Style="{StaticResource LabelForTextBox}">Цена за тару</Label>
+            <TextBox Style="{StaticResource LongTextBox}" Text="{Binding CurrentPaint.Container, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
         </StackPanel>
-        <StackPanel Grid.Column="1" Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Label>Макс скидка</Label>
-            <TextBox Text="{Binding CurrentPaint.MaxDiscount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
-        </StackPanel>
-        
-        <StackPanel Grid.Column="1" Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Label>Перепыл до 0.25</Label>
-            
-            <TextBox Text="{Binding CurrentPaint.Census1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
-        </StackPanel>
-        <StackPanel Grid.Column="1" Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Label>Перепыл более 0.25</Label>
-            <TextBox Text="{Binding CurrentPaint.Census2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+        <StackPanel Grid.Column="0" Grid.Row="3" Style="{StaticResource LabelAndTextHorizontal}">
+            <Label Style="{StaticResource LabelForTextBox}">Макс скидка</Label>
+            <TextBox Style="{StaticResource LongTextBox}" Text="{Binding CurrentPaint.MaxDiscount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=\{0:P0\}, Converter={StaticResource PercentageConverter}}"></TextBox>
         </StackPanel>
 
-        <StackPanel Grid.Column="1" Grid.Row="6" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Click="Button_Click">Закрыть</Button>
-            <Button>Сохранить</Button>
+        <StackPanel Grid.Column="0" Grid.Row="4" Style="{StaticResource LabelAndTextHorizontal}">
+            <Label Style="{StaticResource LabelForTextBox}">Перепыл до 0.25</Label>
+            
+            <TextBox Style="{StaticResource LongTextBox}" Text="{Binding CurrentPaint.Census1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+        </StackPanel>
+        <StackPanel Grid.Column="0" Grid.Row="5" Style="{StaticResource LabelAndTextHorizontal}">
+            <Label Style="{StaticResource LabelForTextBox}">Перепыл более 0.25</Label>
+            <TextBox Style="{StaticResource LongTextBox}" Text="{Binding CurrentPaint.Census2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+        </StackPanel>
+
+        <StackPanel Grid.Column="1" Grid.Row="7" Style="{StaticResource BottomButtonsStackPanel}">
+            <Button Style="{StaticResource Buttons}" Command="{Binding SaveChangesCommand}">Сохранить</Button>
+            <Button Style="{StaticResource Buttons}" Click="Button_Click">Закрыть</Button>
         </StackPanel>
     </Grid>
 </Window>

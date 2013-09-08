@@ -1,7 +1,7 @@
 ﻿<Window x:Class="ColoritWPF.Views.AddNewCarModel"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Добавление новой модели авто" Height="100" Width="300"
+        Title="Добавление новой модели авто" Height="120" Width="340"
         DataContext="{Binding AddCarModelPage, Source={StaticResource Locator}}">
     <Grid>
         <Grid.RowDefinitions>
@@ -11,17 +11,17 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <StackPanel Grid.Column="0" Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Label>Наименование модели</Label>
-            <TextBox Text="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MinWidth="150">
+        <StackPanel Grid.Column="0" Grid.Row="0" Style="{StaticResource LabelAndTextHorizontal}">
+            <Label Style="{StaticResource LabelForTextBox}">Наименование модели</Label>
+            <TextBox Style="{StaticResource LongTextBox}" Text="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                 <TextBox.InputBindings>
                     <KeyBinding Command="{Binding Path=AddCarCommand}" Key="Enter"/>
                 </TextBox.InputBindings>
             </TextBox>
         </StackPanel>
-        <StackPanel Grid.Column="0" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Content="Закрыть" Click="Button_Click" MaxHeight="25" Margin="0,0,5,0"></Button>
-            <Button Content="Добавить" Command="{Binding AddCarCommand}" MaxHeight="25" Margin="0,0,5,0"></Button>
+        <StackPanel Grid.Column="0" Grid.Row="1" Style="{StaticResource LabelAndTextHorizontal}">
+            <Button Content="Добавить" Command="{Binding AddCarCommand}" Style="{StaticResource Buttons}" />
+            <Button Content="Закрыть" Click="Button_Click" Style="{StaticResource Buttons}" />
         </StackPanel>
     </Grid>
 </Window>

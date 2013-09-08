@@ -147,6 +147,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ColorITModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Controls\DensityCalcTab.xaml.cs">
+      <DependentUpon>DensityCalcTab.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\PaintSelectionTab.xaml.cs">
+      <DependentUpon>PaintSelectionTab.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\StorageTab.xaml.cs">
       <DependentUpon>StorageTab.xaml</DependentUpon>
     </Compile>
@@ -254,6 +260,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\DensityCalcTab.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\PaintSelectionTab.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\StorageTab.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -266,10 +280,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="ResouceDictionary.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\AddNewDensityItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -1,16 +1,8 @@
 ﻿<Window x:Class="ColoritWPF.Views.Products.PurchaseProductView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
-        xmlns:ColoritWPF="clr-namespace:ColoritWPF"
         Title="Приходная накладная" Height="700" Width="480"
         DataContext="{Binding PurchaseProductViewModelPage, Source={StaticResource Locator}}">
-    <Window.Resources>
-        <ColoritWPF:PercentageConverter x:Key="PercentageConverter" />
-        <!--StorageRowColor style-->
-        <Style x:Key="StorageRowColorStyle" TargetType="{x:Type DataGridCell}">
-            <Setter Property="Background" Value="{Binding Path=StorageRowColor}"/>
-        </Style>
-    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
@@ -116,8 +108,8 @@
                 <!--DataGridTextColumn Binding="{Binding Path=Comments}" Header="Комментарии" IsReadOnly="True" /-->
                 <DataGridTextColumn Binding="{Binding Path=Client.Name}" Header="Клиент" Width="SizeToHeader" IsReadOnly="True" />
                 <DataGridTextColumn Binding="{Binding Path=Total, StringFormat=\{0:c\}}" Header="Сумма" Width="SizeToHeader" IsReadOnly="True" />
-                <DataGridCheckBoxColumn Binding="{Binding Prepay}" Header="В ожидании" CellStyle="{StaticResource StorageRowColorStyle}" IsReadOnly="True"/>
-                <DataGridCheckBoxColumn Binding="{Binding Confirmed}" Header="Проведен" CellStyle="{StaticResource StorageRowColorStyle}" IsReadOnly="True"/>
+                <DataGridTemplateColumn Header="Предоплата" Width="SizeToHeader" CellStyle="{StaticResource IsPrepay_CheckBoxCellStyle}" IsReadOnly="True"/>
+                <DataGridTemplateColumn Header="Проведен" Width="SizeToHeader" CellStyle="{StaticResource IsConfirmed_CheckBoxCellStyle}" IsReadOnly="True"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

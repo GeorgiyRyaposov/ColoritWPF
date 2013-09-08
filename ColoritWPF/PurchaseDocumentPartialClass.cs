@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Windows.Media;
     
 namespace ColoritWPF
 {
@@ -13,50 +12,9 @@ namespace ColoritWPF
             get { return DocumentNumber.ToString("00000"); }
         }
 
-        partial void OnPrepayChanged()
-        {
-            UpdateBrush();
-        }
-
-        partial void OnConfirmedChanged()
-        {
-            UpdateBrush();
-        }
-        
-        private Brush _rowColor = Brushes.White;
-        public Brush StorageRowColor
-        {
-            get
-            {
-                if (Confirmed)
-                    _rowColor = Brushes.LightGreen;
-                if (Prepay)
-                    _rowColor = Brushes.LightGoldenrodYellow;
-                if (!Confirmed && !Prepay)
-                    _rowColor = Brushes.LightPink;
-                return _rowColor;
-            }
-            set
-            {
-                _rowColor = value;
-                OnPropertyChanged("StorageRowColor");
-            }
-        }
-
         #endregion
 
         #region Methods
-
-        private void UpdateBrush()
-        {
-            if (Confirmed)
-                _rowColor = Brushes.LightGreen;
-            if (Prepay)
-                _rowColor = Brushes.LightGoldenrodYellow;
-            if (!Confirmed && !Prepay)
-                _rowColor = Brushes.LightPink;
-            OnPropertyChanged("StorageRowColor");
-        }
 
         public void GenerateDocNumber()
         {
@@ -86,7 +44,5 @@ namespace ColoritWPF
         }
 
         #endregion
-
-        
     }
 }

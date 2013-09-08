@@ -2,13 +2,8 @@
 <Application x:Class="ColoritWPF.App" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:System="clr-namespace:System;assembly=mscorlib" xmlns:ColoritWPF="clr-namespace:ColoritWPF.Views" StartupUri="Views\MainWindow.xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:vm="clr-namespace:ColoritWPF.ViewModel" mc:Ignorable="d">
   <Application.Resources>
     <ResourceDictionary>
-            <!--TextBox style-->
+            <!--Global Styles-->
             <Style TargetType="TextBox">
-                <Setter Property="MaxHeight" Value ="25"/>
-                <Setter Property="TextAlignment" Value="Right"/>
-                <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                <Setter Property="FontSize" Value="14"/>
-                <Setter Property="FontFamily" Value="Segoe UI"/>
                 <Setter Property="Validation.ErrorTemplate">
                     <Setter.Value>
                         <ControlTemplate>
@@ -28,10 +23,28 @@
                     </Setter.Value>
                 </Setter>
             </Style>
-            <!--Button style-->
+            <Style TargetType="ComboBox">
+                <Setter Property="Validation.ErrorTemplate">
+                    <Setter.Value>
+                        <ControlTemplate>
+                            <DockPanel LastChildFill="true">
+                                <Border Background="OrangeRed" DockPanel.Dock="right" Margin="5,0,0,0" 
+                                    Width="20" Height="20" CornerRadius="5"
+                                    ToolTip="{Binding ElementName=customAdorner, 
+                                              Path=AdornedElement.(Validation.Errors)[0].ErrorContent}">
+                                    <TextBlock Text="!" VerticalAlignment="center" HorizontalAlignment="center" 
+                                       FontWeight="Bold" Foreground="white" />
+                                </Border>
+                                <AdornedElementPlaceholder Name="customAdorner" VerticalAlignment="Center" >
+                                    <Border BorderBrush="red" BorderThickness="1" />
+                                </AdornedElementPlaceholder>
+                            </DockPanel>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
             <Style TargetType="Button">
-                <Setter Property="MinWidth" Value ="75"/>
-                <Setter Property="Margin" Value ="5,5,5,5"/>
+                <Setter Property="MinWidth" Value ="80"/>
                 <Setter Property="HorizontalContentAlignment" Value ="Center"/>
                 <Setter Property="VerticalContentAlignment" Value ="Center"/>
             </Style>
@@ -42,10 +55,182 @@
             <Style TargetType="DataGridCell">
                 <Setter Property="FontSize" Value="14"/>
                 <Setter Property="FontFamily" Value="Segoe UI"/>
+            </Style>            
+            <!--Styles-->
+            <Style x:Key="Buttons" TargetType="Button">
+                <Setter Property="MinWidth" Value ="80"/>
+                <Setter Property="Margin" Value ="5,0,5,0"/>
+                <Setter Property="HorizontalContentAlignment" Value ="Center"/>
+                <Setter Property="VerticalContentAlignment" Value ="Center"/>
+                <Setter Property="FontSize" Value="14"/>
+                <Setter Property="FontFamily" Value="Segoe UI"/>
             </Style>
+            <Style x:Key="CheckBoxes" TargetType="CheckBox">
+                <Setter Property="Margin" Value ="5,0,5,0"/>
+                <Setter Property="HorizontalContentAlignment" Value ="Center"/>
+                <Setter Property="VerticalContentAlignment" Value ="Center"/>
+                <Setter Property="FontSize" Value="14"/>
+                <Setter Property="FontFamily" Value="Segoe UI"/>
+                <Setter Property="Width" Value="150"/>
+                <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+            </Style>
+            <Style x:Key="LabelAndTextHorizontal" TargetType="StackPanel">
+                <Setter Property="Orientation" Value="Horizontal"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="HorizontalAlignment" Value="Right"/>
+                <Setter Property="Margin" Value="0,2,0,2" />
+            </Style>
+            <Style x:Key="BottomButtonsStackPanel" TargetType="StackPanel">
+                <Setter Property="Orientation" Value="Horizontal"/>
+                <Setter Property="VerticalAlignment" Value="Bottom"/>
+                <Setter Property="HorizontalAlignment" Value="Right"/>
+                <Setter Property="Margin" Value="0,5,0,2" />
+            </Style>
+            <Style x:Key="LabelAndTextVertical" TargetType="StackPanel">
+                <Setter Property="Orientation" Value="Vertical"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="HorizontalAlignment" Value="Right"/>
+                <Setter Property="Margin" Value="0,2,0,2" />
+            </Style>
+            <Style x:Key="LongTextBox" TargetType="TextBox">
+                <Setter Property="MinWidth" Value="150" />
+                <Setter Property="Margin" Value="0,0,5,0" />
+                <Setter Property="FontSize" Value="14"/>
+                <Setter Property="FontFamily" Value="Segoe UI"/>
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="Validation.ErrorTemplate">
+                    <Setter.Value>
+                        <ControlTemplate>
+                            <DockPanel LastChildFill="true">
+                                <Border Background="OrangeRed" DockPanel.Dock="right" Margin="5,0,0,0" 
+                                    Width="20" Height="20" CornerRadius="5"
+                                    ToolTip="{Binding ElementName=customAdorner, 
+                                              Path=AdornedElement.(Validation.Errors)[0].ErrorContent}">
+                                    <TextBlock Text="!" VerticalAlignment="center" HorizontalAlignment="center" 
+                                       FontWeight="Bold" Foreground="white" />
+                                </Border>
+                                <AdornedElementPlaceholder Name="customAdorner" VerticalAlignment="Center" >
+                                    <Border BorderBrush="red" BorderThickness="1" />
+                                </AdornedElementPlaceholder>
+                            </DockPanel>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="LongComboBox" TargetType="ComboBox">
+                <Setter Property="MinWidth" Value="150" />
+                <Setter Property="Margin" Value="0,0,5,0" />
+                <Setter Property="FontSize" Value="14"/>
+                <Setter Property="FontFamily" Value="Segoe UI"/>
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="Validation.ErrorTemplate">
+                    <Setter.Value>
+                        <ControlTemplate>
+                            <DockPanel LastChildFill="true">
+                                <Border Background="OrangeRed" DockPanel.Dock="right" Margin="5,0,0,0" 
+                                    Width="20" Height="20" CornerRadius="5"
+                                    ToolTip="{Binding ElementName=customAdorner, 
+                                              Path=AdornedElement.(Validation.Errors)[0].ErrorContent}">
+                                    <TextBlock Text="!" VerticalAlignment="center" HorizontalAlignment="center" 
+                                       FontWeight="Bold" Foreground="white" />
+                                </Border>
+                                <AdornedElementPlaceholder Name="customAdorner" VerticalAlignment="Center" >
+                                    <Border BorderBrush="red" BorderThickness="1" />
+                                </AdornedElementPlaceholder>
+                            </DockPanel>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="LabelForTextBox" TargetType="Label">
+                <Setter Property="Margin" Value="5,0,0,0" />
+                <Setter Property="FontSize" Value="14"/>
+                <Setter Property="FontFamily" Value="Segoe UI"/>
+                <Setter Property="VerticalAlignment" Value="Center" />
+            </Style>
+            <Style x:Key="DataGridStyle" TargetType="DataGrid">
+                <Setter Property="Margin" Value="5,5,5,5" />
+                <Setter Property="FontSize" Value="14"/>
+                <Setter Property="FontFamily" Value="Segoe UI"/>
+            </Style>
+            <Style x:Key="IsConfirmed_CheckBoxCellStyle" TargetType="DataGridCell">
+                <Setter Property="ContentTemplate">
+                    <Setter.Value>
+                        <DataTemplate>
+                            <CheckBox
+                              IsChecked="{Binding Confirmed, UpdateSourceTrigger=PropertyChanged}" 
+                              VerticalAlignment="Center" 
+                              HorizontalAlignment="Center" />
+                        </DataTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding Confirmed, UpdateSourceTrigger=PropertyChanged}" Value="True">
+                        <Setter Property="Background" Value="Green"/>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding Confirmed, UpdateSourceTrigger=PropertyChanged}" Value="False">
+                        <Setter Property="Background" Value="Red"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+            <Style x:Key="DocState_CheckBoxCellStyle" TargetType="DataGridCell">
+                <Setter Property="ContentTemplate">
+                    <Setter.Value>
+                        <DataTemplate>
+                            <CheckBox
+                              IsChecked="{Binding DocState, UpdateSourceTrigger=PropertyChanged}" 
+                              VerticalAlignment="Center" 
+                              HorizontalAlignment="Center" />
+                        </DataTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding DocState, UpdateSourceTrigger=PropertyChanged}" Value="True">
+                        <Setter Property="Background" Value="Green"/>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding DocState, UpdateSourceTrigger=PropertyChanged}" Value="False">
+                        <Setter Property="Background" Value="Red"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+            <Style x:Key="IsPrepay_CheckBoxCellStyle" TargetType="DataGridCell">
+                <Setter Property="ContentTemplate">
+                    <Setter.Value>
+                        <DataTemplate>
+                            <CheckBox
+                              IsChecked="{Binding Prepay, UpdateSourceTrigger=PropertyChanged}" 
+                              VerticalAlignment="Center" 
+                              HorizontalAlignment="Center" />
+                        </DataTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding Prepay, UpdateSourceTrigger=PropertyChanged}" Value="True">
+                        <Setter Property="Background" Value="Orange"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+            <Style x:Key="IsPreorder_CheckBoxCellStyle" TargetType="DataGridCell">
+                <Setter Property="ContentTemplate">
+                    <Setter.Value>
+                        <DataTemplate>
+                            <CheckBox
+                              IsChecked="{Binding IsPreorder, UpdateSourceTrigger=PropertyChanged}" 
+                              VerticalAlignment="Center" 
+                              HorizontalAlignment="Center" />
+                        </DataTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding IsPreorder, UpdateSourceTrigger=PropertyChanged}" Value="True">
+                        <Setter Property="Background" Value="Orange"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+
             <vm:ViewModelLocator x:Key="Locator" d:IsDataSource="True" />
-      <ResourceDictionary.MergedDictionaries></ResourceDictionary.MergedDictionaries>
-    </ResourceDictionary>
+        </ResourceDictionary>
       
   </Application.Resources>
     

@@ -11,5 +11,10 @@ namespace ColoritWPF.Views
         {
             InitializeComponent();
         }
+        
+        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
     }
 }

@@ -16,9 +16,9 @@
     </UserControl.Resources>
         <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -47,7 +47,7 @@
                 <TextBox Text="{Binding CurrentDiscount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=\{0:P0\}, Converter={StaticResource PercentageConverter}}" Margin="5,5,5,5" Width="50" />
             </StackPanel>
         </StackPanel>
-        <DataGrid AutoGenerateColumns="False" EnableRowVirtualization="True" Height="200" Width="Auto" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" 
+        <DataGrid AutoGenerateColumns="False" EnableRowVirtualization="True" Height="200" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" 
                   ItemsSource="{Binding Path=SaleProductsList}" CanUserAddRows="False" LoadingRow="dgSaleList_LoadingRow" Margin="5,5,5,5" 
                   SelectedItem="{Binding CurrentSale, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                   IsEnabled="{Binding IsEnabled}"            
@@ -119,8 +119,8 @@
                 <DataGridTextColumn Binding="{Binding Path=Comments}" Header="Комментарии" IsReadOnly="True" />
                 <DataGridTextColumn Binding="{Binding Path=Client.Name}" Header="Клиент" Width="SizeToHeader" IsReadOnly="True" />
                 <DataGridTextColumn Binding="{Binding Path=Total, StringFormat=\{0:c\}}" Header="Сумма" Width="SizeToHeader" IsReadOnly="True" />
-                <DataGridCheckBoxColumn Binding="{Binding Prepay}" Header="Предоплата" CellStyle="{StaticResource StorageRowColorStyle}" IsReadOnly="True" />
-                <DataGridCheckBoxColumn Binding="{Binding Confirmed}" Header="Проведен" CellStyle="{StaticResource StorageRowColorStyle}" IsReadOnly="True" />
+                <DataGridTemplateColumn Header="Предоплата" Width="SizeToHeader" CellStyle="{StaticResource IsPrepay_CheckBoxCellStyle}" IsReadOnly="True"/>
+                <DataGridTemplateColumn Header="Проведен" Width="SizeToHeader" CellStyle="{StaticResource IsConfirmed_CheckBoxCellStyle}" IsReadOnly="True"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

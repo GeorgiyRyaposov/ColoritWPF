@@ -1,19 +1,13 @@
 ﻿<Window x:Class="ColoritWPF.Views.ClientEditor"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:ColoritWPF="clr-namespace:ColoritWPF"
-        Title="Редактор клиентов" Height="500" Width="500"
+        Title="Редактор клиентов" Height="450" Width="700"
         DataContext="{Binding ClientEditorPage, Source={StaticResource Locator}}">
     <Window.Resources>
         <ColoritWPF:PercentageConverter x:Key="PercentageConverter" />
-        <!--TextBox style-->
-        <Style TargetType="TextBox">
-            <Setter Property="MaxHeight" Value ="25"/>
-            <Setter Property="MinWidth" Value ="150"/>
-        </Style>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -29,48 +23,53 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <StackPanel Grid.Column="1" Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Label>ФИО</Label>
-            <TextBox Text="{Binding Path=NewClient.Name, Mode=TwoWay}"></TextBox>
+        <StackPanel Grid.Column="0" Grid.Row="0" Style="{StaticResource LabelAndTextHorizontal}">
+            <Label Style="{StaticResource LabelForTextBox}">ФИО</Label>
+            <TextBox Style="{StaticResource LongTextBox}" Text="{Binding Path=NewClient.Name, Mode=TwoWay}" />
         </StackPanel>
-        <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Label>Баланс</Label>
-            <TextBox Text="{Binding Path=NewClient.Balance, StringFormat=\{0:c\}}"></TextBox>
-        </StackPanel>
-
-        <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Label>Скидка</Label>
-            <TextBox Text="{Binding Path=NewClient.Discount, Mode=TwoWay, StringFormat=\{0:P0\}, Converter={StaticResource PercentageConverter}}"></TextBox>
-        </StackPanel>
-        <StackPanel Grid.Column="1" Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Label>Инфо</Label>
-            <TextBox Text="{Binding Path=NewClient.Info, Mode=TwoWay}" MinHeight="75" AcceptsReturn="True"></TextBox>
-        </StackPanel>
-        <StackPanel Grid.Column="1" Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Label>Телефон</Label>
-            <TextBox Text="{Binding Path=NewClient.PhoneNumber, Mode=TwoWay}"></TextBox>
+        <StackPanel Grid.Column="0" Grid.Row="1" Style="{StaticResource LabelAndTextHorizontal}">
+            <Label  Style="{StaticResource LabelForTextBox}">Баланс</Label>
+            <TextBox Style="{StaticResource LongTextBox}" Text="{Binding Path=NewClient.Balance, StringFormat=\{0:c\}}"></TextBox>
         </StackPanel>
 
-
-        <StackPanel Grid.Column="0" Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left">
-            <Label>Введите имя клиента</Label>
-            <TextBox Text="{Binding NameFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+        <StackPanel Grid.Column="0" Grid.Row="2" Style="{StaticResource LabelAndTextHorizontal}">
+            <Label  Style="{StaticResource LabelForTextBox}">Скидка</Label>
+            <TextBox Style="{StaticResource LongTextBox}" Text="{Binding Path=NewClient.Discount, Mode=TwoWay, StringFormat=\{0:P0\}, Converter={StaticResource PercentageConverter}}"></TextBox>
         </StackPanel>
-        <DataGrid Grid.Column="0" Grid.Row="1" Grid.RowSpan="9" AutoGenerateColumns="False" SelectedItem="{Binding NewClient, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" EnableRowVirtualization="True" HorizontalAlignment="Left" ItemsSource="{Binding ClientsList}" RowDetailsVisibilityMode="VisibleWhenSelected" VerticalAlignment="Top" Width="Auto" CanUserAddRows="False" CanUserDeleteRows="False">
+        <StackPanel Grid.Column="0" Grid.Row="3" Style="{StaticResource LabelAndTextHorizontal}">
+            <Label  Style="{StaticResource LabelForTextBox}">Инфо</Label>
+            <TextBox Style="{StaticResource LongTextBox}" Text="{Binding Path=NewClient.Info, Mode=TwoWay}" MinHeight="75" AcceptsReturn="True"></TextBox>
+        </StackPanel>
+        <StackPanel Grid.Column="0" Grid.Row="4" Style="{StaticResource LabelAndTextHorizontal}">
+            <Label Style="{StaticResource LabelForTextBox}">Телефон</Label>
+            <TextBox  Style="{StaticResource LongTextBox}" Text="{Binding Path=NewClient.PhoneNumber, Mode=TwoWay}"></TextBox>
+        </StackPanel>
+
+
+        <StackPanel Grid.Column="1" Grid.Row="0" Style="{StaticResource LabelAndTextHorizontal}">
+            <Label Style="{StaticResource LabelForTextBox}">Введите имя клиента</Label>
+            <TextBox Style="{StaticResource LongTextBox}" Text="{Binding NameFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+        </StackPanel>
+        <DataGrid Grid.Column="1" Grid.Row="1" Grid.RowSpan="6" AutoGenerateColumns="False" EnableRowVirtualization="True"
+                  Style="{StaticResource DataGridStyle}"
+                  HorizontalAlignment="Left"
+                  ItemsSource="{Binding ClientsList}"
+                  SelectedItem="{Binding NewClient, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  
+                  VerticalAlignment="Top" CanUserAddRows="False" CanUserDeleteRows="False">
             <DataGrid.Columns>
-                <DataGridTextColumn x:Name="iDColumn" Binding="{Binding Path=ID}" Header="ID" Width="SizeToHeader" />
-                <DataGridTextColumn x:Name="nameColumn" Binding="{Binding Path=Name}" Header="ФИО" Width="120" />
+                <!--DataGridTextColumn x:Name="iDColumn" Binding="{Binding Path=ID}" Header="ID" Width="SizeToHeader" /-->
+                <DataGridTextColumn x:Name="nameColumn" Binding="{Binding Path=Name}" Header="ФИО" Width="*" />
                 <DataGridTextColumn x:Name="balanceColumn" Binding="{Binding Path=Balance}" Header="Баланс" Width="SizeToHeader" />
                 <DataGridTextColumn x:Name="discountColumn" Binding="{Binding Path=Discount}" Header="Скидка" Width="SizeToHeader" />
             </DataGrid.Columns>
         </DataGrid>
-        <StackPanel Grid.Column="1" Grid.Row="6" Grid.RowSpan="2" Orientation="Vertical" HorizontalAlignment="Left">
-            <Label>Введите сумму ("-" долг, "+" депозит)</Label>
-            <TextBox Text="{Binding LoanDeposit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=\{0:c\}}"></TextBox>
+        <StackPanel Grid.Column="0" Grid.Row="6" Grid.RowSpan="2" Style="{StaticResource LabelAndTextVertical}">
+            <Label Style="{StaticResource LabelForTextBox}">Введите сумму ("-" долг, "+" депозит)</Label>
+            <TextBox Text="{Binding LoanDeposit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=\{0:c\}}" Style="{StaticResource LongTextBox}" />
         </StackPanel>
-        <StackPanel Grid.Column="1" Grid.Row="8" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Content="Закрыть" Margin="0,5,0,0" Click="Button_Click"></Button>
-            <Button Content="Сохранить" Command="{Binding SaveCommand}" Margin="5,5,5,0" IsEnabled="True"></Button>
+        <StackPanel Grid.Column="1" Grid.Row="8" Style="{StaticResource BottomButtonsStackPanel}">
+            <Button Content="Сохранить" Command="{Binding SaveCommand}" Style="{StaticResource Buttons}" />
+            <Button Content="Закрыть" Click="Button_Click" Style="{StaticResource Buttons}" />
         </StackPanel>
     </Grid>
 </Window>

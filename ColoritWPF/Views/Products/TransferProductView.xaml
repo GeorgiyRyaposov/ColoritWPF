@@ -4,10 +4,6 @@
         Title="Перемещение продуктов" Height="800" Width="700"
         DataContext="{Binding TransferProductViewModelPage, Source={StaticResource Locator}}">
     <Window.Resources>
-        <!--StorageRowColor style-->
-        <Style x:Key="StorageRowColorStyle" TargetType="{x:Type DataGridCell}">
-            <Setter Property="Background" Value="{Binding Path=StorageRowColor}"/>
-        </Style>
         <!--Button style-->
         <Style TargetType="Button">
             <Setter Property="FontSize" Value ="12"/>
@@ -150,7 +146,7 @@
                 <DataGridTextColumn Binding="{Binding Path=DisplayDocumentNumber}" Header="№ Док-та" Width="SizeToHeader" IsReadOnly="True" />
                 <DataGridTextColumn Binding="{Binding Path=Sender, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Header="Склад - отправитель" Width="SizeToHeader" IsReadOnly="True" />
                 <DataGridTextColumn Binding="{Binding Path=Receiver, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Header="Склад - получатель" Width="SizeToHeader" IsReadOnly="True" />
-                <DataGridCheckBoxColumn Binding="{Binding Path=Confirmed}" Header="Проведен" CellStyle="{StaticResource StorageRowColorStyle}" />
+                <DataGridTemplateColumn Header="Проведен" Width="SizeToHeader" CellStyle="{StaticResource IsConfirmed_CheckBoxCellStyle}" IsReadOnly="True"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>
