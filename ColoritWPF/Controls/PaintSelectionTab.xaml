@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:ColoritWPF="clr-namespace:ColoritWPF"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="1000">
+             d:DesignHeight="300" d:DesignWidth="1100">
     <UserControl.InputBindings>
         <KeyBinding Command="{Binding ConfirmDocumentCommand}"
                     Key="Enter" Modifiers="Control"/>
@@ -15,18 +15,6 @@
         <ColoritWPF:CarModelConverter x:Key="CarModelConverter" />
         <ColoritWPF:ClientNameConverter x:Key="ClientNameConverter" />
         <ColoritWPF:PaintNameConverter x:Key="PaintNameConverter" />
-        <!--TextBox style-->
-        <Style TargetType="TextBox">
-            <Setter Property="IsEnabled" Value="{Binding IsEnabled}"/>
-        </Style>
-        <!--CheckBox style-->
-        <Style TargetType="CheckBox">
-            <Setter Property="IsEnabled" Value="{Binding IsEnabled}"/>
-        </Style>
-        <!--ComboBox style-->
-        <Style TargetType="ComboBox">
-            <Setter Property="IsEnabled" Value="{Binding IsEnabled}"/>
-        </Style>
     </UserControl.Resources>
     <Grid DataContext="{Binding ColorsMainPage, Source={StaticResource Locator}}">
         <Grid.RowDefinitions>
@@ -45,42 +33,42 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <StackPanel Grid.Column="0" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Label>Выбор модели:</Label>
-            <ComboBox
-                ItemsSource ="{Binding CarModels}" 
-                SelectedValue="{Binding CurrentPaint.CarModelID}" 
-                DisplayMemberPath="ModelName" IsSynchronizedWithCurrentItem="True" 
-                SelectedValuePath="ID" Width="150" HorizontalAlignment="Right"
-                IsEditable="True" IsTextSearchCaseSensitive="False"></ComboBox>
-        </StackPanel>
-        <StackPanel Grid.Column="0" Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Label>Код краски:</Label>
-            <TextBox Text="{Binding CurrentPaint.PaintCode}" Width="150"></TextBox>
-        </StackPanel>
+        
+        <Label Grid.Column="0" Grid.Row="1" Style="{StaticResource LabelForTextBox}" HorizontalAlignment="Right">Выбор модели:</Label>
+        <ComboBox
+            Grid.Column="1" Grid.Row="1" Style="{StaticResource LongComboBox}"
+            ItemsSource ="{Binding CarModels}" 
+            SelectedValue="{Binding CurrentPaint.CarModelID}" 
+            DisplayMemberPath="ModelName" IsSynchronizedWithCurrentItem="True" 
+            SelectedValuePath="ID" Width="150" HorizontalAlignment="Left"
+            IsEditable="True" IsTextSearchCaseSensitive="False"></ComboBox>
+        
+        
+        <Label Grid.Column="0" Grid.Row="2" Style="{StaticResource LabelForTextBox}" HorizontalAlignment="Right">Код краски:</Label>
+        <TextBox Grid.Column="1" Grid.Row="2" Style="{StaticResource LongTextBox}" Text="{Binding CurrentPaint.PaintCode}" />
 
-        <StackPanel Grid.Column="0" Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Label>Список клиентов:</Label>
-            <ComboBox 
-                    x:Name="ClientCombo" 
-                    ItemsSource ="{Binding Clients}"  
-                    SelectedValue ="{Binding Path=CurrentClientId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                    DisplayMemberPath="Name" 
-                    SelectedValuePath="ID" 
-                    Width="150" IsEditable="True" IsTextSearchCaseSensitive="False"></ComboBox>
-        </StackPanel>
-        <StackPanel Grid.Column="0" Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Label >Телефон:</Label>
-            <TextBox Text="{Binding Path=PhoneNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="150" HorizontalAlignment="Right"></TextBox>
-        </StackPanel>
-        <StackPanel Grid.Column="0" Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Label>Баланс Клиента:</Label>
-            <Label Content="{Binding ElementName=ClientCombo, Path=SelectedItem.Balance, StringFormat=\{0:c\}}" Width="150" FontWeight="Bold" FontSize="12"></Label>
-        </StackPanel>
+        <Label Grid.Column="0" Grid.Row="3" Style="{StaticResource LabelForTextBox}" HorizontalAlignment="Right">Список клиентов:</Label>
+        <ComboBox 
+            Grid.Column="1" Grid.Row="3" Style="{StaticResource LongComboBox}"
+            x:Name="ClientCombo" 
+            ItemsSource ="{Binding Clients}"  
+            SelectedValue ="{Binding Path=CurrentClientId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+            DisplayMemberPath="Name" 
+            SelectedValuePath="ID" 
+            IsEditable="True" IsTextSearchCaseSensitive="False"></ComboBox>
+        
+        <Label Grid.Column="0" Grid.Row="4" Style="{StaticResource LabelForTextBox}" HorizontalAlignment="Right">Телефон:</Label>
+        <TextBox Grid.Column="1" Grid.Row="4" Style="{StaticResource LongTextBox}" Text="{Binding Path=PhoneNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        
+        <Label Grid.Column="0" Grid.Row="5" Style="{StaticResource LabelForTextBox}" HorizontalAlignment="Right">Баланс Клиента:</Label>
+        <Label Grid.Column="1" Grid.Row="5" Style="{StaticResource LabelForTextBox}" Content="{Binding ElementName=ClientCombo, Path=SelectedItem.Balance, StringFormat=\{0:c\}}" FontWeight="Bold" FontSize="12" HorizontalAlignment="Left"/>
 
-        <DataGrid Grid.Column="0" Grid.Row="9" Grid.ColumnSpan="6" Grid.RowSpan="6" Background="White"
+        <DataGrid Grid.Column="0" Grid.Row="9" Grid.ColumnSpan="9" Grid.RowSpan="6" Background="White" Style="{StaticResource DataGridStyle}"
                                   x:Name="PaintsGrid" ItemsSource="{Binding Paints}" 
                                   SelectedItem="{Binding CurrentPaint, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                   AutoGenerateColumns="False" EnableRowVirtualization="True">
@@ -106,33 +94,28 @@
             </DataGrid.InputBindings>
         </DataGrid>
 
-        <StackPanel Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Left">
-            <StackPanel.Resources>
-                <Style TargetType="{x:Type RadioButton}">
-                    <Setter Property="Margin" Value="0,0,10,0"/>
-                </Style>
-            </StackPanel.Resources>
-            <RadioButton GroupName="Paints" 
+        <StackPanel Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="4" Orientation="Horizontal" HorizontalAlignment="Left">
+            <RadioButton GroupName="Paints" Style="{StaticResource RadioButtons}"
                             IsChecked="{Binding LSB, Mode=TwoWay}"
                             Command="{Binding SetPaintCommand}">LSB</RadioButton>
-            <RadioButton GroupName="Paints" Name="L2KRadio"
+            <RadioButton GroupName="Paints" Name="L2KRadio" Style="{StaticResource RadioButtons}"
                             IsChecked="{Binding Path=L2K, Mode=TwoWay}"
                             Command="{Binding SetPaintCommand}">L2K</RadioButton>
-            <RadioButton GroupName="Paints" 
+            <RadioButton GroupName="Paints" Style="{StaticResource RadioButtons}"
                             IsChecked="{Binding ABP, Mode=TwoWay}"
                             Command="{Binding SetPaintCommand}">ABP</RadioButton>
-            <RadioButton GroupName="Paints" Name="PolishRbtn"
+            <RadioButton GroupName="Paints" Name="PolishRbtn" Style="{StaticResource RadioButtons}"
                             IsChecked="{Binding Polish, Mode=TwoWay}"
                             Command="{Binding SetPaintCommand}">Лак</RadioButton>
-            <RadioButton GroupName="Paints" Name="OtherRadio"
+            <RadioButton GroupName="Paints" Name="OtherRadio" Style="{StaticResource RadioButtons}"
                             IsChecked="{Binding Path=Other, Mode=TwoWay}"
                             Command="{Binding SetPaintCommand}">Другое</RadioButton>
-            <ComboBox ItemsSource="{Binding OtherPaints}"
-                        SelectedValue ="{Binding Path=CurrentPaint.NameID}" DisplayMemberPath="Name" SelectedValuePath="ID" Width="150" IsEnabled="{Binding IsChecked, ElementName=OtherRadio}"
-                      IsEditable="True" IsTextSearchCaseSensitive="False"></ComboBox>
+            <ComboBox ItemsSource="{Binding OtherPaints}" Style="{StaticResource LongComboBox}"
+                      SelectedValue ="{Binding Path=CurrentPaint.NameID, ValidatesOnDataErrors=False}" DisplayMemberPath="Name" SelectedValuePath="ID" Width="150" IsEnabled="{Binding IsChecked, ElementName=OtherRadio}"
+                      IsEditable="True" IsTextSearchCaseSensitive="False"/>
         </StackPanel>
 
-        <StackPanel Grid.Column="1" Grid.Row="2"  Grid.ColumnSpan="2" Orientation="Horizontal" Margin="0,5,0,5" HorizontalAlignment="Left">
+        <StackPanel Grid.Column="2" Grid.Row="2"  Grid.ColumnSpan="4" Orientation="Horizontal" Margin="0,5,0,5" HorizontalAlignment="Left">
             <StackPanel.Resources>
                 <Style TargetType="{x:Type RadioButton}">
                     <Setter Property="Margin" Value="0,0,15,0"/>
@@ -142,78 +125,66 @@
                 <!--CheckBox IsChecked="{Binding Package}" Command="{Binding SetPaintCommand}"
                         CommandParameter="{Binding}">Комплект</CheckBox-->
                 <CheckBox IsChecked="{Binding ThreeLayers}" IsEnabled="{Binding IsThreeLayers}"
-                        Command="{Binding SetPaintCommand}"
+                        Command="{Binding SetPaintCommand}" Style="{StaticResource CheckBoxes}" Width="Auto"
                         CommandParameter="{Binding}">Три слоя</CheckBox>
             </StackPanel>
-            <RadioButton GroupName="L2KColors" IsEnabled="{Binding ElementName=L2KRadio, Path=IsChecked}"
-                            IsChecked="{Binding White, Mode=TwoWay}"
-                            Command="{Binding SetPaintCommand}">Белая</RadioButton>
-            <RadioButton GroupName="L2KColors" IsEnabled="{Binding ElementName=L2KRadio, Path=IsChecked}"
-                            IsChecked="{Binding Red, Mode=TwoWay}"
-                            Command="{Binding SetPaintCommand}">Красная</RadioButton>
-            <RadioButton GroupName="L2KColors" IsEnabled="{Binding ElementName=L2KRadio, Path=IsChecked}"
-                            IsChecked="{Binding Color, Mode=TwoWay}"
-                            Command="{Binding SetPaintCommand}">Цветная</RadioButton>
+            <RadioButton GroupName="L2KColors" IsEnabled="{Binding ElementName=L2KRadio, Path=IsChecked}" Style="{StaticResource RadioButtons}"
+                         IsChecked="{Binding White, Mode=TwoWay}"
+                         Command="{Binding SetPaintCommand}">Белая</RadioButton>
+            <RadioButton GroupName="L2KColors" IsEnabled="{Binding ElementName=L2KRadio, Path=IsChecked}" Style="{StaticResource RadioButtons}"
+                         IsChecked="{Binding Red, Mode=TwoWay}"
+                         Command="{Binding SetPaintCommand}">Красная</RadioButton>
+            <RadioButton GroupName="L2KColors" IsEnabled="{Binding ElementName=L2KRadio, Path=IsChecked}" Style="{StaticResource RadioButtons}"
+                         IsChecked="{Binding Color, Mode=TwoWay}"
+                         Command="{Binding SetPaintCommand}">Цветная</RadioButton>
         </StackPanel>
 
-        <StackPanel Grid.Column="1" Grid.Row="4"  Orientation="Horizontal" HorizontalAlignment="Right">
-            <Label>Скидка:</Label>
-            <TextBox Text="{Binding Mode=TwoWay, UpdateSourceTrigger=LostFocus, Path=Discount, StringFormat=\{0:P0\}, Converter={StaticResource PercentageConverter}}" 
-                     Width="100">
-            </TextBox>
-        </StackPanel>
+        
+        <Label Grid.Column="2" Grid.Row="4" Style="{StaticResource LabelForTextBox}" HorizontalAlignment="Right">Скидка:</Label>
+        <TextBox Grid.Column="3" Grid.Row="4" Text="{Binding Mode=TwoWay, UpdateSourceTrigger=LostFocus, Path=Discount, StringFormat=\{0:P0\}, Converter={StaticResource PercentageConverter}}" 
+                 Style="{StaticResource TextBoxes}" Width="100"/>
+        
+        <Label Grid.Column="2" Grid.Row="3" Style="{StaticResource LabelForTextBox}" HorizontalAlignment="Right">Кол-во:</Label>
+        <TextBox Grid.Column="3" Grid.Row="3" Text="{Binding Mode=TwoWay, UpdateSourceTrigger=LostFocus, Path=CurrentPaint.Amount, StringFormat=\{0:N\}}" 
+                 IsEnabled="{Binding IsAmountEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                 Style="{StaticResource TextBoxes}" Width="100"/>
+        
+        
+        <Label Grid.Column="4" Grid.Row="3" Style="{StaticResource LabelForTextBox}" HorizontalAlignment="Right">Лак:</Label>
+        <TextBox Grid.Column="5" Grid.Row="3" Text="{Binding CurrentPaint.AmountPolish, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=\{0:N\}}"
+                 Style="{StaticResource TextBoxes}" Width="100"/>
 
-        <StackPanel Grid.Column="1" Grid.Row="3"  Orientation="Horizontal" HorizontalAlignment="Right">
-            <Label>Кол-во:</Label>
-            <TextBox Text="{Binding Mode=TwoWay, UpdateSourceTrigger=LostFocus, Path=CurrentPaint.Amount, StringFormat=\{0:N\}}" 
-                     Width="100" IsEnabled="{Binding IsAmountEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-            </TextBox>
-        </StackPanel>
-        <StackPanel Grid.Column="2" Grid.Row="3"  Orientation="Horizontal" HorizontalAlignment="Right">
-            <Label>Лак:</Label>
-            <TextBox Text="{Binding CurrentPaint.AmountPolish, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=\{0:N\}}" Width="100"></TextBox>
-        </StackPanel>
-
-        <StackPanel Grid.Column="3" Grid.Row="1" Grid.RowSpan="2" Orientation="Vertical">
-            <StackPanel.Resources>
-                <Style TargetType="{x:Type RadioButton}">
-                    <Setter Property="Margin" Value="0,2,0,0"/>
-                </Style>
-                <Style TargetType="{x:Type CheckBox}">
-                    <Setter Property="Margin" Value="0,2,0,0"/>
-                </Style>
-            </StackPanel.Resources>
-            <RadioButton GroupName="ServiceTypes" IsChecked="{Binding ByCode, Mode=TwoWay}"
+        <StackPanel Grid.Column="6" Grid.Row="1" Grid.RowSpan="2" Orientation="Vertical">
+            <RadioButton GroupName="ServiceTypes" IsChecked="{Binding ByCode, Mode=TwoWay}" Style="{StaticResource RadioButtons}"
                             Command="{Binding SetPaintCommand}">Код</RadioButton>
-            <RadioButton GroupName="ServiceTypes" IsChecked="{Binding Selection, Mode=TwoWay}" x:Name="Selection_radio"
+            <RadioButton GroupName="ServiceTypes" IsChecked="{Binding Selection, Mode=TwoWay}" x:Name="Selection_radio" Style="{StaticResource RadioButtons}"
                             Command="{Binding SetPaintCommand}">Подбор</RadioButton>
-            <CheckBox IsChecked="{Binding Colorist}"
-                            Command="{Binding SetPaintCommand}">Колорист</CheckBox>
+            <CheckBox IsChecked="{Binding Colorist}" Style="{StaticResource CheckBoxes}" HorizontalAlignment="Left"
+                      Command="{Binding SetPaintCommand}">Колорист</CheckBox>
         </StackPanel>
 
-        <StackPanel Grid.Column="1" Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Label>Сумма товара:</Label>
-            <TextBox Text="{Binding CurrentPaint.Sum, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=\{0:c\}}" Width="100" Foreground="#FF00C200" FontSize="14"></TextBox>
-        </StackPanel>
-        <StackPanel Grid.Column="2" Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Label>Предоплата:</Label>
-            <TextBox Text="{Binding CurrentPaint.Prepay, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=\{0:c\}}" Width="100"></TextBox>
-        </StackPanel>
-        <StackPanel Grid.Column="2" Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Label>Итого:</Label>
-            <TextBox Text="{Binding Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Path=CurrentPaint.Total, StringFormat=\{0:c\}}" Width="100"></TextBox>
-        </StackPanel>
+        <Label Grid.Column="2" Grid.Row="5" Style="{StaticResource LabelForTextBox}" HorizontalAlignment="Right">Сумма товара:</Label>
+        <TextBox Grid.Column="3" Grid.Row="5" Text="{Binding CurrentPaint.Sum, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=\{0:c\}}" 
+                 Style="{StaticResource TextBoxes}" Width="100" Foreground="#FF00C200" FontSize="14"/>
+        
+        <Label Grid.Column="4" Grid.Row="4" Style="{StaticResource LabelForTextBox}" HorizontalAlignment="Right">Предоплата:</Label>
+        <TextBox Grid.Column="5" Grid.Row="4" Text="{Binding CurrentPaint.Prepay, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=\{0:c\}}"
+                 Style="{StaticResource TextBoxes}" Width="100"></TextBox>
+        
+        
+        <Label Grid.Column="4" Grid.Row="5" Style="{StaticResource LabelForTextBox}" HorizontalAlignment="Right">Итого:</Label>
+        <TextBox Grid.Column="5" Grid.Row="5" Text="{Binding Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Path=CurrentPaint.Total, StringFormat=\{0:c\}}"
+                 Style="{StaticResource TextBoxes}" Width="100"></TextBox>
 
-
-        <StackPanel Grid.Column="3" Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Left">
-            <Button Command="{Binding AddPaintCommand}">Добавить</Button>
-            <Button Command="{Binding PreorderCommand}">Предзаказ</Button>
-            <Button Command="{Binding ConfirmDocumentCommand}">Провести</Button>
+        <StackPanel Grid.Column="6" Grid.Row="3" Style="{StaticResource BottomButtonsStackPanel}">
+            <Button Command="{Binding AddPaintCommand}" Style="{StaticResource Buttons}">Добавить</Button>
+            <Button Command="{Binding PreorderCommand}" Style="{StaticResource Buttons}">Предзаказ</Button>
+            <Button Command="{Binding ConfirmDocumentCommand}" Style="{StaticResource Buttons}" MinWidth="90">Провести</Button>
         </StackPanel>
-        <StackPanel Grid.Column="3" Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Left">
-            <Button Command="{Binding ReCalcCommand}">Пересчет</Button>
-            <Button Command="{Binding CancelPreorderCommand}">Отмена</Button>
-            <Button Command="{Binding UnConfirmDocumentCommand}">РазПровести</Button>
+        <StackPanel Grid.Column="6" Grid.Row="4" Style="{StaticResource BottomButtonsStackPanel}">
+            <Button Command="{Binding ReCalcCommand}" Style="{StaticResource Buttons}">Пересчет</Button>
+            <Button Command="{Binding CancelPreorderCommand}" Style="{StaticResource Buttons}">Отмена</Button>
+            <Button Command="{Binding UnConfirmDocumentCommand}" Style="{StaticResource Buttons}" MinWidth="90">РазПровести</Button>
         </StackPanel>
 
     </Grid>

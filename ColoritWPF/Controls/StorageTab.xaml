@@ -6,19 +6,15 @@
              xmlns:ColoritWPF="clr-namespace:ColoritWPF"
              mc:Ignorable="d" 
              DataContext="{Binding ProductsViewModelPage, Source={StaticResource Locator}}"
-             d:DesignHeight="620" d:DesignWidth="460">
+             d:DesignHeight="620" d:DesignWidth="650">
     <UserControl.Resources>
         <ColoritWPF:PercentageConverter x:Key="PercentageConverter" />
-        <!--StorageRowColor style-->
-        <Style x:Key="StorageRowColorStyle" TargetType="{x:Type DataGridCell}">
-            <Setter Property="Background" Value="{Binding Path=StorageRowColor}"/>
-        </Style>
     </UserControl.Resources>
         <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -28,27 +24,54 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <StackPanel Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" Orientation="Vertical" HorizontalAlignment="Left">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                <Label Margin="5,5,0,5">Клиент:</Label>
-                <ComboBox Margin="5,5,5,5"
-                                ItemsSource ="{Binding Clients}"  
-                                SelectedItem ="{Binding Path=CurrentClient, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                DisplayMemberPath="Name" 
-                                Width="220" IsEditable="True" IsTextSearchCaseSensitive="False" />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                <Label Margin="5,5,0,5">Баланс клиента:</Label>
-                <TextBox Text="{Binding CurrentClient.Balance, StringFormat=\{0:c\}}" Margin="5,5,5,5" Width="60" />
-                <CheckBox IsChecked="{Binding IncludeClientBalanceToTotal, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                      Content="Включить в оплату" Margin="0,5,5,5" VerticalAlignment="Center"/>
-                <Label Margin="5,5,0,5">Скидка:</Label>
-                <TextBox Text="{Binding CurrentDiscount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=\{0:P0\}, Converter={StaticResource PercentageConverter}}" Margin="5,5,5,5" Width="50" />
-            </StackPanel>
+            
+        <DataGrid AutoGenerateColumns="False" Height="200" Style="{StaticResource DataGridStyle}" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="4"
+                  ItemsSource="{Binding Path=SaleDocuments, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                  SelectedItem="{Binding CurrentSaleDocument, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                  CanUserAddRows="False" LoadingRow="dgSaleList_LoadingRow">
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Command="{Binding RemoveProductDocumentFromListCommand}" Header="Удалить" />
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+            <DataGrid.RowHeaderTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGridRow}}, Path=Header}"></TextBlock>
+                </DataTemplate>
+            </DataGrid.RowHeaderTemplate>
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Path=DocumentNumber}" Header="№ док-та" Width="SizeToHeader" IsReadOnly="True" />
+                <DataGridTextColumn Binding="{Binding Path=DateCreated}" Header="Дата" Width="SizeToHeader" IsReadOnly="True" />
+                <DataGridTextColumn Binding="{Binding Path=Comments}" Header="Комментарии" IsReadOnly="True" />
+                <DataGridTextColumn Binding="{Binding Path=Client.Name}" Header="Клиент" Width="SizeToHeader" IsReadOnly="True" />
+                <DataGridTextColumn Binding="{Binding Path=Total, StringFormat=\{0:c\}}" Header="Сумма" Width="SizeToHeader" IsReadOnly="True" />
+                <DataGridTemplateColumn Header="Предоплата" Width="SizeToHeader" CellStyle="{StaticResource IsPrepay_CheckBoxCellStyle}" IsReadOnly="True"/>
+                <DataGridTemplateColumn Header="Проведен" Width="SizeToHeader" CellStyle="{StaticResource IsConfirmed_CheckBoxCellStyle}" IsReadOnly="True"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Label Grid.Column="0" Grid.Row="1" Style="{StaticResource LabelForTextBox}" HorizontalAlignment="Right">Клиент:</Label>
+        <ComboBox Grid.Column="1" Grid.Row="1" Style="{StaticResource LongComboBox}" HorizontalAlignment="Left"
+                  ItemsSource ="{Binding Clients}"  
+                  SelectedItem ="{Binding Path=CurrentClient, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                  DisplayMemberPath="Name" 
+                  Width="220" IsEditable="True" IsTextSearchCaseSensitive="False" />
+
+        <Label Grid.Column="0" Grid.Row="2" Style="{StaticResource LabelForTextBox}">Баланс клиента:</Label>
+        <StackPanel Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3" Style="{StaticResource LabelAndTextHorizontal}" HorizontalAlignment="Left">
+            
+            <TextBox Text="{Binding CurrentClient.Balance, StringFormat=\{0:c\}}" Width="60" Style="{StaticResource TextBoxes}" />
+            <CheckBox IsChecked="{Binding IncludeClientBalanceToTotal, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    Content="Включить в оплату" Style="{StaticResource CheckBoxes}"/>
+            <Label Style="{StaticResource LabelForTextBox}">Скидка:</Label>
+            <TextBox Text="{Binding CurrentDiscount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=\{0:P0\}, Converter={StaticResource PercentageConverter}}" 
+                     Style="{StaticResource TextBoxes}" Width="50" VerticalContentAlignment="Center" />
         </StackPanel>
-        <DataGrid AutoGenerateColumns="False" EnableRowVirtualization="True" Height="200" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" 
-                  ItemsSource="{Binding Path=SaleProductsList}" CanUserAddRows="False" LoadingRow="dgSaleList_LoadingRow" Margin="5,5,5,5" 
+            
+        <DataGrid AutoGenerateColumns="False" EnableRowVirtualization="True" Height="200" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="4" 
+                  ItemsSource="{Binding Path=SaleProductsList}" CanUserAddRows="False" LoadingRow="dgSaleList_LoadingRow" Style="{StaticResource DataGridStyle}" 
                   SelectedItem="{Binding CurrentSale, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                   IsEnabled="{Binding IsEnabled}"            
                   x:Name="SaleDg">
@@ -72,56 +95,26 @@
             </DataGrid.Columns>
         </DataGrid>
 
+        
+        <Label Grid.Column="0" Grid.Row="4" Style="{StaticResource LabelForTextBox}">Комментарий:</Label>
+        <TextBox Grid.RowSpan="2" Grid.Column="1" Grid.Row="4" Style="{StaticResource LongTextBox}"
+                 Text="{Binding CurrentSaleDocument.Comments, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                 AcceptsReturn="True" Height="70" HorizontalAlignment="Left"/>
 
-        <StackPanel Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Stretch">
-            <Label HorizontalAlignment="Left" Margin="5,5,0,5">Комментарий:</Label>
-            <TextBox Text="{Binding CurrentSaleDocument.Comments, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                     Grid.RowSpan="2"
-                     AcceptsReturn="True" Height="50" Width="150" Margin="0,5,5,5" HorizontalAlignment="Right"/>
-        </StackPanel>
-        <StackPanel Grid.Column="2" Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Label Margin="5,5,0,5">Сумма без скидки:</Label>
-            <TextBox Text="{Binding CurrentSaleDocument.CleanTotal, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=\{0:c\}}" 
-                                 Width="100" Height="25" Margin="0,5,5,5" />
-        </StackPanel>
-        <StackPanel Grid.Column="2" Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Label Margin="5,5,0,5">Сумма:</Label>
-            <TextBox Text="{Binding CurrentSaleDocument.Total, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=\{0:c\}}" Width="100" Height="25" Foreground="#FF00C200" Margin="0,5,5,5"/>
-        </StackPanel>
+        <Label Grid.Column="2" Grid.Row="4" Style="{StaticResource LabelForTextBox}" HorizontalAlignment="Right">Сумма без скидки:</Label>
+        <TextBox Grid.Column="3" Grid.Row="4" Style="{StaticResource LongTextBox}"
+                 Text="{Binding CurrentSaleDocument.CleanTotal, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=\{0:c\}}" />
+        
+        <Label Grid.Column="2" Grid.Row="5"  Style="{StaticResource LabelForTextBox}" HorizontalAlignment="Right">Сумма:</Label>
+        <TextBox Grid.Column="3" Grid.Row="5" Style="{StaticResource LongTextBox}"
+                 Text="{Binding CurrentSaleDocument.Total, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=\{0:c\}}" Foreground="#FF00C200"/>
 
-        <StackPanel Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top">
-            <Button Content="Печать" Command="{Binding PrintCommand, Mode=OneWay}" CommandParameter="{Binding ElementName=SaleDg, Mode=OneWay}"
-                                MaxHeight="25" VerticalAlignment="Top" Margin="5,5,5,5"></Button>
-            <Button Content="Подбор" Command="{Binding OpenSelectionCommand}" MaxHeight="25" VerticalAlignment="Top" Margin="5,5,5,5"></Button>
-            <Button Content="Перемещение" Command="{Binding MoveProductDlgCommand}" Margin="5,5,5,5"/>
-            <Button Content="Сохранить" Command="{Binding PrepayDocumentCommand}" MaxHeight="25" VerticalAlignment="Top" Margin="5,5,5,5"></Button>
-            <Button Content="{Binding ConfirmButtonContent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Command="{Binding ConfirmDocumentCommand}" MaxHeight="25" VerticalAlignment="Top" Margin="5,5,5,5"></Button>
+        <StackPanel Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="4" Style="{StaticResource BottomButtonsStackPanel}">
+            <Button Content="Печать" Command="{Binding PrintCommand, Mode=OneWay}" CommandParameter="{Binding ElementName=SaleDg, Mode=OneWay}" Style="{StaticResource Buttons}"/>
+            <Button Content="Подбор" Command="{Binding OpenSelectionCommand}" Style="{StaticResource Buttons}"/>
+            <Button Content="Перемещение" Command="{Binding MoveProductDlgCommand}" Style="{StaticResource Buttons}"/>
+            <Button Content="Сохранить" Command="{Binding PrepayDocumentCommand}" Style="{StaticResource Buttons}"/>
+            <Button Content="{Binding ConfirmButtonContent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Command="{Binding ConfirmDocumentCommand}" Style="{StaticResource Buttons}"/>
         </StackPanel>
-
-
-        <DataGrid AutoGenerateColumns="False" Height="200" Width="Auto" Margin="5,5,5,5" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3"
-                                  ItemsSource="{Binding Path=SaleDocuments, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                  SelectedItem="{Binding CurrentSaleDocument, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                  CanUserAddRows="False" LoadingRow="dgSaleList_LoadingRow">
-            <DataGrid.ContextMenu>
-                <ContextMenu>
-                    <MenuItem Command="{Binding RemoveProductDocumentFromListCommand}" Header="Удалить" />
-                </ContextMenu>
-            </DataGrid.ContextMenu>
-            <DataGrid.RowHeaderTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGridRow}}, Path=Header}"></TextBlock>
-                </DataTemplate>
-            </DataGrid.RowHeaderTemplate>
-            <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Path=DocumentNumber}" Header="№ док-та" Width="SizeToHeader" IsReadOnly="True" />
-                <DataGridTextColumn Binding="{Binding Path=DateCreated}" Header="Дата" Width="SizeToHeader" IsReadOnly="True" />
-                <DataGridTextColumn Binding="{Binding Path=Comments}" Header="Комментарии" IsReadOnly="True" />
-                <DataGridTextColumn Binding="{Binding Path=Client.Name}" Header="Клиент" Width="SizeToHeader" IsReadOnly="True" />
-                <DataGridTextColumn Binding="{Binding Path=Total, StringFormat=\{0:c\}}" Header="Сумма" Width="SizeToHeader" IsReadOnly="True" />
-                <DataGridTemplateColumn Header="Предоплата" Width="SizeToHeader" CellStyle="{StaticResource IsPrepay_CheckBoxCellStyle}" IsReadOnly="True"/>
-                <DataGridTemplateColumn Header="Проведен" Width="SizeToHeader" CellStyle="{StaticResource IsConfirmed_CheckBoxCellStyle}" IsReadOnly="True"/>
-            </DataGrid.Columns>
-        </DataGrid>
     </Grid>
 </UserControl>

@@ -3,38 +3,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Перемещение продуктов" Height="800" Width="700"
         DataContext="{Binding TransferProductViewModelPage, Source={StaticResource Locator}}">
-    <Window.Resources>
-        <!--Button style-->
-        <Style TargetType="Button">
-            <Setter Property="FontSize" Value ="12"/>
-            <Setter Property="FontWeight" Value ="Normal"/>
-            <Setter Property="MinWidth" Value ="75"/>
-            <Setter Property="Margin" Value ="5,5,5,5"/>
-        </Style>
-        <!--TextBox style-->
-        <Style TargetType="ComboBox">
-            <Setter Property="Validation.ErrorTemplate">
-                <Setter.Value>
-                    <ControlTemplate>
-                        <DockPanel LastChildFill="true">
-                            <Border Background="OrangeRed" DockPanel.Dock="right" Margin="5,0,0,0" 
-                                    Width="20" Height="20" CornerRadius="5"
-                                    ToolTip="{Binding ElementName=customAdorner, 
-                                              Path=AdornedElement.(Validation.Errors)[0].ErrorContent}">
-                                <TextBlock Text="!" VerticalAlignment="center" HorizontalAlignment="center" 
-                                       FontWeight="Bold" Foreground="white" />
-                            </Border>
-                            <AdornedElementPlaceholder Name="customAdorner" VerticalAlignment="Center" >
-                                <Border BorderBrush="red" BorderThickness="1" />
-                            </AdornedElementPlaceholder>
-                        </DockPanel>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-    </Style>
-    </Window.Resources>
+    
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -44,97 +16,82 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-    <StackPanel Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="6" Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-            <Label Margin="5,5,0,5" HorizontalAlignment="Right">Склад отправитель:</Label>
-                <ComboBox Margin="0,5,5,5"
-                ItemsSource ="{Binding StorageList}"  
-                DisplayMemberPath="Name"
-                SelectedItem ="{Binding Path=Sender, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
-                Width="150" IsEditable="False" />
-        </StackPanel>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <Label Margin="5,5,0,5" HorizontalAlignment="Right">Склад получатель:</Label>
-                <ComboBox Margin="0,5,5,5"
-                ItemsSource ="{Binding StorageList}"  
-                DisplayMemberPath="Name"
-                SelectedItem ="{Binding Path=Receiver, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
-                Width="150" IsEditable="False" />
-            
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <Label Margin="5,5,0,5" HorizontalAlignment="Right">Комментарий:</Label>
-                <TextBox Text="{Binding CurrentTransferDocument.Comment}" Margin="5,5,5,5" Width="150" />
-            </StackPanel>
-        </StackPanel>
-        
-            <DataGrid AutoGenerateColumns="False" EnableRowVirtualization="True" Height="300" Margin="5,5,5,5" HorizontalAlignment="Stretch"
-                      ItemsSource="{Binding ProductsList}" CanUserAddRows="False" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="6"                      
-                      x:Name="ProductsGrid"
-                      LoadingRow="dg_LoadingRow">
-                <DataGrid.GroupStyle>
-                    <GroupStyle>
-                        <GroupStyle.HeaderTemplate>
-                            <DataTemplate>
-                                <StackPanel>
-                                    <TextBlock Text="{Binding Name}" FontWeight="Bold" Padding="3"/>
-                                </StackPanel>
-                            </DataTemplate>
-                        </GroupStyle.HeaderTemplate>
-                        <GroupStyle.ContainerStyle>
-                            <Style TargetType="{x:Type GroupItem}">
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="{x:Type GroupItem}">
-                                            <Expander IsExpanded="True" Background="GhostWhite" Foreground="Black">
-                                                <Expander.Header>
-                                                    <StackPanel Orientation="Horizontal">
-                                                        <TextBlock Text="{Binding Name}"/>
-                                                        <TextBlock Text="{Binding Path=ItemCount}" Margin="8,0,4,0"/>
-                                                        <TextBlock Text="(шт)"/>
-                                                    </StackPanel>
-                                                </Expander.Header>
-                                                <ItemsPresenter />
-                                            </Expander>
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </Style>
-                        </GroupStyle.ContainerStyle>
-                    </GroupStyle>
-                </DataGrid.GroupStyle>
-                <DataGrid.RowHeaderTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGridRow}}, Path=Header}"></TextBlock>
-                    </DataTemplate>
-                </DataGrid.RowHeaderTemplate>
-                <DataGrid.Columns>
-                    <DataGridTextColumn Binding="{Binding Path=Article}" Header="Артикул" Width="SizeToHeader" IsReadOnly="True" />
-                    <DataGridTextColumn Binding="{Binding Path=Name}" Header="Наименование" Width="480" IsReadOnly="True" />
-                    <DataGridTextColumn Binding="{Binding Path=Amount}" Header="Количество" Width="SizeToHeader" IsReadOnly="False" />
-                    <DataGridTextColumn Binding="{Binding Path=Cost, StringFormat=\{0:C\}}" Header="Цена" Width="SizeToHeader" IsReadOnly="True" />
-                </DataGrid.Columns>
-            </DataGrid>
-        
-        <StackPanel Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="6" Orientation="Horizontal" HorizontalAlignment="Left">
-            <Button Content="Печать" Command="{Binding PrintCommand}" CommandParameter="{Binding ElementName=ProductsGrid, Mode=OneWay}" />
-            <Button Content="Подбор" Command="{Binding OpenSelectionCommand}" />
-            <Button Content="Закрыть" Click="Button_Click" />
-            <Button Content="Сохранить" Command="{Binding SaveCommand}" />
-            <Button Content="{Binding ConfirmButtonContent}" Command="{Binding TransferSelectedProductCommand}" />
-        </StackPanel>
 
-        <DataGrid AutoGenerateColumns="False" EnableRowVirtualization="True" Height="300" Margin="5,5,5,5" HorizontalAlignment="Stretch"
-                                  ItemsSource="{Binding Path=TransferDocumentsList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                  CanUserAddRows="False" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="6"
-                                  SelectedItem="{Binding CurrentTransferDocument, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                  Name="Dg_MoveProductDocuments"
-                                  LoadingRow="dg_LoadingRow">
+        <Label Grid.Column="0" Grid.Row="1" Style="{StaticResource LabelForTextBox}" HorizontalAlignment="Right">Склад отправитель:</Label>
+        <ComboBox Grid.Column="1" Grid.Row="1" Style="{StaticResource LongComboBox}"
+                  ItemsSource ="{Binding StorageList}"  
+                  DisplayMemberPath="Name"
+                  SelectedItem ="{Binding Path=Sender, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
+                  IsEditable="False" />
+
+        <Label Grid.Column="0" Grid.Row="2" Style="{StaticResource LabelForTextBox}" HorizontalAlignment="Right">Склад получатель:</Label>
+        <ComboBox Grid.Column="1" Grid.Row="2" Style="{StaticResource LongComboBox}"
+                  ItemsSource ="{Binding StorageList}"  
+                  DisplayMemberPath="Name"
+                  SelectedItem ="{Binding Path=Receiver, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
+                  IsEditable="False" />
+
+        <Label Grid.Column="0" Grid.Row="3" Style="{StaticResource LabelForTextBox}" HorizontalAlignment="Right">Комментарий:</Label>
+        <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding CurrentTransferDocument.Comment}" Style="{StaticResource LongTextBox}"/>
+
+        <DataGrid AutoGenerateColumns="False" EnableRowVirtualization="True" Height="300" Style="{StaticResource DataGridStyle}" HorizontalAlignment="Stretch"
+                  ItemsSource="{Binding ProductsList}" CanUserAddRows="False" 
+                  Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="6"                      
+                  x:Name="ProductsGrid"
+                  LoadingRow="dg_LoadingRow">
+                <DataGrid.GroupStyle>
+            <GroupStyle>
+                <GroupStyle.HeaderTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <TextBlock Text="{Binding Name}" FontWeight="Bold" Padding="3"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </GroupStyle.HeaderTemplate>
+                <GroupStyle.ContainerStyle>
+                    <Style TargetType="{x:Type GroupItem}">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type GroupItem}">
+                                    <Expander IsExpanded="True" Background="GhostWhite" Foreground="Black">
+                                        <Expander.Header>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="{Binding Name}"/>
+                                                <TextBlock Text="{Binding Path=ItemCount}" Margin="8,0,4,0"/>
+                                                <TextBlock Text="(шт)"/>
+                                            </StackPanel>
+                                        </Expander.Header>
+                                        <ItemsPresenter />
+                                    </Expander>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </GroupStyle.ContainerStyle>
+            </GroupStyle>
+        </DataGrid.GroupStyle>
+                <DataGrid.RowHeaderTemplate>
+            <DataTemplate>
+                <TextBlock Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGridRow}}, Path=Header}"></TextBlock>
+            </DataTemplate>
+        </DataGrid.RowHeaderTemplate>
+        <DataGrid.Columns>
+            <DataGridTextColumn Binding="{Binding Path=Article}" Header="Артикул" Width="SizeToHeader" IsReadOnly="True" />
+            <DataGridTextColumn Binding="{Binding Path=Name}" Header="Наименование" Width="400" IsReadOnly="True" />
+            <DataGridTextColumn Binding="{Binding Path=Amount}" Header="Количество" Width="SizeToHeader" IsReadOnly="False" />
+            <DataGridTextColumn Binding="{Binding Path=Cost, StringFormat=\{0:C\}}" Header="Цена" Width="Auto" IsReadOnly="True" />
+        </DataGrid.Columns>
+        </DataGrid>
+
+        <DataGrid AutoGenerateColumns="False" EnableRowVirtualization="True" Height="300" Style="{StaticResource DataGridStyle}" HorizontalAlignment="Stretch"
+                  ItemsSource="{Binding Path=TransferDocumentsList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                  CanUserAddRows="False" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3"
+                  SelectedItem="{Binding CurrentTransferDocument, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                  Name="Dg_MoveProductDocuments"
+                  LoadingRow="dg_LoadingRow">
             <DataGrid.RowHeaderTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGridRow}}, Path=Header}"></TextBlock>
@@ -149,5 +106,13 @@
                 <DataGridTemplateColumn Header="Проведен" Width="SizeToHeader" CellStyle="{StaticResource IsConfirmed_CheckBoxCellStyle}" IsReadOnly="True"/>
             </DataGrid.Columns>
         </DataGrid>
+
+        <StackPanel Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="3" Style="{StaticResource BottomButtonsStackPanel}">
+            <Button Content="Печать" Command="{Binding PrintCommand}" CommandParameter="{Binding ElementName=ProductsGrid, Mode=OneWay}" Style="{StaticResource Buttons}"/>
+            <Button Content="Подбор" Command="{Binding OpenSelectionCommand}" Style="{StaticResource Buttons}"/>
+            <Button Content="Закрыть" Click="Button_Click" Style="{StaticResource Buttons}"/>
+            <Button Content="Сохранить" Command="{Binding SaveCommand}" Style="{StaticResource Buttons}"/>
+            <Button Content="{Binding ConfirmButtonContent}" Command="{Binding TransferSelectedProductCommand}" Style="{StaticResource Buttons}"/>
+        </StackPanel>
     </Grid>
 </Window>

@@ -66,12 +66,23 @@
                 <Setter Property="FontFamily" Value="Segoe UI"/>
             </Style>
             <Style x:Key="CheckBoxes" TargetType="CheckBox">
+                <Setter Property="IsEnabled" Value="{Binding IsEnabled}"/>
                 <Setter Property="Margin" Value ="5,0,5,0"/>
                 <Setter Property="HorizontalContentAlignment" Value ="Center"/>
                 <Setter Property="VerticalContentAlignment" Value ="Center"/>
                 <Setter Property="FontSize" Value="14"/>
                 <Setter Property="FontFamily" Value="Segoe UI"/>
                 <Setter Property="Width" Value="150"/>
+                <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+            </Style>
+            <Style x:Key="RadioButtons" TargetType="RadioButton">
+                <Setter Property="IsEnabled" Value="{Binding IsEnabled}"/>
+                <Setter Property="Margin" Value ="5,0,5,0"/>
+                <Setter Property="HorizontalContentAlignment" Value ="Center"/>
+                <Setter Property="VerticalContentAlignment" Value ="Center"/>
+                <Setter Property="FontSize" Value="14"/>
+                <Setter Property="FontFamily" Value="Segoe UI"/>
                 <Setter Property="HorizontalContentAlignment" Value="Left"/>
                 <Setter Property="VerticalAlignment" Value="Center"/>
             </Style>
@@ -94,6 +105,7 @@
                 <Setter Property="Margin" Value="0,2,0,2" />
             </Style>
             <Style x:Key="LongTextBox" TargetType="TextBox">
+                <Setter Property="IsEnabled" Value="{Binding IsEnabled}"/>
                 <Setter Property="MinWidth" Value="150" />
                 <Setter Property="Margin" Value="0,0,5,0" />
                 <Setter Property="FontSize" Value="14"/>
@@ -118,7 +130,33 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+            <Style x:Key="TextBoxes" TargetType="TextBox">
+                <Setter Property="IsEnabled" Value="{Binding IsEnabled}"/>
+                <Setter Property="Margin" Value="0,0,5,0" />
+                <Setter Property="FontSize" Value="14"/>
+                <Setter Property="FontFamily" Value="Segoe UI"/>
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="Validation.ErrorTemplate">
+                    <Setter.Value>
+                        <ControlTemplate>
+                            <DockPanel LastChildFill="true">
+                                <Border Background="OrangeRed" DockPanel.Dock="right" Margin="5,0,0,0" 
+                                    Width="20" Height="20" CornerRadius="5"
+                                    ToolTip="{Binding ElementName=customAdorner, 
+                                              Path=AdornedElement.(Validation.Errors)[0].ErrorContent}">
+                                    <TextBlock Text="!" VerticalAlignment="center" HorizontalAlignment="center" 
+                                       FontWeight="Bold" Foreground="white" />
+                                </Border>
+                                <AdornedElementPlaceholder Name="customAdorner" VerticalAlignment="Center" >
+                                    <Border BorderBrush="red" BorderThickness="1" />
+                                </AdornedElementPlaceholder>
+                            </DockPanel>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
             <Style x:Key="LongComboBox" TargetType="ComboBox">
+                <Setter Property="IsEnabled" Value="{Binding IsEnabled}"/>
                 <Setter Property="MinWidth" Value="150" />
                 <Setter Property="Margin" Value="0,0,5,0" />
                 <Setter Property="FontSize" Value="14"/>

@@ -111,9 +111,9 @@
                     <DataGridTextColumn Binding="{Binding Path=Article}" Header="Артикль" Width="SizeToHeader" IsReadOnly="True" />
                     <DataGridTextColumn Binding="{Binding Path=Name}" Header="Наименование" Width="540" IsReadOnly="True" />
                     <DataGridTextColumn Binding="{Binding Path=Amount}" Header="Кол-во" Width="65" />
-                    <DataGridTextColumn Binding="{Binding Path=Cost}" Header="Цена" Width="SizeToHeader" IsReadOnly="True" />
-                </DataGrid.Columns>
-            </DataGrid>
+                    <DataGridTextColumn Binding="{Binding Path=Cost}" Header="Цена" Width="Auto" IsReadOnly="True" />
+            </DataGrid.Columns>
+        </DataGrid>
         
         <StackPanel Grid.Row="3" Style="{StaticResource BottomButtonsStackPanel}">
             <Button Content="Готово" Command="{Binding SendProductsListCommand}" Style="{StaticResource Buttons}" />
