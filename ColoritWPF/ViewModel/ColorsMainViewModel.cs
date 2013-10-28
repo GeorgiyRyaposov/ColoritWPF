@@ -511,6 +511,11 @@ namespace ColoritWPF.ViewModel
             {
                 CurrentPaint.DocState = true;
                 CurrentPaint.Client.Balance = CurrentPaint.Client.Balance + CurrentPaint.Total;
+                var settings = colorItEntities.Settings.FirstOrDefault();
+                if (settings != null)
+                {
+                    settings.Cash = settings.Cash + CurrentPaint.Total;
+                }
                 SaveWithoutRecalc();
                 IsEnabled = false;
             }
@@ -528,6 +533,11 @@ namespace ColoritWPF.ViewModel
                     IsEnabled = true;
                     CurrentPaint.DocState = false;
                     CurrentPaint.IsPreorder = false;
+                    var settings = colorItEntities.Settings.FirstOrDefault();
+                    if (settings != null)
+                    {
+                        settings.Cash = settings.Cash - CurrentPaint.Total;
+                    }
                     SaveWithoutRecalc();
                 }
             }

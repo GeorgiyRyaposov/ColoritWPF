@@ -287,6 +287,8 @@
           <Property Name="ByCodeCost" Type="money" Nullable="false" />
           <Property Name="SelectionCost" Type="money" Nullable="false" />
           <Property Name="SelectionAndThreeLayers" Type="money" Nullable="false" />
+          <Property Name="Cash" Type="money" Nullable="false" />
+          <Property Name="CashInBox" Type="money" Nullable="false" />
         </EntityType>
         <Association Name="FK_Client_Deposit">
           <End Role="Client" Type="ColorITModel.Store.Client" Multiplicity="1" />
@@ -747,6 +749,8 @@
           <Property Type="Decimal" Name="ByCodeCost" Nullable="false" Precision="19" Scale="4" DefaultValue="0" />
           <Property Type="Decimal" Name="SelectionCost" Nullable="false" Precision="19" Scale="4" DefaultValue="0" />
           <Property Type="Decimal" Name="SelectionAndThreeLayers" Nullable="false" Precision="19" Scale="4" DefaultValue="0" />
+          <Property Type="Decimal" Name="Cash" Nullable="false" Precision="19" Scale="4" />
+          <Property Type="Decimal" Name="CashInBox" Nullable="false" Precision="19" Scale="4" />
         </EntityType>
         <EntityType Name="Density">
           <Key>
@@ -1060,6 +1064,8 @@
           <EntitySetMapping Name="Settings">
             <EntityTypeMapping TypeName="ColorITModel.Settings">
               <MappingFragment StoreEntitySet="Settings">
+                <ScalarProperty Name="CashInBox" ColumnName="CashInBox" />
+                <ScalarProperty Name="Cash" ColumnName="Cash" />
                 <ScalarProperty Name="SelectionAndThreeLayers" ColumnName="SelectionAndThreeLayers" />
                 <ScalarProperty Name="SelectionCost" ColumnName="SelectionCost" />
                 <ScalarProperty Name="ByCodeCost" ColumnName="ByCodeCost" />

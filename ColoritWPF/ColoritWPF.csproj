@@ -147,6 +147,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ColorITModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Controls\CashTab.xaml.cs">
+      <DependentUpon>CashTab.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\DensityCalcTab.xaml.cs">
       <DependentUpon>DensityCalcTab.xaml</DependentUpon>
     </Compile>
@@ -172,6 +175,7 @@
     <Compile Include="ViewModel\AddClientViewModel.cs" />
     <Compile Include="ViewModel\AddNewCarViewModel.cs" />
     <Compile Include="ViewModel\AddNewDensityItemViewModel.cs" />
+    <Compile Include="ViewModel\CashViewModel.cs" />
     <Compile Include="ViewModel\MenuItemsViewModel.cs" />
     <Compile Include="ViewModel\Products\AddNewProductViewModel.cs" />
     <Compile Include="ViewModel\Products\EditProductsViewModel.cs" />
@@ -181,6 +185,7 @@
     <Compile Include="ViewModel\Products\PurchaseProductViewModel.cs" />
     <Compile Include="ViewModel\Products\TransferProductsSelectorViewModel.cs" />
     <Compile Include="ViewModel\Products\TransferProductViewModel.cs" />
+    <Compile Include="ViewModel\Statistics\SalesStatsViewModel.cs" />
     <Compile Include="Views\AddNewDensityItem.xaml.cs">
       <DependentUpon>AddNewDensityItem.xaml</DependentUpon>
     </Compile>
@@ -237,6 +242,9 @@
     <Compile Include="Views\SettingsView.xaml.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Statistics\SalesStats.xaml.cs">
+      <DependentUpon>SalesStats.xaml</DependentUpon>
+    </Compile>
     <EntityDeploy Include="ColorITModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>ColorITModel.Designer.cs</LastGenOutput>
@@ -257,6 +265,10 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Page Include="AddNewGroup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\CashTab.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -341,6 +353,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SettingsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Statistics\SalesStats.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -469,6 +485,7 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

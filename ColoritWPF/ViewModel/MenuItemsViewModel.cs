@@ -1,5 +1,6 @@
 ﻿using ColoritWPF.Views;
 using ColoritWPF.Views.Products;
+using ColoritWPF.Views.Statistics;
 using GalaSoft.MvvmLight.Command;
 
 namespace ColoritWPF.ViewModel
@@ -18,7 +19,10 @@ namespace ColoritWPF.ViewModel
             AddNewProductCommand = new RelayCommand(AddNewProductCmd);
             EditProductCommand = new RelayCommand(EditProductCmd);
             PurchaseProductCommand = new RelayCommand(PurchaseProductCmd);
+            ShowSalesStatsCommand = new RelayCommand(ShowStats);
         }
+
+
 
         #region fields
 
@@ -43,6 +47,8 @@ namespace ColoritWPF.ViewModel
         public RelayCommand EditProductCommand { get; private set; }
 
         public RelayCommand PurchaseProductCommand { get; private set; }
+
+        public RelayCommand ShowSalesStatsCommand { get; private set; }
 
         #endregion
 
@@ -104,6 +110,12 @@ namespace ColoritWPF.ViewModel
         {
             AddNewClient addNewClient = new AddNewClient();
             addNewClient.ShowDialog();
+        }
+
+        private void ShowStats()
+        {
+            var dlg = new SalesStats();
+            dlg.ShowDialog();
         }
     }
 }

@@ -8,12 +8,13 @@
 //------------------------------------------------------------------------------
 
 using System;
+using System.ComponentModel;
+using System.Data.EntityClient;
 using System.Data.Objects;
 using System.Data.Objects.DataClasses;
-using System.Data.EntityClient;
-using System.ComponentModel;
-using System.Xml.Serialization;
+using System.Linq;
 using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 [assembly: EdmSchemaAttribute()]
 #region EDM Relationship Metadata
@@ -357,6 +358,7 @@ namespace ColoritWPF
         private ObjectSet<PurchaseDocument> _PurchaseDocument;
 
         #endregion
+
         #region AddTo Methods
     
         /// <summary>
@@ -496,11 +498,11 @@ namespace ColoritWPF
         }
 
         #endregion
+
     }
-    
 
     #endregion
-    
+
     #region Entities
     
     /// <summary>
@@ -527,6 +529,7 @@ namespace ColoritWPF
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -581,6 +584,7 @@ namespace ColoritWPF
         partial void OnModelNameChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -607,6 +611,7 @@ namespace ColoritWPF
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -635,6 +640,7 @@ namespace ColoritWPF
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -809,6 +815,7 @@ namespace ColoritWPF
         partial void OnPrivatePersonChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -923,6 +930,7 @@ namespace ColoritWPF
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -951,6 +959,7 @@ namespace ColoritWPF
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -1149,6 +1158,7 @@ namespace ColoritWPF
         partial void OnProportionHardenerChanged();
 
         #endregion
+
     
     }
     
@@ -1180,6 +1190,7 @@ namespace ColoritWPF
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -1282,6 +1293,7 @@ namespace ColoritWPF
         partial void OnDateChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -1324,6 +1336,7 @@ namespace ColoritWPF
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -1350,6 +1363,7 @@ namespace ColoritWPF
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -1404,6 +1418,7 @@ namespace ColoritWPF
         partial void OnNameChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -1430,6 +1445,7 @@ namespace ColoritWPF
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -1460,6 +1476,7 @@ namespace ColoritWPF
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -1562,6 +1579,7 @@ namespace ColoritWPF
         partial void OnDateChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -1604,6 +1622,7 @@ namespace ColoritWPF
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -1634,6 +1653,7 @@ namespace ColoritWPF
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -1736,6 +1756,7 @@ namespace ColoritWPF
         partial void OnDocNumberChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -1816,6 +1837,7 @@ namespace ColoritWPF
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -1850,6 +1872,7 @@ namespace ColoritWPF
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -2024,6 +2047,7 @@ namespace ColoritWPF
         partial void OnConfirmedChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -2050,6 +2074,7 @@ namespace ColoritWPF
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -2078,6 +2103,7 @@ namespace ColoritWPF
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -2372,6 +2398,7 @@ namespace ColoritWPF
         partial void OnMaxDiscountChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -2398,6 +2425,7 @@ namespace ColoritWPF
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -2434,6 +2462,7 @@ namespace ColoritWPF
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -2848,6 +2877,7 @@ namespace ColoritWPF
         partial void OnIsPreorderChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -2966,6 +2996,7 @@ namespace ColoritWPF
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -2992,6 +3023,7 @@ namespace ColoritWPF
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -3046,6 +3078,7 @@ namespace ColoritWPF
         partial void OnNameChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -3072,6 +3105,7 @@ namespace ColoritWPF
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -3112,6 +3146,7 @@ namespace ColoritWPF
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -3358,6 +3393,7 @@ namespace ColoritWPF
         partial void OnProducerIdChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -3504,6 +3540,7 @@ namespace ColoritWPF
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -3542,6 +3579,7 @@ namespace ColoritWPF
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -3764,6 +3802,7 @@ namespace ColoritWPF
         partial void OnAmountChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -3844,6 +3883,7 @@ namespace ColoritWPF
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -3886,6 +3926,7 @@ namespace ColoritWPF
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -4156,6 +4197,7 @@ namespace ColoritWPF
         partial void OnToStorageChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -4220,6 +4262,7 @@ namespace ColoritWPF
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -4252,6 +4295,7 @@ namespace ColoritWPF
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -4402,6 +4446,7 @@ namespace ColoritWPF
         partial void OnCostChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -4482,6 +4527,7 @@ namespace ColoritWPF
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -4516,6 +4562,7 @@ namespace ColoritWPF
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -4762,6 +4809,7 @@ namespace ColoritWPF
         partial void OnClientBalancePartInTotalChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -4826,6 +4874,7 @@ namespace ColoritWPF
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -4842,14 +4891,19 @@ namespace ColoritWPF
         /// Create a new Settings object.
         /// </summary>
         /// <param name="id">Initial value of the ID property.</param>
-        public static Settings CreateSettings(global::System.Int32 id)
+        /// <param name="cash">Initial value of the Cash property.</param>
+        /// <param name="cashInBox">Initial value of the CashInBox property.</param>
+        public static Settings CreateSettings(global::System.Int32 id, global::System.Decimal cash, global::System.Decimal cashInBox)
         {
             Settings settings = new Settings();
             settings.ID = id;
+            settings.Cash = cash;
+            settings.CashInBox = cashInBox;
             return settings;
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -4950,11 +5004,61 @@ namespace ColoritWPF
         private global::System.Decimal _SelectionAndThreeLayers = 0m;
         partial void OnSelectionAndThreeLayersChanging(global::System.Decimal value);
         partial void OnSelectionAndThreeLayersChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Decimal Cash
+        {
+            get
+            {
+                return _Cash;
+            }
+            set
+            {
+                OnCashChanging(value);
+                ReportPropertyChanging("Cash");
+                _Cash = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Cash");
+                OnCashChanged();
+            }
+        }
+        private global::System.Decimal _Cash;
+        partial void OnCashChanging(global::System.Decimal value);
+        partial void OnCashChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Decimal CashInBox
+        {
+            get
+            {
+                return _CashInBox;
+            }
+            set
+            {
+                OnCashInBoxChanging(value);
+                ReportPropertyChanging("CashInBox");
+                _CashInBox = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("CashInBox");
+                OnCashInBoxChanged();
+            }
+        }
+        private global::System.Decimal _CashInBox;
+        partial void OnCashInBoxChanging(global::System.Decimal value);
+        partial void OnCashInBoxChanged();
 
         #endregion
+
     
     }
 
     #endregion
+
     
 }

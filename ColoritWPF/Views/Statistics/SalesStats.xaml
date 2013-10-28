@@ -1,0 +1,46 @@
+﻿<Window x:Class="ColoritWPF.Views.Statistics.SalesStats"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:ColoritWPF="clr-namespace:ColoritWPF"
+        DataContext="{Binding SaleStatsViewModelPage, Source={StaticResource Locator}}"
+        Title="Статистика продаж" Height="500" Width="500">
+    <Window.Resources>
+        <ColoritWPF:PercentageConverter x:Key="PercentageConverter" />
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Row="0" Grid.Column="0"  Style="{StaticResource LabelAndTextHorizontal}">
+            <Label Content="Продажа с " Style="{StaticResource LabelForTextBox}" />
+            <DatePicker SelectedDate="{Binding StartDate, Mode=TwoWay}" />
+            <Label Content="по " Style="{StaticResource LabelForTextBox}" />
+            <DatePicker SelectedDate="{Binding EndDate, Mode=TwoWay}" />
+        </StackPanel>
+
+        <DataGrid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" AutoGenerateColumns="False" EnableRowVirtualization="True"
+                  CanUserAddRows="False" LoadingRow="Grid_LoadingRow" Style="{StaticResource DataGridStyle}" IsEnabled="False">
+            <DataGrid.RowHeaderTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGridRow}}, Path=Header}"></TextBlock>
+                </DataTemplate>
+            </DataGrid.RowHeaderTemplate>
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Path=Product.Name}" Header="Наименование" Width="*"/>
+                <DataGridTextColumn Binding="{Binding Path=Amount}" Header="Кол-во" Width="55" />
+                <DataGridTextColumn Binding="{Binding Path=Cost, StringFormat=\{0:c\}}" Header="Цена" Width="SizeToHeader" />
+                <DataGridTextColumn Binding="{Binding Path=Discount, StringFormat=\{0:P0\}, Converter={StaticResource PercentageConverter}}" Header="Cкидка" Width="SizeToHeader" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <StackPanel Grid.Row="2" Grid.Column="0"  Style="{StaticResource BottomButtonsStackPanel}">
+            <Button Content="Обновить" Command="{Binding RefreshGrid}"/>
+        </StackPanel>
+    </Grid>
+</Window>

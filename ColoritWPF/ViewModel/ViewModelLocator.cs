@@ -14,6 +14,7 @@
 
 using System.ComponentModel;
 using ColoritWPF.ViewModel.Products;
+using ColoritWPF.ViewModel.Statistics;
 using ColoritWPF.Views;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
@@ -197,6 +198,22 @@ namespace ColoritWPF.ViewModel
             get
             {
                 return new PurchaseProductsSelectorViewModel();
+            }
+        }
+
+        public CashViewModel CashViewModelPage
+        {
+            get
+            {
+                return new CashViewModel();
+            }
+        }
+
+        public SalesStatsViewModel SaleStatsViewModelPage
+        {
+            get
+            {
+                return new SalesStatsViewModel();
             }
         }
         public static void Cleanup()

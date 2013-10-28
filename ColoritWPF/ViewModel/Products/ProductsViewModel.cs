@@ -558,6 +558,12 @@ namespace ColoritWPF.ViewModel.Products
                 }
             }
 
+            if (Confirmed)
+            {
+                var settings = colorItEntities.Settings.FirstOrDefault();
+                if (settings != null) settings.Cash = settings.Cash + CurrentSaleDocument.Total;
+            }
+
             try
             {
                 colorItEntities.SaveChanges();
@@ -596,6 +602,9 @@ namespace ColoritWPF.ViewModel.Products
                 Client client = colorItEntities.Client.First(cl => cl.ID == CurrentClient.ID);
                 client.Balance += CurrentSaleDocument.ClientBalancePartInTotal;
             }
+
+            var settings = colorItEntities.Settings.FirstOrDefault();
+            if (settings != null) settings.Cash = settings.Cash - CurrentSaleDocument.Total;
 
             try
             {

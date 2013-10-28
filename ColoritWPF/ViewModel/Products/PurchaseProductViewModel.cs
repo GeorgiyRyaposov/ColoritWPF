@@ -545,6 +545,12 @@ namespace ColoritWPF.ViewModel.Products
                     if (CurrentStorage.Value == "Warehouse")
                         productStorage.Warehouse += purchaseProduct.Amount;
                 }
+
+                var settings = colorItEntities.Settings.FirstOrDefault();
+                if (settings != null)
+                {
+                    settings.Cash = settings.Cash - CurrentPurchaseDocument.CleanTotal;
+                }
             }
 
             if(unConfirm)
@@ -557,6 +563,12 @@ namespace ColoritWPF.ViewModel.Products
 
                     var productStorage = colorItEntities.Product.First(pr => pr.ID == purchaseProduct.Product.ID);
                     productStorage.Warehouse -= purchaseProduct.Amount;
+                }
+
+                var settings = colorItEntities.Settings.FirstOrDefault();
+                if (settings != null)
+                {
+                    settings.Cash = settings.Cash + CurrentPurchaseDocument.CleanTotal;
                 }
             }
 

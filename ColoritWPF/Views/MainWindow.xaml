@@ -24,6 +24,10 @@
             <TabItem Header="Магазин" >
                 <Controls:StorageTab />
             </TabItem>
+
+            <TabItem Header="Касса" >
+                <Controls:CashTab />
+            </TabItem>
         </TabControl>
 
         <Menu Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Top" IsMainMenu="True" Margin="5,5,5,0"
@@ -53,6 +57,10 @@
                 <MenuItem Header="Добавить..." Command="{Binding AddNewDensityCommand}" />
             </MenuItem>
 
+            <MenuItem Header="Статистика">
+                <MenuItem Header="Продажи..." Command="{Binding ShowSalesStatsCommand}" />
+            </MenuItem>
+            
             <MenuItem Header="Настройки" Command="{Binding SettingsCommand}">
             </MenuItem>
         </Menu>
