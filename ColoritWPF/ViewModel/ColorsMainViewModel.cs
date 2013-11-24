@@ -157,7 +157,12 @@ namespace ColoritWPF.ViewModel
 
         public bool ByCode
         {
-            get { return CurrentPaint.ServiceByCode; }
+            get
+            {
+                if (CurrentPaint == null)
+                    return false;
+                return CurrentPaint.ServiceByCode;
+            }
             set
             {
                 CurrentPaint.ServiceByCode = value; 
@@ -167,7 +172,12 @@ namespace ColoritWPF.ViewModel
 
         public bool Selection
         {
-            get { return CurrentPaint.ServiceSelection; }
+            get
+            {
+                if (CurrentPaint == null)
+                    return false;
+                return CurrentPaint.ServiceSelection;
+            }
             set
             {
                 CurrentPaint.ServiceSelection = value; 
@@ -177,7 +187,12 @@ namespace ColoritWPF.ViewModel
 
         public bool Colorist
         {
-            get { return CurrentPaint.ServiceColorist; }
+            get
+            {
+                if (CurrentPaint == null)
+                    return false;
+                return CurrentPaint.ServiceColorist;
+            }
             set
             {
                 CurrentPaint.ServiceColorist = value; 
@@ -191,6 +206,32 @@ namespace ColoritWPF.ViewModel
         {
             get
             {
+                if (_currentPaint == null)
+                {
+                    Paints ps = new Paints
+                    {
+                        Date = DateTime.Now,
+                        CarModelID = 3,
+                        PaintCode = "Введите код краски",
+                        NameID = 4,
+                        Amount = 0,
+                        Sum = 0,
+                        ClientID = colorItEntities.Client.First(i => i.PrivatePerson).ID,
+                        DocState = false,
+                        IsPreorder = false,
+                        PhoneNumber = String.Empty,
+                        ServiceByCode = false,
+                        ServiceSelection = true,
+                        ServiceColorist = true,
+                        AmountPolish = 0,
+                        Prepay = 0,
+                        Total = 0
+                    };
+
+                    Paints.Add(ps);
+                    colorItEntities.Paints.AddObject(ps);
+                    _currentPaint = ps;
+                }
                 return _currentPaint;
             }
             set
@@ -499,6 +540,8 @@ namespace ColoritWPF.ViewModel
 
         private bool SetPaintCanExecute()
         {
+            if (CurrentPaint == null)
+                return false;
             if (CurrentPaint.DocState || CurrentPaint.IsPreorder)
                 return false;
             return true;
@@ -626,6 +669,8 @@ namespace ColoritWPF.ViewModel
         //Выставляет радио кнопки в зависимости от выбраной краски
         private void SetRadio()
         {
+            if (CurrentPaint == null)
+                return;
             if (CurrentPaint.PaintName != null)
             {
                 switch (CurrentPaint.PaintName.PaintType)

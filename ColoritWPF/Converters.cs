@@ -57,8 +57,9 @@ namespace ColoritWPF
                 {
                     var grId = (from car in сolorItEntities.CarModels
                                 where car.ID == (int)value
-                                select car.ModelName).First();
-
+                                select car.ModelName).FirstOrDefault();
+                    if (grId == null)
+                        return "Добавьте модель авто";
                     return grId.ToString(CultureInfo.InvariantCulture);
                 }
             }

@@ -1,7 +1,7 @@
 ﻿<Window x:Class="ColoritWPF.Views.PaintsEditor"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:ColoritWPF="clr-namespace:ColoritWPF"
-        Title="Редактирование красок" Height="400" Width="900"
+        Title="Редактирование красок" Height="550" Width="900"
         DataContext="{Binding PaintsEdtiorPage, Source={StaticResource Locator}}">
     <Window.Resources>
         <ColoritWPF:PercentageConverter x:Key="PercentageConverter" />
@@ -9,6 +9,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="250" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -22,36 +23,36 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <StackPanel Grid.Column="0" Grid.Row="0" Style="{StaticResource LabelAndTextHorizontal}" HorizontalAlignment="Left">
-            <Label Style="{StaticResource LabelForTextBox}">Введите наименование краски</Label>
-            <TextBox Style="{StaticResource LongTextBox}" Text="{Binding PaintNameFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
-        </StackPanel>
         
-        <Label Grid.Column="1" Grid.Row="0" Style="{StaticResource LabelForTextBox}" HorizontalAlignment="Right">Наименование</Label>
-        <TextBox Grid.Column="2" Grid.Row="0" Style="{StaticResource LongTextBox}" Text="{Binding CurrentPaint.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+        <Label Grid.Column="0" Grid.Row="0" Style="{StaticResource LabelForTextBox}">Введите наименование краски</Label>
+        <TextBox Grid.Column="1" Grid.Row="0" Style="{StaticResource LongTextBox}" Text="{Binding PaintNameFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+        
+        
+        <Label Grid.Column="0" Grid.Row="2" Style="{StaticResource LabelForTextBox}" HorizontalAlignment="Right">Наименование</Label>
+        <TextBox Grid.Column="1" Grid.Row="2" Style="{StaticResource LongTextBox}" Text="{Binding CurrentPaint.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
 
-        <Label Grid.Column="1" Grid.Row="1" Style="{StaticResource LabelForTextBox}" HorizontalAlignment="Right">Цена</Label>
-        <TextBox Grid.Column="2" Grid.Row="1" Style="{StaticResource LongTextBox}" Text="{Binding CurrentPaint.Cost, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+        <Label Grid.Column="0" Grid.Row="3" Style="{StaticResource LabelForTextBox}" HorizontalAlignment="Right">Цена</Label>
+        <TextBox Grid.Column="1" Grid.Row="3" Style="{StaticResource LongTextBox}" Text="{Binding CurrentPaint.Cost, StringFormat=\{0:c\}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
 
-        <Label Grid.Column="1" Grid.Row="2" Style="{StaticResource LabelForTextBox}" HorizontalAlignment="Right">Цена за тару</Label>
-        <TextBox Grid.Column="2" Grid.Row="2" Style="{StaticResource LongTextBox}" Text="{Binding CurrentPaint.Container, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+        <Label Grid.Column="0" Grid.Row="4" Style="{StaticResource LabelForTextBox}" HorizontalAlignment="Right">Цена за тару</Label>
+        <TextBox Grid.Column="1" Grid.Row="4" Style="{StaticResource LongTextBox}" Text="{Binding CurrentPaint.Container, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
 
-        <Label Grid.Column="1" Grid.Row="3" Style="{StaticResource LabelForTextBox}" HorizontalAlignment="Right">Макс скидка</Label>
-        <TextBox Grid.Column="2" Grid.Row="3" Style="{StaticResource LongTextBox}" Text="{Binding CurrentPaint.MaxDiscount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=\{0:P0\}, Converter={StaticResource PercentageConverter}}"/>
+        <Label Grid.Column="0" Grid.Row="5" Style="{StaticResource LabelForTextBox}" HorizontalAlignment="Right">Макс скидка</Label>
+        <TextBox Grid.Column="1" Grid.Row="5" Style="{StaticResource LongTextBox}" Text="{Binding CurrentPaint.MaxDiscount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=\{0:P0\}, Converter={StaticResource PercentageConverter}}"/>
 
-        <Label Grid.Column="1" Grid.Row="4" Style="{StaticResource LabelForTextBox}" HorizontalAlignment="Right">Перепыл до 0.25</Label>
-        <TextBox Grid.Column="2" Grid.Row="4" Style="{StaticResource LongTextBox}" Text="{Binding CurrentPaint.Census1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+        <Label Grid.Column="0" Grid.Row="6" Style="{StaticResource LabelForTextBox}" HorizontalAlignment="Right">Перепыл до 0.25</Label>
+        <TextBox Grid.Column="1" Grid.Row="6" Style="{StaticResource LongTextBox}" Text="{Binding CurrentPaint.Census1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
 
-        <Label Grid.Column="1" Grid.Row="5" Style="{StaticResource LabelForTextBox}" HorizontalAlignment="Right">Перепыл более 0.25</Label>
-        <TextBox Grid.Column="2" Grid.Row="5" Style="{StaticResource LongTextBox}" Text="{Binding CurrentPaint.Census2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+        <Label Grid.Column="0" Grid.Row="7" Style="{StaticResource LabelForTextBox}" HorizontalAlignment="Right">Перепыл более 0.25</Label>
+        <TextBox Grid.Column="1" Grid.Row="7" Style="{StaticResource LongTextBox}" Text="{Binding CurrentPaint.Census2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
 
-        <DataGrid Grid.Column="0" Grid.Row="1" Grid.RowSpan="7" AutoGenerateColumns="False" Style="{StaticResource DataGridStyle}"
+        <DataGrid Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" AutoGenerateColumns="False" Style="{StaticResource DataGridStyle}"
                   SelectedItem="{Binding CurrentPaint, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" EnableRowVirtualization="True" 
                   ItemsSource="{Binding PaintsList}" RowDetailsVisibilityMode="VisibleWhenSelected" VerticalAlignment="Top" CanUserAddRows="False" CanUserDeleteRows="False"
                   Width="Auto" VerticalScrollBarVisibility="Visible">
             <DataGrid.Columns>
-                <DataGridTextColumn x:Name="nameColumn" Binding="{Binding Path=Name}" Header="Наименование" Width="250" />
-                <DataGridTextColumn x:Name="costColumn" Binding="{Binding Path=Cost}" Header="Цена" Width="SizeToHeader" />
+                <DataGridTextColumn x:Name="nameColumn" Binding="{Binding Path=Name}" Header="Наименование" Width="*" />
+                <DataGridTextColumn x:Name="costColumn" Binding="{Binding Path=Cost, StringFormat=\{0:c\}}" Header="Цена" Width="70" />
                 <DataGridCheckBoxColumn x:Name="threeLayersColumn" Binding="{Binding Path=ThreeLayers}" Header="Три слоя" Width="SizeToHeader" />
                 <DataGridCheckBoxColumn x:Name="PackageColumn" Binding="{Binding Path=Package}" Header="Комплект" Width="SizeToHeader" />
             </DataGrid.Columns>

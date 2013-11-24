@@ -20,6 +20,7 @@ namespace ColoritWPF.ViewModel
             EditProductCommand = new RelayCommand(EditProductCmd);
             PurchaseProductCommand = new RelayCommand(PurchaseProductCmd);
             ShowSalesStatsCommand = new RelayCommand(ShowStats);
+            ShowImportFromExcelCommand = new RelayCommand(ShowImportFromExcelCmd);
         }
 
 
@@ -50,7 +51,15 @@ namespace ColoritWPF.ViewModel
 
         public RelayCommand ShowSalesStatsCommand { get; private set; }
 
+        public RelayCommand ShowImportFromExcelCommand { get; private set; }
+
         #endregion
+
+        private void ShowImportFromExcelCmd()
+        {
+            var dlg = new ImportFromExcel();
+            dlg.ShowDialog();
+        }
 
         private void PurchaseProductCmd()
         {

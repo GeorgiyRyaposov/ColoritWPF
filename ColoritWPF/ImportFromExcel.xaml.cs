@@ -1,16 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 //using LinqToExcel;
-using Remotion.Data.Linq;
 using System.Data;
 using System.Data.OleDb;
 using Remotion.Data.Linq.Collections;
@@ -29,7 +21,7 @@ namespace ColoritWPF
 
         private void button1_Click(object sender, RoutedEventArgs e)
         {
-            ListOfProducts listOfPr = new ListOfProducts();
+            var listOfPr = new ListOfProducts();
             Product pr;
             // Initialize the linq to excel provider
             LinqToExcelProvider provider = new LinqToExcelProvider(@"C:\Price.xls");
@@ -39,30 +31,38 @@ namespace ColoritWPF
                         select new
                         {
                             Name = Convert.ToString(p.Field<object>("Name")),
-                            SelfCost = Convert.ToDecimal(p.Field<object>("SelfCost")),
-                            Cost = Convert.ToDecimal(p.Field<object>("Cost")),
-                            Warehouse = Convert.ToDouble(p.Field<object>("Warehouse"))
+                            Group = Convert.ToString(p.Field<object>("Group"))                            
                         };
 
 
             using (ColorITEntities CIentity = new ColorITEntities())
             {
+                var groups = (from row in CIentity.Group
+                             select row).ToList();
+                groups = new List<Group>(groups.OrderBy(gr => gr.ID));
                 foreach (var row in query)
                 {
-                    pr = new Product();
-                    pr.Name = row.Name;
-                    pr.SelfCost = row.SelfCost;
-                    pr.Cost = row.Cost;
-                    pr.Warehouse = row.Warehouse;
-                    pr.Storage = 0;
-                    pr.Bottled = false;
-                    pr.MaxDiscount = 0;
+                    if (String.IsNullOrEmpty(row.Name))
+                        continue;
+                         
+                    pr = new Product
+                        {
+                            Name = row.Name,
+                            SelfCost = 10,
+                            Cost = 15,
+                            Warehouse = 0,
+                            Storage = 0,
+                            Bottled = false,
+                            MaxDiscount = 0.05,
+                            ProducerId = 1
+                        };
+                    int? grId = null;
+                    if (!String.IsNullOrEmpty(row.Group))
+                        grId = groups.First(g => g.Name == row.Group).ID;
+                    pr.Group = grId;
 
-                    if (!String.IsNullOrEmpty(row.Name))
-                    {
-                        listOfPr.Add(pr);
-                        CIentity.AddToProduct(pr);
-                    }
+                    listOfPr.Add(pr);
+                    CIentity.AddToProduct(pr);
                 }
                 try
                 {
@@ -76,6 +76,7 @@ namespace ColoritWPF
             dgv_Result.ItemsSource = listOfPr;
         }
     }
+
 
     public class ListOfProducts : ObservableCollection<Product> { }
 

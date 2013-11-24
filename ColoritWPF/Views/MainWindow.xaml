@@ -59,6 +59,7 @@
 
             <MenuItem Header="Статистика">
                 <MenuItem Header="Продажи..." Command="{Binding ShowSalesStatsCommand}" />
+                <MenuItem Header="Импорт..." Command="{Binding ShowImportFromExcelCommand}" />
             </MenuItem>
             
             <MenuItem Header="Настройки" Command="{Binding SettingsCommand}">

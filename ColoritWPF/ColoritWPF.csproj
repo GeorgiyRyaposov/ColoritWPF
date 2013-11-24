@@ -255,6 +255,7 @@
     <Compile Include="ImportFromExcel.xaml.cs">
       <DependentUpon>ImportFromExcel.xaml</DependentUpon>
     </Compile>
+    <Content Include="ColorITModel.edmx.sql" />
     <Content Include="System.Data.SqlServerCe.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -465,12 +466,12 @@
   <ItemGroup>
     <PublishFile Include="ColoritWPF.pdb">
       <Visible>False</Visible>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
-      <PublishState>Exclude</PublishState>
-      <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
   </ItemGroup>
