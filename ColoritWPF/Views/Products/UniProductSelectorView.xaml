@@ -1,0 +1,87 @@
+﻿<Window x:Class="ColoritWPF.Views.Products.UniProductSelectorView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+        SizeToContent="WidthAndHeight"
+        Title="Подбор продуктов" Height="750" Width="700"
+        DataContext="{Binding UniProductSelectorViewPage, Source={StaticResource Locator}}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <StackPanel Style="{StaticResource LabelAndTextHorizontal}" HorizontalAlignment="Left">
+            <StackPanel Style="{StaticResource LabelAndTextHorizontal}">
+            <Label Style="{StaticResource LabelForTextBox}">Поиск:</Label>
+            <TextBox Text="{Binding SearchCriteria, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                     Style="{StaticResource LongTextBox}"/>
+                <CheckBox Content="В наличии" IsChecked="{Binding InStock, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                  Style="{StaticResource CheckBoxes}" Grid.Row="0" />
+        </StackPanel>
+
+        <StackPanel Style="{StaticResource LabelAndTextHorizontal}">
+            <Label Style="{StaticResource LabelForTextBox}">Группировать по:</Label>
+            <ComboBox x:Name="GroupComboBox"
+            ItemsSource ="{Binding GroupingList}"  
+            DisplayMemberPath="Name"
+            SelectedValuePath="Value"
+            SelectedValue ="{Binding Path=SelectedGroup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+            Style="{StaticResource LongComboBox}" IsEditable="False" />
+        </StackPanel>
+        </StackPanel>
+
+        <telerik:RadGridView Grid.Row="1" ItemsSource="{Binding Path=Products}" Height="300" AutoGenerateColumns="False"
+                             ShowGroupPanel="False" RowIndicatorVisibility="Visible"
+                             MouseDoubleClick="ProductsGrid_OnMouseDoubleClick"
+                             SelectedItem="{Binding SelectedProduct}" IsReadOnly="True">
+            <telerik:RadGridView.GroupDescriptors>
+                <telerik:GroupDescriptor Member="Groups" SortDirection="Ascending" />
+                <telerik:GroupDescriptor Member="ProducerGr" SortDirection="Ascending" />
+            </telerik:RadGridView.GroupDescriptors>
+            
+            <telerik:RadGridView.Columns>
+                <telerik:GridViewDataColumn DataMemberBinding="{Binding Article}" Header="Артикль" Width="SizeToHeader"/>
+                <telerik:GridViewDataColumn DataMemberBinding="{Binding Name}" Header="Наименование" Width="300" />
+                <telerik:GridViewDataColumn DataMemberBinding="{Binding Storage}" Header="Магазин" Width="SizeToHeader"/>
+                <telerik:GridViewDataColumn DataMemberBinding="{Binding Warehouse}" Header="Склад" Width="SizeToHeader"/>
+                <telerik:GridViewDataColumn DataMemberBinding="{Binding Cost}" Header="Цена" Width="SizeToHeader"/>
+                <telerik:GridViewDataColumn DataMemberBinding="{Binding Groups}" Header="Группа" Width="SizeToHeader" IsVisible="False"/>
+                <telerik:GridViewDataColumn DataMemberBinding="{Binding ProducerGr}" Header="Производитель" Width="SizeToHeader" IsVisible="False"/>
+            </telerik:RadGridView.Columns>
+        </telerik:RadGridView>
+       
+        <!--Таблица уже выбраных продуктов-->
+        <DataGrid AutoGenerateColumns="False" EnableRowVirtualization="True" Height="300" Style="{StaticResource DataGridStyle}"
+                                  ItemsSource="{Binding Path=SelectedProducts}" CanUserAddRows="False"
+                                  SelectedItem="{Binding RemoveSelectedProduct, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                  Grid.Row="2" LoadingRow="dg_LoadingRow">
+                <DataGrid.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Command="{Binding RemoveProductFromListCommand}" Header="Удалить из списка" />
+                    </ContextMenu>
+                </DataGrid.ContextMenu>
+            <DataGrid.RowHeaderTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGridRow}}, Path=Header}"></TextBlock>
+                </DataTemplate>
+            </DataGrid.RowHeaderTemplate>
+            <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding Path=Article}" Header="Артикль" Width="SizeToHeader" IsReadOnly="True" />
+                    <DataGridTextColumn Binding="{Binding Path=Name}" Header="Наименование" Width="540" IsReadOnly="True" />
+                    <DataGridTextColumn Binding="{Binding Path=Amount}" Header="Кол-во" Width="65" />
+                    <DataGridTextColumn Binding="{Binding Path=Cost}" Header="Цена" Width="Auto" IsReadOnly="True" />
+            </DataGrid.Columns>
+        </DataGrid>
+        
+        <StackPanel Grid.Row="3" Style="{StaticResource BottomButtonsStackPanel}">
+            <Button Content="Готово" Click="AcceptBtn_Click" Style="{StaticResource Buttons}" />
+            <Button Content="Отмена" Click="CloseBtn_Click" Style="{StaticResource Buttons}" />
+        </StackPanel>
+    </Grid>
+</Window>

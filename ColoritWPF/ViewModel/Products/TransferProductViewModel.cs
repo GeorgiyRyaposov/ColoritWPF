@@ -9,7 +9,6 @@ using ColoritWPF.Models;
 using ColoritWPF.Views.Products;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight.Messaging;
 
 namespace ColoritWPF.ViewModel.Products
 {
@@ -29,8 +28,6 @@ namespace ColoritWPF.ViewModel.Products
 
                 GetData();
                 InitializeCommands();
-                //Messenger.Reset();
-                Messenger.Default.Register<MoveProductDocument>(this, AddToTransferDocuments);
             }
         }
 
@@ -455,8 +452,56 @@ namespace ColoritWPF.ViewModel.Products
 
         private void OpenSelection()
         {
-            TransferProductsSelector productsSelector = new TransferProductsSelector();
-            productsSelector.ShowDialog();
+//            TransferProductsSelector productsSelector = new TransferProductsSelector();
+//            productsSelector.ShowDialog();
+            var dlg = new UniProductSelectorView();
+            dlg.Show();
+            dlg.Closed += OnProductSelectorClosed;
+        }
+
+        private void OnProductSelectorClosed(object sender, EventArgs e)
+        {
+            var dlg = sender as UniProductSelectorView;
+            var vm = dlg.DataContext as UniProductSelectorViewModel;
+            if (vm == null || vm.SelectedProducts.Count == 0)
+                return;
+
+            MoveProductDocument moveProductDocument = new MoveProductDocument();
+            moveProductDocument.GenerateDocNumber();
+            moveProductDocument.Date = DateTime.Now;
+            moveProductDocument.Confirmed = false;
+
+            colorItEntities.MoveProductDocument.AddObject(moveProductDocument);
+
+            try
+            {
+                colorItEntities.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Не удалось сохранить документ в базу\n" + ex.Message + "\n" + ex.InnerException);
+            }
+
+            foreach (Product selectedProduct in vm.SelectedProducts)
+            {
+                MoveProduct moveProduct = new MoveProduct
+                {
+                    ProductID = selectedProduct.ID,
+                    Amount = selectedProduct.Amount,
+                    DocNumber = moveProductDocument.Id
+                };
+
+                colorItEntities.MoveProduct.AddObject(moveProduct);
+            }
+
+            try
+            {
+                colorItEntities.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Не удалось сохранить список перемещаемых продуктов в базу\n" + ex.Message + "\n" + ex.InnerException);
+            }
         }
 
         private bool TransferSelectedCanExecute()

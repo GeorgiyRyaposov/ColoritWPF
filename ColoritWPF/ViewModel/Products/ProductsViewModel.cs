@@ -10,7 +10,6 @@ using System.Windows.Media;
 using ColoritWPF.Views.Products;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight.Messaging;
 
 namespace ColoritWPF.ViewModel.Products
 {
@@ -33,14 +32,7 @@ namespace ColoritWPF.ViewModel.Products
 
 
                 SaleProductsList.CollectionChanged += CollectionChanged;
-                Messenger.Default.Register<SaleDocument>(this, UpdateSelectedDocument);
             }
-        }
-
-        private void UpdateSelectedDocument(SaleDocument saleDocument)
-        {
-            SaleDocuments.Add(saleDocument);
-            CurrentSaleDocument = saleDocument;
         }
         
         #region Properties
@@ -642,8 +634,64 @@ namespace ColoritWPF.ViewModel.Products
 
         private void OpenSelection()
         {
-            ProductsSelectorView productsSelector = new ProductsSelectorView();
-            productsSelector.ShowDialog();
+            var dlg = new UniProductSelectorView();
+            dlg.Show();
+            dlg.Closed += DlgOnClosed;
+//            ProductsSelectorView productsSelector = new ProductsSelectorView();
+//            productsSelector.ShowDialog();
+        }
+
+        private void DlgOnClosed(object sender, EventArgs eventArgs)
+        {
+            var dlg = sender as UniProductSelectorView;
+            var vm = dlg.DataContext as UniProductSelectorViewModel;
+            if (vm == null || vm.SelectedProducts.Count == 0)
+                return;
+            Client defaultClient = colorItEntities.Client.First(client => client.PrivatePerson);
+
+            SaleDocument saleDocument = new SaleDocument
+            {
+                DateCreated = DateTime.Now,
+                Confirmed = false,
+                Prepay = false,
+                Client = defaultClient,
+                ClientId = defaultClient.ID
+            };
+            saleDocument.GenerateDocNumber();
+            colorItEntities.SaleDocument.AddObject(saleDocument);
+
+            try
+            {
+                colorItEntities.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Не удалось сохранить документ в базу\n" + ex.Message + "\n" + ex.InnerException);
+            }
+
+            foreach (Product product in vm.SelectedProducts)
+            {
+                Sale saleProduct = new Sale
+                {
+                    ProductID = product.ID,
+                    SaleListNumber = saleDocument.Id,
+                    Amount = product.Amount,
+                    Cost = product.Cost
+                };
+                colorItEntities.Sale.AddObject(saleProduct);
+            }
+
+            try
+            {
+                colorItEntities.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Не удалось сохранить список продаваемых продуктов в базу\n" + ex.Message + "\n" + ex.InnerException);
+            }
+
+            SaleDocuments.Add(saleDocument);
+            CurrentSaleDocument = saleDocument;
         }
 
         #endregion

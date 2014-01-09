@@ -62,12 +62,22 @@ namespace ColoritWPF
 
         public string Groups
         {
-            get { return Group1.Name; }
+            get
+            {
+                if (Group == null || String.IsNullOrEmpty(Group1.Name))
+                    return "Без группы";
+                return Group1.Name;
+            }
         }
 
         public string ProducerGr
         {
-            get { return Producers.Name; }
+            get
+            {
+                if (String.IsNullOrEmpty(Producers.Name))
+                    return "Без производителя";
+                return Producers.Name;
+            }
         }
 
     #endregion

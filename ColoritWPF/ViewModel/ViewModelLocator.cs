@@ -16,6 +16,7 @@ using System.ComponentModel;
 using ColoritWPF.ViewModel.Products;
 using ColoritWPF.ViewModel.Statistics;
 using ColoritWPF.Views;
+using ColoritWPF.Views.Products;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;
@@ -214,6 +215,14 @@ namespace ColoritWPF.ViewModel
             get
             {
                 return new SalesStatsViewModel();
+            }
+        }
+
+        public UniProductSelectorViewModel UniProductSelectorViewPage
+        {
+            get
+            {
+                return new UniProductSelectorViewModel();
             }
         }
         public static void Cleanup()

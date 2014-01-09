@@ -11,7 +11,6 @@ using ColoritWPF.Models;
 using ColoritWPF.Views.Products;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight.Messaging;
 
 namespace ColoritWPF.ViewModel.Products
 {
@@ -30,9 +29,7 @@ namespace ColoritWPF.ViewModel.Products
                 GetData();
                 InitializeCommands();
 
-
                 PurchaseProductsList.CollectionChanged += CollectionChanged;
-                Messenger.Default.Register<PurchaseDocument>(this, UpdateSelectedDocument);
             }
         }
 
@@ -436,8 +433,63 @@ namespace ColoritWPF.ViewModel.Products
 
         private void OpenSelection()
         {
-            var purchaseProductsSelector = new PurchaseProductSelectorView();
-            purchaseProductsSelector.ShowDialog();
+//            var purchaseProductsSelector = new PurchaseProductSelectorView();
+//            purchaseProductsSelector.ShowDialog();
+            var dlg = new UniProductSelectorView();
+            dlg.Show();
+            dlg.Closed += OnProductSelectedDlgClosed;
+        }
+
+        private void OnProductSelectedDlgClosed(object sender, EventArgs e)
+        {
+            var dlg = sender as UniProductSelectorView;
+            var vm = dlg.DataContext as UniProductSelectorViewModel;
+            if (vm == null || vm.SelectedProducts.Count == 0)
+                return;
+
+            Client defaultClient = colorItEntities.Client.First(client => client.PrivatePerson);
+
+            PurchaseDocument purchaseDocument = new PurchaseDocument
+            {
+                Date = DateTime.Now,
+                Confirmed = false,
+                Prepay = false,
+                Client = defaultClient,
+                ClientId = defaultClient.ID
+            };
+            purchaseDocument.GenerateDocNumber();
+            colorItEntities.PurchaseDocument.AddObject(purchaseDocument);
+
+            try
+            {
+                colorItEntities.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Не удалось сохранить документ в базу\n" + ex.Message + "\n" + ex.InnerException);
+            }
+
+            foreach (Product product in vm.SelectedProducts)
+            {
+                Purchase purchaseProduct = new Purchase
+                {
+                    ProductID = product.ID,
+                    ListNumber = purchaseDocument.Id,
+                    Amount = product.Amount,
+                    Cost = product.Cost,
+                    SelfCost = product.SelfCost
+                };
+                colorItEntities.Purchase.AddObject(purchaseProduct);
+            }
+
+            try
+            {
+                colorItEntities.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Не удалось сохранить список продаваемых продуктов в базу\n" + ex.Message + "\n" + ex.InnerException);
+            }
         }
 
         private bool ConfirmDocumentCanExecute()
