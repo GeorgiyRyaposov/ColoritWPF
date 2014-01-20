@@ -225,6 +225,15 @@ namespace ColoritWPF.ViewModel
                 return new UniProductSelectorViewModel();
             }
         }
+
+        public ExpenditureViewModel ExpenditureViewModelPage
+        {
+            get
+            {
+                return new ExpenditureViewModel();
+            }
+        }
+
         public static void Cleanup()
         {
             // TODO Clear the ViewModels

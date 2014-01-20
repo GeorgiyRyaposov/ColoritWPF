@@ -1,0 +1,66 @@
+﻿<UserControl x:Class="ColoritWPF.Controls.AddExpenditure"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             DataContext="{Binding ExpenditureViewModelPage, Source={StaticResource Locator}}"
+             Height="500" Width="400">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <DataGrid AutoGenerateColumns="False" Height="200" Style="{StaticResource DataGridStyle}" 
+                  Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2"
+                  ItemsSource="{Binding Path=Expenditures, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                  SelectedItem="{Binding CurrentExpenditure, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                  CanUserAddRows="False" LoadingRow="Grid_LoadingRow">
+            <DataGrid.RowHeaderTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGridRow}}, Path=Header}"></TextBlock>
+                </DataTemplate>
+            </DataGrid.RowHeaderTemplate>
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Path=Name}" Header="Наименование" Width="*" IsReadOnly="True" />
+                <DataGridTextColumn Binding="{Binding Path=DateCreated}" Header="Дата" Width="SizeToHeader" IsReadOnly="True" />
+                <DataGridTextColumn Binding="{Binding Path=Amount, StringFormat=\{0:c\}}" Header="Сумма" Width="SizeToHeader" IsReadOnly="True" />
+                <DataGridTemplateColumn Header="Проведен" Width="SizeToHeader" CellStyle="{StaticResource IsConfirmed_CheckBoxCellStyle}" IsReadOnly="True"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Label Grid.Row="1" Grid.Column="0" Content="Вид расхода: " Style="{StaticResource LabelForTextBox}" />
+        <ComboBox Grid.Row="1" Grid.Column="1" Style="{StaticResource LongComboBox}"
+                  ItemsSource="{Binding ExpenditureTypes}"
+                  DisplayMemberPath="Name"
+                  SelectedValuePath="TypeId"
+                  IsEditable="{Binding IsControlsEditable}"/>
+        
+        <Label Grid.Row="2" Grid.Column="0" Content="Другое: " Style="{StaticResource LabelForTextBox}" />
+        <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding CurrentExpenditure.Other, Mode=TwoWay}" Style="{StaticResource LongTextBox}"
+                 IsEnabled="{Binding IsOtherEditable, Mode=TwoWay}"/>
+
+        <Label Grid.Row="3" Grid.Column="0" Content="Сумма: " Style="{StaticResource LabelForTextBox}" />
+        <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding CurrentExpenditure.Amount, Mode=TwoWay, StringFormat=\{0:c\}}" Style="{StaticResource LongTextBox}" 
+                 IsEnabled="{Binding IsControlsEditable}"/>
+
+        <Label Grid.Row="4" Grid.Column="0" Content="Комментарий: " Style="{StaticResource LabelForTextBox}" VerticalAlignment="Top"/>
+        <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding CurrentExpenditure.Comment, Mode=TwoWay}" Margin="0,0,5,0" 
+                 IsEnabled="{Binding IsControlsEditable}"/>
+        
+        <StackPanel Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="2" Style="{StaticResource BottomButtonsStackPanel}">
+            <Button Content="Сохранить" Command="{Binding EnableCashCommand, Mode=OneWay}" Style="{StaticResource Buttons}" />
+            <Button Content="Провести" Command="{Binding SaveCommand, Mode=OneWay}" Style="{StaticResource Buttons}" />
+        </StackPanel>
+        
+    </Grid>
+</UserControl>

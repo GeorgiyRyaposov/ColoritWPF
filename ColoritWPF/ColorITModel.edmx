@@ -5,472 +5,484 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="ColorITModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
-  <EntityContainer Name="ColorITModelStoreContainer">
-    <EntitySet Name="Client" EntityType="ColorITModel.Store.Client" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Deposit" EntityType="ColorITModel.Store.Deposit" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Group" EntityType="ColorITModel.Store.Group" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Loan" EntityType="ColorITModel.Store.Loan" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Product" EntityType="ColorITModel.Store.Product" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="CarModels" EntityType="ColorITModel.Store.CarModels" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="PaintName" EntityType="ColorITModel.Store.PaintName" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Paints" EntityType="ColorITModel.Store.Paints" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Settings" EntityType="ColorITModel.Store.Settings" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Density" EntityType="ColorITModel.Store.Density" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Producers" EntityType="ColorITModel.Store.Producers" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="SaleDocument" EntityType="ColorITModel.Store.SaleDocument" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Sale" EntityType="ColorITModel.Store.Sale" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Purchase" EntityType="ColorITModel.Store.Purchase" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="MoveProduct" EntityType="ColorITModel.Store.MoveProduct" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="MoveProductDocument" EntityType="ColorITModel.Store.MoveProductDocument" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="PurchaseDocument" EntityType="ColorITModel.Store.PurchaseDocument" store:Type="Tables" Schema="dbo" />
-    <AssociationSet Name="FK_Client_Deposit" Association="ColorITModel.Store.FK_Client_Deposit">
-      <End Role="Client" EntitySet="Client" />
-      <End Role="Deposit" EntitySet="Deposit" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Client_Loan" Association="ColorITModel.Store.FK_Client_Loan">
-      <End Role="Client" EntitySet="Client" />
-      <End Role="Loan" EntitySet="Loan" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Group_Product" Association="ColorITModel.Store.FK_Group_Product">
-      <End Role="Group" EntitySet="Group" />
-      <End Role="Product" EntitySet="Product" />
-    </AssociationSet>
-    <AssociationSet Name="PK_Paints_CarModels" Association="ColorITModel.Store.PK_Paints_CarModels">
-      <End Role="CarModels" EntitySet="CarModels" />
-      <End Role="Paints" EntitySet="Paints" />
-    </AssociationSet>
-    <AssociationSet Name="PK_Paints_Clients" Association="ColorITModel.Store.PK_Paints_Clients">
-      <End Role="Client" EntitySet="Client" />
-      <End Role="Paints" EntitySet="Paints" />
-    </AssociationSet>
-    <AssociationSet Name="PK_Paints_PaintName" Association="ColorITModel.Store.PK_Paints_PaintName">
-      <End Role="PaintName" EntitySet="PaintName" />
-      <End Role="Paints" EntitySet="Paints" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Producers_Product" Association="ColorITModel.Store.FK_Producers_Product">
-      <End Role="Producers" EntitySet="Producers" />
-      <End Role="Product" EntitySet="Product" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Client_SaleDocument" Association="ColorITModel.Store.FK_Client_SaleDocument">
-      <End Role="Client" EntitySet="Client" />
-      <End Role="SaleDocument" EntitySet="SaleDocument" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Sale_Product" Association="ColorITModel.Store.FK_Sale_Product">
-      <End Role="Product" EntitySet="Product" />
-      <End Role="Sale" EntitySet="Sale" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Purchase_Product" Association="ColorITModel.Store.FK_Purchase_Product">
-      <End Role="Product" EntitySet="Product" />
-      <End Role="Purchase" EntitySet="Purchase" />
-    </AssociationSet>
-    <AssociationSet Name="FK_MoveProduct_Product" Association="ColorITModel.Store.FK_MoveProduct_Product">
-      <End Role="Product" EntitySet="Product" />
-      <End Role="MoveProduct" EntitySet="MoveProduct" />
-    </AssociationSet>
-    <AssociationSet Name="FK_MoveProductDocument_MoveProduct" Association="ColorITModel.Store.FK_MoveProductDocument_MoveProduct">
-      <End Role="MoveProductDocument" EntitySet="MoveProductDocument" />
-      <End Role="MoveProduct" EntitySet="MoveProduct" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Sale_SaleDocument" Association="ColorITModel.Store.FK_Sale_SaleDocument">
-      <End Role="SaleDocument" EntitySet="SaleDocument" />
-      <End Role="Sale" EntitySet="Sale" />
-    </AssociationSet>
-    <AssociationSet Name="FK_PurchaseDocument_Client" Association="ColorITModel.Store.FK_PurchaseDocument_Client">
-      <End Role="Client" EntitySet="Client" />
-      <End Role="PurchaseDocument" EntitySet="PurchaseDocument" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Purchase_PurchaseDocument" Association="ColorITModel.Store.FK_Purchase_PurchaseDocument">
-      <End Role="PurchaseDocument" EntitySet="PurchaseDocument" />
-      <End Role="Purchase" EntitySet="Purchase" />
-    </AssociationSet>
-  </EntityContainer>
-  <EntityType Name="Client">
-    <Key>
-      <PropertyRef Name="ID" />
-    </Key>
-    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
-    <Property Name="Balance" Type="decimal" Nullable="false" Precision="19" Scale="4" />
-    <Property Name="Info" Type="nvarchar" Nullable="true" MaxLength="100" />
-    <Property Name="Discount" Type="float" Nullable="false" DefaultValue="1" />
-    <Property Name="PhoneNumber" Type="nvarchar" Nullable="true" MaxLength="100" />
-    <Property Name="PrivatePerson" Type="bit" Nullable="false" DefaultValue="false" />
-  </EntityType>
-  <EntityType Name="Deposit">
-    <Key>
-      <PropertyRef Name="ID" />
-    </Key>
-    <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="ClientID" Type="int" Nullable="false" />
-    <Property Name="Amount" Type="decimal" Nullable="false" Precision="19" Scale="4" />
-    <Property Name="Date" Type="datetime" Nullable="false" />
-  </EntityType>
-  <EntityType Name="Group">
-    <Key>
-      <PropertyRef Name="ID" />
-    </Key>
-    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="100" />
-  </EntityType>
-  <EntityType Name="Loan">
-    <Key>
-      <PropertyRef Name="ID" />
-    </Key>
-    <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="ClientID" Type="int" Nullable="false" />
-    <Property Name="Amount" Type="decimal" Nullable="false" Precision="19" Scale="4" />
-    <Property Name="Date" Type="datetime" Nullable="false" />
-  </EntityType>
-  <EntityType Name="Product">
-    <Key>
-      <PropertyRef Name="ID" />
-    </Key>
-    <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="255" />
-    <Property Name="SelfCost" Type="decimal" Nullable="false" Precision="19" Scale="4" />
-    <Property Name="Cost" Type="decimal" Nullable="false" Precision="19" Scale="4" />
-    <Property Name="Warehouse" Type="float" Nullable="false" />
-    <Property Name="Storage" Type="float" Nullable="false" />
-    <Property Name="Bottled" Type="bit" Nullable="false" />
-    <Property Name="MaxDiscount" Type="float" Nullable="false" />
-    <Property Name="Group" Type="int" Nullable="true" />
-    <Property Name="ProducerId" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="CarModels">
-    <Key>
-      <PropertyRef Name="ID" />
-    </Key>
-    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="ModelName" Type="nvarchar" Nullable="false" MaxLength="32" />
-  </EntityType>
-  <EntityType Name="PaintName">
-    <Key>
-      <PropertyRef Name="ID" />
-    </Key>
-    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="64" />
-    <Property Name="Cost" Type="decimal" Nullable="false" DefaultValue="0" Precision="19" Scale="4" />
-    <Property Name="Container" Type="decimal" Nullable="false" DefaultValue="0" Precision="19" Scale="4" />
-    <Property Name="Work" Type="decimal" Nullable="false" DefaultValue="0" Precision="19" Scale="4" />
-    <Property Name="Census1" Type="float" Nullable="false" DefaultValue="0" />
-    <Property Name="Census2" Type="float" Nullable="false" DefaultValue="0" />
-    <Property Name="ThreeLayers" Type="bit" Nullable="false" DefaultValue="false" />
-    <Property Name="Package" Type="bit" Nullable="false" DefaultValue="false" />
-    <Property Name="PaintType" Type="nvarchar" Nullable="true" MaxLength="50" />
-    <Property Name="L2KType" Type="nvarchar" Nullable="true" MaxLength="50" />
-    <Property Name="MaxDiscount" Type="float" Nullable="false" />
-  </EntityType>
-  <EntityType Name="Paints">
-    <Key>
-      <PropertyRef Name="ID" />
-    </Key>
-    <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Date" Type="datetime" Nullable="false" />
-    <Property Name="CarModelID" Type="int" Nullable="true" />
-    <Property Name="PaintCode" Type="nvarchar" Nullable="true" MaxLength="32" />
-    <Property Name="NameID" Type="int" Nullable="false" />
-    <Property Name="Amount" Type="float" Nullable="false" DefaultValue="0" />
-    <Property Name="Sum" Type="decimal" Nullable="false" DefaultValue="0" Precision="19" Scale="4" />
-    <Property Name="ClientID" Type="int" Nullable="false" />
-    <Property Name="DocState" Type="bit" Nullable="false" DefaultValue="false" />
-    <Property Name="PhoneNumber" Type="nvarchar" Nullable="true" MaxLength="100" />
-    <Property Name="ServiceByCode" Type="bit" Nullable="false" />
-    <Property Name="ServiceSelection" Type="bit" Nullable="false" />
-    <Property Name="ServiceColorist" Type="bit" Nullable="false" DefaultValue="false" />
-    <Property Name="AmountPolish" Type="float" Nullable="false" DefaultValue="0" />
-    <Property Name="Prepay" Type="decimal" Nullable="false" DefaultValue="0" Precision="19" Scale="4" />
-    <Property Name="Total" Type="decimal" Nullable="false" DefaultValue="0" Precision="19" Scale="4" />
-    <Property Name="IsPreorder" Type="bit" Nullable="false" />
-  </EntityType>
-  <EntityType Name="Settings">
-    <Key>
-      <PropertyRef Name="ID" />
-    </Key>
-    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="ByCodeCost" Type="decimal" Nullable="false" DefaultValue="0" Precision="19" Scale="4" />
-    <Property Name="SelectionCost" Type="decimal" Nullable="false" DefaultValue="0" Precision="19" Scale="4" />
-    <Property Name="SelectionAndThreeLayers" Type="decimal" Nullable="false" DefaultValue="0" Precision="19" Scale="4" />
-    <Property Name="Cash" Type="decimal" Nullable="false" Precision="19" Scale="4" />
-    <Property Name="CashInBox" Type="decimal" Nullable="false" Precision="19" Scale="4" />
-  </EntityType>
-  <EntityType Name="Density">
-    <Key>
-      <PropertyRef Name="ID" />
-    </Key>
-    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Type" Type="int" Nullable="false" />
-    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="100" />
-    <Property Name="DensityValue" Type="float" Nullable="false" DefaultValue="0" />
-    <Property Name="AccordingThinner" Type="int" Nullable="false" DefaultValue="0" />
-    <Property Name="AccordingHardener" Type="int" Nullable="false" DefaultValue="0" />
-    <Property Name="ProportionThinner" Type="float" Nullable="false" DefaultValue="0" />
-    <Property Name="ProportionHardener" Type="float" Nullable="false" DefaultValue="0" />
-  </EntityType>
-  <EntityType Name="Producers">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="255" />
-  </EntityType>
-  <EntityType Name="SaleDocument">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="ClientId" Type="int" Nullable="false" />
-    <Property Name="SaleListNumber" Type="int" Nullable="false" />
-    <Property Name="Total" Type="decimal" Nullable="false" DefaultValue="0" Precision="19" Scale="4" />
-    <Property Name="CleanTotal" Type="decimal" Nullable="false" DefaultValue="0" Precision="19" Scale="4" />
-    <Property Name="Confirmed" Type="bit" Nullable="false" />
-    <Property Name="Comments" Type="nvarchar" Nullable="true" MaxLength="255" />
-    <Property Name="Prepay" Type="bit" Nullable="false" />
-    <Property Name="DateCreated" Type="datetime" Nullable="false" />
-    <Property Name="ClientBalancePartInTotal" Type="decimal" Nullable="false" DefaultValue="0" Precision="19" Scale="4" />
-  </EntityType>
-  <EntityType Name="Sale">
-    <Key>
-      <PropertyRef Name="ID" />
-    </Key>
-    <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="ProductID" Type="bigint" Nullable="false" />
-    <Property Name="Amount" Type="int" Nullable="false" />
-    <Property Name="Discount" Type="float" Nullable="true" />
-    <Property Name="SaleListNumber" Type="bigint" Nullable="false" />
-    <Property Name="Cost" Type="decimal" Nullable="false" Precision="19" Scale="4" />
-  </EntityType>
-  <EntityType Name="Purchase">
-    <Key>
-      <PropertyRef Name="ID" />
-    </Key>
-    <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="ProductID" Type="bigint" Nullable="false" />
-    <Property Name="SelfCost" Type="decimal" Nullable="false" Precision="19" Scale="4" />
-    <Property Name="ToWarehouse" Type="float" Nullable="false" />
-    <Property Name="ToStorage" Type="float" Nullable="false" />
-    <Property Name="Date" Type="datetime" Nullable="true" />
-    <Property Name="Cost" Type="decimal" Nullable="false" Precision="19" Scale="4" />
-    <Property Name="ListNumber" Type="bigint" Nullable="false" />
-    <Property Name="Amount" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="MoveProduct">
-    <Key>
-      <PropertyRef Name="ID" />
-    </Key>
-    <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="ProductID" Type="bigint" Nullable="false" />
-    <Property Name="Amount" Type="int" Nullable="false" />
-    <Property Name="DocNumber" Type="bigint" Nullable="false" />
-  </EntityType>
-  <EntityType Name="MoveProductDocument">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="DocumentNumber" Type="int" Nullable="false" />
-    <Property Name="ToStorage" Type="bit" Nullable="false" />
-    <Property Name="ToWarehouse" Type="bit" Nullable="false" />
-    <Property Name="Date" Type="datetime" Nullable="false" />
-    <Property Name="Comment" Type="nvarchar" Nullable="true" MaxLength="100" />
-    <Property Name="Confirmed" Type="bit" Nullable="false" />
-  </EntityType>
-  <EntityType Name="PurchaseDocument">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="DocumentNumber" Type="int" Nullable="false" />
-    <Property Name="Date" Type="datetime" Nullable="false" />
-    <Property Name="Total" Type="decimal" Nullable="false" Precision="19" Scale="4" />
-    <Property Name="CleanTotal" Type="decimal" Nullable="false" Precision="19" Scale="4" />
-    <Property Name="ClientId" Type="int" Nullable="false" />
-    <Property Name="Confirmed" Type="bit" Nullable="false" />
-    <Property Name="Prepay" Type="bit" Nullable="false" />
-    <Property Name="Comment" Type="nvarchar" Nullable="true" MaxLength="100" />
-    <Property Name="ToWarehouse" Type="bit" Nullable="false" />
-    <Property Name="ToStorage" Type="bit" Nullable="false" />
-  </EntityType>
-  <Association Name="FK_Client_Deposit">
-    <End Role="Client" Type="ColorITModel.Store.Client" Multiplicity="1" />
-    <End Role="Deposit" Type="ColorITModel.Store.Deposit" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Client">
-        <PropertyRef Name="ID" />
-      </Principal>
-      <Dependent Role="Deposit">
-        <PropertyRef Name="ClientID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Client_Loan">
-    <End Role="Client" Type="ColorITModel.Store.Client" Multiplicity="1" />
-    <End Role="Loan" Type="ColorITModel.Store.Loan" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Client">
-        <PropertyRef Name="ID" />
-      </Principal>
-      <Dependent Role="Loan">
-        <PropertyRef Name="ClientID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Group_Product">
-    <End Role="Group" Type="ColorITModel.Store.Group" Multiplicity="0..1" />
-    <End Role="Product" Type="ColorITModel.Store.Product" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Group">
-        <PropertyRef Name="ID" />
-      </Principal>
-      <Dependent Role="Product">
-        <PropertyRef Name="Group" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="PK_Paints_CarModels">
-    <End Role="CarModels" Type="ColorITModel.Store.CarModels" Multiplicity="0..1" />
-    <End Role="Paints" Type="ColorITModel.Store.Paints" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="CarModels">
-        <PropertyRef Name="ID" />
-      </Principal>
-      <Dependent Role="Paints">
-        <PropertyRef Name="CarModelID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="PK_Paints_Clients">
-    <End Role="Client" Type="ColorITModel.Store.Client" Multiplicity="1" />
-    <End Role="Paints" Type="ColorITModel.Store.Paints" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Client">
-        <PropertyRef Name="ID" />
-      </Principal>
-      <Dependent Role="Paints">
-        <PropertyRef Name="ClientID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="PK_Paints_PaintName">
-    <End Role="PaintName" Type="ColorITModel.Store.PaintName" Multiplicity="1" />
-    <End Role="Paints" Type="ColorITModel.Store.Paints" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="PaintName">
-        <PropertyRef Name="ID" />
-      </Principal>
-      <Dependent Role="Paints">
-        <PropertyRef Name="NameID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Producers_Product">
-    <End Role="Producers" Type="ColorITModel.Store.Producers" Multiplicity="1" />
-    <End Role="Product" Type="ColorITModel.Store.Product" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Producers">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Product">
-        <PropertyRef Name="ProducerId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Client_SaleDocument">
-    <End Role="Client" Type="ColorITModel.Store.Client" Multiplicity="1" />
-    <End Role="SaleDocument" Type="ColorITModel.Store.SaleDocument" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Client">
-        <PropertyRef Name="ID" />
-      </Principal>
-      <Dependent Role="SaleDocument">
-        <PropertyRef Name="ClientId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Sale_Product">
-    <End Role="Product" Type="ColorITModel.Store.Product" Multiplicity="1" />
-    <End Role="Sale" Type="ColorITModel.Store.Sale" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Product">
-        <PropertyRef Name="ID" />
-      </Principal>
-      <Dependent Role="Sale">
-        <PropertyRef Name="ProductID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Purchase_Product">
-    <End Role="Product" Type="ColorITModel.Store.Product" Multiplicity="1" />
-    <End Role="Purchase" Type="ColorITModel.Store.Purchase" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Product">
-        <PropertyRef Name="ID" />
-      </Principal>
-      <Dependent Role="Purchase">
-        <PropertyRef Name="ProductID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_MoveProduct_Product">
-    <End Role="Product" Type="ColorITModel.Store.Product" Multiplicity="1" />
-    <End Role="MoveProduct" Type="ColorITModel.Store.MoveProduct" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Product">
-        <PropertyRef Name="ID" />
-      </Principal>
-      <Dependent Role="MoveProduct">
-        <PropertyRef Name="ProductID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_MoveProductDocument_MoveProduct">
-    <End Role="MoveProductDocument" Type="ColorITModel.Store.MoveProductDocument" Multiplicity="1" />
-    <End Role="MoveProduct" Type="ColorITModel.Store.MoveProduct" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="MoveProductDocument">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="MoveProduct">
-        <PropertyRef Name="DocNumber" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Sale_SaleDocument">
-    <End Role="SaleDocument" Type="ColorITModel.Store.SaleDocument" Multiplicity="1" />
-    <End Role="Sale" Type="ColorITModel.Store.Sale" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="SaleDocument">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Sale">
-        <PropertyRef Name="SaleListNumber" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_PurchaseDocument_Client">
-    <End Role="Client" Type="ColorITModel.Store.Client" Multiplicity="1" />
-    <End Role="PurchaseDocument" Type="ColorITModel.Store.PurchaseDocument" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Client">
-        <PropertyRef Name="ID" />
-      </Principal>
-      <Dependent Role="PurchaseDocument">
-        <PropertyRef Name="ClientId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Purchase_PurchaseDocument">
-    <End Role="PurchaseDocument" Type="ColorITModel.Store.PurchaseDocument" Multiplicity="1" />
-    <End Role="Purchase" Type="ColorITModel.Store.Purchase" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="PurchaseDocument">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Purchase">
-        <PropertyRef Name="ListNumber" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-</Schema></edmx:StorageModels>
+        <EntityContainer Name="ColorITModelStoreContainer">
+          <EntitySet Name="CarModels" EntityType="ColorITModel.Store.CarModels" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Client" EntityType="ColorITModel.Store.Client" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Density" EntityType="ColorITModel.Store.Density" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Deposit" EntityType="ColorITModel.Store.Deposit" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Expenditure" EntityType="ColorITModel.Store.Expenditure" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Group" EntityType="ColorITModel.Store.Group" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Loan" EntityType="ColorITModel.Store.Loan" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="MoveProduct" EntityType="ColorITModel.Store.MoveProduct" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="MoveProductDocument" EntityType="ColorITModel.Store.MoveProductDocument" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="PaintName" EntityType="ColorITModel.Store.PaintName" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Paints" EntityType="ColorITModel.Store.Paints" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Producers" EntityType="ColorITModel.Store.Producers" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Product" EntityType="ColorITModel.Store.Product" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Purchase" EntityType="ColorITModel.Store.Purchase" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="PurchaseDocument" EntityType="ColorITModel.Store.PurchaseDocument" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Sale" EntityType="ColorITModel.Store.Sale" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="SaleDocument" EntityType="ColorITModel.Store.SaleDocument" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Settings" EntityType="ColorITModel.Store.Settings" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_Client_Deposit" Association="ColorITModel.Store.FK_Client_Deposit">
+            <End Role="Client" EntitySet="Client" />
+            <End Role="Deposit" EntitySet="Deposit" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Client_Loan" Association="ColorITModel.Store.FK_Client_Loan">
+            <End Role="Client" EntitySet="Client" />
+            <End Role="Loan" EntitySet="Loan" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Client_SaleDocument" Association="ColorITModel.Store.FK_Client_SaleDocument">
+            <End Role="Client" EntitySet="Client" />
+            <End Role="SaleDocument" EntitySet="SaleDocument" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Group_Product" Association="ColorITModel.Store.FK_Group_Product">
+            <End Role="Group" EntitySet="Group" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MoveProduct_Product" Association="ColorITModel.Store.FK_MoveProduct_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="MoveProduct" EntitySet="MoveProduct" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MoveProductDocument_MoveProduct" Association="ColorITModel.Store.FK_MoveProductDocument_MoveProduct">
+            <End Role="MoveProductDocument" EntitySet="MoveProductDocument" />
+            <End Role="MoveProduct" EntitySet="MoveProduct" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PK_Paints_CarModels" Association="ColorITModel.Store.FK_PK_Paints_CarModels">
+            <End Role="CarModels" EntitySet="CarModels" />
+            <End Role="Paints" EntitySet="Paints" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PK_Paints_Clients" Association="ColorITModel.Store.FK_PK_Paints_Clients">
+            <End Role="Client" EntitySet="Client" />
+            <End Role="Paints" EntitySet="Paints" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PK_Paints_PaintName" Association="ColorITModel.Store.FK_PK_Paints_PaintName">
+            <End Role="PaintName" EntitySet="PaintName" />
+            <End Role="Paints" EntitySet="Paints" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Producers_Product" Association="ColorITModel.Store.FK_Producers_Product">
+            <End Role="Producers" EntitySet="Producers" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Purchase_Product" Association="ColorITModel.Store.FK_Purchase_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="Purchase" EntitySet="Purchase" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Purchase_PurchaseDocument" Association="ColorITModel.Store.FK_Purchase_PurchaseDocument">
+            <End Role="PurchaseDocument" EntitySet="PurchaseDocument" />
+            <End Role="Purchase" EntitySet="Purchase" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PurchaseDocument_Client" Association="ColorITModel.Store.FK_PurchaseDocument_Client">
+            <End Role="Client" EntitySet="Client" />
+            <End Role="PurchaseDocument" EntitySet="PurchaseDocument" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sale_Product" Association="ColorITModel.Store.FK_Sale_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="Sale" EntitySet="Sale" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sale_SaleDocument" Association="ColorITModel.Store.FK_Sale_SaleDocument">
+            <End Role="SaleDocument" EntitySet="SaleDocument" />
+            <End Role="Sale" EntitySet="Sale" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="CarModels">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ModelName" Type="nvarchar" Nullable="false" MaxLength="32" />
+        </EntityType>
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Balance" Type="decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="Info" Type="nvarchar" MaxLength="100" />
+          <Property Name="Discount" Type="float" Nullable="false" />
+          <Property Name="PhoneNumber" Type="nvarchar" MaxLength="100" />
+          <Property Name="PrivatePerson" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Density">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Type" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="DensityValue" Type="float" Nullable="false" />
+          <Property Name="AccordingThinner" Type="int" Nullable="false" />
+          <Property Name="AccordingHardener" Type="int" Nullable="false" />
+          <Property Name="ProportionThinner" Type="float" Nullable="false" />
+          <Property Name="ProportionHardener" Type="float" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Deposit">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ClientID" Type="int" Nullable="false" />
+          <Property Name="Amount" Type="decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Expenditure">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="150" />
+          <Property Name="Amount" Type="decimal" Nullable="false" Scale="2" />
+          <Property Name="Comment" Type="nvarchar" MaxLength="150" />
+          <Property Name="Confirmed" Type="bit" Nullable="false" />
+          <Property Name="DateCreated" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Group">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Loan">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ClientID" Type="int" Nullable="false" />
+          <Property Name="Amount" Type="decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MoveProduct">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ProductID" Type="bigint" Nullable="false" />
+          <Property Name="Amount" Type="int" Nullable="false" />
+          <Property Name="DocNumber" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MoveProductDocument">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="DocumentNumber" Type="int" Nullable="false" />
+          <Property Name="ToStorage" Type="bit" Nullable="false" />
+          <Property Name="ToWarehouse" Type="bit" Nullable="false" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="Comment" Type="nvarchar" MaxLength="100" />
+          <Property Name="Confirmed" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PaintName">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="64" />
+          <Property Name="Cost" Type="decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="Container" Type="decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="Work" Type="decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="Census1" Type="float" Nullable="false" />
+          <Property Name="Census2" Type="float" Nullable="false" />
+          <Property Name="ThreeLayers" Type="bit" Nullable="false" />
+          <Property Name="Package" Type="bit" Nullable="false" />
+          <Property Name="PaintType" Type="nvarchar" MaxLength="50" />
+          <Property Name="L2KType" Type="nvarchar" MaxLength="50" />
+          <Property Name="MaxDiscount" Type="float" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Paints">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="CarModelID" Type="int" />
+          <Property Name="PaintCode" Type="nvarchar" MaxLength="32" />
+          <Property Name="NameID" Type="int" Nullable="false" />
+          <Property Name="Amount" Type="float" Nullable="false" />
+          <Property Name="Sum" Type="decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="ClientID" Type="int" Nullable="false" />
+          <Property Name="DocState" Type="bit" Nullable="false" />
+          <Property Name="PhoneNumber" Type="nvarchar" MaxLength="100" />
+          <Property Name="ServiceByCode" Type="bit" Nullable="false" />
+          <Property Name="ServiceSelection" Type="bit" Nullable="false" />
+          <Property Name="ServiceColorist" Type="bit" Nullable="false" />
+          <Property Name="AmountPolish" Type="float" Nullable="false" />
+          <Property Name="Prepay" Type="decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="Total" Type="decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="IsPreorder" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Producers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="SelfCost" Type="decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="Cost" Type="decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="Warehouse" Type="float" Nullable="false" />
+          <Property Name="Storage" Type="float" Nullable="false" />
+          <Property Name="Bottled" Type="bit" Nullable="false" />
+          <Property Name="MaxDiscount" Type="float" Nullable="false" />
+          <Property Name="Group" Type="int" />
+          <Property Name="ProducerId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Purchase">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ProductID" Type="bigint" Nullable="false" />
+          <Property Name="SelfCost" Type="decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="ToWarehouse" Type="float" Nullable="false" />
+          <Property Name="ToStorage" Type="float" Nullable="false" />
+          <Property Name="Date" Type="datetime" />
+          <Property Name="Cost" Type="decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="ListNumber" Type="bigint" Nullable="false" />
+          <Property Name="Amount" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PurchaseDocument">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="DocumentNumber" Type="int" Nullable="false" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="Total" Type="decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="CleanTotal" Type="decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="ClientId" Type="int" Nullable="false" />
+          <Property Name="Confirmed" Type="bit" Nullable="false" />
+          <Property Name="Prepay" Type="bit" Nullable="false" />
+          <Property Name="Comment" Type="nvarchar" MaxLength="100" />
+          <Property Name="ToWarehouse" Type="bit" Nullable="false" />
+          <Property Name="ToStorage" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Sale">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ProductID" Type="bigint" Nullable="false" />
+          <Property Name="Amount" Type="int" Nullable="false" />
+          <Property Name="Discount" Type="float" />
+          <Property Name="SaleListNumber" Type="bigint" Nullable="false" />
+          <Property Name="Cost" Type="decimal" Nullable="false" Precision="19" Scale="4" />
+        </EntityType>
+        <EntityType Name="SaleDocument">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ClientId" Type="int" Nullable="false" />
+          <Property Name="SaleListNumber" Type="int" Nullable="false" />
+          <Property Name="Total" Type="decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="CleanTotal" Type="decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="Confirmed" Type="bit" Nullable="false" />
+          <Property Name="Comments" Type="nvarchar" MaxLength="255" />
+          <Property Name="Prepay" Type="bit" Nullable="false" />
+          <Property Name="DateCreated" Type="datetime" Nullable="false" />
+          <Property Name="ClientBalancePartInTotal" Type="decimal" Nullable="false" Precision="19" Scale="4" />
+        </EntityType>
+        <EntityType Name="Settings">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ByCodeCost" Type="decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="SelectionCost" Type="decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="SelectionAndThreeLayers" Type="decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="Cash" Type="decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="CashInBox" Type="decimal" Nullable="false" Precision="19" Scale="4" />
+        </EntityType>
+        <Association Name="FK_Client_Deposit">
+          <End Role="Client" Type="ColorITModel.Store.Client" Multiplicity="1" />
+          <End Role="Deposit" Type="ColorITModel.Store.Deposit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Deposit">
+              <PropertyRef Name="ClientID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Client_Loan">
+          <End Role="Client" Type="ColorITModel.Store.Client" Multiplicity="1" />
+          <End Role="Loan" Type="ColorITModel.Store.Loan" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Loan">
+              <PropertyRef Name="ClientID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Client_SaleDocument">
+          <End Role="Client" Type="ColorITModel.Store.Client" Multiplicity="1" />
+          <End Role="SaleDocument" Type="ColorITModel.Store.SaleDocument" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SaleDocument">
+              <PropertyRef Name="ClientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Group_Product">
+          <End Role="Group" Type="ColorITModel.Store.Group" Multiplicity="0..1" />
+          <End Role="Product" Type="ColorITModel.Store.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Group">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="Group" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MoveProduct_Product">
+          <End Role="Product" Type="ColorITModel.Store.Product" Multiplicity="1" />
+          <End Role="MoveProduct" Type="ColorITModel.Store.MoveProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="MoveProduct">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MoveProductDocument_MoveProduct">
+          <End Role="MoveProductDocument" Type="ColorITModel.Store.MoveProductDocument" Multiplicity="1" />
+          <End Role="MoveProduct" Type="ColorITModel.Store.MoveProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MoveProductDocument">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MoveProduct">
+              <PropertyRef Name="DocNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PK_Paints_CarModels">
+          <End Role="CarModels" Type="ColorITModel.Store.CarModels" Multiplicity="0..1" />
+          <End Role="Paints" Type="ColorITModel.Store.Paints" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CarModels">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Paints">
+              <PropertyRef Name="CarModelID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PK_Paints_Clients">
+          <End Role="Client" Type="ColorITModel.Store.Client" Multiplicity="1" />
+          <End Role="Paints" Type="ColorITModel.Store.Paints" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Paints">
+              <PropertyRef Name="ClientID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PK_Paints_PaintName">
+          <End Role="PaintName" Type="ColorITModel.Store.PaintName" Multiplicity="1" />
+          <End Role="Paints" Type="ColorITModel.Store.Paints" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaintName">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Paints">
+              <PropertyRef Name="NameID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Producers_Product">
+          <End Role="Producers" Type="ColorITModel.Store.Producers" Multiplicity="1" />
+          <End Role="Product" Type="ColorITModel.Store.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Producers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="ProducerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Purchase_Product">
+          <End Role="Product" Type="ColorITModel.Store.Product" Multiplicity="1" />
+          <End Role="Purchase" Type="ColorITModel.Store.Purchase" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Purchase">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Purchase_PurchaseDocument">
+          <End Role="PurchaseDocument" Type="ColorITModel.Store.PurchaseDocument" Multiplicity="1" />
+          <End Role="Purchase" Type="ColorITModel.Store.Purchase" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PurchaseDocument">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Purchase">
+              <PropertyRef Name="ListNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PurchaseDocument_Client">
+          <End Role="Client" Type="ColorITModel.Store.Client" Multiplicity="1" />
+          <End Role="PurchaseDocument" Type="ColorITModel.Store.PurchaseDocument" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PurchaseDocument">
+              <PropertyRef Name="ClientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sale_Product">
+          <End Role="Product" Type="ColorITModel.Store.Product" Multiplicity="1" />
+          <End Role="Sale" Type="ColorITModel.Store.Sale" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Sale">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sale_SaleDocument">
+          <End Role="SaleDocument" Type="ColorITModel.Store.SaleDocument" Multiplicity="1" />
+          <End Role="Sale" Type="ColorITModel.Store.Sale" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SaleDocument">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Sale">
+              <PropertyRef Name="SaleListNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ColorITModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
@@ -552,6 +564,7 @@
             <End Role="PurchaseDocument" EntitySet="PurchaseDocument" />
             <End Role="Purchase" EntitySet="Purchase" />
           </AssociationSet>
+          <EntitySet Name="Expenditure" EntityType="ColorITModel.Expenditure" />
           </EntityContainer>
         <EntityType Name="Client">
           <Key>
@@ -969,6 +982,17 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Expenditure">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int64" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Type="Decimal" Name="Amount" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="String" Name="Comment" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Type="Boolean" Name="Confirmed" Nullable="false" />
+          <Property Type="DateTime" Name="DateCreated" Nullable="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1198,6 +1222,18 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+          <EntitySetMapping Name="Expenditure">
+            <EntityTypeMapping TypeName="ColorITModel.Expenditure">
+              <MappingFragment StoreEntitySet="Expenditure">
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="Confirmed" ColumnName="Confirmed" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>
@@ -1298,6 +1334,7 @@
           <ConnectorPoint PointX="7.125" PointY="12.871368815104166" />
           <ConnectorPoint PointX="6.625" PointY="12.871368815104166" />
         </AssociationConnector>
+        <EntityTypeShape EntityType="ColorITModel.Expenditure" Width="1.5" PointX="5" PointY="9.375" Height="1.7566536458333388" />
         </Diagram>
     </Diagrams>
   </Designer>

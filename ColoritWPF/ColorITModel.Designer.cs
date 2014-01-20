@@ -356,6 +356,22 @@ namespace ColoritWPF
             }
         }
         private ObjectSet<PurchaseDocument> _PurchaseDocument;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<Expenditure> Expenditure
+        {
+            get
+            {
+                if ((_Expenditure == null))
+                {
+                    _Expenditure = base.CreateObjectSet<Expenditure>("Expenditure");
+                }
+                return _Expenditure;
+            }
+        }
+        private ObjectSet<Expenditure> _Expenditure;
 
         #endregion
 
@@ -495,6 +511,14 @@ namespace ColoritWPF
         public void AddToPurchaseDocument(PurchaseDocument purchaseDocument)
         {
             base.AddObject("PurchaseDocument", purchaseDocument);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the Expenditure EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToExpenditure(Expenditure expenditure)
+        {
+            base.AddObject("Expenditure", expenditure);
         }
 
         #endregion
@@ -1337,6 +1361,191 @@ namespace ColoritWPF
 
         #endregion
 
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="ColorITModel", Name="Expenditure")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class Expenditure : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new Expenditure object.
+        /// </summary>
+        /// <param name="id">Initial value of the Id property.</param>
+        /// <param name="name">Initial value of the Name property.</param>
+        /// <param name="amount">Initial value of the Amount property.</param>
+        /// <param name="confirmed">Initial value of the Confirmed property.</param>
+        /// <param name="dateCreated">Initial value of the DateCreated property.</param>
+        public static Expenditure CreateExpenditure(global::System.Int64 id, global::System.String name, global::System.Decimal amount, global::System.Boolean confirmed, global::System.DateTime dateCreated)
+        {
+            Expenditure expenditure = new Expenditure();
+            expenditure.Id = id;
+            expenditure.Name = name;
+            expenditure.Amount = amount;
+            expenditure.Confirmed = confirmed;
+            expenditure.DateCreated = dateCreated;
+            return expenditure;
+        }
+
+        #endregion
+
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int64 Id
+        {
+            get
+            {
+                return _Id;
+            }
+            set
+            {
+                if (_Id != value)
+                {
+                    OnIdChanging(value);
+                    ReportPropertyChanging("Id");
+                    _Id = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("Id");
+                    OnIdChanged();
+                }
+            }
+        }
+        private global::System.Int64 _Id;
+        partial void OnIdChanging(global::System.Int64 value);
+        partial void OnIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String Name
+        {
+            get
+            {
+                return _Name;
+            }
+            set
+            {
+                OnNameChanging(value);
+                ReportPropertyChanging("Name");
+                _Name = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("Name");
+                OnNameChanged();
+            }
+        }
+        private global::System.String _Name;
+        partial void OnNameChanging(global::System.String value);
+        partial void OnNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Decimal Amount
+        {
+            get
+            {
+                return _Amount;
+            }
+            set
+            {
+                OnAmountChanging(value);
+                ReportPropertyChanging("Amount");
+                _Amount = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Amount");
+                OnAmountChanged();
+            }
+        }
+        private global::System.Decimal _Amount;
+        partial void OnAmountChanging(global::System.Decimal value);
+        partial void OnAmountChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String Comment
+        {
+            get
+            {
+                return _Comment;
+            }
+            set
+            {
+                OnCommentChanging(value);
+                ReportPropertyChanging("Comment");
+                _Comment = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("Comment");
+                OnCommentChanged();
+            }
+        }
+        private global::System.String _Comment;
+        partial void OnCommentChanging(global::System.String value);
+        partial void OnCommentChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean Confirmed
+        {
+            get
+            {
+                return _Confirmed;
+            }
+            set
+            {
+                OnConfirmedChanging(value);
+                ReportPropertyChanging("Confirmed");
+                _Confirmed = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Confirmed");
+                OnConfirmedChanged();
+            }
+        }
+        private global::System.Boolean _Confirmed;
+        partial void OnConfirmedChanging(global::System.Boolean value);
+        partial void OnConfirmedChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.DateTime DateCreated
+        {
+            get
+            {
+                return _DateCreated;
+            }
+            set
+            {
+                OnDateCreatedChanging(value);
+                ReportPropertyChanging("DateCreated");
+                _DateCreated = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("DateCreated");
+                OnDateCreatedChanged();
+            }
+        }
+        private global::System.DateTime _DateCreated;
+        partial void OnDateCreatedChanging(global::System.DateTime value);
+        partial void OnDateCreatedChanged();
+
+        #endregion
+
+    
     }
     
     /// <summary>

@@ -151,6 +151,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ColorITModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Controls\AddExpenditure.xaml.cs">
+      <DependentUpon>AddExpenditure.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\CashTab.xaml.cs">
       <DependentUpon>CashTab.xaml</DependentUpon>
     </Compile>
@@ -166,20 +169,23 @@
     <Compile Include="Converters.cs" />
     <Compile Include="Models\ClientsListModel.cs" />
     <Compile Include="Models\DensityType.cs" />
+    <Compile Include="Models\ExpenditureType.cs" />
     <Compile Include="Models\GroupByItem.cs" />
     <Compile Include="Models\StorageModel.cs" />
-    <Compile Include="MoveProductDocumentPartialClass.cs" />
-    <Compile Include="MoveProductPartialClass.cs" />
-    <Compile Include="PaintsPartialClass.cs" />
-    <Compile Include="ProductsPartialClass.cs" />
-    <Compile Include="PurchaseDocumentPartialClass.cs" />
-    <Compile Include="PurchasePartialClass.cs" />
-    <Compile Include="SaleDocumentPartialClass.cs" />
-    <Compile Include="SalePartialClass.cs" />
+    <Compile Include="Proxy\ExpenditurePartialClass.cs" />
+    <Compile Include="Proxy\MoveProductDocumentPartialClass.cs" />
+    <Compile Include="Proxy\MoveProductPartialClass.cs" />
+    <Compile Include="Proxy\PaintsPartialClass.cs" />
+    <Compile Include="Proxy\ProductsPartialClass.cs" />
+    <Compile Include="Proxy\PurchaseDocumentPartialClass.cs" />
+    <Compile Include="Proxy\PurchasePartialClass.cs" />
+    <Compile Include="Proxy\SaleDocumentPartialClass.cs" />
+    <Compile Include="Proxy\SalePartialClass.cs" />
     <Compile Include="ViewModel\AddClientViewModel.cs" />
     <Compile Include="ViewModel\AddNewCarViewModel.cs" />
     <Compile Include="ViewModel\AddNewDensityItemViewModel.cs" />
     <Compile Include="ViewModel\CashViewModel.cs" />
+    <Compile Include="ViewModel\ExpenditureViewModel.cs" />
     <Compile Include="ViewModel\MenuItemsViewModel.cs" />
     <Compile Include="ViewModel\Products\AddNewProductViewModel.cs" />
     <Compile Include="ViewModel\Products\UniProductSelectorViewModel.cs" />
@@ -257,23 +263,15 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>ColorITModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="amd64\Microsoft.VC90.CRT\Microsoft.VC90.CRT.manifest">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Compile Include="ImportFromExcel.xaml.cs">
       <DependentUpon>ImportFromExcel.xaml</DependentUpon>
     </Compile>
     <Content Include="ColorITModel.edmx.sql" />
-    <Content Include="System.Data.SqlServerCe.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="System.Data.SqlServerCe.Entity.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="x86\Microsoft.VC90.CRT\Microsoft.VC90.CRT.manifest">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Page Include="AddNewGroup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\AddExpenditure.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -403,52 +401,6 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="amd64\Microsoft.VC90.CRT\msvcr90.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="x86\Microsoft.VC90.CRT\msvcr90.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Resource Include="x86\Microsoft.VC90.CRT\README_ENU.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Content Include="x86\sqlceca40.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="x86\sqlcecompact40.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="x86\sqlceer40EN.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="x86\sqlceme40.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="x86\sqlceqp40.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="x86\sqlcese40.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Resource Include="amd64\Microsoft.VC90.CRT\README_ENU.txt" />
-    <Content Include="amd64\sqlceca40.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="amd64\sqlcecompact40.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="amd64\sqlceer40EN.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="amd64\sqlceme40.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="amd64\sqlceqp40.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="amd64\sqlcese40.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="ColorIT.sdf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
