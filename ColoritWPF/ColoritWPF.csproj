@@ -146,11 +146,17 @@
     <Compile Include="AddNewGroup.xaml.cs">
       <DependentUpon>AddNewGroup.xaml</DependentUpon>
     </Compile>
+    <Compile Include="BLL\CarModelsBll.cs" />
+    <Compile Include="BLL\ClientsBll.cs" />
+    <Compile Include="BLL\PaintNameBll.cs" />
+    <Compile Include="BLL\PaintsBll.cs" />
+    <Compile Include="BLL\SettingsBll.cs" />
     <Compile Include="ColorITModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ColorITModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Common\PaintType.cs" />
     <Compile Include="Controls\AddExpenditure.xaml.cs">
       <DependentUpon>AddExpenditure.xaml</DependentUpon>
     </Compile>
@@ -259,6 +265,7 @@
     <Compile Include="Views\Statistics\SalesStats.xaml.cs">
       <DependentUpon>SalesStats.xaml</DependentUpon>
     </Compile>
+    <Resource Include="SqlInsertForPaintName.txt" />
     <EntityDeploy Include="ColorITModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>ColorITModel.Designer.cs</LastGenOutput>

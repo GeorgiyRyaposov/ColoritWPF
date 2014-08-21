@@ -3,6 +3,8 @@ using System.Collections.ObjectModel;
 using System.Data;
 using System.Linq;
 using System.Windows;
+using ColoritWPF.BLL;
+using ColoritWPF.Common;
 using ColoritWPF.Views;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
@@ -20,8 +22,14 @@ namespace ColoritWPF.ViewModel
             }
             else
             {
+                paintsBll = new PaintsBll();
+                clientsBll = new ClientsBll();
+                carModelsBll = new CarModelsBll();
+                paintNameBll = new PaintNameBll();
+
                 colorItEntities = new ColorITEntities();
                 settings = colorItEntities.Settings.First();
+                
                 GetData();
                 AddCommands();
                 Messenger.Default.Register<Client>(this, curClient => Clients.Add(curClient));
@@ -29,6 +37,11 @@ namespace ColoritWPF.ViewModel
                 Messenger.Default.Register<Settings>(this, setting => settings = setting);
             }
         }
+
+        private PaintsBll paintsBll;
+        private ClientsBll clientsBll;
+        private CarModelsBll carModelsBll;
+        private PaintNameBll paintNameBll;
         private ColorITEntities colorItEntities;
         private Paints _currentPaint;
         private Settings settings;
@@ -313,12 +326,11 @@ namespace ColoritWPF.ViewModel
         
         private void GetData()
         {
-            Paints = new ObservableCollection<Paints>(colorItEntities.Paints.ToList());
+            Paints = new ObservableCollection<Paints>(paintsBll.GetPaints());
+            OtherPaints = new ObservableCollection<PaintName>(paintNameBll.GetOtherPaints());
+            Clients = new ObservableCollection<Client>(clientsBll.GetClients());
+            CarModels = new ObservableCollection<CarModels>(carModelsBll.GetCarModelses());
             
-            Clients = new ObservableCollection<Client>(colorItEntities.Client.ToList());
-            CarModels = new ObservableCollection<CarModels>(colorItEntities.CarModels.ToList());
-            OtherPaints = new ObservableCollection<PaintName>(colorItEntities.PaintName.Where(item => item.PaintType == "Other").ToList());
-
             //SetDefaultValues();
             CurrentPaint = Paints.LastOrDefault();
         }
@@ -567,10 +579,10 @@ namespace ColoritWPF.ViewModel
         //Распровести
         private void UnConfirmDoc()
         {
-            if (MessageBox.Show("Вы уверены что хотите разпровести документ?",
+            if (MessageBox.Show("Вы уверены что хотите распровести документ?",
                                 "Подтверждение", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
-                if (MessageBox.Show("Вы точно-точно уверены что хотите разпровести документ?",
+                if (MessageBox.Show("Вы точно-точно уверены что хотите распровести документ?",
                                     "Подтверждение", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
                     IsEnabled = true;
@@ -675,34 +687,34 @@ namespace ColoritWPF.ViewModel
             {
                 switch (CurrentPaint.PaintName.PaintType)
                 {
-                    case "LSB":
+                    case PaintType.LSB:
                         LSB = true;
                         break;
-                    case "L2K":
+                    case PaintType.L2K:
                         L2K = true;
                         break;
-                    case "ABP":
+                    case PaintType.ABP:
                         ABP = true;
                         break;
-                    case "Polish":
+                    case PaintType.Polish:
                         Polish = true;
                         break;
-                    case "Other":
+                    case PaintType.Other:
                         Other = true;
                         break;
                 }
                 switch (CurrentPaint.PaintName.L2KType)
                 {
-                    case "White":
+                    case PaintType.White:
                         White = true;
                         break;
-                    case "Red":
+                    case PaintType.Red:
                         Red = true;
                         break;
-                    case "Color":
+                    case PaintType.Color:
                         Color = true;
                         break;
-                    case "None":
+                    case PaintType.None:
                         break;
                 }
 
@@ -740,9 +752,9 @@ namespace ColoritWPF.ViewModel
                 {
                     string paint = String.Empty;
                     if (LSB)
-                        paint = "LSB";
+                        paint = PaintType.LSB;
                     if (ABP)
-                        paint = "ABP";
+                        paint = PaintType.ABP;
 
                     pName = (from paintName in colorItEntities.PaintName
                              where (
@@ -760,14 +772,14 @@ namespace ColoritWPF.ViewModel
                 {
                     string l2KType = string.Empty;
                     if (_white)
-                        l2KType = "White";
+                        l2KType = PaintType.White;
                     if(_color)
-                        l2KType = "Color";
+                        l2KType = PaintType.Color;
                     if (_red)
-                        l2KType = "Red";
+                        l2KType = PaintType.Red;
                     pName = (from paintName in colorItEntities.PaintName
                                  where (
-                                           (paintName.PaintType == "L2K") &&
+                                           (paintName.PaintType == PaintType.L2K) &&
                                            (paintName.L2KType == l2KType) &&
                                            //(paintName.Package == Package) &&
                                            (paintName.ThreeLayers == ThreeLayers)
@@ -782,7 +794,7 @@ namespace ColoritWPF.ViewModel
                 {   
                     pName = (from paintName in colorItEntities.PaintName
                              where (
-                                     (paintName.L2KType == "Polish") &&
+                                     (paintName.L2KType == PaintType.Polish) &&
                                      //(paintName.Package == Package) &&
                                      (paintName.ThreeLayers == ThreeLayers)
                                  )
