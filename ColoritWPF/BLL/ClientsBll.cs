@@ -15,6 +15,38 @@ namespace ColoritWPF.BLL
             }
         }
 
+        /// <summary>
+        /// Обнуляет баланс клиента, например, в случае если в оплату товара входит баланс клиента
+        /// </summary>
+        /// <param name="id"></param>
+        public void SetBalanceToZero(int id)
+        {
+            using (var dataContext = new ColorITEntities())
+            {
+                var client = dataContext.Client.First(cl => cl.ID == id);
+                if (client == null)
+                {
+                    ErrorHandler.ShowError("Не удалось найти клиента");
+                    return;
+                }
+
+                if (client.PrivatePerson)
+                {
+                    return;
+                }
+
+                try
+                {
+                    client.Balance = 0;
+                    dataContext.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    ErrorHandler.ShowError("Не удалось сохранить изменения", ex);
+                }
+            }
+        }
+
         public void SaveClient(Client newClient)
         {
             using (var dataContext = new ColorITEntities())

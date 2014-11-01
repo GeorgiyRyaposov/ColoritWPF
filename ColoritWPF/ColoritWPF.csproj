@@ -148,16 +148,21 @@
     </Compile>
     <Compile Include="BLL\CarModelsBll.cs" />
     <Compile Include="BLL\ClientsBll.cs" />
+    <Compile Include="BLL\DocumentsBll.cs" />
     <Compile Include="BLL\PaintNameBll.cs" />
     <Compile Include="BLL\PaintsBll.cs" />
+    <Compile Include="BLL\ProductsBll.cs" />
     <Compile Include="BLL\SettingsBll.cs" />
     <Compile Include="ColorITModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ColorITModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Common\BaseViewModel.cs" />
+    <Compile Include="Common\BaseVmWithBlls.cs" />
     <Compile Include="Common\ErrorHandler.cs" />
     <Compile Include="Common\PaintType.cs" />
+    <Compile Include="Common\PrintHelper.cs" />
     <Compile Include="Controls\AddExpenditure.xaml.cs">
       <DependentUpon>AddExpenditure.xaml</DependentUpon>
     </Compile>

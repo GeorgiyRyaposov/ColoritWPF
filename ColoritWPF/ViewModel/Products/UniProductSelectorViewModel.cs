@@ -1,32 +1,18 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Linq;
-using System.Windows.Data;
+using ColoritWPF.Common;
 using ColoritWPF.Models;
-using GalaSoft.MvvmLight;
 using System.Collections.ObjectModel;
 using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight.Messaging;
 
 namespace ColoritWPF.ViewModel.Products
 {
-    public class UniProductSelectorViewModel : ViewModelBase
+    public class UniProductSelectorViewModel : BaseVmWithBlls
     {
-        private ColorITEntities colorItEntities;
-
         public UniProductSelectorViewModel()
-        {
-            if (IsInDesignMode)
-            {
-                //SetDefaultValues();
-            }
-            else
-            {
-                colorItEntities = new ColorITEntities();
-                
-                GetData();
-                InitializeCommands();
-            }
+        {   
+            GetData();
+            InitializeCommands();
         }
 
         #region Properties
@@ -40,7 +26,7 @@ namespace ColoritWPF.ViewModel.Products
         {
             get { return _searchCriteria; }
             set { _searchCriteria = value;
-                base.RaisePropertyChanged("SearchCriteria");
+                OnPropertyChanged("SearchCriteria");
             }
         }
 
@@ -51,7 +37,7 @@ namespace ColoritWPF.ViewModel.Products
             set
             {
                 _removeSelecteProduct = value;
-                base.RaisePropertyChanged("RemoveSelectedProduct");
+                OnPropertyChanged("RemoveSelectedProduct");
             }
         }
 
@@ -62,7 +48,7 @@ namespace ColoritWPF.ViewModel.Products
             set
             {
                 _selectedProduct = value;
-                base.RaisePropertyChanged("SelectedProduct");
+                OnPropertyChanged("SelectedProduct");
             }
         }
 
@@ -71,7 +57,7 @@ namespace ColoritWPF.ViewModel.Products
         {
             get { return _selectedGroup; }
             set { _selectedGroup = value;
-            base.RaisePropertyChanged("SelectedGroup");
+            OnPropertyChanged("SelectedGroup");
             }
         }
 
@@ -82,7 +68,7 @@ namespace ColoritWPF.ViewModel.Products
             set
             {
                 _inStock = value;
-                base.RaisePropertyChanged("InStock");
+                OnPropertyChanged("InStock");
             }
         }
 
@@ -92,29 +78,31 @@ namespace ColoritWPF.ViewModel.Products
 
         private void GetData()
         {
-            Products = new ObservableCollection<Product>(colorItEntities.Product.ToList());
+            Products = new ObservableCollection<Product>(ProductsBll.GetProducts());
             SelectedProducts = new ObservableCollection<Product>();
             
-            GroupingList = new ObservableCollection<GroupByItem>();
-            GroupingList.Add(new GroupByItem { Name = "Типу", Value = "Groups" });
-            GroupingList.Add(new GroupByItem { Name = "Производителю", Value = "ProducerGr" });
-            
+            GroupingList = new ObservableCollection<GroupByItem>
+            {
+                new GroupByItem {Name = "Типу", Value = "Groups"},
+                new GroupByItem {Name = "Производителю", Value = "ProducerGr"}
+            };
+
             SelectedGroup = "Groups";
         }
 
         private bool ProductsFilter(object item)
         {
-            Product product = item as Product;
+            var product = item as Product;
 
             if (String.IsNullOrEmpty(SearchCriteria))
-                return isProductInStock(product);
+                return IsProductInStock(product);
 
             return product != null && 
                 product.Name.ToLower().Contains(SearchCriteria.ToLower()) &&
-                isProductInStock(product);
+                IsProductInStock(product);
         }
 
-        private bool isProductInStock(Product product)
+        private bool IsProductInStock(Product product)
         {
             if (InStock)
             {
@@ -124,13 +112,7 @@ namespace ColoritWPF.ViewModel.Products
             }
             return true;
         }
-
-        public void NotifyWindowToClose()
-        {
-            Messenger.Default.Send<NotificationMessage>(
-                new NotificationMessage(this, "CloseWindowsBoundToMe"));
-        }
-
+        
         #endregion
 
         #region Commands
@@ -146,27 +128,13 @@ namespace ColoritWPF.ViewModel.Products
             get;
             private set;
         }
-
-        public RelayCommand SendProductsListCommand
-        {
-            get;
-            private set;
-        }
-
+        
 
 
         private void InitializeCommands()
         {
             AddProductToListCommand = new RelayCommand(AddProductToList);
             RemoveProductFromListCommand = new RelayCommand(RemoveProductFromList);
-            SendProductsListCommand = new RelayCommand(SendProductsList, SendProductsListCanExecute);
-        }
-
-        private bool SendProductsListCanExecute()
-        {
-            if (SelectedProducts.Count == 0)
-                return false;
-            return true;
         }
 
         private void AddProductToList()
@@ -193,57 +161,7 @@ namespace ColoritWPF.ViewModel.Products
         {
             SelectedProducts.Remove(RemoveSelectedProduct);
         }
-
-        private void SendProductsList()
-        {
-            Client defaultClient = colorItEntities.Client.First(client => client.PrivatePerson);
-
-            SaleDocument saleDocument = new SaleDocument
-                {
-                    DateCreated = DateTime.Now,
-                    Confirmed = false,
-                    Prepay = false,
-                    Client = defaultClient,
-                    ClientId = defaultClient.ID
-                };
-            saleDocument.GenerateDocNumber();
-            colorItEntities.SaleDocument.AddObject(saleDocument);
-            
-            try
-            {
-                colorItEntities.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Не удалось сохранить документ в базу\n" + ex.Message + "\n" + ex.InnerException);
-            }
-
-            foreach (Product product in SelectedProducts)
-            {
-                Sale saleProduct = new Sale
-                    {
-                        ProductID = product.ID,
-                        SaleListNumber = saleDocument.Id,
-                        Amount = product.Amount,
-                        Cost = product.Cost
-                    };
-                colorItEntities.Sale.AddObject(saleProduct);
-            }
-
-            try
-            {
-                colorItEntities.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Не удалось сохранить список продаваемых продуктов в базу\n" + ex.Message + "\n" + ex.InnerException);
-            }
-
-            Messenger.Default.Send<SaleDocument>(saleDocument);                
-
-            NotifyWindowToClose();
-        }
-
+        
         #endregion
     }
 }
