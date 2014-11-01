@@ -1,4 +1,5 @@
 ﻿using System;
+using ColoritWPF.BLL;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
@@ -15,7 +16,8 @@ namespace ColoritWPF.ViewModel
             }
             else
             {
-                colorItEntities = new ColorITEntities();
+                _clientsBll = new ClientsBll();
+                
                 AddClientCommand = new RelayCommand(AddNewClientCmd, AddNewClientCmdCanExecute);
                 _newClient = new Client
                                  {
@@ -26,8 +28,7 @@ namespace ColoritWPF.ViewModel
         }
 
 
-
-        private ColorITEntities colorItEntities;
+        private ClientsBll _clientsBll;
 
 
         private Client _newClient;
@@ -91,6 +92,16 @@ namespace ColoritWPF.ViewModel
             }
         }
 
+        private void ClearFields()
+        {
+            NewClient = new Client();
+            Name = String.Empty;
+            Info = String.Empty;
+            Phone = String.Empty;
+            Balance = 0;
+            Discount = 0;
+        }
+
         #region Commands
 
         public RelayCommand AddClientCommand
@@ -101,22 +112,9 @@ namespace ColoritWPF.ViewModel
 
         private void AddNewClientCmd()
         {
-            colorItEntities.Client.AddObject(NewClient);
+            _clientsBll.SaveClient(NewClient);
+            ClearFields();
             Messenger.Default.Send<Client>(NewClient);
-            try
-            {
-                colorItEntities.SaveChanges();
-                NewClient = new Client();
-                Name = String.Empty;
-                Info = String.Empty;
-                Phone = String.Empty;
-                Balance = 0;
-                Discount = 0;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Не могу сохранить данные\n" + ex.Message);
-            }
         }
 
         private bool AddNewClientCmdCanExecute()

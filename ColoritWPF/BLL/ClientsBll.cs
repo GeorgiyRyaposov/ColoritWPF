@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using ColoritWPF.Common;
 
 namespace ColoritWPF.BLL
 {
@@ -12,6 +12,23 @@ namespace ColoritWPF.BLL
             using (var dataContext = new ColorITEntities())
             {
                 return dataContext.Client.ToList();
+            }
+        }
+
+        public void SaveClient(Client newClient)
+        {
+            using (var dataContext = new ColorITEntities())
+            {
+                dataContext.Client.AddObject(newClient);
+
+                try
+                {
+                    dataContext.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    ErrorHandler.ShowError("Не удалось сохранить нового клиента", ex);
+                }
             }
         }
     }

@@ -156,6 +156,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ColorITModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Common\ErrorHandler.cs" />
     <Compile Include="Common\PaintType.cs" />
     <Compile Include="Controls\AddExpenditure.xaml.cs">
       <DependentUpon>AddExpenditure.xaml</DependentUpon>
