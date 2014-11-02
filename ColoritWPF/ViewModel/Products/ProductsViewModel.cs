@@ -5,9 +5,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Media;
-using ColoritWPF.BLL;
 using ColoritWPF.Common;
 using ColoritWPF.Views.Products;
 using GalaSoft.MvvmLight.Command;
@@ -390,7 +388,7 @@ namespace ColoritWPF.ViewModel.Products
         /// </summary>
         private void SaveDocument()
         {
-            if (IsAllProductInStock() == false)
+            if (ProductsBll.IsAllProductInStock(SaleProductsList) == false)
                 return;
 
             if(CurrentSaleDocument == null)
@@ -427,124 +425,47 @@ namespace ColoritWPF.ViewModel.Products
             CurrentSaleDocument.Prepay = Prepay;
             CurrentSaleDocument.Confirmed = Confirmed;
 
-            try
-            {
-                colorItEntities.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Не удалось сохранить список продаж\n" + ex.Message + "\n" + ex.InnerException);
-            }
+            //Возвращаем продукты на полки
+            ProductsBll.ReturnProductToStorage(SaleProductsList);
 
-            foreach (Sale saleProduct in SaleProductsList)
-            {
-                var productStorage = colorItEntities.Product.First(pr => pr.ID == saleProduct.Product.ID);
-                productStorage.Storage = productStorage.Storage + saleProduct.Amount;
-            }
+            //Достаем деньги из кассы
+            SettingsBll.ReturnCashFromStorageBalance(CurrentSaleDocument.Total);
 
+            //Возвращаем деньги клиенту
             if (CurrentSaleDocument.ClientBalancePartInTotal != 0)
             {
-                Client client = colorItEntities.Client.First(cl => cl.ID == CurrentClient.ID);
-                client.Balance += CurrentSaleDocument.ClientBalancePartInTotal;
+                ClientsBll.ReturnCash(CurrentSaleDocument.ClientId, CurrentSaleDocument.ClientBalancePartInTotal);
             }
 
-            var settings = colorItEntities.Settings.FirstOrDefault();
-            if (settings != null) settings.Cash = settings.Cash - CurrentSaleDocument.Total;
-
-            try
-            {
-                colorItEntities.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Не удалось сохранить список продаж\n" + ex.Message + "\n" + ex.InnerException);
-            }
+            //Обновляем значения для документа
+            DocumentsBll.UpdateSaleDocument(CurrentSaleDocument);
         }
-
-        /// <summary>
-        /// Проверяет наличие каждого товара из списка
-        /// </summary>
-        /// <returns>Возвращает false если товара в магазине не достаточно</returns>
-        private bool IsAllProductInStock()
-        {
-            List<string> notEnough = new List<string>();
-            foreach (Sale saleProduct in SaleProductsList)
-            {
-                if (saleProduct.Product.Storage < saleProduct.Amount)
-                    notEnough.Add(saleProduct.Name);
-            }
-
-            if (notEnough.Count > 0)
-            {
-                string msgText = String.Format("Недостаточно товара в магазине:\n");
-                msgText = notEnough.Aggregate(msgText, (current, name) => current + name + "\n");
-
-                MessageBox.Show(msgText, "Внимание!", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return false;
-            }
-            return true;
-        }
-
+        
         private void OpenSelection()
         {
             var dlg = new UniProductSelectorView();
             dlg.Show();
             dlg.Closed += DlgOnClosed;
-//            ProductsSelectorView productsSelector = new ProductsSelectorView();
-//            productsSelector.ShowDialog();
         }
 
         private void DlgOnClosed(object sender, EventArgs eventArgs)
         {
             var dlg = sender as UniProductSelectorView;
+            if (dlg == null) return;
+
             var vm = dlg.DataContext as UniProductSelectorViewModel;
             if (vm == null || vm.SelectedProducts.Count == 0)
                 return;
-            Client defaultClient = colorItEntities.Client.First(client => client.PrivatePerson);
 
-            SaleDocument saleDocument = new SaleDocument
-            {
-                DateCreated = DateTime.Now,
-                Confirmed = false,
-                Prepay = false,
-                Client = defaultClient,
-                ClientId = defaultClient.ID
-            };
-            saleDocument.GenerateDocNumber();
-            colorItEntities.SaleDocument.AddObject(saleDocument);
+            //Создаем в базе новый документ
+            var newSaleDocument = DocumentsBll.AddSaleDocument(CurrentClient.ID);
 
-            try
-            {
-                colorItEntities.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Не удалось сохранить документ в базу\n" + ex.Message + "\n" + ex.InnerException);
-            }
+            //Добавляем в документ продукты для продажи
+            DocumentsBll.AddProductsToSaleDocument(newSaleDocument.Id, vm.SelectedProducts);
 
-            foreach (Product product in vm.SelectedProducts)
-            {
-                Sale saleProduct = new Sale
-                {
-                    ProductID = product.ID,
-                    SaleListNumber = saleDocument.Id,
-                    Amount = product.Amount,
-                    Cost = product.Cost
-                };
-                colorItEntities.Sale.AddObject(saleProduct);
-            }
-
-            try
-            {
-                colorItEntities.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Не удалось сохранить список продаваемых продуктов в базу\n" + ex.Message + "\n" + ex.InnerException);
-            }
-
-            SaleDocuments.Add(saleDocument);
-            CurrentSaleDocument = saleDocument;
+            //Добавляем в список документов на UI новый док
+            SaleDocuments.Add(newSaleDocument);
+            CurrentSaleDocument = newSaleDocument;
         }
 
         #endregion

@@ -25,5 +25,23 @@ namespace ColoritWPF.BLL
             }
         }
 
+        public void ReturnCashFromStorageBalance(decimal cashToReturn)
+        {
+            using (var dataContext = new ColorITEntities())
+            {
+                var settings = dataContext.Settings.First();
+                settings.Cash -= cashToReturn;
+
+                try
+                {
+                    dataContext.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    ErrorHandler.ShowError("Не удалось сохранить данные при изменении кассы", ex);
+                    throw;
+                }
+            }
+        }
     }
 }

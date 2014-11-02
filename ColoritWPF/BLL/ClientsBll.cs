@@ -63,5 +63,28 @@ namespace ColoritWPF.BLL
                 }
             }
         }
+
+        public void ReturnCash(int clientId, decimal clientBalancePartInTotal)
+        {
+            using (var dataContext = new ColorITEntities())
+            {
+                var client = dataContext.Client.First(cl => cl.ID == clientId);
+                if (client == null)
+                {
+                    ErrorHandler.ShowError("Не удалось найти клиента в базе");
+                    return;
+                }
+                
+                try
+                {
+                    client.Balance += clientBalancePartInTotal;
+                    dataContext.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    ErrorHandler.ShowError("Не удалось вернуть деньги клиенту и сохранить изменения", ex);
+                }
+            }
+        }
     }
 }

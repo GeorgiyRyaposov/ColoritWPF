@@ -190,5 +190,59 @@ namespace ColoritWPF.BLL
                 }
             }
         }
+
+        public SaleDocument AddSaleDocument(int clientId)
+        {
+            using (var datacontext = new ColorITEntities())
+            {
+                var newSaleDocument = new SaleDocument
+                {
+                    DateCreated = DateTime.Now,
+                    Confirmed = false,
+                    Prepay = false,
+                    ClientId = clientId
+                };
+
+                try
+                {
+                    datacontext.SaleDocument.AddObject(newSaleDocument);
+                    datacontext.SaveChanges();
+                    return newSaleDocument;
+                }
+                catch (Exception exception)
+                {
+                    ErrorHandler.ShowError("Не удалось добавить документ в базу", exception);
+                    return null;
+                }
+            }
+        }
+
+        public void AddProductsToSaleDocument(long documentId, IEnumerable<Product> selectedProducts)
+        {
+            using (var dataContext = new ColorITEntities())
+            {
+                foreach (var product in selectedProducts)
+                {
+                    var saleProduct = new Sale
+                    {
+                        ProductID = product.ID,
+                        Amount = product.Amount,
+                        Cost = product.Cost,
+                        SaleListNumber = documentId
+                    };
+
+                    dataContext.Sale.AddObject(saleProduct);
+                }
+
+                try
+                {
+                    dataContext.SaveChanges();
+                }
+                catch (Exception exception)
+                {
+                    ErrorHandler.ShowError("Не удалось сохранить список продуктов в базу", exception);
+                }
+            }
+        }
     }
 }
