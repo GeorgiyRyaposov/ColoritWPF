@@ -39,5 +39,13 @@ namespace ColoritWPF.Common
         {
             get { return _settingsBll ?? (_settingsBll = new SettingsBll()); }
         }
+
+        private ProducerBll _producerBll;
+        public ProducerBll ProducerBll
+        {
+            get { return _producerBll ?? (_producerBll = new ProducerBll()); }
+        }
+
+        
     }
 }

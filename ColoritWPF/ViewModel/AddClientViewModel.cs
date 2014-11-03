@@ -1,35 +1,22 @@
 ﻿using System;
-using ColoritWPF.BLL;
-using GalaSoft.MvvmLight;
+using ColoritWPF.Common;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
 
 namespace ColoritWPF.ViewModel
 {
-    public class AddClientViewMode : ViewModelBase
+    public class AddClientViewMode : BaseVmWithBlls
     {
         public AddClientViewMode()
         {
-            if (IsInDesignMode)
-            {
-                
-            }
-            else
-            {
-                _clientsBll = new ClientsBll();
-                
-                AddClientCommand = new RelayCommand(AddNewClientCmd, AddNewClientCmdCanExecute);
-                _newClient = new Client
-                                 {
-                                     Balance = 0,
-                                     Discount = 0,
-                                 };
-            }
+            AddClientCommand = new RelayCommand(AddNewClientCmd, AddNewClientCmdCanExecute);
+            _newClient = new Client
+                                {
+                                    Balance = 0,
+                                    Discount = 0,
+                                };
+            
         }
-
-
-        private ClientsBll _clientsBll;
-
 
         private Client _newClient;
         public Client NewClient
@@ -38,7 +25,7 @@ namespace ColoritWPF.ViewModel
             set 
             { 
                 _newClient = value;
-                base.RaisePropertyChanged("NewClient");
+                OnPropertyChanged("NewClient");
             }
         }
 
@@ -48,7 +35,7 @@ namespace ColoritWPF.ViewModel
             set 
             { 
                 NewClient.Name = value;
-                base.RaisePropertyChanged("Name");
+                OnPropertyChanged("Name");
             }
         }
 
@@ -58,7 +45,7 @@ namespace ColoritWPF.ViewModel
             set
             {
                 NewClient.Info = value;
-                base.RaisePropertyChanged("Info");
+                OnPropertyChanged("Info");
             }
         }
 
@@ -68,7 +55,7 @@ namespace ColoritWPF.ViewModel
             set
             {
                 NewClient.PhoneNumber = value;
-                base.RaisePropertyChanged("Phone");
+                OnPropertyChanged("Phone");
             }
         }
 
@@ -78,7 +65,7 @@ namespace ColoritWPF.ViewModel
             set
             {
                 NewClient.Balance = value;
-                base.RaisePropertyChanged("Balance");
+                OnPropertyChanged("Balance");
             }
         }
 
@@ -88,7 +75,7 @@ namespace ColoritWPF.ViewModel
             set
             {
                 NewClient.Discount= value;
-                base.RaisePropertyChanged("Discount");
+                OnPropertyChanged("Discount");
             }
         }
 
@@ -112,7 +99,7 @@ namespace ColoritWPF.ViewModel
 
         private void AddNewClientCmd()
         {
-            _clientsBll.SaveClient(NewClient);
+            ClientsBll.SaveClient(NewClient);
             ClearFields();
             Messenger.Default.Send<Client>(NewClient);
         }

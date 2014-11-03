@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:ColoritWPF="clr-namespace:ColoritWPF"
              mc:Ignorable="d" 
-             DataContext="{Binding ProductsViewModelPage, Source={StaticResource Locator}}"
+             DataContext="ProductsViewModel"
              d:DesignHeight="620" d:DesignWidth="650">
     <UserControl.Resources>
         <ColoritWPF:PercentageConverter x:Key="PercentageConverter" />

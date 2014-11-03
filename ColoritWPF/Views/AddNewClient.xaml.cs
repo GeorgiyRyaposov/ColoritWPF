@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using ColoritWPF.ViewModel;
 
 namespace ColoritWPF.Views
 {
@@ -10,6 +11,7 @@ namespace ColoritWPF.Views
         public AddNewClient()
         {
             InitializeComponent();
+            DataContext = new AddClientViewMode();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

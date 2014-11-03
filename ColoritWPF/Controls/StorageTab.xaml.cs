@@ -1,4 +1,5 @@
 ﻿using System.Windows.Controls;
+using ColoritWPF.ViewModel.Products;
 
 namespace ColoritWPF.Controls
 {
@@ -10,6 +11,7 @@ namespace ColoritWPF.Controls
         public StorageTab()
         {
             InitializeComponent();
+            this.DataContext = new ProductsViewModel();
         }
 
         private void dgSaleList_LoadingRow(object sender, DataGridRowEventArgs e)

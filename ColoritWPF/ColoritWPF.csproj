@@ -151,6 +151,7 @@
     <Compile Include="BLL\DocumentsBll.cs" />
     <Compile Include="BLL\PaintNameBll.cs" />
     <Compile Include="BLL\PaintsBll.cs" />
+    <Compile Include="BLL\ProducerBll.cs" />
     <Compile Include="BLL\ProductsBll.cs" />
     <Compile Include="BLL\SettingsBll.cs" />
     <Compile Include="ColorITModel.Designer.cs">
@@ -179,7 +180,6 @@
       <DependentUpon>StorageTab.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters.cs" />
-    <Compile Include="Models\ClientsListModel.cs" />
     <Compile Include="Models\DensityType.cs" />
     <Compile Include="Models\ExpenditureType.cs" />
     <Compile Include="Models\GroupByItem.cs" />
@@ -196,6 +196,7 @@
     <Compile Include="ViewModel\AddClientViewModel.cs" />
     <Compile Include="ViewModel\AddNewCarViewModel.cs" />
     <Compile Include="ViewModel\AddNewDensityItemViewModel.cs" />
+    <Compile Include="ViewModel\ProducerEditorViewModel.cs" />
     <Compile Include="ViewModel\CashViewModel.cs" />
     <Compile Include="ViewModel\ExpenditureViewModel.cs" />
     <Compile Include="ViewModel\MenuItemsViewModel.cs" />

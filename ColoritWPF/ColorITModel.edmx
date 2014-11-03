@@ -1272,7 +1272,7 @@
           <ConnectorPoint PointX="3" PointY="8.0889794921875" />
         </AssociationConnector>
         <EntityTypeShape EntityType="ColorITModel.CarModels" Width="1.5" PointX="10.375" PointY="1.5" Height="1.427958984375" />
-        <EntityTypeShape EntityType="ColorITModel.PaintName" Width="1.5" PointX="10.375" PointY="3.125" Height="2.9070849609374996" />
+        <EntityTypeShape EntityType="ColorITModel.PaintName" Width="1.5" PointX="10.25" PointY="3.75" Height="2.9070849609374996" />
         <EntityTypeShape EntityType="ColorITModel.Paints" Width="1.5" PointX="12.5" PointY="1" Height="4.2218636067708326" />
         <AssociationConnector Association="ColorITModel.PK_Paints_CarModels" >
           <ConnectorPoint PointX="11.875" PointY="2.2139794921875" />
@@ -1287,7 +1287,7 @@
           <ConnectorPoint PointX="12.5" PointY="4.1734318033854159" />
         </AssociationConnector>
         <EntityTypeShape EntityType="ColorITModel.Settings" Width="1.5" PointX="3" PointY="0.75" Height="1.592306315104167" />
-        <EntityTypeShape EntityType="ColorITModel.Density" Width="1.5" PointX="3" PointY="2.75" Height="2.2496956380208326" />
+        <EntityTypeShape EntityType="ColorITModel.Density" Width="1.5" PointX="3" PointY="3.375" Height="2.2496956380208326" />
         <EntityTypeShape EntityType="ColorITModel.Producers" Width="1.5" PointX="0.625" PointY="5.5" Height="1.4279589843750031" />
         <AssociationConnector Association="ColorITModel.FK_Producers_Product" >
           <ConnectorPoint PointX="2.125" PointY="6.7764794921875016" />
@@ -1298,12 +1298,12 @@
           <ConnectorPoint PointX="12.5" PointY="8.76604248046875" />
           <ConnectorPoint PointX="9.75" PointY="8.76604248046875" />
         </AssociationConnector>
-        <EntityTypeShape EntityType="ColorITModel.Sale" Width="1.5" PointX="5" PointY="6.875" Height="2.0853483072916656" />
+        <EntityTypeShape EntityType="ColorITModel.Sale" Width="1.5" PointX="5.125" PointY="6.5" Height="2.0853483072916656" />
         <AssociationConnector Association="ColorITModel.FK_Sale_Product" >
           <ConnectorPoint PointX="4.5" PointY="7.9998478190104167" />
           <ConnectorPoint PointX="5" PointY="7.9998478190104167" />
         </AssociationConnector>
-        <EntityTypeShape EntityType="ColorITModel.Purchase" Width="1.5" PointX="5.125" PointY="11.5" Height="2.2496956380208388" />
+        <EntityTypeShape EntityType="ColorITModel.Purchase" Width="1.5" PointX="5" PointY="11.875" Height="2.2496956380208388" />
         <AssociationConnector Association="ColorITModel.FK_Purchase_Product" ManuallyRouted="false" >
           <ConnectorPoint PointX="3.95312625" PointY="10.025126953125" />
           <ConnectorPoint PointX="3.95312625" PointY="13.214211018880206" />
@@ -1334,7 +1334,7 @@
           <ConnectorPoint PointX="7.125" PointY="12.871368815104166" />
           <ConnectorPoint PointX="6.625" PointY="12.871368815104166" />
         </AssociationConnector>
-        <EntityTypeShape EntityType="ColorITModel.Expenditure" Width="1.5" PointX="5" PointY="9.375" Height="1.7566536458333388" />
+        <EntityTypeShape EntityType="ColorITModel.Expenditure" Width="1.5" PointX="5" PointY="9.5" Height="1.7566536458333388" />
         </Diagram>
     </Diagrams>
   </Designer>
