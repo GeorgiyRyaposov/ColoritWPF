@@ -1,4 +1,5 @@
-﻿using ColoritWPF.BLL;
+﻿using System;
+using ColoritWPF.BLL;
 
 namespace ColoritWPF.Common
 {
@@ -46,6 +47,19 @@ namespace ColoritWPF.Common
             get { return _producerBll ?? (_producerBll = new ProducerBll()); }
         }
 
-        
+        public void SaveChanges()
+        {
+            using (var dataContext = new ColorITEntities())
+            {
+                try
+                {
+                    dataContext.SaveChanges();
+                }
+                catch (Exception exception)
+                {
+                    ErrorHandler.ShowError("Не удалось сохранить изменения", exception);
+                }
+            }
+        }
     }
 }

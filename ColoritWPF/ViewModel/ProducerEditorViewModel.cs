@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 using ColoritWPF.Common;
 using GalaSoft.MvvmLight.Command;
 using System.Collections.ObjectModel;
@@ -70,12 +71,15 @@ namespace ColoritWPF.ViewModel
 
         private void UpdateNewProducer()
         {
-            ProducerBll.UpdateProducer(CurrentProducer);
+            SaveChanges();
         }
 
         private void RemoveNewProducer()
         {
-            ProducerBll.RemoveProducer(CurrentProducer.Id);
+            if (MessageBox.Show("Вы уверены что хотите удалить производителя?", "Подтверждение", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            {
+                ProducerBll.RemoveProducer(CurrentProducer.Id);
+            }
         }
 
         private bool RemoveProducerCanExecute()

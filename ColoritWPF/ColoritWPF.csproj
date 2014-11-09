@@ -242,6 +242,9 @@
     <Compile Include="Views\PaintsSalesWatcherView.xaml.cs">
       <DependentUpon>PaintsSalesWatcherView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ProducerEditorWindow.xaml.cs">
+      <DependentUpon>ProducerEditorWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Products\AddNewProductView.xaml.cs">
       <DependentUpon>AddNewProductView.xaml</DependentUpon>
     </Compile>
@@ -342,6 +345,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\PaintsSalesWatcherView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ProducerEditorWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
